@@ -1,0 +1,390 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #d6d6d6;
+  --foreground: #111111;
+  --accent: #5c1a33;
+  /* --font-inter / --font-oswald set by next/font on <html> */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+html[data-intro="hero"] {
+  --intro-look-opacity: 0;
+}
+
+/* Clean intro: only bonsai + hero surface — hide chrome while shrinking */
+html[data-intro="animating"] header {
+  opacity: 0 !important;
+  transform: translateY(-0.75rem) !important;
+  pointer-events: none !important;
+}
+
+/*
+ * While the intro overlay owns the bonsai / long panel, keep them ABOVE
+ * LookSection. LookSection's opaque background otherwise covers the fixed
+ * 3D canvas and overlay at the end of the transition.
+ */
+html[data-intro="hero"] #intro-overlay-root,
+html[data-intro="animating"] #intro-overlay-root,
+html[data-intro="done"] #intro-overlay-root {
+  z-index: 10;
+}
+
+html[data-intro="hero"] #bonsai-canvas,
+html[data-intro="animating"] #bonsai-canvas,
+html[data-intro="done"] #bonsai-canvas {
+  z-index: 12 !important;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom cursor — fine pointer only (class toggled by CustomCursor) */
+@media (hover: hover) and (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+.custom-cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.custom-cursor__dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.custom-cursor__ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(92, 26, 51, 0.55);
+  background: rgba(92, 26, 51, 0.06);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-cursor {
+    display: none;
+  }
+}
+
+/* Hero copy above fullscreen bonsai canvas while parked on hero */
+html[data-intro="hero"] #hero-labels,
+html[data-intro="animating"] #hero-labels {
+  position: fixed !important;
+  inset: 0;
+  z-index: 15;
+}
+
+.mobile-nav::backdrop {
+  background: rgba(17, 17, 17, 0.32);
+}
+
+.font-display {
+  font-family: var(--font-oswald), sans-serif;
+}
+
+.hero-shell {
+  background:
+    radial-gradient(circle at 76% 28%, rgba(242, 180, 198, 0.38), transparent 22%),
+    radial-gradient(circle at 51% 10%, rgba(183, 218, 210, 0.28), transparent 28%),
+    var(--background);
+}
+
+.hero-bonsai-stage {
+  overflow: hidden;
+  border: 1px solid rgba(17, 17, 17, 0.18);
+  background:
+    radial-gradient(circle at 67% 32%, rgba(244, 172, 200, 0.32), transparent 26%),
+    linear-gradient(145deg, #292128 0%, #161419 56%, #3e2332 100%);
+  box-shadow: 16px 18px 0 rgba(17, 17, 17, 0.08);
+}
+
+.hero-bonsai-stage::before,
+.hero-bonsai-stage::after {
+  position: absolute;
+  z-index: 1;
+  content: "";
+  pointer-events: none;
+}
+
+.hero-bonsai-stage::before {
+  inset: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.hero-bonsai-stage::after {
+  right: 18px;
+  top: 18px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #e6a0ba;
+  box-shadow:
+    -22px 19px 0 rgba(230, 160, 186, 0.65),
+    -48px 44px 0 rgba(230, 160, 186, 0.35);
+}
+
+.intro-stage {
+  background: transparent;
+  border-color: transparent;
+}
+
+.hero-target-frame {
+  left: 54vw;
+  top: 12vh;
+  width: 40vw;
+  height: 72vh;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background:
+    radial-gradient(circle at 70% 30%, rgba(126, 76, 104, 0.42), transparent 32%),
+    linear-gradient(145deg, #262027 0%, #151318 60%, #321c2b 100%);
+  box-shadow: 16px 18px 0 rgba(17, 17, 17, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 420ms ease;
+}
+
+.hero-target-frame::before {
+  position: absolute;
+  inset: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  content: "";
+}
+
+.hero-target-frame--visible {
+  opacity: 1;
+}
+
+@media (max-width: 1023px) {
+  .hero-shell {
+    height: 100svh;
+    min-height: 600px;
+  }
+
+  .hero-grid {
+    display: flex;
+    min-height: 100%;
+    align-items: center;
+  }
+
+  .hero-visual {
+    display: none;
+  }
+
+  .hero-target-frame {
+    left: 42vw;
+    top: 18vh;
+    width: 54vw;
+    height: 62vh;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-grid {
+    padding-top: 5.5rem;
+    padding-bottom: 4.5rem;
+  }
+
+  .hero-copy h1 {
+    max-width: 15ch;
+  }
+
+  .hero-target-frame {
+    left: 8vw;
+    top: 53vh;
+    width: 84vw;
+    height: 34vh;
+    box-shadow: 8px 10px 0 rgba(17, 17, 17, 0.08);
+  }
+
+}
+
+.case-art {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(214, 214, 214, 0.18);
+  background:
+    radial-gradient(circle at 78% 24%, rgba(214, 143, 174, 0.42), transparent 26%),
+    linear-gradient(145deg, #252027 0%, #111013 62%, #351b2a 100%);
+}
+
+.case-art::before,
+.case-art::after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+}
+
+.case-art::before {
+  inset: 14px;
+  border: 1px solid rgba(214, 214, 214, 0.16);
+}
+
+.case-art::after {
+  width: 240px;
+  height: 240px;
+  right: -80px;
+  bottom: -150px;
+  border: 1px solid rgba(214, 143, 174, 0.55);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 22px rgba(214, 143, 174, 0.08),
+    0 0 0 44px rgba(214, 143, 174, 0.05);
+}
+
+.case-art__label,
+.case-art__meta {
+  position: absolute;
+  z-index: 1;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.case-art__label {
+  top: 26px;
+  left: 28px;
+}
+
+.case-art__meta {
+  right: 28px;
+  bottom: 26px;
+}
+
+.case-art__route {
+  position: absolute;
+  inset: 18% 4% 8%;
+  width: 92%;
+  height: 74%;
+  stroke: rgba(255, 205, 221, 0.8);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 7;
+}
+
+.case-art__route circle {
+  fill: #e9a9bf;
+  stroke: #111013;
+  stroke-width: 3;
+}
+
+/* Legacy project-art kept inert; WorkArt owns capability banners now */
+.project-art {
+  display: none;
+}
+
+::selection {
+  background: var(--accent);
+  color: white;
+}
+
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+.noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.frame {
+  position: relative;
+  width: 100%;
+}
+
+.frame-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+.text-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+@keyframes pulse-scale {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.85;
+  }
+}
+
+.animate-pulse-scale {
+  animation: pulse-scale 2.2s ease-in-out infinite;
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.blink-cursor {
+  animation: blink-cursor 1s steps(1) infinite;
+}

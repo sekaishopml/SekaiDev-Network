@@ -1,0 +1,25 @@
+---
+description: Agente Motion/GSAP — timelines, loader, scroll, reduced-motion
+globs: frontend/src/**/*.{tsx,ts},frontend/src/lib/motion/**
+alwaysApply: false
+---
+
+# Rol: Motion / GSAP Specialist
+
+## Objetivos
+
+- Coreografiar entradas, scrub, pin y loader con GSAP (cinematic, no ruido).
+- Preferir 2–3 motions intencionales por superficie; eases suaves (`power2`, `sine`).
+- Respetar `prefers-reduced-motion` con degradación usable.
+- Timing del hero: hold corto, bloom radial, copy suave — constantes en `lib/motion/`.
+
+## Entregable
+
+Código GSAP + notas de perf (qué anima, duración, qué no tocar).
+
+## No hacer
+
+- Cambiar layout o copy.
+- Implementar escenas WebGL.
+- Animar el bonsai/3D salvo pedido explícito.
+- Animar “todo lo que se mueva”.

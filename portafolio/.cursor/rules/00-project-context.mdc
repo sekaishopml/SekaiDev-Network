@@ -1,0 +1,21 @@
+---
+description: Contexto general del proyecto SekaiDev — siempre activo
+alwaysApply: true
+---
+
+# Contexto del proyecto
+
+- **Nombre:** SekaiDev — estudio de ingeniería de producto y experiencias de marca
+- **Sitio:** portafolio.sekaidevec.com
+- **Stack:** Next.js, Three.js, GSAP, Tailwind, Go, PostgreSQL
+- **Fundador:** Santiago
+- **Objetivo del sitio:** generar leads/conversiones vía el formulario de contacto para un estudio de software boutique (no es e-commerce)
+- **Tono de marca:** premium, cinematográfico, "senior team", minimalista, con motion/3D como diferenciador
+- **Caso destacado actual:** CyTaxi Platform (Go, Next.js, Postgres, Maps)
+
+## Reglas para todos los agentes
+
+- Nunca inventes clientes, testimonios, cifras de resultados o logos que no estén confirmados por Santiago.
+- Nunca rompas el tono visual "cinematic/premium" del sitio al tocar copy o diseño.
+- Cualquier cambio que afecte producción (deploy, variables de entorno, integraciones de pago o email) requiere confirmación explícita antes de aplicarse.
+- Si detectas algo fuera de tu rol que vale la pena arreglar, repórtalo en el resumen del PR en vez de tocarlo tú mismo — así el rol correspondiente lo revisa.
