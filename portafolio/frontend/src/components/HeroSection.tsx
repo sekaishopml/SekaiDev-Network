@@ -38,7 +38,7 @@ import {
   HERO_SURFACE_BG,
   HERO_SURFACE_IMAGE,
 } from "@/lib/heroAtmosphere";
-import { STUDIO } from "@/content/studio";
+import { FUNNEL_PATHS, STUDIO } from "@/content/studio";
 
 interface HeroSectionProps {
   loaded?: boolean;
@@ -731,8 +731,37 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
 
             <div
               data-hero-reveal
-              className="mt-5 md:mt-8 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-3 opacity-0"
+              className="mt-5 md:mt-8 flex flex-col items-stretch sm:items-start gap-3 opacity-0 max-w-md"
             >
+              <p className="text-[10px] tracking-[0.18em] uppercase text-foreground/50">
+                Choose your path
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 w-full">
+                {FUNNEL_PATHS.map((path) => (
+                  <button
+                    key={path.id}
+                    type="button"
+                    onClick={() => {
+                      try {
+                        sessionStorage.setItem("sekaidev:intent", path.intent);
+                      } catch {
+                        /* ignore */
+                      }
+                      window.dispatchEvent(
+                        new CustomEvent("sekaidev:jump", { detail: path.href })
+                      );
+                    }}
+                    className="flex-1 text-left min-h-[44px] px-5 py-3.5 border border-foreground/20 bg-background/40 hover:border-accent hover:bg-accent hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  >
+                    <span className="block text-xs tracking-widest font-medium uppercase">
+                      {path.label}
+                    </span>
+                    <span className="mt-1 block text-[11px] leading-snug opacity-70 normal-case tracking-normal font-sans">
+                      {path.hint}
+                    </span>
+                  </button>
+                ))}
+              </div>
               <a
                 href={STUDIO.heroCtaPrimary.href}
                 onClick={(e) => {
@@ -743,23 +772,9 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
                     })
                   );
                 }}
-                className="inline-flex min-h-[44px] items-center px-7 py-3.5 bg-accent text-white text-xs tracking-widest font-medium hover:bg-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                {STUDIO.heroCtaPrimary.label.toUpperCase()}
-              </a>
-              <a
-                href={STUDIO.heroCtaSecondary.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.dispatchEvent(
-                    new CustomEvent("sekaidev:jump", {
-                      detail: STUDIO.heroCtaSecondary.href,
-                    })
-                  );
-                }}
                 className="inline-flex min-h-[44px] items-center text-xs tracking-widest uppercase text-foreground/70 hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
-                {STUDIO.heroCtaSecondary.label} →
+                {STUDIO.heroCtaPrimary.label} →
               </a>
             </div>
           </div>

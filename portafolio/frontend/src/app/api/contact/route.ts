@@ -10,6 +10,7 @@ type Body = {
   name?: string;
   email?: string;
   company?: string;
+  industry?: string;
   projectType?: string;
   timeline?: string;
   budget?: string;
@@ -44,6 +45,7 @@ export async function POST(req: NextRequest) {
   const email = String(body.email || "").trim();
   const message = String(body.message || "").trim();
   const company = String(body.company || "").trim();
+  const industry = String(body.industry || "").trim();
   const projectType = String(body.projectType || "").trim();
   const timeline = String(body.timeline || "").trim();
   const budget = String(body.budget || "").trim();
@@ -59,6 +61,7 @@ export async function POST(req: NextRequest) {
   }
   if (
     company.length > 160 ||
+    industry.length > 80 ||
     projectType.length > 80 ||
     timeline.length > 80 ||
     budget.length > 80
@@ -92,6 +95,7 @@ export async function POST(req: NextRequest) {
     name,
     email,
     company,
+    industry,
     projectType,
     timeline,
     budget,

@@ -75,6 +75,38 @@ export default function FeaturedCase() {
               {c.solution}
             </p>
           </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-background/20 pt-8">
+            <div>
+              <h3 className="text-[10px] tracking-widest text-background/50 uppercase">
+                Delivered
+              </h3>
+              <ul className="mt-4 space-y-2.5">
+                {c.deliverables.map((deliverable) => (
+                  <li
+                    key={deliverable}
+                    className="border-l border-background/30 pl-3 text-xs text-background/75 leading-relaxed"
+                  >
+                    {deliverable}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-[10px] tracking-widest text-background/50 uppercase">
+                Key decisions
+              </h3>
+              <ul className="mt-4 space-y-2.5">
+                {c.decisions.map((decision) => (
+                  <li
+                    key={decision}
+                    className="border-l border-background/30 pl-3 text-xs text-background/75 leading-relaxed"
+                  >
+                    {decision}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
           <div>
             <h3 className="text-[10px] tracking-widest text-background/50 uppercase">
               Result
@@ -84,6 +116,14 @@ export default function FeaturedCase() {
             </p>
             <p className="mt-4 text-xs tracking-widest text-background/50">
               {c.outcomeNote}
+            </p>
+          </div>
+          <div className="border-t border-background/20 pt-6">
+            <h3 className="text-[10px] tracking-widest text-background/50 uppercase">
+              Handoff
+            </h3>
+            <p className="mt-2 text-sm text-background/75 leading-relaxed">
+              {c.handoff}
             </p>
           </div>
           <button

@@ -2,24 +2,35 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
-import { CTAS, SOCIALS, STUDIO } from "@/content/studio";
+import {
+  CTAS,
+  NAV_LINKS,
+  NAV_TRUST,
+  SOCIALS,
+  STUDIO,
+} from "@/content/studio";
 import { HERO_ENTRANCE } from "@/lib/motion/heroEntrance";
 
-const links = [
-  { label: "HOME", href: "#home" },
-  { label: "OFFER", href: "#offer" },
-  { label: "INVESTMENT", href: "#pricing" },
-  { label: "WORK", href: "#works" },
-  { label: "CONTACT", href: "#contact" },
-];
+function setIntent(intent?: string) {
+  if (!intent) return;
+  try {
+    sessionStorage.setItem("sekaidev:intent", intent);
+  } catch {
+    /* ignore */
+  }
+}
 
 export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [panelVisible, setPanelVisible] = useState(false);
   /** Stay quiet during loader + bonsai hold; enter with hero copy */
   const [presented, setPresented] = useState(false);
   const menuId = useId();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const closeMenu = () => setMenuOpen(false);
+
+  const desktopLinks = NAV_LINKS.filter((l) => !l.mobileOnly);
+  const mobileLinks = NAV_LINKS;
 
   useEffect(() => {
     const reduced = window.matchMedia(
@@ -48,10 +59,12 @@ export default function Navigation() {
 
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
-    href: string
+    href: string,
+    intent?: string
   ) => {
     if (!href.startsWith("#")) return;
     e.preventDefault();
+    setIntent(intent);
     closeMenu();
     window.dispatchEvent(new CustomEvent("sekaidev:jump", { detail: href }));
   };
@@ -60,8 +73,25 @@ export default function Navigation() {
     const dialog = dialogRef.current;
     if (!dialog) return;
 
-    if (menuOpen && !dialog.open) dialog.showModal();
-    if (!menuOpen && dialog.open) dialog.close();
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (menuOpen) {
+      if (!dialog.open) dialog.showModal();
+      // Next frame so CSS transition can run
+      requestAnimationFrame(() => setPanelVisible(true));
+    } else {
+      setPanelVisible(false);
+      if (reduced) {
+        if (dialog.open) dialog.close();
+      } else {
+        const t = window.setTimeout(() => {
+          if (dialog.open) dialog.close();
+        }, 280);
+        return () => clearTimeout(t);
+      }
+    }
 
     const prev = document.body.style.overflow;
     if (menuOpen) document.body.style.overflow = "hidden";
@@ -95,10 +125,10 @@ export default function Navigation() {
           </Link>
 
           <nav
-            className="hidden md:flex justify-center gap-6 lg:gap-10 text-[10px] lg:text-xs tracking-widest font-medium"
+            className="hidden md:flex justify-center gap-5 lg:gap-8 text-[10px] lg:text-xs tracking-widest font-medium"
             aria-label="Primary"
           >
-            {links.map((l, i) => (
+            {desktopLinks.map((l, i) => (
               <Link
                 key={l.label}
                 href={l.href}
@@ -107,7 +137,7 @@ export default function Navigation() {
               >
                 <span className="text-muted">0{i + 1}</span>
                 <span className="relative">
-                  {l.label}
+                  {l.label.toUpperCase()}
                   <span className="absolute -bottom-1 left-0 w-0 h-px bg-accent group-hover:w-full transition-[width] duration-300" />
                 </span>
               </Link>
@@ -178,59 +208,79 @@ export default function Navigation() {
           e.preventDefault();
           closeMenu();
         }}
-        onClose={closeMenu}
-          id={menuId}
-          aria-label="Mobile navigation"
-          className="mobile-nav fixed inset-0 z-40 m-0 h-[100dvh] max-h-none w-full max-w-none overflow-x-hidden border-0 bg-background px-6 pt-24 md:hidden"
+        onClose={() => {
+          setMenuOpen(false);
+          setPanelVisible(false);
+        }}
+        id={menuId}
+        aria-label="Mobile navigation"
+        className="mobile-nav fixed inset-0 z-40 m-0 h-[100dvh] max-h-none w-full max-w-none overflow-x-hidden border-0 bg-transparent p-0 md:hidden open:flex"
+      >
+        <div
+          className={`flex h-full w-full flex-col bg-background px-6 pt-24 pb-[max(1.5rem,env(safe-area-inset-bottom))] transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none ${
+            panelVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-3"
+          }`}
         >
-          <button
-            type="button"
-            onClick={closeMenu}
-            className="absolute right-4 top-4 inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-xs tracking-widest text-muted hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+          <nav
+            className="flex flex-col gap-5 mt-2 font-display font-bold tracking-tighter"
+            aria-label="Mobile"
           >
-            CLOSE
-          </button>
-          <nav className="flex flex-col gap-8 mt-8 text-4xl font-display font-bold tracking-tighter">
-            {links.map((l) => (
+            {mobileLinks.map((l, i) => (
               <Link
                 key={l.label}
                 href={l.href}
-                onClick={(e) => handleNavClick(e, l.href)}
-                className="hover:text-accent transition-colors"
+                onClick={(e) =>
+                  handleNavClick(
+                    e,
+                    l.href,
+                    "intent" in l ? (l.intent as string) : undefined
+                  )
+                }
+                className={`text-3xl sm:text-4xl hover:text-accent transition-[opacity,transform,color] duration-300 motion-reduce:transition-none ${
+                  panelVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-2"
+                }`}
+                style={{
+                  transitionDelay: panelVisible
+                    ? `${Math.min(i * 40, 200)}ms`
+                    : "0ms",
+                }}
               >
                 {l.label}
               </Link>
             ))}
           </nav>
-          {SOCIALS.length > 0 && (
-            <div className="mt-12 flex flex-col gap-4 text-xs tracking-widest text-muted">
-              {SOCIALS.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={closeMenu}
-                  className="hover:text-accent transition-colors"
-                >
-                  {s.label}
-                </a>
-              ))}
-            </div>
-          )}
-          <a
-            href={CTAS.primary.href}
-            onClick={(e) => handleNavClick(e, CTAS.primary.href)}
-            className="mt-12 inline-flex px-6 py-3 bg-accent text-white text-xs tracking-widest"
-          >
-            {CTAS.primary.labelUpper}
-          </a>
-          <a
-            href={`mailto:${STUDIO.email}`}
-            className="mt-4 block text-xs tracking-widest text-muted"
-          >
-            {STUDIO.email.toUpperCase()}
-          </a>
+
+          <p className="mt-8 text-[10px] tracking-widest uppercase text-foreground/55">
+            {NAV_TRUST}
+          </p>
+
+          <div className="mt-auto flex flex-col gap-3 pt-10">
+            <a
+              href={CTAS.primary.href}
+              onClick={(e) => handleNavClick(e, CTAS.primary.href)}
+              className="inline-flex min-h-[44px] items-center justify-center px-6 py-3 bg-accent text-white text-xs tracking-widest"
+            >
+              {CTAS.primary.labelUpper}
+            </a>
+            <a
+              href={CTAS.pricing.href}
+              onClick={(e) => handleNavClick(e, CTAS.pricing.href)}
+              className="inline-flex min-h-[44px] items-center justify-center px-6 py-3 border border-foreground/25 text-xs tracking-widest hover:border-accent hover:text-accent transition-colors"
+            >
+              {CTAS.pricing.labelUpper}
+            </a>
+            <a
+              href={`mailto:${STUDIO.email}`}
+              className="mt-2 block text-center text-xs tracking-widest text-muted"
+            >
+              {STUDIO.email.toUpperCase()}
+            </a>
+          </div>
+        </div>
       </dialog>
     </>
   );

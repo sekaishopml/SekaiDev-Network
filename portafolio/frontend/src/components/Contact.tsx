@@ -6,6 +6,7 @@ import { useSectionReveal } from "@/hooks/useSectionReveal";
 import {
   BUDGETS,
   CONTACT_COPY,
+  INDUSTRIES,
   PROJECT_TYPES,
   STUDIO,
   TIMELINES,
@@ -42,6 +43,7 @@ export default function Contact({ footer }: ContactProps) {
   const [errorMsg, setErrorMsg] = useState("");
   const [reference, setReference] = useState("");
   const [intent, setIntent] = useState("");
+  const [industryDefault, setIndustryDefault] = useState("");
   const uid = useId();
   useSectionReveal(rootRef);
 
@@ -50,16 +52,19 @@ export default function Contact({ footer }: ContactProps) {
       const params = new URLSearchParams(window.location.search);
       const fromUrl = params.get("intent") || "";
       const fromSession = sessionStorage.getItem("sekaidev:intent") || "";
-      setIntent(fromUrl || fromSession);
+      const nextIntent = fromUrl || fromSession;
+      setIntent(nextIntent);
+      if (nextIntent === "services") setIndustryDefault("Restaurant / hospitality");
+      if (nextIntent === "product") setIndustryDefault("Startup / product");
     } catch {
       /* ignore */
     }
   }, []);
 
   const defaultProjectType = (() => {
-    if (intent === "sprint") return "Brand / marketing site";
-    if (intent === "launch") return "Product / web app";
-    if (intent === "partner") return "Product / web app";
+    if (intent === "sprint" || intent === "services") return "Brand / marketing site";
+    if (intent === "launch" || intent === "product" || intent === "partner")
+      return "Product / web app";
     return "";
   })();
 
@@ -67,6 +72,8 @@ export default function Contact({ footer }: ContactProps) {
     if (intent === "sprint") return "Under $8k (Sprint-sized)";
     if (intent === "launch") return "$22k–$45k (Launch-sized)";
     if (intent === "partner") return "Monthly retainer ($9.5k+ / mo)";
+    if (intent === "services") return "Under $8k (Sprint-sized)";
+    if (intent === "product") return "$22k–$45k (Launch-sized)";
     return "";
   })();
 
@@ -83,6 +90,7 @@ export default function Contact({ footer }: ContactProps) {
       name: String(data.get("name") || "").trim(),
       email: String(data.get("email") || "").trim(),
       company: String(data.get("company") || "").trim(),
+      industry: String(data.get("industry") || "").trim(),
       projectType: String(data.get("projectType") || "").trim(),
       timeline: String(data.get("timeline") || "").trim(),
       budget: String(data.get("budget") || "").trim(),
@@ -130,6 +138,7 @@ export default function Contact({ footer }: ContactProps) {
           payload.message,
           "",
           `Company: ${payload.company || "—"}`,
+          `Industry: ${payload.industry || "—"}`,
           `Type: ${payload.projectType || "—"}`,
           `Timeline: ${payload.timeline || "—"}`,
           `Budget: ${payload.budget || "—"}`,
@@ -279,6 +288,30 @@ export default function Contact({ footer }: ContactProps) {
             <p className="text-[10px] text-muted -mt-1">
               {CONTACT_COPY.fields.company.hint}
             </p>
+
+            <label
+              htmlFor={`${uid}-industry`}
+              className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
+            >
+              {CONTACT_COPY.fields.industry.label.toUpperCase()}
+            </label>
+            <select
+              id={`${uid}-industry`}
+              name="industry"
+              required
+              defaultValue={industryDefault}
+              key={`industry-${intent}-${industryDefault}`}
+              className={`${field} appearance-none`}
+            >
+              <option value="" disabled>
+                {CONTACT_COPY.fields.industry.placeholder}
+              </option>
+              {INDUSTRIES.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
 
             <label
               htmlFor={`${uid}-type`}

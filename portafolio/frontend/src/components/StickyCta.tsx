@@ -6,11 +6,13 @@ import { CTAS } from "@/content/studio";
 /**
  * Desktop side CTA + mobile bottom bar. Appears after Offer;
  * hidden on hero/intro and while contact is in view.
+ * Label shifts near pricing vs default contact CTA.
  */
 export default function StickyCta() {
   const [visible, setVisible] = useState(false);
   const [hideForContact, setHideForContact] = useState(false);
   const [hideForHero, setHideForHero] = useState(true);
+  const [nearPricing, setNearPricing] = useState(false);
 
   useEffect(() => {
     const offer = document.getElementById("offer");
@@ -25,7 +27,6 @@ export default function StickyCta() {
     }
     const io = new IntersectionObserver(
       ([entry]) => {
-        // Bidirectional: hide again when scrolling back above Offer
         setVisible(
           entry.isIntersecting || entry.boundingClientRect.top < 0
         );
@@ -48,10 +49,25 @@ export default function StickyCta() {
   }, []);
 
   useEffect(() => {
+    const pricing = document.getElementById("pricing");
+    const works = document.getElementById("works");
+    if (!pricing && !works) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const hit = entries.some((e) => e.isIntersecting);
+        setNearPricing(hit);
+      },
+      { threshold: 0.2 }
+    );
+    if (pricing) io.observe(pricing);
+    if (works) io.observe(works);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
     const home = document.getElementById("home");
     const syncIntro = () => {
       const phase = document.documentElement.dataset.intro;
-      // Only force-hide during cinematic intro; home IO owns the rest
       if (phase === "hero" || phase === "animating") {
         setHideForHero(true);
       }
@@ -68,7 +84,6 @@ export default function StickyCta() {
     if (home) {
       homeIo = new IntersectionObserver(
         ([entry]) => {
-          // Keep sticky off while hero still owns most of the viewport
           if (entry.intersectionRatio > 0.45) setHideForHero(true);
           else if (document.documentElement.dataset.intro === "done") {
             setHideForHero(false);
@@ -86,11 +101,11 @@ export default function StickyCta() {
   }, []);
 
   const show = visible && !hideForContact && !hideForHero;
+  const label = nearPricing ? CTAS.pricing.labelUpper : CTAS.primary.labelUpper;
+  const href = nearPricing ? CTAS.pricing.href : CTAS.primary.href;
 
   const jump = () => {
-    window.dispatchEvent(
-      new CustomEvent("sekaidev:jump", { detail: CTAS.primary.href })
-    );
+    window.dispatchEvent(new CustomEvent("sekaidev:jump", { detail: href }));
   };
 
   return (
@@ -98,7 +113,7 @@ export default function StickyCta() {
       <button
         type="button"
         onClick={jump}
-        aria-label={CTAS.primary.label}
+        aria-label={nearPricing ? CTAS.pricing.label : CTAS.primary.label}
         aria-hidden={!show}
         tabIndex={show ? 0 : -1}
         className={`hidden md:block fixed right-6 bottom-8 z-40 px-5 py-3 bg-accent text-white text-[10px] tracking-widest font-medium shadow-lg transition-[opacity,transform] duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
@@ -107,7 +122,7 @@ export default function StickyCta() {
             : "opacity-0 translate-y-3 pointer-events-none"
         }`}
       >
-        {CTAS.primary.labelUpper}
+        {label}
       </button>
 
       <div
@@ -122,7 +137,7 @@ export default function StickyCta() {
           tabIndex={show ? 0 : -1}
           className="w-full min-h-[44px] py-3 bg-accent text-white text-xs tracking-widest font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
-          {CTAS.primary.labelUpper}
+          {label}
         </button>
       </div>
     </>

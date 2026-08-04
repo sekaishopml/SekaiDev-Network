@@ -10,6 +10,7 @@ import OfferSection from "@/components/OfferSection";
 import FeaturedCase from "@/components/FeaturedCase";
 import ProofBand from "@/components/ProofBand";
 import PricingSection from "@/components/PricingSection";
+import FaqSection from "@/components/FaqSection";
 import Services from "@/components/Services";
 import Process from "@/components/Process";
 import About from "@/components/About";
@@ -49,6 +50,7 @@ export default function Home() {
           <FeaturedCase />
           <ProofBand />
           <PricingSection />
+          <FaqSection />
           <Services />
           <Process />
           <Works />
