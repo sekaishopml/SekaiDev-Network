@@ -841,14 +841,14 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
             data-hero-reveal
             className="absolute bottom-[max(1.25rem,env(safe-area-inset-bottom))] md:bottom-8 left-5 right-5 sm:left-6 sm:right-6 md:left-12 md:right-12 flex justify-between items-end gap-4 opacity-0"
           >
-            <p className="text-[10px] md:text-xs tracking-widest uppercase text-foreground/70 md:text-foreground/55">
+            <p className="pointer-events-none rounded-sm bg-background/90 px-2 py-1 text-[10px] md:text-xs tracking-widest uppercase text-foreground/70 md:bg-transparent md:px-0 md:py-0 md:text-foreground/55">
               Scroll to explore
             </p>
             {showSkip && (
               <button
                 type="button"
                 onClick={() => skipRef.current?.()}
-                className="pointer-events-auto inline-flex min-h-[44px] min-w-[44px] items-center justify-end px-2 text-[10px] md:text-xs tracking-widest uppercase text-foreground/70 hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                className="pointer-events-auto inline-flex min-h-[44px] min-w-[44px] items-center justify-end rounded-sm bg-background/90 px-2 md:bg-transparent text-[10px] md:text-xs tracking-widest uppercase text-foreground/70 hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 Skip intro
               </button>
