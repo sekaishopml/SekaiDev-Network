@@ -50,7 +50,7 @@ export default function PricingSection() {
           >
             {"featured" in tier && tier.featured && (
               <span className="absolute top-8 right-0 lg:right-8 text-[9px] tracking-[0.2em] uppercase text-accent">
-                Most chosen
+                Recommended
               </span>
             )}
             <p className="text-[10px] tracking-[0.2em] uppercase text-background/45">

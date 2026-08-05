@@ -36,6 +36,7 @@ type ContactRequest struct {
 	Name        string `json:"name"`
 	Email       string `json:"email"`
 	Company     string `json:"company"`
+	Industry    string `json:"industry"`
 	ProjectType string `json:"projectType"`
 	Timeline    string `json:"timeline"`
 	Budget      string `json:"budget"`
@@ -128,6 +129,7 @@ func ensureSchema() error {
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 		);
 		ALTER TABLE contacts ADD COLUMN IF NOT EXISTS company TEXT DEFAULT '';
+		ALTER TABLE contacts ADD COLUMN IF NOT EXISTS industry TEXT DEFAULT '';
 		ALTER TABLE contacts ADD COLUMN IF NOT EXISTS project_type TEXT DEFAULT '';
 		ALTER TABLE contacts ADD COLUMN IF NOT EXISTS timeline TEXT DEFAULT '';
 		ALTER TABLE contacts ADD COLUMN IF NOT EXISTS budget TEXT DEFAULT '';
@@ -188,6 +190,7 @@ func handleContact(w http.ResponseWriter, r *http.Request) {
 			Name:        r.FormValue("name"),
 			Email:       r.FormValue("email"),
 			Company:     r.FormValue("company"),
+			Industry:    r.FormValue("industry"),
 			ProjectType: firstNonEmpty(r.FormValue("projectType"), r.FormValue("project_type")),
 			Timeline:    r.FormValue("timeline"),
 			Budget:      r.FormValue("budget"),
@@ -199,6 +202,7 @@ func handleContact(w http.ResponseWriter, r *http.Request) {
 	req.Name = strings.TrimSpace(req.Name)
 	req.Email = strings.TrimSpace(strings.ToLower(req.Email))
 	req.Company = strings.TrimSpace(req.Company)
+	req.Industry = strings.TrimSpace(req.Industry)
 	req.ProjectType = strings.TrimSpace(req.ProjectType)
 	req.Timeline = strings.TrimSpace(req.Timeline)
 	req.Budget = strings.TrimSpace(req.Budget)
@@ -228,7 +232,7 @@ func handleContact(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusBadRequest, apiError{OK: false, Error: "Invalid company"})
 		return
 	}
-	if len(req.ProjectType) > 80 || len(req.Timeline) > 80 || len(req.Budget) > 80 {
+	if len(req.Industry) > 80 || len(req.ProjectType) > 80 || len(req.Timeline) > 80 || len(req.Budget) > 80 {
 		writeJSON(w, http.StatusBadRequest, apiError{OK: false, Error: "Invalid fields"})
 		return
 	}
@@ -241,9 +245,9 @@ func handleContact(w http.ResponseWriter, r *http.Request) {
 	priority := leadPriority(req.Timeline, req.Budget)
 
 	_, err := db.Exec(context.Background(), `
-		INSERT INTO contacts (name, email, message, company, project_type, timeline, budget, reference, status, priority)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'received', $9)`,
-		req.Name, req.Email, req.Message, req.Company, req.ProjectType, req.Timeline, req.Budget, ref, priority,
+		INSERT INTO contacts (name, email, message, company, industry, project_type, timeline, budget, reference, status, priority)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'received', $10)`,
+		req.Name, req.Email, req.Message, req.Company, req.Industry, req.ProjectType, req.Timeline, req.Budget, ref, priority,
 	)
 	if err != nil {
 		log.Printf("contact insert error: %v", err)
@@ -264,12 +268,12 @@ func handleContact(w http.ResponseWriter, r *http.Request) {
 
 func notifyHuman(req ContactRequest, ip, reference, priority string) {
 	text := fmt.Sprintf(
-		"New SekaiDev inquiry\nRef: %s\nPriority: %s\nName: %s\nEmail: %s\nCompany: %s\nType: %s\nTimeline: %s\nBudget: %s\nIP: %s\n\n%s",
-		reference, priority, req.Name, req.Email, emptyDash(req.Company), emptyDash(req.ProjectType),
-		emptyDash(req.Timeline), emptyDash(req.Budget), ip, req.Message,
+		"New SekaiDev inquiry\nRef: %s\nPriority: %s\nName: %s\nEmail: %s\nCompany: %s\nIndustry: %s\nType: %s\nTimeline: %s\nBudget: %s\nIP: %s\n\n%s",
+		reference, priority, req.Name, req.Email, emptyDash(req.Company), emptyDash(req.Industry),
+		emptyDash(req.ProjectType), emptyDash(req.Timeline), emptyDash(req.Budget), ip, req.Message,
 	)
 
-	log.Printf("[contact] %s %s <%s> company=%q type=%q", reference, req.Name, req.Email, req.Company, req.ProjectType)
+	log.Printf("[contact] %s %s <%s> company=%q industry=%q type=%q", reference, req.Name, req.Email, req.Company, req.Industry, req.ProjectType)
 
 	if path := os.Getenv("CONTACT_LOG_FILE"); path != "" {
 		f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)

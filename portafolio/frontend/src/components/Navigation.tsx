@@ -325,12 +325,6 @@ export default function Navigation() {
                   {CTAS.pricing.labelUpper}
                 </a>
               )}
-              <a
-                href={`mailto:${STUDIO.email}`}
-                className="text-center text-[10px] tracking-widest text-foreground/50 hover:text-accent transition-colors"
-              >
-                {STUDIO.email.toUpperCase()}
-              </a>
               {SOCIALS.length > 0 && (
                 <div className="mt-2 flex justify-center gap-6 text-[10px] tracking-widest text-muted">
                   {SOCIALS.map((s) => (

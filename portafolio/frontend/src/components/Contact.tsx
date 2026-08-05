@@ -54,10 +54,11 @@ export default function Contact({ footer }: ContactProps) {
     const applyIntent = (raw: string) => {
       const nextIntent = raw || "";
       setIntent(nextIntent);
-      if (nextIntent === "services") {
-        setIndustryDefault("Restaurant / hospitality");
-      } else if (nextIntent === "product") {
+      // Prefill only for clear product path — never invent a vertical
+      if (nextIntent === "product") {
         setIndustryDefault("Startup / product");
+      } else {
+        setIndustryDefault("");
       }
     };
 
@@ -95,10 +96,10 @@ export default function Contact({ footer }: ContactProps) {
   })();
 
   const defaultBudget = (() => {
-    if (intent === "sprint") return "From $7.5k (Sprint-sized)";
+    if (intent === "sprint") return "$7.5k–$12k (Sprint-sized)";
     if (intent === "launch") return "$22k–$45k (Launch-sized)";
     if (intent === "partner") return "Monthly retainer ($9.5k+ / mo)";
-    if (intent === "services") return "From $7.5k (Sprint-sized)";
+    if (intent === "services") return "$7.5k–$12k (Sprint-sized)";
     if (intent === "product") return "$22k–$45k (Launch-sized)";
     return "";
   })();

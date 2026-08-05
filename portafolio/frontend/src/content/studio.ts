@@ -29,7 +29,9 @@ export const CTAS = {
  */
 export const WHATSAPP = (() => {
   const raw = (process.env.NEXT_PUBLIC_WHATSAPP || "").replace(/\D/g, "");
-  if (raw.length < 8) return null as null | { href: string; digits: string };
+  // E.164 max 15 digits; ignore invalid / empty config
+  if (raw.length < 8 || raw.length > 15)
+    return null as null | { href: string; digits: string };
   return {
     digits: raw,
     href: `https://wa.me/${raw}`,
@@ -122,7 +124,7 @@ export const LOOK_COPY = {
 export const OUTCOMES = [
   {
     title: "Ship the product",
-    body: "Web apps and platforms — auth, APIs, realtime — clean architecture, ready to scale.",
+    body: "Web apps and platforms — auth, APIs, realtime — clean architecture, documented for future iteration.",
   },
   {
     title: "Design that converts",
@@ -166,7 +168,7 @@ export const FEATURED_CASE = {
 export const PROOF = {
   metrics: [
     { value: "Full-stack", label: "Product + brand in one studio" },
-    { value: "24h", label: "Typical first response" },
+    { value: "Async-first", label: "Clear updates, focused syncs" },
     { value: "Senior", label: "Small team, high ownership" },
   ],
   note: "Named references and case walkthroughs shared privately once we confirm fit.",
@@ -264,7 +266,7 @@ export const FAQ_ITEMS = [
   {
     question: "How do payments work?",
     answer:
-      "Quotes are in USD. Typical structure is a deposit to start, then milestones tied to deliverables — exact split is written into the scope before any build begins. No surprise invoices outside the agreed plan.",
+      "Quotes are in USD. Your proposal lists the deposit, milestones, due dates, and deliverables before work starts — no surprise invoices outside that plan.",
   },
   {
     question: "Do we sign a contract?",
@@ -274,7 +276,7 @@ export const FAQ_ITEMS = [
   {
     question: "How many revisions are included?",
     answer:
-      "Each engagement includes a defined revision loop for the scoped deliverable. Extra rounds or out-of-scope changes are quoted separately so the timeline and budget stay honest.",
+      "Your proposal states the included review rounds. Additional rounds or scope changes are quoted separately so timeline and budget stay honest.",
   },
   {
     question: "What if we are not a fit?",
@@ -294,7 +296,7 @@ export const FAQ_ITEMS = [
   {
     question: "Can you work across Ecuador and US time zones?",
     answer:
-      "Yes. We work remotely with ECT overlap for US East / Central business hours, async updates by default, and focused syncs when a decision needs a live call.",
+      "Yes. Ecuador is UTC−5 year-round, with working-hour overlap across US Eastern and Central time. Async updates by default; focused syncs when a decision needs a live call.",
   },
   {
     question: "How soon can we start and how long does a project take?",
@@ -429,8 +431,8 @@ export const TIMELINES = [
 ] as const;
 
 export const BUDGETS = [
-  "From $7.5k (Sprint-sized)",
-  "$7.5k–$22k",
+  "$7.5k–$12k (Sprint-sized)",
+  "$12k–$22k",
   "$22k–$45k (Launch-sized)",
   "$45k+",
   "Monthly retainer ($9.5k+ / mo)",
@@ -468,7 +470,7 @@ export const LEAD_FLOW_DEMO = {
       company: "Atelier Co",
       projectType: "Brand / marketing site",
       timeline: "ASAP — 2–4 weeks (Sprint)",
-      budget: "From $7.5k (Sprint-sized)",
+      budget: "$7.5k–$12k (Sprint-sized)",
       priority: "normal",
       status: "received",
       createdAt: "2026-08-02T11:12:00Z",
