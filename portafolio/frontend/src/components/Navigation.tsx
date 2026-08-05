@@ -138,7 +138,7 @@ export default function Navigation() {
 
           {/* True optical center — independent of logo / right rail widths */}
           <nav
-            className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-4 lg:gap-7 text-[10px] lg:text-[11px] tracking-[0.14em] lg:tracking-[0.18em] font-medium whitespace-nowrap"
+            className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-5 xl:gap-7 text-[10px] xl:text-[11px] tracking-[0.14em] xl:tracking-[0.18em] font-medium whitespace-nowrap"
             aria-label="Primary"
           >
             {desktopLinks.map((l, i) => (
@@ -159,7 +159,7 @@ export default function Navigation() {
             ))}
           </nav>
 
-          <div className="hidden md:flex relative z-10 flex-col items-end text-right justify-center gap-1 shrink-0 min-w-[11rem]">
+          <div className="hidden lg:flex relative z-10 flex-col items-end text-right justify-center gap-1 shrink-0 min-w-[11rem]">
             {SOCIALS.length > 0 && (
               <div className="flex gap-6 lg:gap-8 text-[10px] lg:text-xs tracking-widest font-medium mb-1">
                 {SOCIALS.map((s, i) => (
@@ -195,7 +195,7 @@ export default function Navigation() {
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
-            className="md:hidden relative z-10 min-h-[44px] min-w-[44px] w-11 h-11 flex flex-col justify-center items-center gap-[5px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            className="lg:hidden relative z-10 min-h-[44px] min-w-[44px] w-11 h-11 flex flex-col justify-center items-center gap-[5px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             aria-label="Open menu"
             aria-expanded={menuOpen}
             aria-controls={menuId}

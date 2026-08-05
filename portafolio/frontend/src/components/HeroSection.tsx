@@ -746,7 +746,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
           id="hero-labels"
           className="fixed inset-0 z-[20] pointer-events-none will-change-transform"
         >
-          {/* Desktop: soft left veil so copy never fights the canopy */}
+          {/* Soft left veil — desktop only; mobile copy sits on opaque panel */}
           <div
             className="absolute inset-y-0 left-0 hidden md:block w-[52%] max-w-xl pointer-events-none"
             style={{
@@ -756,82 +756,84 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
             aria-hidden="true"
           />
           <div className="absolute left-5 right-5 sm:left-6 sm:right-6 md:left-12 md:right-12 top-[max(5.5rem,env(safe-area-inset-top,0px)+4rem)] md:top-[8.5rem] pointer-events-auto max-w-xl">
-            <p
-              data-hero-reveal
-              className="text-[10px] md:text-xs tracking-[0.22em] uppercase text-foreground/60 opacity-0"
-            >
-              {STUDIO.eyebrow} {STUDIO.icp}
-            </p>
-
-            <p
-              data-hero-reveal
-              className="mt-2.5 md:mt-5 font-display text-[2.2rem] leading-[0.9] sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter md:leading-[0.88] text-foreground opacity-0"
-              aria-hidden="true"
-            >
-              {STUDIO.brand}
-            </p>
-
-            <h1
-              data-hero-reveal
-              className="mt-3 md:mt-6 font-display text-xl sm:text-3xl md:text-4xl font-medium tracking-tight text-foreground max-w-[18ch] opacity-0"
-            >
-              {STUDIO.tagline}
-            </h1>
-
-            <p
-              data-hero-reveal
-              className="mt-2.5 md:mt-4 text-[13px] sm:text-sm md:text-base text-foreground/70 max-w-md leading-relaxed opacity-0"
-            >
-              {STUDIO.subline}
-            </p>
-
-            <div
-              data-hero-reveal
-              className="mt-4 md:mt-8 flex flex-col items-stretch sm:items-start gap-2.5 md:gap-3 opacity-0 max-w-md"
-            >
-              <p className="text-[10px] tracking-[0.18em] uppercase text-foreground/50">
-                Choose your path
-              </p>
-              <div className="flex flex-col sm:flex-row gap-2.5 md:gap-3 w-full">
-                {FUNNEL_PATHS.map((path) => (
-                  <button
-                    key={path.id}
-                    type="button"
-                    onClick={() => {
-                      try {
-                        sessionStorage.setItem("sekaidev:intent", path.intent);
-                      } catch {
-                        /* ignore */
-                      }
-                      window.dispatchEvent(
-                        new CustomEvent("sekaidev:jump", { detail: path.href })
-                      );
-                    }}
-                    className="flex-1 text-left min-h-[44px] px-4 py-3 md:px-5 md:py-3.5 border border-foreground/20 bg-background hover:border-accent hover:bg-accent hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                  >
-                    <span className="block text-xs tracking-widest font-medium uppercase">
-                      {path.label}
-                    </span>
-                    <span className="mt-1 block text-[11px] leading-snug opacity-70 normal-case tracking-normal font-sans">
-                      {path.hint}
-                    </span>
-                  </button>
-                ))}
-              </div>
-              <a
-                href={STUDIO.heroCtaPrimary.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.dispatchEvent(
-                    new CustomEvent("sekaidev:jump", {
-                      detail: STUDIO.heroCtaPrimary.href,
-                    })
-                  );
-                }}
-                className="inline-flex min-h-[44px] items-center justify-center px-5 py-3 bg-accent text-white text-xs tracking-widest uppercase font-medium hover:bg-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            <div className="md:bg-transparent md:p-0 md:backdrop-blur-none rounded-none bg-background/95 px-4 py-4 sm:px-5 sm:py-5 shadow-[0_0_0_1px_rgba(0,0,0,0.04)]">
+              <p
+                data-hero-reveal
+                className="text-[10px] md:text-xs tracking-[0.22em] uppercase text-foreground/60 opacity-0"
               >
-                {STUDIO.heroCtaPrimary.label} →
-              </a>
+                {STUDIO.eyebrow} {STUDIO.icp}
+              </p>
+
+              <p
+                data-hero-reveal
+                className="mt-2.5 md:mt-5 font-display text-[2.2rem] leading-[0.9] sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter md:leading-[0.88] text-foreground opacity-0"
+                aria-hidden="true"
+              >
+                {STUDIO.brand}
+              </p>
+
+              <h1
+                data-hero-reveal
+                className="mt-3 md:mt-6 font-display text-xl sm:text-3xl md:text-4xl font-medium tracking-tight text-foreground max-w-[18ch] opacity-0"
+              >
+                {STUDIO.tagline}
+              </h1>
+
+              <p
+                data-hero-reveal
+                className="mt-2.5 md:mt-4 text-[13px] sm:text-sm md:text-base text-foreground/70 max-w-md leading-relaxed opacity-0"
+              >
+                {STUDIO.subline}
+              </p>
+
+              <div
+                data-hero-reveal
+                className="mt-4 md:mt-8 flex flex-col items-stretch sm:items-start gap-2.5 md:gap-3 opacity-0 max-w-md"
+              >
+                <p className="text-[10px] tracking-[0.18em] uppercase text-foreground/50">
+                  Choose your path
+                </p>
+                <div className="flex flex-col sm:flex-row gap-2.5 md:gap-3 w-full">
+                  {FUNNEL_PATHS.map((path) => (
+                    <button
+                      key={path.id}
+                      type="button"
+                      onClick={() => {
+                        try {
+                          sessionStorage.setItem("sekaidev:intent", path.intent);
+                        } catch {
+                          /* ignore */
+                        }
+                        window.dispatchEvent(
+                          new CustomEvent("sekaidev:jump", { detail: path.href })
+                        );
+                      }}
+                      className="flex-1 text-left min-h-[44px] px-4 py-3 md:px-5 md:py-3.5 border border-foreground/20 bg-background hover:border-accent hover:bg-accent hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                    >
+                      <span className="block text-xs tracking-widest font-medium uppercase">
+                        {path.label}
+                      </span>
+                      <span className="mt-1 block text-[11px] leading-snug opacity-70 normal-case tracking-normal font-sans">
+                        {path.hint}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+                <a
+                  href={STUDIO.heroCtaPrimary.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.dispatchEvent(
+                      new CustomEvent("sekaidev:jump", {
+                        detail: STUDIO.heroCtaPrimary.href,
+                      })
+                    );
+                  }}
+                  className="inline-flex min-h-[44px] items-center justify-center px-5 py-3 bg-accent text-white text-xs tracking-widest uppercase font-medium hover:bg-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  {STUDIO.heroCtaPrimary.label} →
+                </a>
+              </div>
             </div>
           </div>
 

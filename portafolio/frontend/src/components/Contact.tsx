@@ -351,121 +351,126 @@ export default function Contact({ footer }: ContactProps) {
               className={`${field} resize-none`}
             />
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor={`${uid}-budget`}
-                  className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
-                >
-                  {CONTACT_COPY.fields.budget.label.toUpperCase()}
-                </label>
-                <select
-                  id={`${uid}-budget`}
-                  name="budget"
-                  required
-                  defaultValue={defaultBudget}
-                  key={`budget-${intent}`}
-                  className={`${field} appearance-none`}
-                >
-                  <option value="" disabled>
-                    {CONTACT_COPY.fields.budget.placeholder}
-                  </option>
-                  {BUDGETS.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor={`${uid}-timeline`}
-                  className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
-                >
-                  {CONTACT_COPY.fields.timeline.label.toUpperCase()}
-                </label>
-                <select
-                  id={`${uid}-timeline`}
-                  name="timeline"
-                  required
-                  defaultValue=""
-                  className={`${field} appearance-none`}
-                >
-                  <option value="" disabled>
-                    {CONTACT_COPY.fields.timeline.placeholder}
-                  </option>
-                  {TIMELINES.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
             <label
-              htmlFor={`${uid}-type`}
+              htmlFor={`${uid}-budget`}
               className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
             >
-              {CONTACT_COPY.fields.projectType.label.toUpperCase()}
+              {CONTACT_COPY.fields.budget.label.toUpperCase()}
             </label>
             <select
-              id={`${uid}-type`}
-              name="projectType"
+              id={`${uid}-budget`}
+              name="budget"
               required
-              defaultValue={defaultProjectType}
-              key={`type-${intent}`}
+              defaultValue={defaultBudget}
+              key={`budget-${intent}`}
               className={`${field} appearance-none`}
             >
               <option value="" disabled>
-                {CONTACT_COPY.fields.projectType.placeholder}
+                {CONTACT_COPY.fields.budget.placeholder}
               </option>
-              {PROJECT_TYPES.map((t) => (
+              {BUDGETS.map((t) => (
                 <option key={t} value={t}>
                   {t}
                 </option>
               ))}
             </select>
 
-            <label
-              htmlFor={`${uid}-company`}
-              className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
-            >
-              {CONTACT_COPY.fields.company.label.toUpperCase()}{" "}
-              <span className="text-foreground/40">— OPTIONAL</span>
-            </label>
-            <input
-              id={`${uid}-company`}
-              type="text"
-              name="company"
-              maxLength={160}
-              autoComplete="organization"
-              className={field}
-            />
+            <details className="mt-1 group">
+              <summary className="cursor-pointer list-none text-[10px] tracking-widest uppercase text-foreground/50 hover:text-accent transition-colors [&::-webkit-details-marker]:hidden">
+                <span className="border-b border-foreground/20 group-open:border-accent/40 pb-0.5">
+                  Timeline, type &amp; context — optional
+                </span>
+              </summary>
+              <div className="mt-3 flex flex-col gap-3 md:gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-2">
+                    <label
+                      htmlFor={`${uid}-timeline`}
+                      className="text-[10px] md:text-xs tracking-widest text-muted"
+                    >
+                      {CONTACT_COPY.fields.timeline.label.toUpperCase()}
+                    </label>
+                    <select
+                      id={`${uid}-timeline`}
+                      name="timeline"
+                      defaultValue=""
+                      className={`${field} appearance-none`}
+                    >
+                      <option value="">
+                        {CONTACT_COPY.fields.timeline.placeholder}
+                      </option>
+                      {TIMELINES.map((t) => (
+                        <option key={t} value={t}>
+                          {t}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label
+                      htmlFor={`${uid}-type`}
+                      className="text-[10px] md:text-xs tracking-widest text-muted"
+                    >
+                      {CONTACT_COPY.fields.projectType.label.toUpperCase()}
+                    </label>
+                    <select
+                      id={`${uid}-type`}
+                      name="projectType"
+                      defaultValue={defaultProjectType}
+                      key={`type-${intent}`}
+                      className={`${field} appearance-none`}
+                    >
+                      <option value="">
+                        {CONTACT_COPY.fields.projectType.placeholder}
+                      </option>
+                      {PROJECT_TYPES.map((t) => (
+                        <option key={t} value={t}>
+                          {t}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
 
-            <label
-              htmlFor={`${uid}-industry`}
-              className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
-            >
-              {CONTACT_COPY.fields.industry.label.toUpperCase()}{" "}
-              <span className="text-foreground/40">— OPTIONAL</span>
-            </label>
-            <select
-              id={`${uid}-industry`}
-              name="industry"
-              defaultValue={industryDefault}
-              key={`industry-${intent}-${industryDefault}`}
-              className={`${field} appearance-none`}
-            >
-              <option value="">
-                {CONTACT_COPY.fields.industry.placeholder}
-              </option>
-              {INDUSTRIES.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
+                <label
+                  htmlFor={`${uid}-company`}
+                  className="text-[10px] md:text-xs tracking-widest text-muted"
+                >
+                  {CONTACT_COPY.fields.company.label.toUpperCase()}
+                </label>
+                <input
+                  id={`${uid}-company`}
+                  type="text"
+                  name="company"
+                  maxLength={160}
+                  autoComplete="organization"
+                  className={field}
+                />
+
+                <label
+                  htmlFor={`${uid}-industry`}
+                  className="text-[10px] md:text-xs tracking-widest text-muted"
+                >
+                  {CONTACT_COPY.fields.industry.label.toUpperCase()}
+                </label>
+                <select
+                  id={`${uid}-industry`}
+                  name="industry"
+                  defaultValue={industryDefault}
+                  key={`industry-${intent}-${industryDefault}`}
+                  className={`${field} appearance-none`}
+                >
+                  <option value="">
+                    {CONTACT_COPY.fields.industry.placeholder}
+                  </option>
+                  {INDUSTRIES.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </details>
 
             <p className="mt-1 text-[10px] tracking-widest uppercase text-foreground/45 leading-relaxed">
               {CONTACT_COPY.trustLine}
