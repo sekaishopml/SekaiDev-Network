@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SekaiDev-Network</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <div class="brand">
+          <span class="logo">◈</span>
+          <div>
+            <h1>SekaiDev-Network</h1>
+            <p class="tagline">A tiny developer network — starter app</p>
+          </div>
+        </div>
+        <div class="status" id="status">
+          <span class="dot" aria-hidden="true"></span>
+          <span id="status-text">checking…</span>
+        </div>
+      </header>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Network nodes</h2>
+          <span class="count" id="count">0</span>
+        </div>
+        <ul class="node-list" id="node-list"></ul>
+      </section>
+
+      <section class="panel">
+        <h2>Add a node</h2>
+        <form id="add-form" class="add-form">
+          <input id="name" name="name" placeholder="Name" autocomplete="off" required />
+          <input id="role" name="role" placeholder="Role (optional)" autocomplete="off" />
+          <button type="submit">Add node</button>
+        </form>
+        <p class="form-error" id="form-error" role="alert"></p>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
