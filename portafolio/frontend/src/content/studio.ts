@@ -266,7 +266,7 @@ export const FAQ_ITEMS = [
   {
     question: "How do payments work?",
     answer:
-      "Quotes are in USD. Your proposal lists the deposit, milestones, due dates, and deliverables before work starts — no surprise invoices outside that plan.",
+      "Quotes are in USD. Your proposal lists the deposit, milestone amounts, due dates, and deliverables before work starts. Scope changes require written approval before affecting price.",
   },
   {
     question: "Do we sign a contract?",
@@ -276,7 +276,7 @@ export const FAQ_ITEMS = [
   {
     question: "How many revisions are included?",
     answer:
-      "Your proposal states the included review rounds. Additional rounds or scope changes are quoted separately so timeline and budget stay honest.",
+      "Your proposal states the included review rounds and feedback deadlines. Additional rounds or scope changes are quoted separately.",
   },
   {
     question: "What if we are not a fit?",
