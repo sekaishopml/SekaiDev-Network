@@ -13,9 +13,9 @@ export const LOOK_FRAME_FALLBACK = {
     long: { xVw: 3, yVh: 42, widthVw: 56, heightVh: 14 },
   },
   mobile: {
-    // Full content width — compressed under navbar; live measure overrides
-    bonsai: { xVw: 4, yVh: 22, widthVw: 92, heightVh: 16 },
-    long: { xVw: 4, yVh: 40, widthVw: 92, heightVh: 11 },
+    // Full content width — taller bonsai stage; live measure overrides
+    bonsai: { xVw: 4, yVh: 18, widthVw: 92, heightVh: 30 },
+    long: { xVw: 4, yVh: 50, widthVw: 92, heightVh: 12 },
   },
 } as const;
 

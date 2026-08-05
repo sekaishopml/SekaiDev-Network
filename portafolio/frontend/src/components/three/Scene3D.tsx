@@ -30,7 +30,18 @@ interface BonsaiProps {
   settleFromZ?: number;
   /** End Z after curtain settle */
   settleToZ?: number;
+  /** Absolute scale at curtain reveal (mobile: larger) */
+  settleScaleFrom?: number;
+  /** Absolute scale after settle */
+  settleScaleTo?: number;
   coverBoostMax?: number;
+  /**
+   * When the View shrinks into LOOK, blend Z toward this (View center).
+   * Hero keep using settle targets; framed state re-centers the canopy.
+   */
+  frameCenterZ?: number;
+  /** Extra scale multiplier once fully framed (mobile LOOK) */
+  frameScaleBoost?: number;
   trackRef?: RefObject<TrackMetrics | null>;
 }
 
@@ -42,7 +53,11 @@ const Bonsai = memo(function Bonsai({
   settleToX,
   settleFromZ,
   settleToZ,
+  settleScaleFrom,
+  settleScaleTo,
   coverBoostMax = 3.4,
+  frameCenterZ,
+  frameScaleBoost = 1,
   trackRef,
 }: BonsaiProps) {
   const groupRef = useRef<THREE.Group>(null);
@@ -55,6 +70,9 @@ const Bonsai = memo(function Bonsai({
   const targetZRef = useRef(
     settleFromZ !== undefined ? settleFromZ : position[2]
   );
+  const baseScaleRef = useRef(
+    settleScaleFrom !== undefined ? settleScaleFrom : baseScale
+  );
   const settleSpeedRef = useRef(8);
   const didInitPos = useRef(false);
 
@@ -66,11 +84,13 @@ const Bonsai = memo(function Bonsai({
   useEffect(() => {
     const hasSettle =
       (settleFromX !== undefined && settleToX !== undefined) ||
-      (settleFromZ !== undefined && settleToZ !== undefined);
+      (settleFromZ !== undefined && settleToZ !== undefined) ||
+      (settleScaleFrom !== undefined && settleScaleTo !== undefined);
 
     if (!hasSettle) {
       targetXRef.current = position[0];
       targetZRef.current = position[2];
+      baseScaleRef.current = baseScale;
       return;
     }
 
@@ -78,6 +98,8 @@ const Bonsai = memo(function Bonsai({
       settleFromX !== undefined ? settleFromX : position[0];
     targetZRef.current =
       settleFromZ !== undefined ? settleFromZ : position[2];
+    baseScaleRef.current =
+      settleScaleFrom !== undefined ? settleScaleFrom : baseScale;
     settleSpeedRef.current = 8;
     let timeoutId = 0;
 
@@ -88,18 +110,22 @@ const Bonsai = memo(function Bonsai({
     const startSettle = () => {
       const toX = settleToX !== undefined ? settleToX : position[0];
       const toZ = settleToZ !== undefined ? settleToZ : position[2];
+      const toScale =
+        settleScaleTo !== undefined ? settleScaleTo : baseScale;
 
       if (reduced) {
         targetXRef.current = toX;
         targetZRef.current = toZ;
+        baseScaleRef.current = toScale;
         settleSpeedRef.current = 40;
         return;
       }
       timeoutId = window.setTimeout(() => {
         targetXRef.current = toX;
         targetZRef.current = toZ;
-        // ~bonsaiSettleDuration with exponential damping
-        settleSpeedRef.current = 2.4;
+        baseScaleRef.current = toScale;
+        // Softer damping — overlaps curtain lift for a continuous handoff
+        settleSpeedRef.current = 1.85;
       }, HERO_ENTRANCE.bonsaiSettleDelay * 1000);
     };
 
@@ -115,7 +141,16 @@ const Bonsai = memo(function Bonsai({
       window.removeEventListener("sekaidev:loader-dismissed", startSettle);
       if (timeoutId) window.clearTimeout(timeoutId);
     };
-  }, [settleFromX, settleToX, settleFromZ, settleToZ, position]);
+  }, [
+    settleFromX,
+    settleToX,
+    settleFromZ,
+    settleToZ,
+    settleScaleFrom,
+    settleScaleTo,
+    position,
+    baseScale,
+  ]);
 
   useFrame((_, delta) => {
     const group = groupRef.current;
@@ -134,31 +169,53 @@ const Bonsai = memo(function Bonsai({
     const { ratioW, ratioH, innerScale = 1 } = metrics;
     const minRatio = Math.min(ratioW, ratioH);
 
+    // 0 = fullscreen hero, 1 = fully framed LOOK rect.
+    // THREE.MathUtils.smoothstep(x, min, max) — NOT GLSL (edge0, edge1, x).
+    // Hero ratioH≈1 → frameT=0 (keep settled pose). Framed → frameT=1.
+    const frameT =
+      frameCenterZ !== undefined || frameScaleBoost > 1
+        ? 1 - THREE.MathUtils.smoothstep(ratioH, 0.38, 0.92)
+        : 0;
+
     // Hero (ratio≈1): coverBoost = 1 → default size unchanged.
-    // End rectangle: stronger boost so blossoms dominate the framed stage
-    // (still capped to avoid zooming into empty foliage gaps).
+    // End rectangle: stronger boost so blossoms dominate the framed stage.
     const coverBoost = THREE.MathUtils.clamp(
-      1 / Math.max(minRatio, 0.28),
+      1 / Math.max(minRatio, 0.2),
       1,
       coverBoostMax
     );
     const scrollShrink = THREE.MathUtils.clamp(innerScale, 0.9, 1);
-    const targetScale = baseScale * 1.08 * coverBoost * scrollShrink;
+    const frameFill = THREE.MathUtils.lerp(1, frameScaleBoost, frameT);
+    const targetScale =
+      baseScaleRef.current * 1.08 * coverBoost * scrollShrink * frameFill;
 
     const damping = 1 - Math.exp(-12 * delta);
     targetScaleVec.setScalar(targetScale);
     group.scale.lerp(targetScaleVec, damping);
 
+    // Hero settle targets, then pull Z to View center as the frame shrinks
+    // so the canopy doesn't sit at the top edge of the LOOK rect.
+    const desiredX = targetXRef.current;
+    const desiredZ =
+      frameCenterZ !== undefined
+        ? THREE.MathUtils.lerp(targetZRef.current, frameCenterZ, frameT)
+        : targetZRef.current;
+
     const settleDamp = 1 - Math.exp(-settleSpeedRef.current * delta);
+    // Snappier follow while framing so center tracks the intro tween
+    const posDamp =
+      frameT > 0.05
+        ? 1 - Math.exp(-10 * delta)
+        : settleDamp;
     group.position.x = THREE.MathUtils.lerp(
       group.position.x,
-      targetXRef.current,
-      settleDamp
+      desiredX,
+      posDamp
     );
     group.position.z = THREE.MathUtils.lerp(
       group.position.z,
-      targetZRef.current,
-      settleDamp
+      desiredZ,
+      posDamp
     );
 
     group.rotation.y += delta * BONSAI_CONFIG.animation.rotationSpeed;
@@ -204,17 +261,29 @@ const BonsaiScene = memo(function BonsaiScene({
     settleToX,
     settleFromZ,
     settleToZ,
+    settleScaleFrom,
+    settleScaleTo,
     coverBoostMax,
+    frameCenterZ,
+    frameScaleBoost,
   } = useMemo(() => {
     if (isMobile) {
+      const settled =
+        BONSAI_CONFIG.bonsai.scale * mobile.scaleFactor;
+      const reveal =
+        BONSAI_CONFIG.bonsai.scale * mobile.scaleFactorReveal;
       return {
-        scale: BONSAI_CONFIG.bonsai.scale * mobile.scaleFactor,
+        scale: settled,
         settleFromX: undefined as number | undefined,
         settleToX: undefined as number | undefined,
         settleFromZ: mobile.zCenter,
         settleToZ: mobile.zSettled,
+        settleScaleFrom: reveal,
+        settleScaleTo: settled,
         coverBoostMax: mobile.coverBoostMax,
-        // Mobile centered on X; only Z settles after curtain
+        frameCenterZ: mobile.zFramed,
+        frameScaleBoost: mobile.frameScaleBoost,
+        // Mobile centered on X; scale + Z settle after curtain
         position: [
           0,
           BONSAI_CONFIG.bonsai.position[1],
@@ -227,19 +296,25 @@ const BonsaiScene = memo(function BonsaiScene({
       };
     }
 
-    // Desktop: keep horizontal rest pose — only height (Z) was corrected in config
+    // Desktop: reveal centered on X, then settle right of copy after curtain
+    const [, posY, posZ] = BONSAI_CONFIG.bonsai.position;
+    const xSettled = BONSAI_CONFIG.bonsai.position[0];
     const scale = isTablet
       ? BONSAI_CONFIG.bonsai.scale * 0.85
       : BONSAI_CONFIG.bonsai.scale;
 
     return {
       scale,
-      settleFromX: undefined as number | undefined,
-      settleToX: undefined as number | undefined,
+      settleFromX: 0,
+      settleToX: xSettled,
       settleFromZ: undefined as number | undefined,
       settleToZ: undefined as number | undefined,
+      settleScaleFrom: undefined as number | undefined,
+      settleScaleTo: undefined as number | undefined,
       coverBoostMax: 3.4,
-      position: [...BONSAI_CONFIG.bonsai.position] as [number, number, number],
+      frameCenterZ: undefined as number | undefined,
+      frameScaleBoost: 1,
+      position: [xSettled, posY, posZ] as [number, number, number],
       cameraConfig: {
         ...BONSAI_CONFIG.camera,
         position: [0, BONSAI_CONFIG.camera.position[1], 0.2] as [
@@ -280,7 +355,11 @@ const BonsaiScene = memo(function BonsaiScene({
         settleToX={settleToX}
         settleFromZ={settleFromZ}
         settleToZ={settleToZ}
+        settleScaleFrom={settleScaleFrom}
+        settleScaleTo={settleScaleTo}
         coverBoostMax={coverBoostMax}
+        frameCenterZ={frameCenterZ}
+        frameScaleBoost={frameScaleBoost}
         trackRef={trackRef}
       />
     </>
@@ -313,12 +392,15 @@ export const BonsaiCanvas = memo(function BonsaiCanvas({
         stencil: false,
       }}
       className="pointer-events-none"
+      aria-hidden={!visible}
       style={{
         position: "fixed",
         inset: 0,
         width: "100vw",
-        height: "100vh",
-        zIndex: visible ? zIndex : 0,
+        height: "100dvh",
+        zIndex: visible ? zIndex : -1,
+        opacity: visible ? 1 : 0,
+        visibility: visible ? "visible" : "hidden",
         pointerEvents: "none",
         background: "transparent",
       }}

@@ -10,9 +10,9 @@ interface LoadingControllerProps {
 
 /**
  * Curtain sequence:
- *  Act I  — fade solid type / subtitle / spinner
- *  Act II — knockout SEKAIDEV hold (bonsai shows through letters)
- *  Act III — curtain rises → emit sekaidev:loader-dismissed
+ *  Act I  — fade solid brand / subtitle / spinner
+ *  Act II — knockout SEKAI/DEV hold (bonsai shows through letters)
+ *  Act III — curtain rises; dismiss mid-rise so bonsai settle overlaps
  */
 export default function LoadingController({
   loaded,
@@ -73,32 +73,39 @@ export default function LoadingController({
       };
     }
 
-    // Act I — clear chrome; knockout letters stay as the reveal aperture
+    // Act I — solid brand fades; knockout letters remain as the aperture
     ui.forEach((el) => {
       if (!el) return;
-      el.style.transition = `opacity ${LOADER_CURTAIN.uiFade}ms cubic-bezier(0.4, 0, 0.2, 1)`;
+      el.style.transition = `opacity ${LOADER_CURTAIN.uiFade}ms cubic-bezier(0.33, 0, 0.2, 1)`;
       el.classList.add("opacity-0");
     });
 
-    // Act II hold, then Act III curtain rise
+    const riseStart =
+      LOADER_CURTAIN.uiFade + LOADER_CURTAIN.knockoutHold;
+
+    // Act II hold → Act III rise
     const riseTimer = setTimeout(() => {
       if (cancelled) return;
+
+      const fadeMs = Math.round(LOADER_CURTAIN.rise * 0.5);
       loader.style.transition = [
-        `transform ${LOADER_CURTAIN.rise}ms cubic-bezier(0.76, 0, 0.24, 1)`,
-        `opacity ${Math.round(LOADER_CURTAIN.rise * 0.85)}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+        `transform ${LOADER_CURTAIN.rise}ms cubic-bezier(0.33, 1, 0.36, 1)`,
+        `opacity ${fadeMs}ms cubic-bezier(0.4, 0, 0.2, 1) ${LOADER_CURTAIN.riseFadeDelay}ms`,
       ].join(", ");
       loader.style.transform = "translate3d(0, -105%, 0)";
       loader.style.opacity = "0";
       loader.classList.add("pointer-events-none");
 
+      // Handoff early: bonsai settle / hero entrance start while curtain lifts
       dismissTimer = setTimeout(() => {
         dismiss();
-        removeTimer = setTimeout(
-          () => loader.remove(),
-          LOADER_CURTAIN.removeAfter
-        );
-      }, LOADER_CURTAIN.rise);
-    }, LOADER_CURTAIN.uiFade + LOADER_CURTAIN.knockoutHold);
+      }, Math.round(LOADER_CURTAIN.rise * LOADER_CURTAIN.dismissAtRise));
+
+      removeTimer = setTimeout(
+        () => loader.remove(),
+        LOADER_CURTAIN.rise + LOADER_CURTAIN.removeAfter
+      );
+    }, riseStart);
 
     return () => {
       cancelled = true;

@@ -55,10 +55,13 @@ export default function Process() {
       className="relative w-full px-6 md:px-12 py-20 md:py-24 bg-background"
     >
       <div data-reveal>
-        <span className="text-muted text-xs tracking-widest">06 — PROCESS</span>
+        <span className="text-muted text-xs tracking-widest">04 — PROCESS</span>
         <h2 className="font-display text-3xl md:text-5xl font-bold mt-4">
           Align → Launch
         </h2>
+        <p className="mt-3 max-w-lg text-sm text-foreground/70 leading-relaxed">
+          Four steps. Written scope first. No black-box builds.
+        </p>
       </div>
 
       <div ref={pinRef} className="mt-12 md:mt-16">

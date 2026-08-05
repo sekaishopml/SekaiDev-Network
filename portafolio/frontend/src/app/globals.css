@@ -14,8 +14,10 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   scrollbar-gutter: stable;
+  scroll-padding-top: calc(5rem + env(safe-area-inset-top, 0px));
+  scroll-padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
 }
 
 html[data-intro="hero"] {
@@ -30,25 +32,44 @@ html[data-intro="animating"] header {
 }
 
 /*
- * While the intro overlay owns the bonsai / long panel, keep them ABOVE
- * LookSection. LookSection's opaque background otherwise covers the fixed
- * 3D canvas and overlay at the end of the transition.
+ * Elevate overlay/canvas only while cinematic OR while LOOK targets are
+ * on-screen (data-overlay=on). Never leave a fullscreen ghost at z-12
+ * after scroll — that stole taps across the rest of the site.
  */
 html[data-intro="hero"] #intro-overlay-root,
 html[data-intro="animating"] #intro-overlay-root,
-html[data-intro="done"] #intro-overlay-root {
+html[data-overlay="on"] #intro-overlay-root {
   z-index: 10;
 }
 
 html[data-intro="hero"] #bonsai-canvas,
 html[data-intro="animating"] #bonsai-canvas,
-html[data-intro="done"] #bonsai-canvas {
-  z-index: 12 !important;
+html[data-overlay="on"] #bonsai-canvas {
+  z-index: 12;
+}
+
+html[data-overlay="off"] #intro-overlay-root,
+html[data-overlay="off"] #bonsai-canvas {
+  z-index: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+html[data-overlay="off"] #hero-labels {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* WebGL canvas must never steal taps — even while LOOK overlay is on */
+#bonsai-canvas {
+  pointer-events: none !important;
 }
 
 html.lenis,
 html.lenis body {
   height: auto;
+  touch-action: pan-y;
 }
 
 .lenis.lenis-smooth {
@@ -67,11 +88,17 @@ html.lenis body {
   pointer-events: none;
 }
 
+html[data-menu-open="true"],
+html[data-menu-open="true"] body {
+  overflow: hidden;
+  touch-action: none;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-inter), system-ui, sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Custom cursor — fine pointer only (class toggled by CustomCursor) */
@@ -130,7 +157,14 @@ body {
 }
 
 .mobile-nav::backdrop {
-  background: rgba(17, 17, 17, 0.32);
+  background: rgba(17, 17, 17, 0.45);
+  backdrop-filter: blur(2px);
+}
+
+/* Sticky mobile CTA sits under the menu top-layer; hide while open */
+html[data-menu-open="true"] .sticky-cta-mobile {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .font-display {

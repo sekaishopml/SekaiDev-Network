@@ -17,7 +17,24 @@ export const CTAS = {
   },
   featuredCase: "Discuss a similar build",
   pricingFoot: "Request a scoped quote",
+  whatsapp: {
+    label: "WhatsApp",
+    labelUpper: "WHATSAPP",
+  },
 } as const;
+
+/**
+ * WhatsApp — only when NEXT_PUBLIC_WHATSAPP is set (digits / E.164).
+ * Empty = hidden in UI. Never invent a number.
+ */
+export const WHATSAPP = (() => {
+  const raw = (process.env.NEXT_PUBLIC_WHATSAPP || "").replace(/\D/g, "");
+  if (raw.length < 8) return null as null | { href: string; digits: string };
+  return {
+    digits: raw,
+    href: `https://wa.me/${raw}`,
+  };
+})();
 
 export const STUDIO = {
   brand: "SEKAIDEV",
@@ -32,6 +49,13 @@ export const STUDIO = {
   heroCtaPrimary: { label: CTAS.primary.label, href: CTAS.primary.href },
   heroCtaSecondary: { label: CTAS.secondary.label, href: CTAS.secondary.href },
 } as const;
+
+/** Trust strip — honest ops signals only, no invented metrics */
+export const TRUST_STRIP = [
+  "Reply within 24 hours",
+  "Written scope before build",
+  "Clear no-fit if we are not right",
+] as const;
 
 /** Dual-funnel paths — store intent in session for Contact prefill */
 export const FUNNEL_PATHS = [
@@ -51,7 +75,7 @@ export const FUNNEL_PATHS = [
   },
 ] as const;
 
-/** Desktop + mobile nav — intent-first labels */
+/** Desktop + mobile nav — conversion-first; Look/Works demoted */
 export const NAV_LINKS = [
   { label: "What we solve", href: "#offer", mobileOnly: false },
   { label: "For startups", href: "#offer", mobileOnly: true, intent: "product" },
@@ -61,14 +85,14 @@ export const NAV_LINKS = [
     mobileOnly: true,
     intent: "services",
   },
-  { label: "Selected work", href: "#works", mobileOnly: false },
   { label: "How we work", href: "#process", mobileOnly: false },
   { label: "Investment", href: "#pricing", mobileOnly: false },
   { label: "Contact", href: "#contact", mobileOnly: false },
+  { label: "Selected work", href: "#works", mobileOnly: false },
 ] as const;
 
 export const NAV_TRUST =
-  "Reply within 24h · clear scope or a clear no-fit" as const;
+  "Reply within 24h · written scope before build · clear no-fit" as const;
 
 export const INDUSTRIES = [
   "Startup / product",
@@ -233,6 +257,26 @@ export const FAQ_ITEMS = [
       "We start with a focused conversation about the goal, users, constraints, timeline, and budget. If there is a fit, we turn that into a written scope before build work begins.",
   },
   {
+    question: "What is the minimum budget?",
+    answer:
+      "Signal Sprint starts from $7,500 USD for one defined milestone. If your need is smaller than that, we will say so early and point you toward a better-fit path rather than force a package.",
+  },
+  {
+    question: "How do payments work?",
+    answer:
+      "Quotes are in USD. Typical structure is a deposit to start, then milestones tied to deliverables — exact split is written into the scope before any build begins. No surprise invoices outside the agreed plan.",
+  },
+  {
+    question: "Do we sign a contract?",
+    answer:
+      "Yes. Scope, timeline, payment schedule, ownership, and revision allowance are confirmed in writing before work starts. You get clarity on what is in and out of the engagement.",
+  },
+  {
+    question: "How many revisions are included?",
+    answer:
+      "Each engagement includes a defined revision loop for the scoped deliverable. Extra rounds or out-of-scope changes are quoted separately so the timeline and budget stay honest.",
+  },
+  {
     question: "What if we are not a fit?",
     answer:
       "We will say so early. If the scope, timing, or working model is not right for either side, you get a clear no-fit rather than a vague sales loop.",
@@ -248,14 +292,9 @@ export const FAQ_ITEMS = [
       "Signal Sprint is for one defined milestone. Launch Standard covers a larger design-and-build release. Product Partner is ongoing senior capacity for teams with a continuing roadmap.",
   },
   {
-    question: "How do payments work?",
+    question: "Can you work across Ecuador and US time zones?",
     answer:
-      "Quotes and engagement pricing are in USD. Payment structure is agreed in writing with the scope, before work begins.",
-  },
-  {
-    question: "Do you work remotely?",
-    answer:
-      "Yes. We work remotely with clear async updates and focused syncs when a decision benefits from live conversation.",
+      "Yes. We work remotely with ECT overlap for US East / Central business hours, async updates by default, and focused syncs when a decision needs a live call.",
   },
   {
     question: "How soon can we start and how long does a project take?",
@@ -276,10 +315,26 @@ export const ENGAGEMENT = PRICING.tiers.map((t) => ({
 }));
 
 export const PROCESS = [
-  { step: "01", title: "Align", body: "Goals, constraints, success metrics." },
-  { step: "02", title: "Prototype", body: "Fast UX / architecture signal before sunk cost." },
-  { step: "03", title: "Build", body: "Ship production quality in tight loops." },
-  { step: "04", title: "Launch", body: "Handoff, polish, and next-step roadmap." },
+  {
+    step: "01",
+    title: "Align",
+    body: "Goals, constraints, budget, and success metrics — written before build.",
+  },
+  {
+    step: "02",
+    title: "Prototype",
+    body: "UX / architecture signal early so you do not pay for the wrong direction.",
+  },
+  {
+    step: "03",
+    title: "Build",
+    body: "Production-quality loops with clear owners and async updates.",
+  },
+  {
+    step: "04",
+    title: "Launch",
+    body: "Ship, hand off, and leave a next-step roadmap — not a black box.",
+  },
 ] as const;
 
 export const WORKS = [
@@ -330,12 +385,18 @@ export const CONTACT_COPY = {
   headlineLine1: "TELL US",
   headlineLine2: "WHAT YOU'RE BUILDING",
   subline:
-    "Share goal, timeline, and budget range — we reply within 24 hours with next steps or a clear no-fit.",
+    "Goal, timeline, and budget range — we reply within 24 hours with next steps or a clear no-fit.",
+  trustLine:
+    "Reply within 24h · written scope before build · clear no-fit if we are not right",
   fields: {
     name: { label: "Name" },
     email: { label: "Email" },
     company: { label: "Company", hint: "Optional — helps us prep." },
-    industry: { label: "Industry", placeholder: "Select…" },
+    industry: {
+      label: "Industry",
+      hint: "Optional",
+      placeholder: "Select…",
+    },
     projectType: { label: "Project type", placeholder: "Select…" },
     timeline: { label: "Timeline", placeholder: "Select…" },
     budget: { label: "Budget range", placeholder: "Select…" },
@@ -368,8 +429,8 @@ export const TIMELINES = [
 ] as const;
 
 export const BUDGETS = [
-  "Under $8k (Sprint-sized)",
-  "$8k–$22k",
+  "From $7.5k (Sprint-sized)",
+  "$7.5k–$22k",
   "$22k–$45k (Launch-sized)",
   "$45k+",
   "Monthly retainer ($9.5k+ / mo)",
@@ -407,7 +468,7 @@ export const LEAD_FLOW_DEMO = {
       company: "Atelier Co",
       projectType: "Brand / marketing site",
       timeline: "ASAP — 2–4 weeks (Sprint)",
-      budget: "Under $8k (Sprint-sized)",
+      budget: "From $7.5k (Sprint-sized)",
       priority: "normal",
       status: "received",
       createdAt: "2026-08-02T11:12:00Z",

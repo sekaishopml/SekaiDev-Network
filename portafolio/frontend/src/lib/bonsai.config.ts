@@ -15,10 +15,10 @@ export const BONSAI_CONFIG = {
     far: 100,
   },
 
-  // Main model transform (desktop rest — horizontal unchanged, height raised)
+  // Main model transform (desktop rest after post-curtain settle)
   bonsai: {
-    // Same X as before (right of copy). Z≈0 = optical vertical center (~54vh).
-    // Previous z: 0.28 sat too low on the hero.
+    // Rest X = right of copy. Reveal starts at X=0 (center), then settles here.
+    // Z≈0 = optical vertical center (~54vh).
     position: [1.2, -0.55, 0] as [number, number, number],
 
     // Starting rotation in radians (x, y, z)
@@ -29,20 +29,26 @@ export const BONSAI_CONFIG = {
   },
 
   /**
-   * Mobile hero: keep canopy in the lower half after curtain.
-   * Scroll intro uses the same coverBoost growth as desktop.
+   * Mobile: big centered reveal on load → settle just under SEE IF WE FIT.
+   * LOOK-only fill uses zFramed + frameScaleBoost when the View shrinks.
    */
   mobile: {
-    /** Compact canopy — leaves room for headline + bottom cues */
-    scaleFactor: 0.52,
-    /** Camera balanced for mobile canopy */
-    cameraY: 7.0,
-    /** Reveal — lower half already */
-    zCenter: 0.42,
-    /** After curtain — sit under CTAs, clear of scroll cue */
-    zSettled: 0.95,
-    /** coverBoost ceiling during scroll intro (matches desktop feel) */
-    coverBoostMax: 3.2,
+    /** Settled — under CTA, not glued to the bottom */
+    scaleFactor: 0.5,
+    /** Load / curtain — fills the phone, optically centered */
+    scaleFactorReveal: 0.9,
+    /** Camera for large centered reveal */
+    cameraY: 6.8,
+    /** Reveal — screen center (Z≈0) */
+    zCenter: 0.06,
+    /** Settled — near SEE IF WE FIT, slight gap below */
+    zSettled: 0.88,
+    /** LOOK frame only — optical center of the View */
+    zFramed: 0.02,
+    /** LOOK frame only — extra fill once ratioH drops */
+    frameScaleBoost: 1.85,
+    /** Ceiling for LOOK coverBoost (hero ratio≈1 → boost 1) */
+    coverBoostMax: 5.8,
   },
 
   // Auto-rotation

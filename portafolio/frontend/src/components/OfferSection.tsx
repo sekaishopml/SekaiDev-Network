@@ -16,7 +16,7 @@ export default function OfferSection() {
     <section
       ref={rootRef}
       id="offer"
-      className="relative w-full px-6 md:px-12 pt-24 md:pt-32 pb-16 md:pb-24 bg-background border-t border-foreground/10"
+      className="relative w-full px-6 md:px-12 pt-24 md:pt-32 pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))] md:pb-24 bg-background border-t border-foreground/10"
     >
       <div className="max-w-3xl" data-reveal>
         <span className="text-muted text-xs tracking-widest">01 — OFFER</span>
@@ -48,7 +48,7 @@ export default function OfferSection() {
         <button
           type="button"
           onClick={() => jump(CTAS.primary.href)}
-          className="px-8 py-3 bg-accent text-white text-xs tracking-widest font-medium hover:bg-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className="inline-flex min-h-[44px] items-center px-8 py-3 bg-accent text-white text-xs tracking-widest font-medium hover:bg-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
           {CTAS.primary.labelUpper}
         </button>

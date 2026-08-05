@@ -2,12 +2,14 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
+import { useLenis } from "lenis/react";
 import {
   CTAS,
   NAV_LINKS,
   NAV_TRUST,
   SOCIALS,
   STUDIO,
+  WHATSAPP,
 } from "@/content/studio";
 import { HERO_ENTRANCE } from "@/lib/motion/heroEntrance";
 
@@ -20,6 +22,12 @@ function setIntent(intent?: string) {
   }
 }
 
+/** Intro still owns Lenis lock — don't resume scroll under the menu. */
+function introOwnsScrollLock() {
+  const phase = document.documentElement.dataset.intro;
+  return phase === "hero" || phase === "animating";
+}
+
 export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [panelVisible, setPanelVisible] = useState(false);
@@ -27,6 +35,8 @@ export default function Navigation() {
   const [presented, setPresented] = useState(false);
   const menuId = useId();
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const lenis = useLenis();
   const closeMenu = () => setMenuOpen(false);
 
   const desktopLinks = NAV_LINKS.filter((l) => !l.mobileOnly);
@@ -78,48 +88,50 @@ export default function Navigation() {
     ).matches;
 
     if (menuOpen) {
+      document.documentElement.dataset.menuOpen = "true";
       if (!dialog.open) dialog.showModal();
-      // Next frame so CSS transition can run
-      requestAnimationFrame(() => setPanelVisible(true));
-    } else {
-      setPanelVisible(false);
-      if (reduced) {
-        if (dialog.open) dialog.close();
-      } else {
-        const t = window.setTimeout(() => {
-          if (dialog.open) dialog.close();
-        }, 280);
-        return () => clearTimeout(t);
-      }
+      lenis?.stop();
+      requestAnimationFrame(() => {
+        setPanelVisible(true);
+        closeBtnRef.current?.focus({ preventScroll: true });
+      });
+      return;
     }
 
-    const prev = document.body.style.overflow;
-    if (menuOpen) document.body.style.overflow = "hidden";
+    // Closing: fade panel first; Lenis + data-menu-open resume in onClose
+    setPanelVisible(false);
+    if (reduced) {
+      if (dialog.open) dialog.close();
+      return;
+    }
+    if (dialog.open) {
+      const t = window.setTimeout(() => {
+        if (dialog.open) dialog.close();
+      }, 280);
+      return () => clearTimeout(t);
+    }
+  }, [menuOpen, lenis]);
 
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeMenu();
-    };
-    window.addEventListener("keydown", onKey);
+  useEffect(() => {
     return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener("keydown", onKey);
+      delete document.documentElement.dataset.menuOpen;
     };
-  }, [menuOpen]);
+  }, []);
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 h-20 md:h-24 px-6 md:px-12 bg-background/90 backdrop-blur-sm transition-[opacity,transform] duration-[1100ms] ease-out motion-reduce:transition-none ${
+        className={`fixed top-0 left-0 right-0 z-50 pt-[env(safe-area-inset-top,0px)] h-[calc(5rem+env(safe-area-inset-top,0px))] md:h-[calc(6rem+env(safe-area-inset-top,0px))] px-6 md:px-12 bg-background/90 backdrop-blur-sm transition-[opacity,transform] duration-[1100ms] ease-out motion-reduce:transition-none ${
           presented
             ? "opacity-100 translate-y-0"
             : "opacity-0 -translate-y-3 pointer-events-none"
         }`}
       >
-        <div className="relative flex items-center justify-between h-full gap-4">
+        <div className="relative flex items-center justify-between h-20 md:h-24 gap-4">
           <Link
             href="#home"
             onClick={(e) => handleNavClick(e, "#home")}
-            className="relative z-10 font-display text-2xl md:text-3xl font-bold leading-none tracking-tighter text-foreground whitespace-nowrap shrink-0"
+            className="relative z-10 font-display text-2xl md:text-3xl font-bold leading-none tracking-tighter text-foreground whitespace-nowrap shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
           >
             SEKAI<br />DEV
           </Link>
@@ -182,27 +194,16 @@ export default function Navigation() {
 
           <button
             type="button"
-            onClick={() => setMenuOpen((o) => !o)}
-            className="md:hidden relative z-10 min-h-[44px] min-w-[44px] w-11 h-11 flex flex-col justify-center items-center gap-1.5"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setMenuOpen(true)}
+            className="md:hidden relative z-10 min-h-[44px] min-w-[44px] w-11 h-11 flex flex-col justify-center items-center gap-[5px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            aria-label="Open menu"
             aria-expanded={menuOpen}
             aria-controls={menuId}
+            aria-haspopup="dialog"
           >
-            <span
-              className={`block w-6 h-px bg-foreground transition-transform duration-300 origin-center ${
-                menuOpen ? "rotate-45 translate-y-2" : ""
-              }`}
-            />
-            <span
-              className={`block w-6 h-px bg-foreground transition-opacity duration-300 ${
-                menuOpen ? "opacity-0" : ""
-              }`}
-            />
-            <span
-              className={`block w-6 h-px bg-foreground transition-transform duration-300 origin-center ${
-                menuOpen ? "-rotate-45 -translate-y-2" : ""
-              }`}
-            />
+            <span className="block w-6 h-px bg-foreground" />
+            <span className="block w-6 h-px bg-foreground" />
+            <span className="block w-6 h-px bg-foreground" />
           </button>
         </div>
       </header>
@@ -216,74 +217,142 @@ export default function Navigation() {
         onClose={() => {
           setMenuOpen(false);
           setPanelVisible(false);
+          delete document.documentElement.dataset.menuOpen;
+          if (!introOwnsScrollLock()) {
+            lenis?.start();
+          }
+        }}
+        onClick={(e) => {
+          // Backdrop / dialog chrome click closes (panel stops propagation)
+          if (e.target === dialogRef.current) closeMenu();
         }}
         id={menuId}
         aria-label="Mobile navigation"
-        className="mobile-nav fixed inset-0 z-40 m-0 h-[100dvh] max-h-none w-full max-w-none overflow-x-hidden border-0 bg-transparent p-0 md:hidden open:flex"
+        className="mobile-nav fixed inset-0 z-[60] m-0 h-[100dvh] max-h-none w-full max-w-none overflow-hidden border-0 bg-transparent p-0 md:hidden open:flex"
       >
         <div
-          className={`flex h-full w-full flex-col bg-background px-6 pt-24 pb-[max(1.5rem,env(safe-area-inset-bottom))] transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none ${
+          className={`relative flex h-full w-full flex-col bg-background transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none ${
             panelVisible
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-3"
           }`}
+          onClick={(e) => e.stopPropagation()}
         >
-          <nav
-            className="flex flex-col gap-5 mt-2 font-display font-bold tracking-tighter"
-            aria-label="Mobile"
-          >
-            {mobileLinks.map((l, i) => (
-              <Link
-                key={l.label}
-                href={l.href}
-                onClick={(e) =>
-                  handleNavClick(
-                    e,
-                    l.href,
-                    "intent" in l ? (l.intent as string) : undefined
-                  )
-                }
-                className={`text-3xl sm:text-4xl hover:text-accent transition-[opacity,transform,color] duration-300 motion-reduce:transition-none ${
-                  panelVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-2"
-                }`}
-                style={{
-                  transitionDelay: panelVisible
-                    ? `${Math.min(i * 40, 200)}ms`
-                    : "0ms",
-                }}
+          <div className="flex shrink-0 items-center justify-between gap-4 px-6 pt-[env(safe-area-inset-top,0px)] min-h-[calc(5rem+env(safe-area-inset-top,0px))]">
+            <Link
+              href="#home"
+              onClick={(e) => handleNavClick(e, "#home")}
+              className="font-display text-2xl font-bold leading-none tracking-tighter focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+            >
+              SEKAI<br />DEV
+            </Link>
+
+            <button
+              ref={closeBtnRef}
+              type="button"
+              onClick={closeMenu}
+              className="relative min-h-[44px] min-w-[44px] w-11 h-11 flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              aria-label="Close menu"
+            >
+              <span className="absolute block w-6 h-px bg-foreground rotate-45" />
+              <span className="absolute block w-6 h-px bg-foreground -rotate-45" />
+            </button>
+          </div>
+
+          <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+            <nav
+              className="flex flex-col gap-1 mt-2 font-display font-bold tracking-tighter"
+              aria-label="Mobile"
+            >
+              {mobileLinks.map((l, i) => (
+                <Link
+                  key={l.label}
+                  href={l.href}
+                  onClick={(e) =>
+                    handleNavClick(
+                      e,
+                      l.href,
+                      "intent" in l ? (l.intent as string) : undefined
+                    )
+                  }
+                  className={`py-2.5 text-3xl sm:text-4xl hover:text-accent transition-[opacity,transform,color] duration-300 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent ${
+                    panelVisible
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-2"
+                  }`}
+                  style={{
+                    transitionDelay: panelVisible
+                      ? `${Math.min(i * 40, 200)}ms`
+                      : "0ms",
+                  }}
+                >
+                  <span className="mr-3 text-sm font-medium tracking-widest text-muted tabular-nums align-middle">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  {l.label}
+                </Link>
+              ))}
+            </nav>
+
+            <p className="mt-6 text-[10px] tracking-widest uppercase text-foreground/55">
+              {NAV_TRUST}
+            </p>
+
+            <div className="mt-auto flex flex-col gap-3 pt-10">
+              <a
+                href={CTAS.primary.href}
+                onClick={(e) => handleNavClick(e, CTAS.primary.href)}
+                className="inline-flex min-h-[44px] items-center justify-center px-6 py-3 bg-accent text-white text-xs tracking-widest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
-                {l.label}
-              </Link>
-            ))}
-          </nav>
-
-          <p className="mt-8 text-[10px] tracking-widest uppercase text-foreground/55">
-            {NAV_TRUST}
-          </p>
-
-          <div className="mt-auto flex flex-col gap-3 pt-10">
-            <a
-              href={CTAS.primary.href}
-              onClick={(e) => handleNavClick(e, CTAS.primary.href)}
-              className="inline-flex min-h-[44px] items-center justify-center px-6 py-3 bg-accent text-white text-xs tracking-widest"
-            >
-              {CTAS.primary.labelUpper}
-            </a>
-            <a
-              href={CTAS.pricing.href}
-              onClick={(e) => handleNavClick(e, CTAS.pricing.href)}
-              className="inline-flex min-h-[44px] items-center justify-center px-6 py-3 border border-foreground/25 text-xs tracking-widest hover:border-accent hover:text-accent transition-colors"
-            >
-              {CTAS.pricing.labelUpper}
-            </a>
-            <a
-              href={`mailto:${STUDIO.email}`}
-              className="mt-2 block text-center text-xs tracking-widest text-muted"
-            >
-              {STUDIO.email.toUpperCase()}
-            </a>
+                {CTAS.primary.labelUpper}
+              </a>
+              {WHATSAPP ? (
+                <a
+                  href={WHATSAPP.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={closeMenu}
+                  className="inline-flex min-h-[44px] items-center justify-center px-6 py-3 border border-foreground/25 text-xs tracking-widest hover:border-accent hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  {CTAS.whatsapp.labelUpper}
+                </a>
+              ) : (
+                <a
+                  href={CTAS.pricing.href}
+                  onClick={(e) => handleNavClick(e, CTAS.pricing.href)}
+                  className="inline-flex min-h-[44px] items-center justify-center px-6 py-3 border border-foreground/25 text-xs tracking-widest hover:border-accent hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                >
+                  {CTAS.pricing.labelUpper}
+                </a>
+              )}
+              <a
+                href={`mailto:${STUDIO.email}`}
+                className="text-center text-[10px] tracking-widest text-foreground/50 hover:text-accent transition-colors"
+              >
+                {STUDIO.email.toUpperCase()}
+              </a>
+              {SOCIALS.length > 0 && (
+                <div className="mt-2 flex justify-center gap-6 text-[10px] tracking-widest text-muted">
+                  {SOCIALS.map((s) => (
+                    <a
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-accent transition-colors"
+                    >
+                      {s.label}
+                    </a>
+                  ))}
+                </div>
+              )}
+              <a
+                href={`mailto:${STUDIO.email}`}
+                className="mt-1 block text-center text-xs tracking-widest text-muted hover:text-accent transition-colors"
+              >
+                {STUDIO.email.toUpperCase()}
+              </a>
+            </div>
           </div>
         </div>
       </dialog>

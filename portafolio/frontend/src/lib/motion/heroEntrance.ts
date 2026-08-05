@@ -1,17 +1,17 @@
 /** Hero presentation timing — post-curtain cinematic entrance */
 
 export const HERO_ENTRANCE = {
-  /** Brief bonsai beat after curtain — keep snappy */
-  presentationHold: 0.45,
-  /** Desktop+mobile: hold centered, then settle aside / down */
-  bonsaiSettleDelay: 0.45,
-  bonsaiSettleDuration: 0.9,
+  /** Breath after curtain — bonsai still owns the frame */
+  presentationHold: 0.55,
+  /** Hold big centered reveal, then settle (desktop aside / mobile under CTA) */
+  bonsaiSettleDelay: 0.55,
+  bonsaiSettleDuration: 1.05,
   /** Atmosphere leads copy slightly */
   arcLead: 0.28,
   arcDuration: 1.05,
   arcY: 10,
   /** Radial color bloom (center → out) */
-  bloomDuration: 1.2,
+  bloomDuration: 1.15,
   bloomClipStart: "6%",
   bloomClipEnd: "140%",
   bloomOrigin: "50% 38%",
@@ -27,11 +27,21 @@ export const HERO_ENTRANCE = {
   easeBloom: "power2.out" as const,
 } as const;
 
-/** Curtain exit from LoadingController (ms) — keep short */
+/**
+ * Curtain exit from LoadingController (ms).
+ * Intermediate pace (~2.1s): clear pauses without dragging.
+ * Dismiss mid-rise so bonsai settle overlaps the lift.
+ */
 export const LOADER_CURTAIN = {
-  uiFade: 220,
-  knockoutHold: 280,
-  rise: 620,
-  removeAfter: 80,
-  /** Total ~1.1s from loaded → dismissed */
+  /** Fade solid SEKAIDEV / subtitle / spinner */
+  uiFade: 400,
+  /** Bonsai through letter knockout — readable hold */
+  knockoutHold: 720,
+  /** Panel rises off */
+  rise: 1100,
+  /** Opacity fade starts after rise has begun */
+  riseFadeDelay: 340,
+  /** Fire sekaidev:loader-dismissed this far into the rise (0–1) */
+  dismissAtRise: 0.36,
+  removeAfter: 160,
 } as const;

@@ -287,15 +287,25 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
     cover.style.backgroundColor = HERO_SURFACE_BG;
     longPanel.style.backgroundImage = HERO_LONG_SURFACE_IMAGE;
     longPanel.style.backgroundColor = HERO_LONG_SURFACE_BG;
-    longPanel.style.opacity = String(
-      p < 0.05 ? 0 : Math.min(1, (p - 0.05) / 0.22)
-    );
+    // Fade in with intro, then hand off to #media-long (avoids ghost double bar)
+    let longOp = 0;
+    if (p >= 0.05 && p < 0.92) {
+      longOp = Math.min(1, (p - 0.05) / 0.22);
+    } else if (p >= 0.92) {
+      longOp = Math.max(0, 1 - (p - 0.92) / 0.08);
+    }
+    longPanel.style.opacity = String(longOp);
+    longPanel.style.visibility = longOp < 0.02 ? "hidden" : "visible";
 
     // Parent fade during intro scroll — safe during entrance (children are GSAP-owned)
     labels.style.opacity = String(Math.max(0, 1 - p * 4.5));
     labels.style.transform = `translateY(${-p * 28}px)`;
-    // Portaled fixed labels must fully hide or they keep covering LOOK CTAs
-    labels.style.visibility = p > 0.22 ? "hidden" : "visible";
+    // Fully inert when hidden — no ghost taps over LOOK / page
+    const labelsGone = p > 0.22;
+    labels.style.visibility = labelsGone ? "hidden" : "visible";
+    labels.style.pointerEvents = labelsGone ? "none" : "";
+    if (labelsGone) labels.setAttribute("inert", "");
+    else labels.removeAttribute("inert");
     // Do not stomp RainbowArc while the entrance timeline owns it
     if (p > 0.001 || entranceDoneRef.current) {
       arc.style.opacity = String(Math.max(0, 1 - p * 1.2));
@@ -340,6 +350,12 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
       document.body.style.overflow = "hidden";
     };
     const unlock = () => {
+      // Menu owns the stop while open — don't fight it
+      if (document.documentElement.dataset.menuOpen === "true") {
+        document.documentElement.style.overflow = "";
+        document.body.style.overflow = "";
+        return;
+      }
       lenis.start();
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
@@ -400,8 +416,13 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
           progressObj.current.value = 1;
           phaseRef.current = "look";
           setShowSkip(false);
-          // Unlock first so scrollbar/layout settle, then snap to measured targets
+          // Unlock so the user can scroll the page — and swipe back up to reverse
           unlock();
+          try {
+            lenis.resize();
+          } catch {
+            /* ignore */
+          }
           requestAnimationFrame(() => {
             applyProgress(1);
             requestAnimationFrame(() => applyProgress(1));
@@ -437,6 +458,9 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
     };
 
     const AT_TOP = 4;
+    const isCoarse = window.matchMedia("(pointer: coarse)").matches;
+    // Mobile needs a firmer swipe to reverse intro (avoids accidental pulls)
+    const reverseTouchThreshold = isCoarse ? 48 : 28;
 
     const onWheel = (e: WheelEvent) => {
       const phase = phaseRef.current;
@@ -468,7 +492,10 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
       touchStartY = e.touches[0].clientY;
     };
     const onTouchMove = (e: TouchEvent) => {
+      // Mobile nav needs its own scroll while open
+      if (document.documentElement.dataset.menuOpen === "true") return;
       const phase = phaseRef.current;
+      // Only hijack while cinematic lock is active — never in "look"
       if (phase === "forward" || phase === "reverse" || phase === "hero") {
         e.preventDefault();
       }
@@ -476,11 +503,20 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
     const onTouchEnd = (e: TouchEvent) => {
       const phase = phaseRef.current;
       const deltaY = touchStartY - e.changedTouches[0].clientY;
-      if (Math.abs(deltaY) < 28) return;
 
-      if (phase === "hero" && deltaY > 0) runForward();
-      else if (phase === "look" && lenis.scroll <= AT_TOP && deltaY < 0)
+      if (phase === "hero" && deltaY > 28) {
+        runForward();
+        return;
+      }
+
+      // At top of LOOK: swipe down (finger moves down → deltaY negative) → reverse to hero
+      if (
+        phase === "look" &&
+        lenis.scroll <= AT_TOP &&
+        deltaY < -reverseTouchThreshold
+      ) {
         runReverse();
+      }
     };
 
     const skipToLook = () => {
@@ -498,6 +534,9 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
     skipRef.current = skipToLook;
 
     const onKeyDown = (e: KeyboardEvent) => {
+      // Mobile nav dialog owns Escape while open
+      if (document.documentElement.dataset.menuOpen === "true") return;
+
       const phase = phaseRef.current;
       if (
         (phase === "hero" || phase === "forward") &&
@@ -530,14 +569,18 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
         if (phaseRef.current === "look" && lenis.scroll <= AT_TOP) {
           runReverse();
         } else if (phaseRef.current === "look") {
-          lenis.scrollTo(0, { duration: 1 });
+          lenis.scrollTo(0, { duration: isCoarse ? 0.7 : 1 });
         }
         return;
       }
 
       const scrollToTarget = () => {
         const el = document.querySelector(target);
-        if (el) lenis.scrollTo(el as HTMLElement, { duration: 1.2 });
+        if (el) {
+          lenis.scrollTo(el as HTMLElement, {
+            duration: isCoarse ? 0.75 : 1.1,
+          });
+        }
       };
 
       if (phaseRef.current === "look") {
@@ -566,6 +609,8 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
 
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("touchstart", onTouchStart, { passive: true });
+    // Non-passive only while intro can lock — removed in look via phase check,
+    // but still registered for the cinematic phases.
     window.addEventListener("touchmove", onTouchMove, { passive: false });
     window.addEventListener("touchend", onTouchEnd, { passive: true });
     window.addEventListener("keydown", onKeyDown);
@@ -581,6 +626,15 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("sekaidev:jump", onJumpRequest);
       window.removeEventListener("scroll", onNativeScroll);
+      killTween();
+      if (phaseRef.current !== "look") {
+        // Avoid leaving Lenis stopped after remount / HMR
+        if (document.documentElement.dataset.menuOpen !== "true") {
+          lenis.start();
+        }
+        document.documentElement.style.overflow = "";
+        document.body.style.overflow = "";
+      }
     };
   }, [applyProgress, lenisReady]);
 
@@ -591,21 +645,33 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
     };
   }, []);
 
-  // In "look" phase: pin the fixed overlay to the live LOOK targets while they
-  // intersect the viewport; fade the 3D out once the user scrolls past LOOK.
+  // Pin overlay to LOOK targets while on-screen; kill ghost layers past LOOK.
   useEffect(() => {
     if (!lenis) return;
 
+    const setOverlay = (on: boolean) => {
+      document.documentElement.dataset.overlay = on ? "on" : "off";
+      setOverlayVisible(on);
+    };
+
     const syncLookOverlay = () => {
-      if (phaseRef.current !== "look") return;
+      const phase = phaseRef.current;
+      if (phase !== "look") {
+        // Hero / cinematic — overlay owns the stage
+        setOverlay(true);
+        return;
+      }
 
       const target = document.getElementById("bonsai-target");
       const longTarget = document.getElementById("media-long");
-      if (!target) return;
+      if (!target) {
+        setOverlay(false);
+        return;
+      }
 
       const r = target.getBoundingClientRect();
       const longR = longTarget?.getBoundingClientRect();
-      const pad = 120;
+      const pad = 80;
       const bonsaiVisible = r.bottom > -pad && r.top < window.innerHeight + pad;
       const longVisible = longR
         ? longR.bottom > -pad && longR.top < window.innerHeight + pad
@@ -615,14 +681,18 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
       if (visible) {
         applyProgress(1);
       }
-      setOverlayVisible(visible);
+      setOverlay(visible);
     };
 
+    // Default on until first sync
+    document.documentElement.dataset.overlay = "on";
+    syncLookOverlay();
     lenis.on("scroll", syncLookOverlay);
     window.addEventListener("resize", syncLookOverlay);
     return () => {
       lenis.off("scroll", syncLookOverlay);
       window.removeEventListener("resize", syncLookOverlay);
+      delete document.documentElement.dataset.overlay;
     };
   }, [lenis, applyProgress]);
 
@@ -636,7 +706,11 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
         <div
           id="intro-overlay-root"
           className="fixed inset-0 z-[4] pointer-events-none transition-opacity duration-300"
-          style={{ opacity: overlayVisible ? 1 : 0 }}
+          aria-hidden={!overlayVisible}
+          style={{
+            opacity: overlayVisible ? 1 : 0,
+            visibility: overlayVisible ? "visible" : "hidden",
+          }}
         >
           <div
             ref={longPanelRef}
@@ -681,25 +755,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
             }}
             aria-hidden="true"
           />
-          {/* Mobile: top + bottom scrims — bonsai settles below the headline block */}
-          <div
-            className="absolute inset-x-0 top-0 h-[52%] md:hidden pointer-events-none"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(214,214,214,0.96) 0%, rgba(214,214,214,0.82) 58%, rgba(214,214,214,0) 100%)",
-            }}
-            aria-hidden="true"
-          />
-          <div
-            className="absolute inset-x-0 bottom-0 h-[18%] md:hidden pointer-events-none"
-            style={{
-              background:
-                "linear-gradient(0deg, rgba(214,214,214,0.92) 0%, rgba(214,214,214,0) 100%)",
-            }}
-            aria-hidden="true"
-          />
-
-          <div className="absolute left-5 right-5 sm:left-6 sm:right-6 md:left-12 md:right-12 top-[max(5.75rem,env(safe-area-inset-top,0px)+4.25rem)] md:top-[8.5rem] pointer-events-auto max-w-xl">
+          <div className="absolute left-5 right-5 sm:left-6 sm:right-6 md:left-12 md:right-12 top-[max(5.5rem,env(safe-area-inset-top,0px)+4rem)] md:top-[8.5rem] pointer-events-auto max-w-xl">
             <p
               data-hero-reveal
               className="text-[10px] md:text-xs tracking-[0.22em] uppercase text-foreground/60 opacity-0"
@@ -709,7 +765,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
 
             <p
               data-hero-reveal
-              className="mt-3 md:mt-5 font-display text-[2.35rem] leading-[0.9] sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter md:leading-[0.88] text-foreground opacity-0"
+              className="mt-2.5 md:mt-5 font-display text-[2.2rem] leading-[0.9] sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter md:leading-[0.88] text-foreground opacity-0"
               aria-hidden="true"
             >
               {STUDIO.brand}
@@ -717,26 +773,26 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
 
             <h1
               data-hero-reveal
-              className="mt-3.5 md:mt-6 font-display text-xl sm:text-3xl md:text-4xl font-medium tracking-tight text-foreground max-w-[18ch] opacity-0"
+              className="mt-3 md:mt-6 font-display text-xl sm:text-3xl md:text-4xl font-medium tracking-tight text-foreground max-w-[18ch] opacity-0"
             >
               {STUDIO.tagline}
             </h1>
 
             <p
               data-hero-reveal
-              className="mt-3 md:mt-4 text-[13px] sm:text-sm md:text-base text-foreground/70 max-w-md leading-relaxed opacity-0"
+              className="mt-2.5 md:mt-4 text-[13px] sm:text-sm md:text-base text-foreground/70 max-w-md leading-relaxed opacity-0"
             >
               {STUDIO.subline}
             </p>
 
             <div
               data-hero-reveal
-              className="mt-5 md:mt-8 flex flex-col items-stretch sm:items-start gap-3 opacity-0 max-w-md"
+              className="mt-4 md:mt-8 flex flex-col items-stretch sm:items-start gap-2.5 md:gap-3 opacity-0 max-w-md"
             >
               <p className="text-[10px] tracking-[0.18em] uppercase text-foreground/50">
                 Choose your path
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 w-full">
+              <div className="flex flex-col sm:flex-row gap-2.5 md:gap-3 w-full">
                 {FUNNEL_PATHS.map((path) => (
                   <button
                     key={path.id}
@@ -751,7 +807,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
                         new CustomEvent("sekaidev:jump", { detail: path.href })
                       );
                     }}
-                    className="flex-1 text-left min-h-[44px] px-5 py-3.5 border border-foreground/20 bg-background/55 backdrop-blur-[2px] hover:border-accent hover:bg-accent hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                    className="flex-1 text-left min-h-[44px] px-4 py-3 md:px-5 md:py-3.5 border border-foreground/20 bg-background hover:border-accent hover:bg-accent hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                   >
                     <span className="block text-xs tracking-widest font-medium uppercase">
                       {path.label}
@@ -772,7 +828,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
                     })
                   );
                 }}
-                className="inline-flex min-h-[44px] items-center text-xs tracking-widest uppercase text-foreground/70 hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                className="inline-flex min-h-[44px] items-center justify-center px-5 py-3 bg-accent text-white text-xs tracking-widest uppercase font-medium hover:bg-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 {STUDIO.heroCtaPrimary.label} →
               </a>
@@ -790,7 +846,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
               <button
                 type="button"
                 onClick={() => skipRef.current?.()}
-                className="pointer-events-auto text-[10px] md:text-xs tracking-widest uppercase text-foreground/70 hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                className="pointer-events-auto inline-flex min-h-[44px] min-w-[44px] items-center justify-end px-2 text-[10px] md:text-xs tracking-widest uppercase text-foreground/70 hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 Skip intro
               </button>

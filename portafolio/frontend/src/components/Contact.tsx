@@ -6,10 +6,13 @@ import { useSectionReveal } from "@/hooks/useSectionReveal";
 import {
   BUDGETS,
   CONTACT_COPY,
+  CTAS,
   INDUSTRIES,
   PROJECT_TYPES,
   STUDIO,
   TIMELINES,
+  TRUST_STRIP,
+  WHATSAPP,
 } from "@/content/studio";
 
 interface ContactProps {
@@ -48,31 +51,54 @@ export default function Contact({ footer }: ContactProps) {
   useSectionReveal(rootRef);
 
   useEffect(() => {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const fromUrl = params.get("intent") || "";
-      const fromSession = sessionStorage.getItem("sekaidev:intent") || "";
-      const nextIntent = fromUrl || fromSession;
+    const applyIntent = (raw: string) => {
+      const nextIntent = raw || "";
       setIntent(nextIntent);
-      if (nextIntent === "services") setIndustryDefault("Restaurant / hospitality");
-      if (nextIntent === "product") setIndustryDefault("Startup / product");
-    } catch {
-      /* ignore */
-    }
+      if (nextIntent === "services") {
+        setIndustryDefault("Restaurant / hospitality");
+      } else if (nextIntent === "product") {
+        setIndustryDefault("Startup / product");
+      }
+    };
+
+    const readIntent = () => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const fromUrl = params.get("intent") || "";
+        const fromSession = sessionStorage.getItem("sekaidev:intent") || "";
+        applyIntent(fromUrl || fromSession);
+      } catch {
+        /* ignore */
+      }
+    };
+
+    readIntent();
+
+    const onJump = (e: Event) => {
+      const target = (e as CustomEvent<string>).detail || "";
+      if (target.startsWith("#contact")) readIntent();
+    };
+    window.addEventListener("sekaidev:jump", onJump);
+    window.addEventListener("focus", readIntent);
+    return () => {
+      window.removeEventListener("sekaidev:jump", onJump);
+      window.removeEventListener("focus", readIntent);
+    };
   }, []);
 
   const defaultProjectType = (() => {
-    if (intent === "sprint" || intent === "services") return "Brand / marketing site";
+    if (intent === "sprint" || intent === "services")
+      return "Brand / marketing site";
     if (intent === "launch" || intent === "product" || intent === "partner")
       return "Product / web app";
     return "";
   })();
 
   const defaultBudget = (() => {
-    if (intent === "sprint") return "Under $8k (Sprint-sized)";
+    if (intent === "sprint") return "From $7.5k (Sprint-sized)";
     if (intent === "launch") return "$22k–$45k (Launch-sized)";
     if (intent === "partner") return "Monthly retainer ($9.5k+ / mo)";
-    if (intent === "services") return "Under $8k (Sprint-sized)";
+    if (intent === "services") return "From $7.5k (Sprint-sized)";
     if (intent === "product") return "$22k–$45k (Launch-sized)";
     return "";
   })();
@@ -170,7 +196,7 @@ export default function Contact({ footer }: ContactProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
         <div data-reveal>
           <span className="text-muted text-xs tracking-widest">
-            09 — {CONTACT_COPY.sectionLabel.toUpperCase()}
+            07 — {CONTACT_COPY.sectionLabel.toUpperCase()}
           </span>
           <h2 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold mt-4 leading-tight">
             {CONTACT_COPY.headlineLine1}
@@ -180,12 +206,36 @@ export default function Contact({ footer }: ContactProps) {
           <p className="mt-4 md:mt-6 text-sm md:text-base text-foreground/80 max-w-md">
             {CONTACT_COPY.subline}
           </p>
-          <a
-            href={`mailto:${STUDIO.email}`}
-            className="mt-6 inline-block text-xs tracking-widest hover:text-accent transition-colors underline-offset-4 hover:underline"
-          >
-            {STUDIO.email.toUpperCase()}
-          </a>
+
+          <ul className="mt-6 flex flex-col gap-2 max-w-sm">
+            {TRUST_STRIP.map((line) => (
+              <li
+                key={line}
+                className="text-[10px] tracking-widest uppercase text-foreground/55 border-l border-accent/60 pl-3"
+              >
+                {line}
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-6 flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-5">
+            <a
+              href={`mailto:${STUDIO.email}`}
+              className="inline-block text-xs tracking-widest hover:text-accent transition-colors underline-offset-4 hover:underline"
+            >
+              {STUDIO.email.toUpperCase()}
+            </a>
+            {WHATSAPP && (
+              <a
+                href={WHATSAPP.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block text-xs tracking-widest hover:text-accent transition-colors underline-offset-4 hover:underline"
+              >
+                {CTAS.whatsapp.labelUpper}
+              </a>
+            )}
+          </div>
           <p className="mt-4 text-[10px] tracking-widest text-muted uppercase max-w-xs">
             {CONTACT_COPY.privacyNote}
           </p>
@@ -213,12 +263,24 @@ export default function Contact({ footer }: ContactProps) {
               Keep this reference if you follow up. We typically reply within
               24 hours.
             </p>
-            <a
-              href="/lead-flow"
-              className="mt-6 inline-block text-[10px] tracking-widest uppercase text-foreground/50 hover:text-accent transition-colors"
-            >
-              See how leads move through ops →
-            </a>
+            <div className="mt-6 flex flex-col gap-3">
+              <a
+                href={`mailto:${STUDIO.email}`}
+                className="inline-block text-[10px] tracking-widest uppercase text-foreground/70 hover:text-accent transition-colors"
+              >
+                Email {STUDIO.email} →
+              </a>
+              {WHATSAPP && (
+                <a
+                  href={WHATSAPP.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block text-[10px] tracking-widest uppercase text-foreground/70 hover:text-accent transition-colors"
+                >
+                  Continue on WhatsApp →
+                </a>
+              )}
+            </div>
           </div>
         ) : (
           <form
@@ -272,96 +334,23 @@ export default function Contact({ footer }: ContactProps) {
             />
 
             <label
-              htmlFor={`${uid}-company`}
+              htmlFor={`${uid}-message`}
               className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
             >
-              {CONTACT_COPY.fields.company.label.toUpperCase()}
+              {CONTACT_COPY.fields.message.label.toUpperCase()}
             </label>
-            <input
-              id={`${uid}-company`}
-              type="text"
-              name="company"
-              maxLength={160}
-              autoComplete="organization"
-              className={field}
+            <textarea
+              id={`${uid}-message`}
+              name="message"
+              required
+              minLength={10}
+              maxLength={4000}
+              rows={3}
+              placeholder={CONTACT_COPY.fields.message.placeholder}
+              className={`${field} resize-none`}
             />
-            <p className="text-[10px] text-muted -mt-1">
-              {CONTACT_COPY.fields.company.hint}
-            </p>
-
-            <label
-              htmlFor={`${uid}-industry`}
-              className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
-            >
-              {CONTACT_COPY.fields.industry.label.toUpperCase()}
-            </label>
-            <select
-              id={`${uid}-industry`}
-              name="industry"
-              required
-              defaultValue={industryDefault}
-              key={`industry-${intent}-${industryDefault}`}
-              className={`${field} appearance-none`}
-            >
-              <option value="" disabled>
-                {CONTACT_COPY.fields.industry.placeholder}
-              </option>
-              {INDUSTRIES.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
-
-            <label
-              htmlFor={`${uid}-type`}
-              className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
-            >
-              {CONTACT_COPY.fields.projectType.label.toUpperCase()}
-            </label>
-            <select
-              id={`${uid}-type`}
-              name="projectType"
-              required
-              defaultValue={defaultProjectType}
-              key={`type-${intent}`}
-              className={`${field} appearance-none`}
-            >
-              <option value="" disabled>
-                {CONTACT_COPY.fields.projectType.placeholder}
-              </option>
-              {PROJECT_TYPES.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor={`${uid}-timeline`}
-                  className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
-                >
-                  {CONTACT_COPY.fields.timeline.label.toUpperCase()}
-                </label>
-                <select
-                  id={`${uid}-timeline`}
-                  name="timeline"
-                  required
-                  defaultValue=""
-                  className={`${field} appearance-none`}
-                >
-                  <option value="" disabled>
-                    {CONTACT_COPY.fields.timeline.placeholder}
-                  </option>
-                  {TIMELINES.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
-                </select>
-              </div>
               <div className="flex flex-col gap-2">
                 <label
                   htmlFor={`${uid}-budget`}
@@ -387,29 +376,104 @@ export default function Contact({ footer }: ContactProps) {
                   ))}
                 </select>
               </div>
+              <div className="flex flex-col gap-2">
+                <label
+                  htmlFor={`${uid}-timeline`}
+                  className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
+                >
+                  {CONTACT_COPY.fields.timeline.label.toUpperCase()}
+                </label>
+                <select
+                  id={`${uid}-timeline`}
+                  name="timeline"
+                  required
+                  defaultValue=""
+                  className={`${field} appearance-none`}
+                >
+                  <option value="" disabled>
+                    {CONTACT_COPY.fields.timeline.placeholder}
+                  </option>
+                  {TIMELINES.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <label
-              htmlFor={`${uid}-message`}
+              htmlFor={`${uid}-type`}
               className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
             >
-              {CONTACT_COPY.fields.message.label.toUpperCase()}
+              {CONTACT_COPY.fields.projectType.label.toUpperCase()}
             </label>
-            <textarea
-              id={`${uid}-message`}
-              name="message"
+            <select
+              id={`${uid}-type`}
+              name="projectType"
               required
-              minLength={10}
-              maxLength={4000}
-              rows={3}
-              placeholder={CONTACT_COPY.fields.message.placeholder}
-              className={`${field} resize-none`}
+              defaultValue={defaultProjectType}
+              key={`type-${intent}`}
+              className={`${field} appearance-none`}
+            >
+              <option value="" disabled>
+                {CONTACT_COPY.fields.projectType.placeholder}
+              </option>
+              {PROJECT_TYPES.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+
+            <label
+              htmlFor={`${uid}-company`}
+              className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
+            >
+              {CONTACT_COPY.fields.company.label.toUpperCase()}{" "}
+              <span className="text-foreground/40">— OPTIONAL</span>
+            </label>
+            <input
+              id={`${uid}-company`}
+              type="text"
+              name="company"
+              maxLength={160}
+              autoComplete="organization"
+              className={field}
             />
+
+            <label
+              htmlFor={`${uid}-industry`}
+              className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
+            >
+              {CONTACT_COPY.fields.industry.label.toUpperCase()}{" "}
+              <span className="text-foreground/40">— OPTIONAL</span>
+            </label>
+            <select
+              id={`${uid}-industry`}
+              name="industry"
+              defaultValue={industryDefault}
+              key={`industry-${intent}-${industryDefault}`}
+              className={`${field} appearance-none`}
+            >
+              <option value="">
+                {CONTACT_COPY.fields.industry.placeholder}
+              </option>
+              {INDUSTRIES.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+
+            <p className="mt-1 text-[10px] tracking-widest uppercase text-foreground/45 leading-relaxed">
+              {CONTACT_COPY.trustLine}
+            </p>
 
             <button
               type="submit"
               disabled={status === "sending"}
-              className="mt-2 self-start w-full md:w-auto px-8 py-3 bg-accent text-white border border-accent text-[10px] md:text-xs tracking-widest font-medium hover:bg-foreground hover:border-foreground transition-colors disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="mt-1 self-start w-full md:w-auto px-8 py-3 bg-accent text-white border border-accent text-[10px] md:text-xs tracking-widest font-medium hover:bg-foreground hover:border-foreground transition-colors disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               {status === "sending"
                 ? CONTACT_COPY.submit.sending.toUpperCase()

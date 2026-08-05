@@ -26,7 +26,7 @@ export default function Works() {
     >
       <div className="mb-6 md:mb-8" data-reveal>
         <span className="text-muted text-xs tracking-widest">
-          07 — WHAT WE BUILD
+          08 — WHAT WE BUILD
         </span>
         <h2 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold mt-4">
           CAPABILITIES

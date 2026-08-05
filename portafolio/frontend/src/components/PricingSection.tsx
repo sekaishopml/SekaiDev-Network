@@ -23,11 +23,11 @@ export default function PricingSection() {
     <section
       ref={rootRef}
       id="pricing"
-      className="relative w-full px-6 md:px-12 py-24 md:py-32 bg-foreground text-background"
+      className="relative w-full px-6 md:px-12 pt-24 md:pt-32 pb-[calc(5rem+env(safe-area-inset-bottom,0px))] md:pb-32 bg-foreground text-background"
     >
       <div className="max-w-3xl" data-reveal>
         <span className="text-background/50 text-xs tracking-widest uppercase">
-          04 — {PRICING.sectionLabel}
+          05 — {PRICING.sectionLabel}
         </span>
         <h2 className="font-display text-3xl md:text-5xl font-bold mt-4 leading-tight">
           {PRICING.headline}
@@ -79,7 +79,7 @@ export default function PricingSection() {
             <button
               type="button"
               onClick={() => jump(tier.intent)}
-              className="mt-8 self-start text-[10px] md:text-xs tracking-widest uppercase border border-background/35 px-5 py-2.5 hover:bg-background hover:text-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="mt-8 self-start inline-flex min-h-[44px] items-center text-[10px] md:text-xs tracking-widest uppercase border border-background/35 px-5 py-2.5 hover:bg-background hover:text-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               {tier.cta}
             </button>
@@ -97,7 +97,7 @@ export default function PricingSection() {
         <button
           type="button"
           onClick={() => jump("launch")}
-          className="text-[10px] md:text-xs tracking-widest uppercase text-background/70 hover:text-accent transition-colors"
+          className="inline-flex min-h-[44px] items-center text-[10px] md:text-xs tracking-widest uppercase text-background/70 hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
           {CTAS.pricingFoot} →
         </button>

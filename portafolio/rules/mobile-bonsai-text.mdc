@@ -1,0 +1,31 @@
+---
+description: Móvil — el texto nunca va encima del bonsai; framing LOOK ≠ hero
+globs: frontend/src/components/HeroSection.tsx,frontend/src/components/three/**/*,frontend/src/lib/bonsai.config.ts,frontend/src/components/LookSection*
+alwaysApply: true
+---
+
+# Móvil: tipografía vs bonsai
+
+## Regla dura (producto)
+
+En **viewport &lt; 768px**, las letras / CTAs / labels **jamás** deben leerse encima del bonsai 3D.
+
+- Hero: copy + “Choose your path” viven sobre **scrims opacos** o fondos sólidos (`bg-background`), no translucidos sobre la canopia.
+- LOOK: el texto (LOOK / FIND / CTA) está **fuera** del `#bonsai-target`; el 3D solo llena ese recuadro.
+- No “arreglar” LOOK agrandando o recentrando el bonsai del **hero**.
+
+## Separación hero vs LOOK
+
+| Estado | Qué tocar |
+|--------|-----------|
+| Hero (ratio≈1) | Pose móvil estable (`scaleFactor`, `zCenter`, `zSettled`). No `frameScaleBoost`. |
+| LOOK (View encogido) | Solo `zFramed` + `frameScaleBoost` + `coverBoost` vía `ratioH`. |
+
+Si el bonsai se ve mal en LOOK, ajusta el **marco** (`LookSection.module.css` / framing props), no la composición del hero.
+
+## Checklist antes de merge
+
+- [ ] Path cards / headline no transparentan flores
+- [ ] “Scroll to explore” / Skip no van sobre canopia sin scrim
+- [ ] Cambios de scale/Z en `bonsai.config` mobile no rompen el hero
+- [ ] Probar iPhone SE + Pro Max tras deploy

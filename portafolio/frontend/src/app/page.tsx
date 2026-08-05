@@ -11,7 +11,6 @@ import FeaturedCase from "@/components/FeaturedCase";
 import ProofBand from "@/components/ProofBand";
 import PricingSection from "@/components/PricingSection";
 import FaqSection from "@/components/FaqSection";
-import Services from "@/components/Services";
 import Process from "@/components/Process";
 import About from "@/components/About";
 import Works from "@/components/Works";
@@ -24,13 +23,19 @@ const HeroSection = dynamic(() => import("@/components/HeroSection"), {
   loading: () => (
     <section
       id="home"
-      className="relative h-screen w-full overflow-hidden bg-background"
+      className="relative h-[100svh] w-full overflow-hidden bg-background"
       aria-label="SekaiDev introduction"
       aria-busy="true"
     />
   ),
 });
 
+/**
+ * Funnel (Phase A):
+ * Hero → Look (craft / bonsai handoff) → Offer → Featured → Proof → Process
+ * → Pricing → FAQ → Contact (early) → Works → About.
+ * Services merged into Offer — removed as duplicate.
+ */
 export default function Home() {
   const { loaded, setBonsaiLoaded, progress } = useBonsaiLoad();
 
@@ -49,13 +54,15 @@ export default function Home() {
           <OfferSection />
           <FeaturedCase />
           <ProofBand />
+          <Process />
           <PricingSection />
           <FaqSection />
-          <Services />
-          <Process />
+          <Contact />
           <Works />
           <About />
-          <Contact footer={<Footer />} />
+          <div className="bg-background">
+            <Footer />
+          </div>
         </main>
       </SmoothScroll>
     </>

@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { useSectionReveal } from "@/hooks/useSectionReveal";
-import { PROOF } from "@/content/studio";
+import { PROOF, TRUST_STRIP } from "@/content/studio";
 
 export default function ProofBand() {
   const rootRef = useRef<HTMLElement>(null);
@@ -37,8 +37,22 @@ export default function ProofBand() {
         ))}
       </div>
 
+      <ul
+        className="mt-12 md:mt-16 flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-6"
+        data-reveal
+      >
+        {TRUST_STRIP.map((line) => (
+          <li
+            key={line}
+            className="text-[10px] tracking-widest uppercase text-foreground/55 border-l border-accent/50 pl-3"
+          >
+            {line}
+          </li>
+        ))}
+      </ul>
+
       <p
-        className="mt-12 md:mt-16 max-w-xl text-sm text-foreground/60 leading-relaxed"
+        className="mt-8 max-w-xl text-sm text-foreground/60 leading-relaxed"
         data-reveal
       >
         {PROOF.note}

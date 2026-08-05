@@ -23,7 +23,7 @@ export default function About() {
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-start">
         <div data-reveal>
-          <span className="text-muted text-xs tracking-widest">08 — ABOUT</span>
+          <span className="text-muted text-xs tracking-widest">09 — ABOUT</span>
           <h2 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold mt-4 leading-tight">
             A SMALL
             <br />

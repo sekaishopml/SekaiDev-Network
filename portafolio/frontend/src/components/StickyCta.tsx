@@ -1,18 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CTAS } from "@/content/studio";
+import { CTAS, NAV_TRUST, WHATSAPP } from "@/content/studio";
 
 /**
  * Desktop side CTA + mobile bottom bar. Appears after Offer;
- * hidden on hero/intro and while contact is in view.
- * Label shifts near pricing vs default contact CTA.
+ * hidden on hero/intro and while contact submit is in view.
+ * Always routes to contact — never loops back to pricing.
+ * WhatsApp only when NEXT_PUBLIC_WHATSAPP is configured.
  */
 export default function StickyCta() {
   const [visible, setVisible] = useState(false);
   const [hideForContact, setHideForContact] = useState(false);
   const [hideForHero, setHideForHero] = useState(true);
-  const [nearPricing, setNearPricing] = useState(false);
 
   useEffect(() => {
     const offer = document.getElementById("offer");
@@ -40,27 +40,12 @@ export default function StickyCta() {
   useEffect(() => {
     const contact = document.getElementById("contact");
     if (!contact) return;
+    // Hide only when the form itself is usable — not a dead zone above it
     const io = new IntersectionObserver(
       ([entry]) => setHideForContact(entry.isIntersecting),
-      { threshold: 0.15 }
+      { threshold: 0.35, rootMargin: "0px 0px -20% 0px" }
     );
     io.observe(contact);
-    return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const pricing = document.getElementById("pricing");
-    const works = document.getElementById("works");
-    if (!pricing && !works) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        const hit = entries.some((e) => e.isIntersecting);
-        setNearPricing(hit);
-      },
-      { threshold: 0.2 }
-    );
-    if (pricing) io.observe(pricing);
-    if (works) io.observe(works);
     return () => io.disconnect();
   }, []);
 
@@ -101,8 +86,8 @@ export default function StickyCta() {
   }, []);
 
   const show = visible && !hideForContact && !hideForHero;
-  const label = nearPricing ? CTAS.pricing.labelUpper : CTAS.primary.labelUpper;
-  const href = nearPricing ? CTAS.pricing.href : CTAS.primary.href;
+  const label = CTAS.primary.labelUpper;
+  const href = CTAS.primary.href;
 
   const jump = () => {
     window.dispatchEvent(new CustomEvent("sekaidev:jump", { detail: href }));
@@ -113,10 +98,10 @@ export default function StickyCta() {
       <button
         type="button"
         onClick={jump}
-        aria-label={nearPricing ? CTAS.pricing.label : CTAS.primary.label}
+        aria-label={CTAS.primary.label}
         aria-hidden={!show}
         tabIndex={show ? 0 : -1}
-        className={`hidden md:block fixed right-6 bottom-8 z-40 px-5 py-3 bg-accent text-white text-[10px] tracking-widest font-medium shadow-lg transition-[opacity,transform] duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+        className={`hidden md:block fixed right-6 bottom-8 z-40 px-5 py-3 min-h-[44px] bg-accent text-white text-[10px] tracking-widest font-medium shadow-lg transition-[opacity,transform] duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
           show
             ? "opacity-100 translate-y-0"
             : "opacity-0 translate-y-3 pointer-events-none"
@@ -126,19 +111,35 @@ export default function StickyCta() {
       </button>
 
       <div
-        className={`md:hidden fixed inset-x-0 bottom-0 z-40 border-t border-foreground/15 bg-background/95 backdrop-blur-sm px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] transition-transform duration-300 ${
+        className={`sticky-cta-mobile md:hidden fixed inset-x-0 bottom-0 z-40 border-t border-foreground/15 bg-background/95 backdrop-blur-sm px-4 pt-2.5 pb-[max(0.75rem,env(safe-area-inset-bottom))] transition-transform duration-300 ${
           show ? "translate-y-0" : "translate-y-full pointer-events-none"
         }`}
         aria-hidden={!show}
       >
-        <button
-          type="button"
-          onClick={jump}
-          tabIndex={show ? 0 : -1}
-          className="w-full min-h-[44px] py-3 bg-accent text-white text-xs tracking-widest font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-        >
-          {label}
-        </button>
+        <p className="mb-2 text-center text-[9px] tracking-widest uppercase text-foreground/45 truncate">
+          {NAV_TRUST}
+        </p>
+        <div className={`grid gap-2 ${WHATSAPP ? "grid-cols-2" : "grid-cols-1"}`}>
+          <button
+            type="button"
+            onClick={jump}
+            tabIndex={show ? 0 : -1}
+            className="w-full min-h-[44px] py-3 bg-accent text-white text-xs tracking-widest font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          >
+            {label}
+          </button>
+          {WHATSAPP && (
+            <a
+              href={WHATSAPP.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              tabIndex={show ? 0 : -1}
+              className="inline-flex w-full min-h-[44px] items-center justify-center border border-foreground/25 text-xs tracking-widest font-medium hover:border-accent hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            >
+              {CTAS.whatsapp.labelUpper}
+            </a>
+          )}
+        </div>
       </div>
     </>
   );
