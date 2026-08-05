@@ -1,5 +1,6 @@
 // Bonsai 3D scene configuration
 // Edit these values to adjust the model position, rotation, scale, camera and lights.
+// Camera is top-down: +X = right on screen, +Z = down on screen.
 
 export const BONSAI_CONFIG = {
   // Camera settings
@@ -14,34 +15,34 @@ export const BONSAI_CONFIG = {
     far: 100,
   },
 
-  // Main model transform
+  // Main model transform (desktop rest — horizontal unchanged, height raised)
   bonsai: {
-    // Centered in the framed hero
-    position: [0, -0.6, 0.2] as [number, number, number],
+    // Same X as before (right of copy). Z≈0 = optical vertical center (~54vh).
+    // Previous z: 0.28 sat too low on the hero.
+    position: [1.2, -0.55, 0] as [number, number, number],
 
     // Starting rotation in radians (x, y, z)
     // Y rotation so the flowers face the camera
     rotation: [0, Math.PI, 0] as [number, number, number],
 
-    // Full-screen hero presence; coverBoost fills the framed rectangle.
-    scale: 9,
+    scale: 7.8,
   },
 
   /**
-   * Mobile hero: large + centered after curtain, then settle down.
+   * Mobile hero: keep canopy in the lower half after curtain.
    * Scroll intro uses the same coverBoost growth as desktop.
    */
   mobile: {
-    /** Slightly under desktop — readable but not overwhelming */
-    scaleFactor: 0.78,
+    /** Compact canopy — leaves room for headline + bottom cues */
+    scaleFactor: 0.52,
     /** Camera balanced for mobile canopy */
-    cameraY: 6.2,
-    /** Reveal — mid-viewport center */
-    zCenter: -0.18,
-    /** After curtain — soft drop into the lower third */
-    zSettled: 0.48,
+    cameraY: 7.0,
+    /** Reveal — lower half already */
+    zCenter: 0.42,
+    /** After curtain — sit under CTAs, clear of scroll cue */
+    zSettled: 0.95,
     /** coverBoost ceiling during scroll intro (matches desktop feel) */
-    coverBoostMax: 3.4,
+    coverBoostMax: 3.2,
   },
 
   // Auto-rotation

@@ -115,17 +115,18 @@ export default function Navigation() {
             : "opacity-0 -translate-y-3 pointer-events-none"
         }`}
       >
-        <div className="flex items-center justify-between h-full md:grid md:grid-cols-3 gap-4">
+        <div className="relative flex items-center justify-between h-full gap-4">
           <Link
             href="#home"
             onClick={(e) => handleNavClick(e, "#home")}
-            className="font-display text-2xl md:text-3xl font-bold leading-none tracking-tighter text-foreground whitespace-nowrap"
+            className="relative z-10 font-display text-2xl md:text-3xl font-bold leading-none tracking-tighter text-foreground whitespace-nowrap shrink-0"
           >
             SEKAI<br />DEV
           </Link>
 
+          {/* True optical center — independent of logo / right rail widths */}
           <nav
-            className="hidden md:flex justify-center gap-5 lg:gap-8 text-[10px] lg:text-xs tracking-widest font-medium"
+            className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-4 lg:gap-7 text-[10px] lg:text-[11px] tracking-[0.14em] lg:tracking-[0.18em] font-medium whitespace-nowrap"
             aria-label="Primary"
           >
             {desktopLinks.map((l, i) => (
@@ -133,9 +134,11 @@ export default function Navigation() {
                 key={l.label}
                 href={l.href}
                 onClick={(e) => handleNavClick(e, l.href)}
-                className="group flex items-center gap-2 hover:text-accent transition-colors"
+                className="group inline-flex items-baseline gap-1.5 hover:text-accent transition-colors shrink-0"
               >
-                <span className="text-muted">0{i + 1}</span>
+                <span className="text-muted tabular-nums">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
                 <span className="relative">
                   {l.label.toUpperCase()}
                   <span className="absolute -bottom-1 left-0 w-0 h-px bg-accent group-hover:w-full transition-[width] duration-300" />
@@ -144,7 +147,7 @@ export default function Navigation() {
             ))}
           </nav>
 
-          <div className="hidden md:flex flex-col items-end text-right justify-center gap-1">
+          <div className="hidden md:flex relative z-10 flex-col items-end text-right justify-center gap-1 shrink-0 min-w-[11rem]">
             {SOCIALS.length > 0 && (
               <div className="flex gap-6 lg:gap-8 text-[10px] lg:text-xs tracking-widest font-medium mb-1">
                 {SOCIALS.map((s, i) => (
@@ -153,9 +156,11 @@ export default function Navigation() {
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-2 hover:text-accent transition-colors"
+                    className="group flex items-center gap-2 hover:text-accent transition-colors whitespace-nowrap"
                   >
-                    <span className="text-muted">0{i + 1}</span>
+                    <span className="text-muted">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                     <span className="relative">
                       {s.label}
                       <span className="absolute -bottom-1 left-0 w-0 h-px bg-accent group-hover:w-full transition-[width] duration-300" />
@@ -164,12 +169,12 @@ export default function Navigation() {
                 ))}
               </div>
             )}
-            <span className="text-[10px] lg:text-xs tracking-widest text-muted">
+            <span className="text-[10px] lg:text-xs tracking-widest text-muted whitespace-nowrap">
               Available for projects
             </span>
             <a
               href={`mailto:${STUDIO.email}`}
-              className="text-[10px] lg:text-xs tracking-widest hover:text-accent transition-colors"
+              className="text-[10px] lg:text-xs tracking-widest hover:text-accent transition-colors whitespace-nowrap"
             >
               {STUDIO.email.toUpperCase()}
             </a>
@@ -178,7 +183,7 @@ export default function Navigation() {
           <button
             type="button"
             onClick={() => setMenuOpen((o) => !o)}
-            className="md:hidden relative min-h-[44px] min-w-[44px] w-11 h-11 flex flex-col justify-center items-center gap-1.5"
+            className="md:hidden relative z-10 min-h-[44px] min-w-[44px] w-11 h-11 flex flex-col justify-center items-center gap-1.5"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             aria-controls={menuId}

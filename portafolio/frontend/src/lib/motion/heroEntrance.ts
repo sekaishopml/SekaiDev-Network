@@ -3,9 +3,9 @@
 export const HERO_ENTRANCE = {
   /** Brief bonsai beat after curtain — keep snappy */
   presentationHold: 0.45,
-  /** Mobile: hold centered flower, then drop (seconds) */
-  bonsaiSettleDelay: 0.5,
-  bonsaiSettleDuration: 0.85,
+  /** Desktop+mobile: hold centered, then settle aside / down */
+  bonsaiSettleDelay: 0.45,
+  bonsaiSettleDuration: 0.9,
   /** Atmosphere leads copy slightly */
   arcLead: 0.28,
   arcDuration: 1.05,

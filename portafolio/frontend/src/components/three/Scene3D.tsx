@@ -22,9 +22,13 @@ interface BonsaiProps {
   onLoaded?: () => void;
   baseScale?: number;
   position?: [number, number, number];
-  /** Mobile: start z (centered) before post-curtain settle */
+  /** Start X before post-curtain settle (desktop: center) */
+  settleFromX?: number;
+  /** End X after settle (desktop: aside, clear of copy) */
+  settleToX?: number;
+  /** Start Z before post-curtain settle */
   settleFromZ?: number;
-  /** Mobile: end z after curtain settle (lower on screen) */
+  /** End Z after curtain settle */
   settleToZ?: number;
   coverBoostMax?: number;
   trackRef?: RefObject<TrackMetrics | null>;
@@ -34,6 +38,8 @@ const Bonsai = memo(function Bonsai({
   onLoaded,
   baseScale = BONSAI_CONFIG.bonsai.scale,
   position = BONSAI_CONFIG.bonsai.position,
+  settleFromX,
+  settleToX,
   settleFromZ,
   settleToZ,
   coverBoostMax = 3.4,
@@ -43,24 +49,35 @@ const Bonsai = memo(function Bonsai({
   const { scene } = useGLTF(ASSETS.model, ASSETS.dracoPath);
   const clonedScene = useMemo(() => scene.clone(), [scene]);
   const targetScaleVec = useMemo(() => new THREE.Vector3(1, 1, 1), []);
+  const targetXRef = useRef(
+    settleFromX !== undefined ? settleFromX : position[0]
+  );
   const targetZRef = useRef(
     settleFromZ !== undefined ? settleFromZ : position[2]
   );
   const settleSpeedRef = useRef(8);
-  const didInitZ = useRef(false);
+  const didInitPos = useRef(false);
 
   useEffect(() => {
     onLoaded?.();
   }, [onLoaded]);
 
-  // Mobile: centered on reveal → drop after curtain + hold
+  // Reveal at settleFrom* → drift to settleTo* after curtain + hold
   useEffect(() => {
-    if (settleFromZ === undefined || settleToZ === undefined) {
+    const hasSettle =
+      (settleFromX !== undefined && settleToX !== undefined) ||
+      (settleFromZ !== undefined && settleToZ !== undefined);
+
+    if (!hasSettle) {
+      targetXRef.current = position[0];
       targetZRef.current = position[2];
       return;
     }
 
-    targetZRef.current = settleFromZ;
+    targetXRef.current =
+      settleFromX !== undefined ? settleFromX : position[0];
+    targetZRef.current =
+      settleFromZ !== undefined ? settleFromZ : position[2];
     settleSpeedRef.current = 8;
     let timeoutId = 0;
 
@@ -69,15 +86,20 @@ const Bonsai = memo(function Bonsai({
     ).matches;
 
     const startSettle = () => {
+      const toX = settleToX !== undefined ? settleToX : position[0];
+      const toZ = settleToZ !== undefined ? settleToZ : position[2];
+
       if (reduced) {
-        targetZRef.current = settleToZ;
+        targetXRef.current = toX;
+        targetZRef.current = toZ;
         settleSpeedRef.current = 40;
         return;
       }
       timeoutId = window.setTimeout(() => {
-        targetZRef.current = settleToZ;
-        // Smooth settle ≈ bonsaiSettleDuration
-        settleSpeedRef.current = 2.8;
+        targetXRef.current = toX;
+        targetZRef.current = toZ;
+        // ~bonsaiSettleDuration with exponential damping
+        settleSpeedRef.current = 2.4;
       }, HERO_ENTRANCE.bonsaiSettleDelay * 1000);
     };
 
@@ -93,16 +115,17 @@ const Bonsai = memo(function Bonsai({
       window.removeEventListener("sekaidev:loader-dismissed", startSettle);
       if (timeoutId) window.clearTimeout(timeoutId);
     };
-  }, [settleFromZ, settleToZ, position]);
+  }, [settleFromX, settleToX, settleFromZ, settleToZ, position]);
 
   useFrame((_, delta) => {
     const group = groupRef.current;
     if (!group) return;
 
-    // Snap initial z once so we don't lerp from desktop default
-    if (!didInitZ.current) {
+    // Snap initial xz once so we don't lerp from the wrong rest pose
+    if (!didInitPos.current) {
+      group.position.x = targetXRef.current;
       group.position.z = targetZRef.current;
-      didInitZ.current = true;
+      didInitPos.current = true;
     }
 
     const metrics = trackRef?.current;
@@ -126,24 +149,28 @@ const Bonsai = memo(function Bonsai({
     targetScaleVec.setScalar(targetScale);
     group.scale.lerp(targetScaleVec, damping);
 
-    const zDamp = 1 - Math.exp(-settleSpeedRef.current * delta);
+    const settleDamp = 1 - Math.exp(-settleSpeedRef.current * delta);
+    group.position.x = THREE.MathUtils.lerp(
+      group.position.x,
+      targetXRef.current,
+      settleDamp
+    );
     group.position.z = THREE.MathUtils.lerp(
       group.position.z,
       targetZRef.current,
-      zDamp
+      settleDamp
     );
 
     group.rotation.y += delta * BONSAI_CONFIG.animation.rotationSpeed;
   });
 
+  const startX =
+    settleFromX !== undefined ? settleFromX : position[0];
   const startZ =
     settleFromZ !== undefined ? settleFromZ : position[2];
 
   return (
-    <group
-      ref={groupRef}
-      position={[position[0], position[1], startZ]}
-    >
+    <group ref={groupRef} position={[startX, position[1], startZ]}>
       <Center>
         <primitive
           object={clonedScene}
@@ -169,46 +196,60 @@ const BonsaiScene = memo(function BonsaiScene({
   const isTablet = width < 1024;
   const mobile = BONSAI_CONFIG.mobile;
 
-  const { scale: baseScale, cameraConfig, position, settleFromZ, settleToZ, coverBoostMax } =
-    useMemo(() => {
-      if (isMobile) {
-        return {
-          scale: BONSAI_CONFIG.bonsai.scale * mobile.scaleFactor,
-          settleFromZ: mobile.zCenter,
-          settleToZ: mobile.zSettled,
-          coverBoostMax: mobile.coverBoostMax,
-          position: [
-            BONSAI_CONFIG.bonsai.position[0],
-            BONSAI_CONFIG.bonsai.position[1],
-            mobile.zCenter,
-          ] as [number, number, number],
-          cameraConfig: {
-            ...BONSAI_CONFIG.camera,
-            position: [0, mobile.cameraY, 0.2] as [number, number, number],
-          },
-        };
-      }
-
-      const scale = isTablet
-        ? BONSAI_CONFIG.bonsai.scale * 0.85
-        : BONSAI_CONFIG.bonsai.scale;
-
+  const {
+    scale: baseScale,
+    cameraConfig,
+    position,
+    settleFromX,
+    settleToX,
+    settleFromZ,
+    settleToZ,
+    coverBoostMax,
+  } = useMemo(() => {
+    if (isMobile) {
       return {
-        scale,
-        settleFromZ: undefined as number | undefined,
-        settleToZ: undefined as number | undefined,
-        coverBoostMax: 3.4,
-        position: [...BONSAI_CONFIG.bonsai.position] as [number, number, number],
+        scale: BONSAI_CONFIG.bonsai.scale * mobile.scaleFactor,
+        settleFromX: undefined as number | undefined,
+        settleToX: undefined as number | undefined,
+        settleFromZ: mobile.zCenter,
+        settleToZ: mobile.zSettled,
+        coverBoostMax: mobile.coverBoostMax,
+        // Mobile centered on X; only Z settles after curtain
+        position: [
+          0,
+          BONSAI_CONFIG.bonsai.position[1],
+          mobile.zCenter,
+        ] as [number, number, number],
         cameraConfig: {
           ...BONSAI_CONFIG.camera,
-          position: [0, BONSAI_CONFIG.camera.position[1], 0.2] as [
-            number,
-            number,
-            number,
-          ],
+          position: [0, mobile.cameraY, 0.2] as [number, number, number],
         },
       };
-    }, [isMobile, isTablet, mobile]);
+    }
+
+    // Desktop: keep horizontal rest pose — only height (Z) was corrected in config
+    const scale = isTablet
+      ? BONSAI_CONFIG.bonsai.scale * 0.85
+      : BONSAI_CONFIG.bonsai.scale;
+
+    return {
+      scale,
+      settleFromX: undefined as number | undefined,
+      settleToX: undefined as number | undefined,
+      settleFromZ: undefined as number | undefined,
+      settleToZ: undefined as number | undefined,
+      coverBoostMax: 3.4,
+      position: [...BONSAI_CONFIG.bonsai.position] as [number, number, number],
+      cameraConfig: {
+        ...BONSAI_CONFIG.camera,
+        position: [0, BONSAI_CONFIG.camera.position[1], 0.2] as [
+          number,
+          number,
+          number,
+        ],
+      },
+    };
+  }, [isMobile, isTablet, mobile]);
 
   const { lights } = BONSAI_CONFIG;
 
@@ -235,6 +276,8 @@ const BonsaiScene = memo(function BonsaiScene({
         onLoaded={onLoaded}
         baseScale={baseScale}
         position={position}
+        settleFromX={settleFromX}
+        settleToX={settleToX}
         settleFromZ={settleFromZ}
         settleToZ={settleToZ}
         coverBoostMax={coverBoostMax}

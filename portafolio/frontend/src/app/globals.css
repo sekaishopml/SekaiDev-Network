@@ -120,12 +120,13 @@ body {
   }
 }
 
-/* Hero copy above fullscreen bonsai canvas while parked on hero */
-html[data-intro="hero"] #hero-labels,
-html[data-intro="animating"] #hero-labels {
-  position: fixed !important;
-  inset: 0;
-  z-index: 15;
+/*
+ * Hero copy is portaled to document.body (see HeroSection) so Lenis
+ * transforms cannot trap it under the fullscreen bonsai canvas.
+ * Keep z-index above #bonsai-canvas (12) whenever the labels exist.
+ */
+#hero-labels {
+  z-index: 20 !important;
 }
 
 .mobile-nav::backdrop {

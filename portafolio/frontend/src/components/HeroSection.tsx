@@ -294,6 +294,8 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
     // Parent fade during intro scroll — safe during entrance (children are GSAP-owned)
     labels.style.opacity = String(Math.max(0, 1 - p * 4.5));
     labels.style.transform = `translateY(${-p * 28}px)`;
+    // Portaled fixed labels must fully hide or they keep covering LOOK CTAs
+    labels.style.visibility = p > 0.22 ? "hidden" : "visible";
     // Do not stomp RainbowArc while the entrance timeline owns it
     if (p > 0.001 || entranceDoneRef.current) {
       arc.style.opacity = String(Math.max(0, 1 - p * 1.2));
@@ -624,8 +626,8 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
     };
   }, [lenis, applyProgress]);
 
-  // Portal to document.body so Lenis transforms never trap these "fixed"
-  // layers — that was hiding the bonsai under LookSection after unlock.
+  // Portal bonsai + hero copy to document.body so Lenis transforms never
+  // trap "fixed" layers — labels used to stay under the fullscreen canvas.
   const overlayPortal =
     portalReady &&
     createPortal(
@@ -664,37 +666,35 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
             </View>
           </div>
         </div>
-      </>,
-      document.body
-    );
-
-  return (
-    <>
-      {overlayPortal}
-
-      <section
-        ref={heroRef}
-        id="home"
-        className="relative min-h-[100svh] h-[100svh] md:h-screen w-full overflow-hidden bg-background"
-      >
-        <div
-          ref={arcRef}
-          className="absolute inset-0 z-0 pointer-events-none opacity-0"
-        >
-          <RainbowArc />
-        </div>
 
         <div
           ref={labelsRef}
           id="hero-labels"
-          className="absolute inset-0 z-30 pointer-events-none will-change-transform"
+          className="fixed inset-0 z-[20] pointer-events-none will-change-transform"
         >
-          {/* Soft scrim so copy stays readable over blossoms on short phones */}
+          {/* Desktop: soft left veil so copy never fights the canopy */}
           <div
-            className="absolute inset-x-0 top-0 h-[62%] md:hidden pointer-events-none"
+            className="absolute inset-y-0 left-0 hidden md:block w-[52%] max-w-xl pointer-events-none"
             style={{
               background:
-                "linear-gradient(180deg, rgba(214,214,214,0.92) 0%, rgba(214,214,214,0.72) 55%, rgba(214,214,214,0) 100%)",
+                "linear-gradient(90deg, rgba(214,214,214,0.88) 0%, rgba(214,214,214,0.55) 55%, rgba(214,214,214,0) 100%)",
+            }}
+            aria-hidden="true"
+          />
+          {/* Mobile: top + bottom scrims — bonsai settles below the headline block */}
+          <div
+            className="absolute inset-x-0 top-0 h-[52%] md:hidden pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(214,214,214,0.96) 0%, rgba(214,214,214,0.82) 58%, rgba(214,214,214,0) 100%)",
+            }}
+            aria-hidden="true"
+          />
+          <div
+            className="absolute inset-x-0 bottom-0 h-[18%] md:hidden pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(0deg, rgba(214,214,214,0.92) 0%, rgba(214,214,214,0) 100%)",
             }}
             aria-hidden="true"
           />
@@ -751,7 +751,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
                         new CustomEvent("sekaidev:jump", { detail: path.href })
                       );
                     }}
-                    className="flex-1 text-left min-h-[44px] px-5 py-3.5 border border-foreground/20 bg-background/40 hover:border-accent hover:bg-accent hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                    className="flex-1 text-left min-h-[44px] px-5 py-3.5 border border-foreground/20 bg-background/55 backdrop-blur-[2px] hover:border-accent hover:bg-accent hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                   >
                     <span className="block text-xs tracking-widest font-medium uppercase">
                       {path.label}
@@ -783,7 +783,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
             data-hero-reveal
             className="absolute bottom-[max(1.25rem,env(safe-area-inset-bottom))] md:bottom-8 left-5 right-5 sm:left-6 sm:right-6 md:left-12 md:right-12 flex justify-between items-end gap-4 opacity-0"
           >
-            <p className="text-[10px] md:text-xs tracking-widest uppercase text-foreground/55">
+            <p className="text-[10px] md:text-xs tracking-widest uppercase text-foreground/70 md:text-foreground/55">
               Scroll to explore
             </p>
             {showSkip && (
@@ -796,6 +796,26 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
               </button>
             )}
           </div>
+        </div>
+      </>,
+      document.body
+    );
+
+  return (
+    <>
+      {overlayPortal}
+
+      <section
+        ref={heroRef}
+        id="home"
+        className="relative min-h-[100svh] h-[100svh] md:h-screen w-full overflow-hidden bg-background"
+        aria-label="SekaiDev introduction"
+      >
+        <div
+          ref={arcRef}
+          className="absolute inset-0 z-0 pointer-events-none opacity-0"
+        >
+          <RainbowArc />
         </div>
       </section>
     </>
