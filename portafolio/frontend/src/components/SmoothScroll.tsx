@@ -4,6 +4,7 @@ import { ReactLenis, useLenis } from "lenis/react";
 import { useEffect, useMemo, useSyncExternalStore } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { parseJumpHref, setIntent } from "@/lib/navigation";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -47,21 +48,11 @@ function LenisBridge({ jumpDuration }: { jumpDuration: number }) {
     if (!lenis) return;
 
     const onJump = (event: Event) => {
-      const selector = (event as CustomEvent<string>).detail;
-      if (!selector) return;
-
-      // Support "#contact?intent=sprint" style deep-links from Pricing
-      const [hash, query] = selector.split("?");
-      if (query) {
-        const intent = new URLSearchParams(query).get("intent");
-        if (intent) {
-          try {
-            sessionStorage.setItem("sekaidev:intent", intent);
-          } catch {
-            /* ignore */
-          }
-        }
-      }
+      const rawHref = (event as CustomEvent<string>).detail;
+      if (!rawHref) return;
+      const { hash, intent } = parseJumpHref(rawHref);
+      setIntent(intent);
+      if (!hash) return;
 
       if (hash === "#home") {
         lenis.scrollTo(0, { duration: jumpDuration });

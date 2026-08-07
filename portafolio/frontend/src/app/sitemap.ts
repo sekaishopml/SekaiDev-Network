@@ -1,13 +1,18 @@
 import type { MetadataRoute } from "next";
-import { STUDIO } from "@/content/studio";
+import { SITE } from "@/content/config";
+import { LOCALES } from "@/content/i18n";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: STUDIO.siteUrl,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 1,
+  const now = new Date();
+  return LOCALES.map((locale) => ({
+    url: `${SITE.siteUrl}/${locale}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 1,
+    alternates: {
+      languages: Object.fromEntries(
+        LOCALES.map((l) => [l, `${SITE.siteUrl}/${l}`])
+      ),
     },
-  ];
+  }));
 }

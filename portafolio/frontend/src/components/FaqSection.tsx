@@ -1,18 +1,16 @@
 "use client";
 
 import { useRef } from "react";
-import { CTAS, FAQ_ITEMS } from "@/content/studio";
 import { useSectionReveal } from "@/hooks/useSectionReveal";
+import { useT } from "@/components/LocaleProvider";
+import { jumpTo } from "@/lib/navigation";
 
 export default function FaqSection() {
   const rootRef = useRef<HTMLElement>(null);
+  const t = useT();
   useSectionReveal(rootRef);
 
-  const jumpContact = () => {
-    window.dispatchEvent(
-      new CustomEvent("sekaidev:jump", { detail: CTAS.primary.href })
-    );
-  };
+  const jumpContact = () => jumpTo(t.CTAS.primary.href);
 
   return (
     <section
@@ -23,21 +21,21 @@ export default function FaqSection() {
     >
       <div className="max-w-2xl" data-reveal>
         <span className="text-muted text-xs tracking-widest uppercase">
-          06 — FAQ
+          {t.UI.faqLabel}
         </span>
         <h2
           id="faq-heading"
           className="font-display text-3xl md:text-5xl font-bold mt-4 leading-tight"
         >
-          Clear before we begin.
+          {t.UI.faqHeadline}
         </h2>
         <p className="mt-4 text-sm md:text-base text-foreground/70 leading-relaxed">
-          The practical details, answered plainly.
+          {t.UI.faqSubline}
         </p>
       </div>
 
       <div className="mt-12 md:mt-16 max-w-4xl border-t border-foreground/20">
-        {FAQ_ITEMS.map((item) => (
+        {t.FAQ_ITEMS.map((item) => (
           <details
             key={item.question}
             data-reveal
@@ -61,14 +59,14 @@ export default function FaqSection() {
 
       <div className="mt-10 md:mt-12" data-reveal>
         <p className="text-[10px] tracking-widest uppercase text-foreground/50 mb-3">
-          Still a fit?
+          {t.UI.stillFit}
         </p>
         <button
           type="button"
           onClick={jumpContact}
           className="inline-flex min-h-[44px] items-center px-6 py-3 bg-accent text-white text-xs tracking-widest font-medium hover:bg-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
-          {CTAS.primary.labelUpper}
+          {t.CTAS.primary.labelUpper}
         </button>
       </div>
     </section>

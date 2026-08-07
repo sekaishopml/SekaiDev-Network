@@ -5,13 +5,14 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@/hooks/useGsapSafe";
 import { useSectionReveal } from "@/hooks/useSectionReveal";
-import { PROCESS } from "@/content/studio";
+import { useT } from "@/components/LocaleProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Process() {
   const rootRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
+  const t = useT();
   useSectionReveal(rootRef);
 
   useGSAP(
@@ -55,18 +56,20 @@ export default function Process() {
       className="relative w-full px-6 md:px-12 py-20 md:py-24 bg-background"
     >
       <div data-reveal>
-        <span className="text-muted text-xs tracking-widest">04 — PROCESS</span>
+        <span className="text-muted text-xs tracking-widest">
+          {t.PROCESS_SECTION.label}
+        </span>
         <h2 className="font-display text-3xl md:text-5xl font-bold mt-4">
-          Align → Launch
+          {t.PROCESS_SECTION.headline}
         </h2>
         <p className="mt-3 max-w-lg text-sm text-foreground/70 leading-relaxed">
-          Four steps. Written scope first. No black-box builds.
+          {t.PROCESS_SECTION.subline}
         </p>
       </div>
 
       <div ref={pinRef} className="mt-12 md:mt-16">
         <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
-          {PROCESS.map((p) => (
+          {t.PROCESS.map((p) => (
             <li key={p.step} data-reveal data-step className="relative">
               <span className="font-display text-4xl md:text-5xl text-foreground/15 font-bold">
                 {p.step}

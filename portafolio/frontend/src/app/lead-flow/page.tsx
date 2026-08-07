@@ -1,5 +1,9 @@
 import Link from "next/link";
-import { LEAD_FLOW_DEMO, STUDIO } from "@/content/studio";
+import { SITE } from "@/content/config";
+import { en } from "@/content/dictionaries/en";
+
+const LEAD_FLOW_DEMO = en.LEAD_FLOW_DEMO;
+const STUDIO = { ...en.STUDIO, email: SITE.email, siteUrl: SITE.siteUrl };
 
 const statusStyle: Record<string, string> = {
   received: "border-foreground/30 text-foreground/70",

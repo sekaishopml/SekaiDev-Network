@@ -2,17 +2,19 @@
 
 import { useRef } from "react";
 import { useSectionReveal } from "@/hooks/useSectionReveal";
-import { WORKS } from "@/content/studio";
 import WorkArt from "@/components/WorkArt";
+import { useT } from "@/components/LocaleProvider";
+import { jumpTo } from "@/lib/navigation";
 
 export default function Works() {
   const rootRef = useRef<HTMLElement>(null);
+  const t = useT();
 
   useSectionReveal(rootRef);
 
   const onCardClick = (href: string) => {
     if (href.startsWith("#")) {
-      window.dispatchEvent(new CustomEvent("sekaidev:jump", { detail: href }));
+      jumpTo(href);
       return;
     }
     window.open(href, "_blank", "noopener,noreferrer");
@@ -26,20 +28,18 @@ export default function Works() {
     >
       <div className="mb-6 md:mb-8" data-reveal>
         <span className="text-muted text-xs tracking-widest">
-          08 — WHAT WE BUILD
+          {t.WORKS_SECTION.label}
         </span>
         <h2 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold mt-4">
-          CAPABILITIES
+          {t.WORKS_SECTION.headline}
         </h2>
         <p className="mt-3 max-w-xl text-sm md:text-base text-foreground/70">
-          Examples of surfaces we ship — product systems, brand sites, APIs, and
-          ops tools. Ask for a private walkthrough of named work when we confirm
-          fit.
+          {t.WORKS_SECTION.subline}
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-        {WORKS.map((p) => (
+        {t.WORKS.map((p) => (
           <button
             key={p.id}
             type="button"
@@ -47,7 +47,10 @@ export default function Works() {
             onClick={() => onCardClick(p.href)}
             className="group relative text-left border border-foreground/20 p-4 md:p-6 overflow-visible hover:border-accent hover:bg-foreground/[0.03] transition-[border-color,background-color] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
-            <WorkArt slug={p.slug} label="CAPABILITY" />
+            <WorkArt
+              slug={p.slug as "crm" | "websites" | "api" | "dashboards"}
+              label={p.kind}
+            />
             <div className="flex justify-between items-start gap-3">
               <div className="flex items-center gap-3">
                 <span className="text-muted text-[10px] md:text-xs tracking-widest">

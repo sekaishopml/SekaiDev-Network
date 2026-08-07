@@ -38,7 +38,16 @@ import {
   HERO_SURFACE_BG,
   HERO_SURFACE_IMAGE,
 } from "@/lib/heroAtmosphere";
-import { FUNNEL_PATHS, STUDIO } from "@/content/studio";
+import { useT } from "@/components/LocaleProvider";
+import { jumpTo, parseJumpHref } from "@/lib/navigation";
+
+function markIntroSeen() {
+  try {
+    sessionStorage.setItem("sekaidev:intro-seen", "1");
+  } catch {
+    /* ignore */
+  }
+}
 
 interface HeroSectionProps {
   loaded?: boolean;
@@ -60,6 +69,7 @@ type Phase = "hero" | "forward" | "look" | "reverse";
 
 function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
   const lenis = useLenis();
+  const t = useT();
   const heroRef = useRef<HTMLElement>(null);
   const longPanelRef = useRef<HTMLDivElement>(null);
   const coverRef = useRef<HTMLDivElement>(null);
@@ -370,8 +380,15 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
     if (!scrollMachineInit.current) {
       scrollMachineInit.current = true;
       phaseRef.current = "hero";
-      if (reducedMotion) {
-        // Static hierarchy + free scroll — skip cinematic lock
+      let seenIntro = false;
+      try {
+        seenIntro = sessionStorage.getItem("sekaidev:intro-seen") === "1";
+      } catch {
+        /* ignore */
+      }
+
+      if (reducedMotion || seenIntro) {
+        // Returning visit / reduced motion — skip cinematic lock
         progressObj.current.value = 1;
         applyProgress(1);
         phaseRef.current = "look";
@@ -415,6 +432,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
         onComplete: () => {
           progressObj.current.value = 1;
           phaseRef.current = "look";
+          markIntroSeen();
           setShowSkip(false);
           // Unlock so the user can scroll the page — and swipe back up to reverse
           unlock();
@@ -527,6 +545,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
       progressObj.current.value = 1;
       applyProgress(1);
       phaseRef.current = "look";
+      markIntroSeen();
       unlock();
       setShowSkip(false);
       requestAnimationFrame(() => applyProgress(1));
@@ -562,7 +581,9 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
     // Nav links jumping past the hero must not get stuck behind the lock —
     // play the intro first, then hand off to a normal smooth scroll.
     const onJumpRequest = (e: Event) => {
-      const target = (e as CustomEvent<string>).detail;
+      const raw = (e as CustomEvent<string>).detail;
+      if (!raw) return;
+      const { hash: target } = parseJumpHref(raw);
       if (!target) return;
 
       if (target === "#home") {
@@ -598,6 +619,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
         onComplete: () => {
           progressObj.current.value = 1;
           phaseRef.current = "look";
+          markIntroSeen();
           unlock();
           requestAnimationFrame(() => {
             applyProgress(1);
@@ -761,7 +783,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
                 data-hero-reveal
                 className="text-[10px] md:text-xs tracking-[0.22em] uppercase text-foreground/60 opacity-0"
               >
-                {STUDIO.eyebrow} {STUDIO.icp}
+                {t.STUDIO.eyebrow} {t.STUDIO.icp}
               </p>
 
               <p
@@ -769,21 +791,21 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
                 className="mt-2.5 md:mt-5 font-display text-[2.2rem] leading-[0.9] sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter md:leading-[0.88] text-foreground opacity-0"
                 aria-hidden="true"
               >
-                {STUDIO.brand}
+                {t.STUDIO.brand}
               </p>
 
               <h1
                 data-hero-reveal
                 className="mt-3 md:mt-6 font-display text-xl sm:text-3xl md:text-4xl font-medium tracking-tight text-foreground max-w-[18ch] opacity-0"
               >
-                {STUDIO.tagline}
+                {t.STUDIO.tagline}
               </h1>
 
               <p
                 data-hero-reveal
                 className="mt-2.5 md:mt-4 text-[13px] sm:text-sm md:text-base text-foreground/70 max-w-md leading-relaxed opacity-0"
               >
-                {STUDIO.subline}
+                {t.STUDIO.subline}
               </p>
 
               <div
@@ -791,23 +813,14 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
                 className="mt-4 md:mt-8 flex flex-col items-stretch sm:items-start gap-2.5 md:gap-3 opacity-0 max-w-md"
               >
                 <p className="text-[10px] tracking-[0.18em] uppercase text-foreground/50">
-                  Choose your path
+                  {t.UI.choosePath}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-2.5 md:gap-3 w-full">
-                  {FUNNEL_PATHS.map((path) => (
+                  {t.FUNNEL_PATHS.map((path) => (
                     <button
                       key={path.id}
                       type="button"
-                      onClick={() => {
-                        try {
-                          sessionStorage.setItem("sekaidev:intent", path.intent);
-                        } catch {
-                          /* ignore */
-                        }
-                        window.dispatchEvent(
-                          new CustomEvent("sekaidev:jump", { detail: path.href })
-                        );
-                      }}
+                      onClick={() => jumpTo(path.href, path.intent)}
                       className="flex-1 text-left min-h-[44px] px-4 py-3 md:px-5 md:py-3.5 border border-foreground/20 bg-background hover:border-accent hover:bg-accent hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                     >
                       <span className="block text-xs tracking-widest font-medium uppercase">
@@ -820,18 +833,14 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
                   ))}
                 </div>
                 <a
-                  href={STUDIO.heroCtaPrimary.href}
+                  href={t.STUDIO.heroCtaPrimary.href}
                   onClick={(e) => {
                     e.preventDefault();
-                    window.dispatchEvent(
-                      new CustomEvent("sekaidev:jump", {
-                        detail: STUDIO.heroCtaPrimary.href,
-                      })
-                    );
+                    jumpTo(t.STUDIO.heroCtaPrimary.href);
                   }}
                   className="inline-flex min-h-[44px] items-center justify-center px-5 py-3 bg-accent text-white text-xs tracking-widest uppercase font-medium hover:bg-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 >
-                  {STUDIO.heroCtaPrimary.label} →
+                  {t.STUDIO.heroCtaPrimary.label} →
                 </a>
               </div>
             </div>
@@ -842,7 +851,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
             className="absolute bottom-[max(1.25rem,env(safe-area-inset-bottom))] md:bottom-8 left-5 right-5 sm:left-6 sm:right-6 md:left-12 md:right-12 flex justify-between items-end gap-4 opacity-0"
           >
             <p className="pointer-events-none rounded-sm bg-background/90 px-2 py-1 text-[10px] md:text-xs tracking-widest uppercase text-foreground/70 md:bg-transparent md:px-0 md:py-0 md:text-foreground/55">
-              Scroll to explore
+              {t.UI.scrollExplore}
             </p>
             {showSkip && (
               <button
@@ -850,7 +859,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
                 onClick={() => skipRef.current?.()}
                 className="pointer-events-auto inline-flex min-h-[44px] min-w-[44px] items-center justify-end rounded-sm bg-background/90 px-2 md:bg-transparent text-[10px] md:text-xs tracking-widest uppercase text-foreground/70 hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
-                Skip intro
+                {t.UI.skipIntro}
               </button>
             )}
           </div>

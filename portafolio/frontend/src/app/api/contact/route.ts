@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
 /**
- * Prefer forwarding to Go backend when BACKEND_URL is set (local parity).
- * Otherwise validate + return a demo reference so the confirmation UX works in isolation.
+ * Proxies to Go backend when BACKEND_URL is set.
+ * Production must set BACKEND_URL — never fake success after a backend failure.
+ * Demo fallback only when BACKEND_URL is unset (local UI work without Go).
  */
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -16,6 +17,7 @@ type Body = {
   budget?: string;
   message?: string;
   website?: string;
+  locale?: string;
 };
 
 function demoReference() {
@@ -49,6 +51,7 @@ export async function POST(req: NextRequest) {
   const projectType = String(body.projectType || "").trim();
   const timeline = String(body.timeline || "").trim();
   const budget = String(body.budget || "").trim();
+  const locale = String(body.locale || "").trim().slice(0, 8);
 
   if (name.length < 2 || name.length > 120) {
     return NextResponse.json({ ok: false, error: "Invalid name" }, { status: 400 });
@@ -69,7 +72,20 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "Invalid fields" }, { status: 400 });
   }
 
-  const backend = process.env.BACKEND_URL;
+  const payload = {
+    name,
+    email,
+    company,
+    industry,
+    projectType,
+    timeline,
+    budget,
+    message,
+    website: "",
+    locale,
+  };
+
+  const backend = process.env.BACKEND_URL?.trim();
   if (backend) {
     try {
       const upstream = await fetch(`${backend.replace(/\/$/, "")}/api/contact`, {
@@ -81,17 +97,50 @@ export async function POST(req: NextRequest) {
             req.headers.get("x-real-ip") ||
             "127.0.0.1",
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(12_000),
       });
       const data = await upstream.json().catch(() => ({}));
+      if (!upstream.ok) {
+        return NextResponse.json(
+          {
+            ok: false,
+            error:
+              (data as { error?: string }).error ||
+              "Could not deliver inquiry. Email hello@sekaidevec.com.",
+          },
+          { status: upstream.status >= 400 ? upstream.status : 502 }
+        );
+      }
       return NextResponse.json(data, { status: upstream.status });
     } catch (err) {
       console.error("[contact] backend proxy failed", err);
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "Studio inbox unreachable right now. Email hello@sekaidevec.com or try again.",
+        },
+        { status: 503 }
+      );
     }
   }
 
+  // Local/dev only — no BACKEND_URL
+  if (process.env.NODE_ENV === "production") {
+    console.error("[contact] BACKEND_URL missing in production");
+    return NextResponse.json(
+      {
+        ok: false,
+        error:
+          "Lead delivery is misconfigured. Email hello@sekaidevec.com directly.",
+      },
+      { status: 503 }
+    );
+  }
+
   const reference = demoReference();
-  console.info("[contact]", {
+  console.info("[contact:demo]", {
     name,
     email,
     company,
@@ -99,6 +148,7 @@ export async function POST(req: NextRequest) {
     projectType,
     timeline,
     budget,
+    locale,
     reference,
     message: message.slice(0, 200),
     at: new Date().toISOString(),

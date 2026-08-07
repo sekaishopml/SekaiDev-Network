@@ -2,25 +2,12 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useLenis } from "lenis/react";
-import {
-  CTAS,
-  NAV_LINKS,
-  NAV_TRUST,
-  SOCIALS,
-  STUDIO,
-  WHATSAPP,
-} from "@/content/studio";
+import { useLocale } from "@/components/LocaleProvider";
+import { SITE, SOCIALS, WHATSAPP, type Locale } from "@/content/config";
+import { jumpTo } from "@/lib/navigation";
 import { HERO_ENTRANCE } from "@/lib/motion/heroEntrance";
-
-function setIntent(intent?: string) {
-  if (!intent) return;
-  try {
-    sessionStorage.setItem("sekaidev:intent", intent);
-  } catch {
-    /* ignore */
-  }
-}
 
 /** Intro still owns Lenis lock — don't resume scroll under the menu. */
 function introOwnsScrollLock() {
@@ -31,16 +18,33 @@ function introOwnsScrollLock() {
 export default function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [panelVisible, setPanelVisible] = useState(false);
+  const [currentHash, setCurrentHash] = useState("");
   /** Stay quiet during loader + bonsai hold; enter with hero copy */
   const [presented, setPresented] = useState(false);
+  const { locale, t } = useLocale();
+  const pathname = usePathname();
   const menuId = useId();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const lenis = useLenis();
   const closeMenu = () => setMenuOpen(false);
 
-  const desktopLinks = NAV_LINKS.filter((l) => !l.mobileOnly);
-  const mobileLinks = NAV_LINKS;
+  const desktopLinks = t.NAV_LINKS.filter((l) => !l.mobileOnly);
+  const mobileLinks = t.NAV_LINKS;
+
+  const localeHref = (target: Locale) => {
+    const localizedPath = /^\/(en|es)(?=\/|$)/.test(pathname)
+      ? pathname.replace(/^\/(en|es)(?=\/|$)/, `/${target}`)
+      : `/${target}${pathname === "/" ? "" : pathname}`;
+    return `${localizedPath}${currentHash}`;
+  };
+
+  useEffect(() => {
+    const syncHash = () => setCurrentHash(window.location.hash);
+    syncHash();
+    window.addEventListener("hashchange", syncHash);
+    return () => window.removeEventListener("hashchange", syncHash);
+  }, []);
 
   useEffect(() => {
     const reduced = window.matchMedia(
@@ -74,9 +78,8 @@ export default function Navigation() {
   ) => {
     if (!href.startsWith("#")) return;
     e.preventDefault();
-    setIntent(intent);
     closeMenu();
-    window.dispatchEvent(new CustomEvent("sekaidev:jump", { detail: href }));
+    jumpTo(href, intent);
   };
 
   useEffect(() => {
@@ -160,6 +163,27 @@ export default function Navigation() {
           </nav>
 
           <div className="hidden lg:flex relative z-10 flex-col items-end text-right justify-center gap-1 shrink-0 min-w-[11rem]">
+            <div
+              className="flex items-center gap-2 text-[10px] tracking-widest mb-1"
+              aria-label={t.langSwitch.label}
+            >
+              {(["en", "es"] as const).map((lang, index) => (
+                <span key={lang} className="contents">
+                  {index > 0 && <span aria-hidden>|</span>}
+                  <Link
+                    href={localeHref(lang)}
+                    aria-current={locale === lang ? "page" : undefined}
+                    className={
+                      locale === lang
+                        ? "font-bold text-foreground"
+                        : "text-muted hover:text-accent transition-colors"
+                    }
+                  >
+                    {t.langSwitch[lang]}
+                  </Link>
+                </span>
+              ))}
+            </div>
             {SOCIALS.length > 0 && (
               <div className="flex gap-6 lg:gap-8 text-[10px] lg:text-xs tracking-widest font-medium mb-1">
                 {SOCIALS.map((s, i) => (
@@ -182,13 +206,13 @@ export default function Navigation() {
               </div>
             )}
             <span className="text-[10px] lg:text-xs tracking-widest text-muted whitespace-nowrap">
-              Available for projects
+              {t.STUDIO.available}
             </span>
             <a
-              href={`mailto:${STUDIO.email}`}
+              href={`mailto:${SITE.email}`}
               className="text-[10px] lg:text-xs tracking-widest hover:text-accent transition-colors whitespace-nowrap"
             >
-              {STUDIO.email.toUpperCase()}
+              {SITE.email.toUpperCase()}
             </a>
           </div>
 
@@ -196,7 +220,7 @@ export default function Navigation() {
             type="button"
             onClick={() => setMenuOpen(true)}
             className="lg:hidden relative z-10 min-h-[44px] min-w-[44px] w-11 h-11 flex flex-col justify-center items-center gap-[5px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-            aria-label="Open menu"
+            aria-label={t.UI.openMenu}
             aria-expanded={menuOpen}
             aria-controls={menuId}
             aria-haspopup="dialog"
@@ -252,7 +276,7 @@ export default function Navigation() {
               type="button"
               onClick={closeMenu}
               className="relative min-h-[44px] min-w-[44px] w-11 h-11 flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              aria-label="Close menu"
+              aria-label={t.UI.closeMenu}
             >
               <span className="absolute block w-6 h-px bg-foreground rotate-45" />
               <span className="absolute block w-6 h-px bg-foreground -rotate-45" />
@@ -295,34 +319,56 @@ export default function Navigation() {
             </nav>
 
             <p className="mt-6 text-[10px] tracking-widest uppercase text-foreground/55">
-              {NAV_TRUST}
+              {t.NAV_TRUST}
             </p>
 
             <div className="mt-auto flex flex-col gap-3 pt-10">
+              <div
+                className="flex justify-center items-center gap-3 text-xs tracking-widest"
+                aria-label={t.langSwitch.label}
+              >
+                {(["en", "es"] as const).map((lang, index) => (
+                  <span key={lang} className="contents">
+                    {index > 0 && <span aria-hidden>|</span>}
+                    <Link
+                      href={localeHref(lang)}
+                      onClick={closeMenu}
+                      aria-current={locale === lang ? "page" : undefined}
+                      className={
+                        locale === lang
+                          ? "font-bold text-foreground"
+                          : "text-muted hover:text-accent transition-colors"
+                      }
+                    >
+                      {t.langSwitch[lang]}
+                    </Link>
+                  </span>
+                ))}
+              </div>
               <a
-                href={CTAS.primary.href}
-                onClick={(e) => handleNavClick(e, CTAS.primary.href)}
+                href={t.CTAS.primary.href}
+                onClick={(e) => handleNavClick(e, t.CTAS.primary.href)}
                 className="inline-flex min-h-[44px] items-center justify-center px-6 py-3 bg-accent text-white text-xs tracking-widest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
-                {CTAS.primary.labelUpper}
+                {t.CTAS.primary.labelUpper}
               </a>
               {WHATSAPP ? (
                 <a
-                  href={WHATSAPP.href}
+                  href={WHATSAPP.prefill(t.CONTACT_COPY.whatsappPrefill)}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={closeMenu}
                   className="inline-flex min-h-[44px] items-center justify-center px-6 py-3 border border-foreground/25 text-xs tracking-widest hover:border-accent hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 >
-                  {CTAS.whatsapp.labelUpper}
+                  {t.CTAS.whatsapp.labelUpper}
                 </a>
               ) : (
                 <a
-                  href={CTAS.pricing.href}
-                  onClick={(e) => handleNavClick(e, CTAS.pricing.href)}
+                  href={t.CTAS.pricing.href}
+                  onClick={(e) => handleNavClick(e, t.CTAS.pricing.href)}
                   className="inline-flex min-h-[44px] items-center justify-center px-6 py-3 border border-foreground/25 text-xs tracking-widest hover:border-accent hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 >
-                  {CTAS.pricing.labelUpper}
+                  {t.CTAS.pricing.labelUpper}
                 </a>
               )}
               {SOCIALS.length > 0 && (
@@ -341,10 +387,10 @@ export default function Navigation() {
                 </div>
               )}
               <a
-                href={`mailto:${STUDIO.email}`}
+                href={`mailto:${SITE.email}`}
                 className="mt-1 block text-center text-xs tracking-widest text-muted hover:text-accent transition-colors"
               >
-                {STUDIO.email.toUpperCase()}
+                {SITE.email.toUpperCase()}
               </a>
             </div>
           </div>

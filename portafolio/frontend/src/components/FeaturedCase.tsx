@@ -2,11 +2,13 @@
 
 import { useRef } from "react";
 import { useSectionReveal } from "@/hooks/useSectionReveal";
-import { CTAS, FEATURED_CASE } from "@/content/studio";
+import { useT } from "@/components/LocaleProvider";
+import { jumpTo } from "@/lib/navigation";
 
 export default function FeaturedCase() {
   const rootRef = useRef<HTMLElement>(null);
-  const c = FEATURED_CASE;
+  const t = useT();
+  const c = t.FEATURED_CASE;
 
   useSectionReveal(rootRef);
 
@@ -128,14 +130,10 @@ export default function FeaturedCase() {
           </div>
           <button
             type="button"
-            onClick={() =>
-              window.dispatchEvent(
-                new CustomEvent("sekaidev:jump", { detail: "#contact" })
-              )
-            }
+            onClick={() => jumpTo(t.CTAS.primary.href)}
             className="mt-2 inline-flex items-center gap-2 text-xs tracking-widest uppercase border-b border-background/40 pb-1 hover:border-background hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-background"
           >
-            {CTAS.featuredCase}
+            {t.CTAS.featuredCase}
             <span aria-hidden>→</span>
           </button>
         </div>

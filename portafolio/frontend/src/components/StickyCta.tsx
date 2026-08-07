@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CTAS, NAV_TRUST, WHATSAPP } from "@/content/studio";
+import { useT } from "@/components/LocaleProvider";
+import { WHATSAPP } from "@/content/config";
+import { jumpTo } from "@/lib/navigation";
 
 /**
  * Desktop side CTA + mobile bottom bar. Appears after Offer;
@@ -13,6 +15,7 @@ export default function StickyCta() {
   const [visible, setVisible] = useState(false);
   const [hideForContact, setHideForContact] = useState(false);
   const [hideForHero, setHideForHero] = useState(true);
+  const t = useT();
 
   useEffect(() => {
     const offer = document.getElementById("offer");
@@ -86,19 +89,17 @@ export default function StickyCta() {
   }, []);
 
   const show = visible && !hideForContact && !hideForHero;
-  const label = CTAS.primary.labelUpper;
-  const href = CTAS.primary.href;
+  const label = t.CTAS.primary.labelUpper;
+  const href = t.CTAS.primary.href;
 
-  const jump = () => {
-    window.dispatchEvent(new CustomEvent("sekaidev:jump", { detail: href }));
-  };
+  const jump = () => jumpTo(href);
 
   return (
     <>
       <button
         type="button"
         onClick={jump}
-        aria-label={CTAS.primary.label}
+        aria-label={t.CTAS.primary.label}
         aria-hidden={!show}
         tabIndex={show ? 0 : -1}
         className={`hidden md:block fixed right-6 bottom-8 z-40 px-5 py-3 min-h-[44px] bg-accent text-white text-[10px] tracking-widest font-medium shadow-lg transition-[opacity,transform] duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
@@ -117,7 +118,7 @@ export default function StickyCta() {
         aria-hidden={!show}
       >
         <p className="mb-2 text-center text-[9px] tracking-widest uppercase text-foreground/45 truncate">
-          {NAV_TRUST}
+          {t.NAV_TRUST}
         </p>
         <div className={`grid gap-2 ${WHATSAPP ? "grid-cols-2" : "grid-cols-1"}`}>
           <button
@@ -130,13 +131,13 @@ export default function StickyCta() {
           </button>
           {WHATSAPP && (
             <a
-              href={WHATSAPP.href}
+              href={WHATSAPP.prefill(t.CONTACT_COPY.whatsappPrefill)}
               target="_blank"
               rel="noopener noreferrer"
               tabIndex={show ? 0 : -1}
               className="inline-flex w-full min-h-[44px] items-center justify-center border border-foreground/25 text-xs tracking-widest font-medium hover:border-accent hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
-              {CTAS.whatsapp.labelUpper}
+              {t.CTAS.whatsapp.labelUpper}
             </a>
           )}
         </div>

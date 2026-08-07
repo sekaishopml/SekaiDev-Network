@@ -3,17 +3,9 @@
 import { FormEvent, ReactNode, useEffect, useId, useState } from "react";
 import { useRef } from "react";
 import { useSectionReveal } from "@/hooks/useSectionReveal";
-import {
-  BUDGETS,
-  CONTACT_COPY,
-  CTAS,
-  INDUSTRIES,
-  PROJECT_TYPES,
-  STUDIO,
-  TIMELINES,
-  TRUST_STRIP,
-  WHATSAPP,
-} from "@/content/studio";
+import { useLocale } from "@/components/LocaleProvider";
+import { SITE, WHATSAPP } from "@/content/config";
+import { clearIntent, getIntent, parseJumpHref } from "@/lib/navigation";
 
 interface ContactProps {
   footer?: ReactNode;
@@ -47,6 +39,7 @@ export default function Contact({ footer }: ContactProps) {
   const [reference, setReference] = useState("");
   const [intent, setIntent] = useState("");
   const [industryDefault, setIndustryDefault] = useState("");
+  const { locale, t } = useLocale();
   const uid = useId();
   useSectionReveal(rootRef);
 
@@ -56,21 +49,15 @@ export default function Contact({ footer }: ContactProps) {
       setIntent(nextIntent);
       // Prefill only for clear product path — never invent a vertical
       if (nextIntent === "product") {
-        setIndustryDefault("Startup / product");
+        setIndustryDefault(t.INDUSTRIES[0]);
       } else {
         setIndustryDefault("");
       }
     };
 
     const readIntent = () => {
-      try {
-        const params = new URLSearchParams(window.location.search);
-        const fromUrl = params.get("intent") || "";
-        const fromSession = sessionStorage.getItem("sekaidev:intent") || "";
-        applyIntent(fromUrl || fromSession);
-      } catch {
-        /* ignore */
-      }
+      const fromUrl = parseJumpHref(window.location.href).intent || "";
+      applyIntent(fromUrl || getIntent());
     };
 
     readIntent();
@@ -85,22 +72,22 @@ export default function Contact({ footer }: ContactProps) {
       window.removeEventListener("sekaidev:jump", onJump);
       window.removeEventListener("focus", readIntent);
     };
-  }, []);
+  }, [t]);
 
   const defaultProjectType = (() => {
     if (intent === "sprint" || intent === "services")
-      return "Brand / marketing site";
+      return t.PROJECT_TYPES[1];
     if (intent === "launch" || intent === "product" || intent === "partner")
-      return "Product / web app";
+      return t.PROJECT_TYPES[0];
     return "";
   })();
 
   const defaultBudget = (() => {
-    if (intent === "sprint") return "$7.5k–$12k (Sprint-sized)";
-    if (intent === "launch") return "$22k–$45k (Launch-sized)";
-    if (intent === "partner") return "Monthly retainer ($9.5k+ / mo)";
-    if (intent === "services") return "$7.5k–$12k (Sprint-sized)";
-    if (intent === "product") return "$22k–$45k (Launch-sized)";
+    if (intent === "sprint") return t.BUDGETS[0];
+    if (intent === "launch") return t.BUDGETS[2];
+    if (intent === "partner") return t.BUDGETS[4];
+    if (intent === "services") return t.BUDGETS[0];
+    if (intent === "product") return t.BUDGETS[2];
     return "";
   })();
 
@@ -123,6 +110,7 @@ export default function Contact({ footer }: ContactProps) {
       budget: String(data.get("budget") || "").trim(),
       message: String(data.get("message") || "").trim(),
       website: String(data.get("website") || "").trim(),
+      locale,
     };
 
     try {
@@ -136,25 +124,18 @@ export default function Contact({ footer }: ContactProps) {
 
       if (res.status === 429) {
         setStatus("rate_limited");
-        setErrorMsg(
-          body.error ||
-            "Too many attempts — try again in a few minutes or email us."
-        );
+        setErrorMsg(t.UI.contactErrors.rateLimited);
         return;
       }
 
       if (!res.ok || body.ok === false) {
-        throw new Error(body.error || "Failed to send");
+        throw new Error(t.UI.contactErrors.generic);
       }
 
       setReference(body.reference || "");
       setStatus("ok");
       form.reset();
-      try {
-        sessionStorage.removeItem("sekaidev:intent");
-      } catch {
-        /* ignore */
-      }
+      clearIntent();
       trackInquiry(body.reference);
     } catch (err) {
       const subject = encodeURIComponent(
@@ -173,12 +154,12 @@ export default function Contact({ footer }: ContactProps) {
           `— ${payload.name} <${payload.email}>`,
         ].join("\n")
       );
-      window.location.href = `mailto:${STUDIO.email}?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:${SITE.email}?subject=${subject}&body=${body}`;
       setStatus("error");
       setErrorMsg(
-        err instanceof Error
-          ? `${err.message}. Opening your email client as a backup.`
-          : "Opening your email client as a backup."
+        `${err instanceof Error ? err.message : t.UI.contactErrors.generic} ${
+          t.UI.contactErrors.mailtoBackup
+        }`
       );
     } finally {
       sendingRef.current = false;
@@ -197,19 +178,19 @@ export default function Contact({ footer }: ContactProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
         <div data-reveal>
           <span className="text-muted text-xs tracking-widest">
-            07 — {CONTACT_COPY.sectionLabel.toUpperCase()}
+            08 — {t.CONTACT_COPY.sectionLabel.toUpperCase()}
           </span>
           <h2 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold mt-4 leading-tight">
-            {CONTACT_COPY.headlineLine1}
+            {t.CONTACT_COPY.headlineLine1}
             <br />
-            {CONTACT_COPY.headlineLine2}
+            {t.CONTACT_COPY.headlineLine2}
           </h2>
           <p className="mt-4 md:mt-6 text-sm md:text-base text-foreground/80 max-w-md">
-            {CONTACT_COPY.subline}
+            {t.CONTACT_COPY.subline}
           </p>
 
           <ul className="mt-6 flex flex-col gap-2 max-w-sm">
-            {TRUST_STRIP.map((line) => (
+            {t.TRUST_STRIP.map((line) => (
               <li
                 key={line}
                 className="text-[10px] tracking-widest uppercase text-foreground/55 border-l border-accent/60 pl-3"
@@ -221,24 +202,24 @@ export default function Contact({ footer }: ContactProps) {
 
           <div className="mt-6 flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-5">
             <a
-              href={`mailto:${STUDIO.email}`}
+              href={`mailto:${SITE.email}`}
               className="inline-block text-xs tracking-widest hover:text-accent transition-colors underline-offset-4 hover:underline"
             >
-              {STUDIO.email.toUpperCase()}
+              {SITE.email.toUpperCase()}
             </a>
             {WHATSAPP && (
               <a
-                href={WHATSAPP.href}
+                href={WHATSAPP.prefill(t.CONTACT_COPY.whatsappPrefill)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block text-xs tracking-widest hover:text-accent transition-colors underline-offset-4 hover:underline"
               >
-                {CTAS.whatsapp.labelUpper}
+                {t.CTAS.whatsapp.labelUpper}
               </a>
             )}
           </div>
           <p className="mt-4 text-[10px] tracking-widest text-muted uppercase max-w-xs">
-            {CONTACT_COPY.privacyNote}
+            {t.CONTACT_COPY.privacyNote}
           </p>
         </div>
 
@@ -249,10 +230,10 @@ export default function Contact({ footer }: ContactProps) {
             role="status"
           >
             <p className="text-[10px] tracking-widest text-accent uppercase">
-              {CONTACT_COPY.successTitle}
+              {t.CONTACT_COPY.successTitle}
             </p>
             <p className="mt-4 font-display text-2xl md:text-3xl font-bold leading-tight">
-              {CONTACT_COPY.successBody}
+              {t.CONTACT_COPY.successBody}
             </p>
             {reference && (
               <p className="mt-6 text-xs tracking-widest text-foreground/70">
@@ -266,19 +247,19 @@ export default function Contact({ footer }: ContactProps) {
             </p>
             <div className="mt-6 flex flex-col gap-3">
               <a
-                href={`mailto:${STUDIO.email}`}
+                href={`mailto:${SITE.email}`}
                 className="inline-block text-[10px] tracking-widest uppercase text-foreground/70 hover:text-accent transition-colors"
               >
-                Email {STUDIO.email} →
+                {SITE.email} →
               </a>
               {WHATSAPP && (
                 <a
-                  href={WHATSAPP.href}
+                  href={WHATSAPP.prefill(t.CONTACT_COPY.whatsappPrefill)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block text-[10px] tracking-widest uppercase text-foreground/70 hover:text-accent transition-colors"
                 >
-                  Continue on WhatsApp →
+                  {t.CTAS.whatsapp.label} →
                 </a>
               )}
             </div>
@@ -305,7 +286,7 @@ export default function Contact({ footer }: ContactProps) {
               htmlFor={`${uid}-name`}
               className="text-[10px] md:text-xs tracking-widest text-muted"
             >
-              {CONTACT_COPY.fields.name.label.toUpperCase()}
+              {t.CONTACT_COPY.fields.name.label.toUpperCase()}
             </label>
             <input
               id={`${uid}-name`}
@@ -322,7 +303,7 @@ export default function Contact({ footer }: ContactProps) {
               htmlFor={`${uid}-email`}
               className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
             >
-              {CONTACT_COPY.fields.email.label.toUpperCase()}
+              {t.CONTACT_COPY.fields.email.label.toUpperCase()}
             </label>
             <input
               id={`${uid}-email`}
@@ -338,7 +319,7 @@ export default function Contact({ footer }: ContactProps) {
               htmlFor={`${uid}-message`}
               className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
             >
-              {CONTACT_COPY.fields.message.label.toUpperCase()}
+              {t.CONTACT_COPY.fields.message.label.toUpperCase()}
             </label>
             <textarea
               id={`${uid}-message`}
@@ -347,7 +328,7 @@ export default function Contact({ footer }: ContactProps) {
               minLength={10}
               maxLength={4000}
               rows={3}
-              placeholder={CONTACT_COPY.fields.message.placeholder}
+              placeholder={t.CONTACT_COPY.fields.message.placeholder}
               className={`${field} resize-none`}
             />
 
@@ -355,7 +336,7 @@ export default function Contact({ footer }: ContactProps) {
               htmlFor={`${uid}-budget`}
               className="text-[10px] md:text-xs tracking-widest text-muted mt-1"
             >
-              {CONTACT_COPY.fields.budget.label.toUpperCase()}
+              {t.CONTACT_COPY.fields.budget.label.toUpperCase()}
             </label>
             <select
               id={`${uid}-budget`}
@@ -366,11 +347,11 @@ export default function Contact({ footer }: ContactProps) {
               className={`${field} appearance-none`}
             >
               <option value="" disabled>
-                {CONTACT_COPY.fields.budget.placeholder}
+                {t.CONTACT_COPY.fields.budget.placeholder}
               </option>
-              {BUDGETS.map((t) => (
-                <option key={t} value={t}>
-                  {t}
+              {t.BUDGETS.map((budget) => (
+                <option key={budget} value={budget}>
+                  {budget}
                 </option>
               ))}
             </select>
@@ -378,7 +359,7 @@ export default function Contact({ footer }: ContactProps) {
             <details className="mt-1 group">
               <summary className="cursor-pointer list-none text-[10px] tracking-widest uppercase text-foreground/50 hover:text-accent transition-colors [&::-webkit-details-marker]:hidden">
                 <span className="border-b border-foreground/20 group-open:border-accent/40 pb-0.5">
-                  Timeline, type &amp; context — optional
+                  {t.CONTACT_COPY.optionalDetails}
                 </span>
               </summary>
               <div className="mt-3 flex flex-col gap-3 md:gap-4">
@@ -388,7 +369,7 @@ export default function Contact({ footer }: ContactProps) {
                       htmlFor={`${uid}-timeline`}
                       className="text-[10px] md:text-xs tracking-widest text-muted"
                     >
-                      {CONTACT_COPY.fields.timeline.label.toUpperCase()}
+                      {t.CONTACT_COPY.fields.timeline.label.toUpperCase()}
                     </label>
                     <select
                       id={`${uid}-timeline`}
@@ -397,11 +378,11 @@ export default function Contact({ footer }: ContactProps) {
                       className={`${field} appearance-none`}
                     >
                       <option value="">
-                        {CONTACT_COPY.fields.timeline.placeholder}
+                        {t.CONTACT_COPY.fields.timeline.placeholder}
                       </option>
-                      {TIMELINES.map((t) => (
-                        <option key={t} value={t}>
-                          {t}
+                      {t.TIMELINES.map((timeline) => (
+                        <option key={timeline} value={timeline}>
+                          {timeline}
                         </option>
                       ))}
                     </select>
@@ -411,7 +392,7 @@ export default function Contact({ footer }: ContactProps) {
                       htmlFor={`${uid}-type`}
                       className="text-[10px] md:text-xs tracking-widest text-muted"
                     >
-                      {CONTACT_COPY.fields.projectType.label.toUpperCase()}
+                      {t.CONTACT_COPY.fields.projectType.label.toUpperCase()}
                     </label>
                     <select
                       id={`${uid}-type`}
@@ -421,11 +402,11 @@ export default function Contact({ footer }: ContactProps) {
                       className={`${field} appearance-none`}
                     >
                       <option value="">
-                        {CONTACT_COPY.fields.projectType.placeholder}
+                        {t.CONTACT_COPY.fields.projectType.placeholder}
                       </option>
-                      {PROJECT_TYPES.map((t) => (
-                        <option key={t} value={t}>
-                          {t}
+                      {t.PROJECT_TYPES.map((projectType) => (
+                        <option key={projectType} value={projectType}>
+                          {projectType}
                         </option>
                       ))}
                     </select>
@@ -436,7 +417,7 @@ export default function Contact({ footer }: ContactProps) {
                   htmlFor={`${uid}-company`}
                   className="text-[10px] md:text-xs tracking-widest text-muted"
                 >
-                  {CONTACT_COPY.fields.company.label.toUpperCase()}
+                  {t.CONTACT_COPY.fields.company.label.toUpperCase()}
                 </label>
                 <input
                   id={`${uid}-company`}
@@ -451,7 +432,7 @@ export default function Contact({ footer }: ContactProps) {
                   htmlFor={`${uid}-industry`}
                   className="text-[10px] md:text-xs tracking-widest text-muted"
                 >
-                  {CONTACT_COPY.fields.industry.label.toUpperCase()}
+                  {t.CONTACT_COPY.fields.industry.label.toUpperCase()}
                 </label>
                 <select
                   id={`${uid}-industry`}
@@ -461,11 +442,11 @@ export default function Contact({ footer }: ContactProps) {
                   className={`${field} appearance-none`}
                 >
                   <option value="">
-                    {CONTACT_COPY.fields.industry.placeholder}
+                    {t.CONTACT_COPY.fields.industry.placeholder}
                   </option>
-                  {INDUSTRIES.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
+                  {t.INDUSTRIES.map((industry) => (
+                    <option key={industry} value={industry}>
+                      {industry}
                     </option>
                   ))}
                 </select>
@@ -473,7 +454,7 @@ export default function Contact({ footer }: ContactProps) {
             </details>
 
             <p className="mt-1 text-[10px] tracking-widest uppercase text-foreground/45 leading-relaxed">
-              {CONTACT_COPY.trustLine}
+              {t.CONTACT_COPY.trustLine}
             </p>
 
             <button
@@ -482,8 +463,8 @@ export default function Contact({ footer }: ContactProps) {
               className="mt-1 self-start w-full md:w-auto px-8 py-3 bg-accent text-white border border-accent text-[10px] md:text-xs tracking-widest font-medium hover:bg-foreground hover:border-foreground transition-colors disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               {status === "sending"
-                ? CONTACT_COPY.submit.sending.toUpperCase()
-                : CONTACT_COPY.submit.idle.toUpperCase()}
+                ? t.CONTACT_COPY.submit.sending.toUpperCase()
+                : t.CONTACT_COPY.submit.idle.toUpperCase()}
             </button>
             {(status === "error" || status === "rate_limited") && errorMsg && (
               <p

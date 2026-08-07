@@ -2,21 +2,16 @@
 
 import { useRef } from "react";
 import { useSectionReveal } from "@/hooks/useSectionReveal";
-import { CTAS, PRICING } from "@/content/studio";
+import { useT } from "@/components/LocaleProvider";
+import { jumpTo } from "@/lib/navigation";
 
 export default function PricingSection() {
   const rootRef = useRef<HTMLElement>(null);
+  const t = useT();
   useSectionReveal(rootRef, { preset: "cards" });
 
   const jump = (intent: string) => {
-    const href = `${CTAS.primary.href}?intent=${intent}`;
-    window.dispatchEvent(new CustomEvent("sekaidev:jump", { detail: href }));
-    // Persist intent for Contact form after Lenis jump
-    try {
-      sessionStorage.setItem("sekaidev:intent", intent);
-    } catch {
-      /* ignore */
-    }
+    jumpTo(t.CTAS.primary.href, intent);
   };
 
   return (
@@ -27,18 +22,18 @@ export default function PricingSection() {
     >
       <div className="max-w-3xl" data-reveal>
         <span className="text-background/50 text-xs tracking-widest uppercase">
-          05 — {PRICING.sectionLabel}
+          05 — {t.PRICING.sectionLabel}
         </span>
         <h2 className="font-display text-3xl md:text-5xl font-bold mt-4 leading-tight">
-          {PRICING.headline}
+          {t.PRICING.headline}
         </h2>
         <p className="mt-4 text-sm md:text-base text-background/70 max-w-xl leading-relaxed">
-          {PRICING.subline}
+          {t.PRICING.subline}
         </p>
       </div>
 
       <div className="mt-12 md:mt-16 grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-0 border-t border-background/20">
-        {PRICING.tiers.map((tier) => (
+        {t.PRICING.tiers.map((tier) => (
           <article
             key={tier.id}
             data-reveal
@@ -50,7 +45,7 @@ export default function PricingSection() {
           >
             {"featured" in tier && tier.featured && (
               <span className="absolute top-8 right-0 lg:right-8 text-[9px] tracking-[0.2em] uppercase text-accent">
-                Recommended
+                {t.PRICING.recommended}
               </span>
             )}
             <p className="text-[10px] tracking-[0.2em] uppercase text-background/45">
@@ -92,14 +87,14 @@ export default function PricingSection() {
         data-reveal
       >
         <p className="text-[10px] md:text-xs tracking-widest uppercase text-background/45 max-w-lg leading-relaxed">
-          {PRICING.disclaimer}
+          {t.PRICING.disclaimer}
         </p>
         <button
           type="button"
           onClick={() => jump("launch")}
           className="inline-flex min-h-[44px] items-center text-[10px] md:text-xs tracking-widest uppercase text-background/70 hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
-          {CTAS.pricingFoot} →
+          {t.CTAS.pricingFoot} →
         </button>
       </div>
     </section>

@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { STUDIO } from "@/content/studio";
+import { SITE } from "@/content/config";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: `${STUDIO.siteUrl}/sitemap.xml`,
+    sitemap: `${SITE.siteUrl}/sitemap.xml`,
   };
 }

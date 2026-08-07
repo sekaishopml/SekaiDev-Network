@@ -3,7 +3,8 @@
 import { memo, type MouseEvent } from "react";
 import styles from "./LookSection.module.css";
 import LookDesignStage from "@/components/LookDesignStage";
-import { CTAS, LOOK_COPY } from "@/content/studio";
+import { useT } from "@/components/LocaleProvider";
+import { jumpTo } from "@/lib/navigation";
 
 /**
  * LOOK composition — craft opener → hire payoff.
@@ -11,11 +12,11 @@ import { CTAS, LOOK_COPY } from "@/content/studio";
  * #bonsai-target / #media-long remain measurable geometry targets.
  */
 function LookSection() {
+  const t = useT();
+
   const jumpContact = (e: MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    window.dispatchEvent(
-      new CustomEvent("sekaidev:jump", { detail: CTAS.primary.href })
-    );
+    jumpTo(t.CTAS.primary.href);
   };
 
   return (
@@ -23,13 +24,13 @@ function LookSection() {
       <div className={styles.lookStage}>
         <div className={styles.lookTopBlock}>
           <h2 id="look-title" className={styles.ghostText}>
-            {LOOK_COPY.look}
+            {t.LOOK_COPY.look}
           </h2>
           <p
             id="look-beyond"
             className={`${styles.subLabel} ${styles.lookBeyond}`}
           >
-            {LOOK_COPY.closer} {LOOK_COPY.past}
+            {t.LOOK_COPY.closer} {t.LOOK_COPY.past}
           </p>
         </div>
 
@@ -48,22 +49,22 @@ function LookSection() {
         </div>
 
         <h2 id="look-find" className={`${styles.ghostText} ${styles.findBlock}`}>
-          {LOOK_COPY.find}
+          {t.LOOK_COPY.find}
         </h2>
 
         <div className={styles.lookClose}>
           <h3 id="look-true" className={`${styles.headline} ${styles.trueBlock}`}>
-            {LOOK_COPY.signal}
-            <span className={styles.shipLine}>{LOOK_COPY.ship}</span>
-            <span className={styles.closeSub}>{LOOK_COPY.subline}</span>
+            {t.LOOK_COPY.signal}
+            <span className={styles.shipLine}>{t.LOOK_COPY.ship}</span>
+            <span className={styles.closeSub}>{t.LOOK_COPY.subline}</span>
           </h3>
 
           <a
-            href={CTAS.primary.href}
+            href={t.CTAS.primary.href}
             onClick={jumpContact}
             className={styles.lookCta}
           >
-            {CTAS.primary.labelUpper}
+            {t.CTAS.primary.labelUpper}
           </a>
         </div>
       </div>
