@@ -177,7 +177,7 @@ export default function Contact({ footer }: ContactProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
         <div data-reveal>
           <span className="text-muted text-xs tracking-widest">
-            08 — {t.CONTACT_COPY.sectionLabel.toUpperCase()}
+            07 — {t.CONTACT_COPY.sectionLabel.toUpperCase()}
           </span>
           <h2 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold mt-4 leading-tight">
             {t.CONTACT_COPY.headlineLine1}

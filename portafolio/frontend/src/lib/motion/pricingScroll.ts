@@ -1,15 +1,14 @@
-/** ScrollTrigger values for the Investment horizontal rail (section 05). */
-
-const DESKTOP_MIN_WIDTH = 768;
-const DESKTOP_MIN_HEIGHT = 640;
+/** ScrollTrigger values for the Investment horizontal rail. */
 
 export const PRICING_SCROLL = {
-  /** Pin + scrub horizontal — needs room to breathe. */
-  desktopQuery: `(min-width: ${DESKTOP_MIN_WIDTH}px) and (min-height: ${DESKTOP_MIN_HEIGHT}px)`,
-  /** Native snap rail on phones / short viewports. */
-  mobileQuery: `(max-width: ${DESKTOP_MIN_WIDTH - 1}px), (max-height: ${DESKTOP_MIN_HEIGHT - 1}px)`,
   reducedMotionQuery: "(prefers-reduced-motion: reduce)",
-  scrub: 0.85,
-  /** Extra scroll distance as a fraction of the horizontal travel. */
-  endPad: 0.08,
+  /** Soft catch-up so the carousel feels locked to the wheel/touch. */
+  scrub: 0.55,
+  /**
+   * Extra vertical scroll after the track finishes traveling — keeps the
+   * section "frozen" a beat so the last card is readable before unpinning.
+   */
+  endPadScreens: 0.35,
+  /** Minimum horizontal travel so pin always has something to scrub. */
+  minTravelPx: 480,
 } as const;

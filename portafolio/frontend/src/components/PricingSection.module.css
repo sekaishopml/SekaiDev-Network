@@ -1,7 +1,8 @@
+/* Do NOT use overflow: clip/hidden on this section — it breaks ScrollTrigger pin. */
 .section {
   position: relative;
   width: 100%;
-  overflow: clip;
+  overflow: visible;
   color: #f0ebe6;
   background: #0c0c0e;
 }
@@ -25,15 +26,15 @@
   display: flex;
   flex-direction: column;
   padding:
-    calc(4.25rem + env(safe-area-inset-top, 0px))
+    calc(3.75rem + env(safe-area-inset-top, 0px))
     0
-    calc(2.5rem + env(safe-area-inset-bottom, 0px));
+    calc(1.75rem + env(safe-area-inset-bottom, 0px));
 }
 
 .head {
   flex-shrink: 0;
   padding: 0 clamp(1.15rem, 4vw, 3rem);
-  max-width: 44rem;
+  max-width: 40rem;
 }
 
 .eyebrow {
@@ -45,10 +46,10 @@
 }
 
 .title {
-  margin: 0.75rem 0 0;
+  margin: 0.55rem 0 0;
   font-family: var(--font-oswald), sans-serif;
   font-weight: 700;
-  font-size: clamp(2.35rem, 7vw, 3.75rem);
+  font-size: clamp(2.1rem, 6vw, 3.25rem);
   line-height: 0.95;
   letter-spacing: -0.035em;
   text-transform: uppercase;
@@ -56,21 +57,21 @@
 }
 
 .subline {
-  margin: 0.9rem 0 0;
-  font-size: clamp(0.9rem, 2.4vw, 1.05rem);
-  line-height: 1.55;
+  margin: 0.65rem 0 0;
+  font-size: clamp(0.85rem, 2.2vw, 0.98rem);
+  line-height: 1.5;
   color: rgba(240, 235, 230, 0.68);
-  max-width: 36rem;
+  max-width: 34rem;
 }
 
 .marketNote {
-  margin: 0.85rem 0 0;
-  font-size: 0.625rem;
+  margin: 0.65rem 0 0;
+  font-size: 0.575rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgba(232, 150, 175, 0.72);
-  max-width: 38rem;
-  line-height: 1.5;
+  max-width: 36rem;
+  line-height: 1.45;
 }
 
 .railMeta {
@@ -78,13 +79,13 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-top: 1.35rem;
+  margin-top: 1rem;
   padding: 0 clamp(1.15rem, 4vw, 3rem);
   flex-shrink: 0;
 }
 
 .hint {
-  font-size: 0.575rem;
+  font-size: 0.55rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: rgba(240, 235, 230, 0.4);
@@ -92,7 +93,7 @@
 
 .progressTrack {
   flex: 1;
-  max-width: 12rem;
+  max-width: 14rem;
   height: 1px;
   background: rgba(240, 235, 230, 0.12);
   overflow: hidden;
@@ -112,16 +113,16 @@
   position: relative;
   flex: 1;
   min-height: 0;
-  margin-top: 1.25rem;
+  margin-top: 1rem;
   overflow: hidden;
 }
 
 .track {
   display: flex;
   align-items: stretch;
-  gap: clamp(0.85rem, 2vw, 1.25rem);
+  gap: 1rem;
   height: 100%;
-  padding: 0.35rem clamp(1.15rem, 4vw, 3rem) 0.5rem;
+  padding: 0.25rem clamp(1.15rem, 4vw, 3rem) 0.35rem;
   width: max-content;
   will-change: transform;
 }
@@ -129,16 +130,18 @@
 .card {
   position: relative;
   flex: 0 0 auto;
-  width: min(82vw, 21.5rem);
+  /* Fixed-ish widths so the track always overflows the viewport → pin has travel. */
+  width: min(78vw, 20rem);
   display: flex;
   flex-direction: column;
-  padding: 1.35rem 1.25rem 1.4rem;
+  padding: 1.2rem 1.15rem 1.25rem;
   border: 1px solid rgba(240, 235, 230, 0.14);
   background: rgba(18, 18, 22, 0.92);
   color: #f0ebe6;
 }
 
 .cardFeatured {
+  width: min(82vw, 21.5rem);
   border-color: rgba(232, 150, 175, 0.45);
   background:
     linear-gradient(165deg, rgba(58, 28, 40, 0.55) 0%, rgba(14, 14, 16, 0.96) 48%, rgba(18, 18, 22, 0.98) 100%);
@@ -147,8 +150,8 @@
 
 .badge {
   position: absolute;
-  top: 1.1rem;
-  right: 1.1rem;
+  top: 1rem;
+  right: 1rem;
   font-size: 0.5rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -159,7 +162,7 @@
 
 .timeline {
   margin: 0;
-  font-size: 0.575rem;
+  font-size: 0.55rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: rgba(240, 235, 230, 0.42);
@@ -167,82 +170,82 @@
 }
 
 .name {
-  margin: 0.7rem 0 0;
+  margin: 0.6rem 0 0;
   font-family: var(--font-oswald), sans-serif;
   font-weight: 700;
-  font-size: clamp(1.65rem, 4vw, 2rem);
+  font-size: clamp(1.5rem, 3.5vw, 1.85rem);
   letter-spacing: -0.03em;
   text-transform: uppercase;
   line-height: 1;
 }
 
 .tagline {
-  margin: 0.45rem 0 0;
-  font-size: 0.8125rem;
+  margin: 0.4rem 0 0;
+  font-size: 0.78rem;
   line-height: 1.4;
   color: rgba(240, 235, 230, 0.62);
 }
 
 .priceRow {
-  margin-top: 1.15rem;
+  margin-top: 1rem;
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 0.4rem 0.55rem;
+  gap: 0.35rem 0.5rem;
 }
 
 .price {
   font-family: var(--font-oswald), sans-serif;
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   letter-spacing: 0.02em;
   color: #e9a9bf;
 }
 
 .priceUnit {
-  font-size: 0.625rem;
+  font-size: 0.575rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: rgba(240, 235, 230, 0.45);
 }
 
 .bestFor {
-  margin: 0.75rem 0 0;
-  font-size: 0.75rem;
-  line-height: 1.5;
+  margin: 0.65rem 0 0;
+  font-size: 0.7rem;
+  line-height: 1.45;
   color: rgba(240, 235, 230, 0.58);
   max-width: 28ch;
 }
 
 .includes {
-  margin: 1.1rem 0 0;
+  margin: 0.9rem 0 0;
   padding: 0;
   list-style: none;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.4rem;
 }
 
 .includes li {
-  font-size: 0.7rem;
+  font-size: 0.675rem;
   line-height: 1.4;
   color: rgba(240, 235, 230, 0.78);
-  padding-left: 0.7rem;
+  padding-left: 0.65rem;
   border-left: 1px solid rgba(232, 150, 175, 0.35);
 }
 
 .cta {
-  margin-top: 1.25rem;
+  margin-top: 1.1rem;
   align-self: flex-start;
   min-height: 44px;
   display: inline-flex;
   align-items: center;
-  font-size: 0.625rem;
+  font-size: 0.6rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: #f0ebe6;
   border: 1px solid rgba(240, 235, 230, 0.35);
-  padding: 0.65rem 1.1rem;
+  padding: 0.6rem 1rem;
   background: transparent;
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
@@ -275,26 +278,26 @@
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 0.85rem 1.5rem;
-  margin-top: 1.25rem;
+  gap: 0.75rem 1.5rem;
+  margin-top: 1rem;
   padding: 0 clamp(1.15rem, 4vw, 3rem);
 }
 
 .disclaimer {
   margin: 0;
-  font-size: 0.575rem;
+  font-size: 0.55rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgba(240, 235, 230, 0.38);
   max-width: 34rem;
-  line-height: 1.55;
+  line-height: 1.5;
 }
 
 .footCta {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
-  font-size: 0.625rem;
+  font-size: 0.6rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(240, 235, 230, 0.65);
@@ -313,73 +316,42 @@
   outline-offset: 3px;
 }
 
-/* Mobile / short: native horizontal snap (no pin). */
-@media (max-width: 767px), (max-height: 639px) {
-  .pin {
-    min-height: 0;
-    padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0px));
-  }
-
-  .viewport {
-    overflow-x: auto;
-    overflow-y: hidden;
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(232, 150, 175, 0.45) transparent;
-  }
-
-  .track {
-    will-change: auto;
-    padding-bottom: 0.75rem;
-  }
-
+@media (min-width: 900px) {
   .card {
-    scroll-snap-align: center;
-    width: min(86vw, 20.5rem);
-  }
-
-  .progressTrack {
-    display: none;
-  }
-}
-
-@media (min-width: 768px) and (min-height: 640px) {
-  .card {
-    width: min(28vw, 22rem);
-    min-height: min(58vh, 28rem);
+    width: 21.5rem;
+    min-height: min(52vh, 26rem);
   }
 
   .cardFeatured {
-    width: min(30vw, 23.5rem);
+    width: 23rem;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .pin {
-    min-height: 0;
-  }
+/* Stacked fallback — no pin / no scrub */
+.reduced .pin {
+  min-height: 0;
+  padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0px));
+}
 
-  .viewport {
-    overflow: visible;
-  }
+.reduced .viewport {
+  overflow: visible;
+}
 
-  .track {
-    flex-wrap: wrap;
-    width: 100%;
-    max-width: 72rem;
-    height: auto;
-    will-change: auto;
-  }
+.reduced .track {
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 72rem;
+  height: auto;
+  will-change: auto;
+  gap: 0.85rem;
+}
 
-  .card {
-    width: min(100%, 22rem);
-    min-height: 0;
-    scroll-snap-align: none;
-  }
+.reduced .card,
+.reduced .cardFeatured {
+  width: min(100%, 22rem);
+  min-height: 0;
+}
 
-  .progressFill {
-    will-change: auto;
-  }
+.reduced .progressFill {
+  will-change: auto;
 }

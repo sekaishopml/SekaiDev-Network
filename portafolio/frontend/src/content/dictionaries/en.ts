@@ -206,10 +206,10 @@ export const en = {
     sectionLabel: "Investment",
     headline: "Services priced for serious builds.",
     subline:
-      "USD starting ranges · written quote before build. Scroll sideways to compare brand, sprint, launch, and ongoing partner capacity.",
+      "USD starting ranges · written quote before build. Scroll to freeze this section — the price rail moves, then the page continues.",
     marketNote:
       "Anchored to US boutique mid-market — senior nearshore delivery from Ecuador (UTC−5), not offshore commodity rates.",
-    scrollHint: "Scroll to compare",
+    scrollHint: "Scroll — rail moves",
     disclaimer:
       "Final scope, timeline, and quote confirmed in writing before any build starts. Prices are starting floors — complexity moves the quote up.",
     recommended: "Recommended",
@@ -380,13 +380,14 @@ export const en = {
   ],
 
   PROCESS_SECTION: {
-    label: "04 — PROCESS",
-    headline: "Align → Launch",
-    subline: "Four steps. Written scope first. No black-box builds.",
+    label: "03 — METHOD",
+    headline: "How we ship",
+    subline:
+      "Proof of how we work, then four steps — written scope first, no black-box builds.",
   },
 
   WORKS_SECTION: {
-    label: "07 — WHAT WE BUILD",
+    label: "06 — WHAT WE BUILD",
     headline: "CAPABILITIES",
     subline:
       "Examples of surfaces we ship — product systems, brand sites, APIs, and ops tools. Ask for a private walkthrough of named work when we confirm fit.",
@@ -522,9 +523,9 @@ export const en = {
     offerHeadlineAccent: "deliver.",
     offerSubline:
       "Product engineering, design, and systems — scoped clearly, shipped by one senior team.",
-    proofLabel: "03 — PROOF",
-    proofHeadline: "How we show up",
-    faqLabel: "06 — FAQ",
+    proofLabel: "03 — METHOD",
+    proofHeadline: "How we ship",
+    faqLabel: "05 — FAQ",
     faqHeadline: "Clear before we begin.",
     faqSubline: "The practical details, answered plainly.",
     openMenu: "Open menu",

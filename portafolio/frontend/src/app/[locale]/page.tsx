@@ -8,10 +8,9 @@ import SmoothScroll from "@/components/SmoothScroll";
 import LookSection from "@/components/LookSection";
 import OfferSection from "@/components/OfferSection";
 import FeaturedCase from "@/components/FeaturedCase";
-import ProofBand from "@/components/ProofBand";
+import MethodSection from "@/components/MethodSection";
 import PricingSection from "@/components/PricingSection";
 import FaqSection from "@/components/FaqSection";
-import Process from "@/components/Process";
 import About from "@/components/About";
 import Works from "@/components/Works";
 import Contact from "@/components/Contact";
@@ -32,8 +31,8 @@ const HeroSection = dynamic(() => import("@/components/HeroSection"), {
 
 /**
  * Conversion funnel:
- * Hero → Look → Offer → Featured → Proof → Process → Pricing → FAQ
- * → Works (proof before form) → Contact → About.
+ * Hero → Look → Offer → Featured → Method (03) → Pricing → FAQ
+ * → Works → Contact → About.
  */
 export default function Home() {
   const { loaded, setBonsaiLoaded, progress } = useBonsaiLoad();
@@ -52,8 +51,7 @@ export default function Home() {
           <LookSection />
           <OfferSection />
           <FeaturedCase />
-          <ProofBand />
-          <Process />
+          <MethodSection />
           <PricingSection />
           <FaqSection />
           <Works />

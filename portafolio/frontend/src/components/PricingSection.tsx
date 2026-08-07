@@ -29,66 +29,66 @@ export default function PricingSection() {
 
       const mm = gsap.matchMedia();
 
-      mm.add(
-        {
-          desktop: PRICING_SCROLL.desktopQuery,
-          mobile: PRICING_SCROLL.mobileQuery,
-          reduceMotion: PRICING_SCROLL.reducedMotionQuery,
-        },
-        (context) => {
-          const conditions = context.conditions as {
-            desktop: boolean;
-            mobile: boolean;
-            reduceMotion: boolean;
-          };
-
-          if (conditions.reduceMotion || conditions.mobile) {
-            gsap.set(track, { clearProps: "transform" });
-            if (progress) gsap.set(progress, { scaleX: 1 });
-            return;
-          }
-
-          if (!conditions.desktop) return;
-
-          const getTravel = () => {
-            const overflow = track.scrollWidth - pin.clientWidth;
-            return Math.max(overflow, 0);
-          };
-
-          gsap.set(track, { x: 0 });
-          if (progress) gsap.set(progress, { scaleX: 0 });
-
-          gsap.to(track, {
-            x: () => -getTravel(),
-            ease: "none",
-            scrollTrigger: {
-              trigger: pin,
-              start: "top top",
-              end: () =>
-                `+=${Math.round(getTravel() * (1 + PRICING_SCROLL.endPad))}`,
-              pin: true,
-              pinSpacing: true,
-              scrub: PRICING_SCROLL.scrub,
-              anticipatePin: 1,
-              invalidateOnRefresh: true,
-              onUpdate: (self) => {
-                if (progress) {
-                  gsap.set(progress, { scaleX: self.progress });
-                }
-              },
-            },
-          });
-        }
-      );
-
-      document.fonts?.ready.then(() => {
-        if (root.isConnected) ScrollTrigger.refresh();
+      mm.add(PRICING_SCROLL.reducedMotionQuery, () => {
+        gsap.set(track, { clearProps: "transform" });
+        if (progress) gsap.set(progress, { scaleX: 1 });
+        root.classList.add(styles.reduced);
       });
-      gsap.delayedCall(0.08, () => ScrollTrigger.refresh());
 
-      const onResize = () => ScrollTrigger.refresh();
-      window.addEventListener("resize", onResize);
-      return () => window.removeEventListener("resize", onResize);
+      mm.add(`(prefers-reduced-motion: no-preference)`, () => {
+        root.classList.remove(styles.reduced);
+
+        const getTravel = () => {
+          const overflow = track.scrollWidth - pin.clientWidth;
+          return Math.max(overflow, PRICING_SCROLL.minTravelPx);
+        };
+
+        gsap.set(track, { x: 0, force3D: true });
+        if (progress) gsap.set(progress, { scaleX: 0 });
+
+        const tween = gsap.to(track, {
+          x: () => -getTravel(),
+          ease: "none",
+          scrollTrigger: {
+            trigger: pin,
+            start: "top top",
+            end: () => {
+              const travel = getTravel();
+              const pad = Math.round(
+                window.innerHeight * PRICING_SCROLL.endPadScreens
+              );
+              return `+=${travel + pad}`;
+            },
+            pin: true,
+            pinSpacing: true,
+            scrub: PRICING_SCROLL.scrub,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            // Lenis drives real window scroll — fixed pins are correct here.
+            // Avoid overflow:clip on ancestors (breaks pin).
+            onUpdate: (self) => {
+              if (progress) gsap.set(progress, { scaleX: self.progress });
+            },
+          },
+        });
+
+        return () => {
+          tween.scrollTrigger?.kill();
+          tween.kill();
+          gsap.set(track, { clearProps: "transform" });
+        };
+      });
+
+      const refresh = () => {
+        if (root.isConnected) ScrollTrigger.refresh();
+      };
+      document.fonts?.ready.then(refresh);
+      gsap.delayedCall(0.1, refresh);
+      // Previous sections (featured pin) can shift layout after first paint.
+      gsap.delayedCall(0.45, refresh);
+
+      window.addEventListener("resize", refresh);
+      return () => window.removeEventListener("resize", refresh);
     },
     {
       scope: rootRef,
@@ -111,7 +111,7 @@ export default function PricingSection() {
 
       <div ref={pinRef} className={styles.pin}>
         <header className={styles.head}>
-          <span className={styles.eyebrow}>05 — {p.sectionLabel}</span>
+          <span className={styles.eyebrow}>04 — {p.sectionLabel}</span>
           <h2 id="pricing-heading" className={styles.title}>
             {p.headline}
           </h2>

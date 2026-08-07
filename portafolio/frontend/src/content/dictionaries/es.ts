@@ -222,10 +222,10 @@ export const es = {
     sectionLabel: "Inversión",
     headline: "Servicios con precio de build serio.",
     subline:
-      "USD · rangos iniciales · cotización escrita antes de construir. Desliza en horizontal para comparar marca, sprint, lanzamiento y capacidad continua.",
+      "USD · rangos iniciales · cotización escrita antes de construir. Al llegar aquí el scroll congela la sección: solo se mueve el carrusel de precios y luego continúa la página.",
     marketNote:
       "Anclado al mid-market boutique de EE.UU. — entrega senior nearshore desde Ecuador (UTC−5), no tarifas commodity offshore.",
-    scrollHint: "Desliza para comparar",
+    scrollHint: "Scroll — se mueve el rail",
     disclaimer:
       "Confirmamos por escrito el alcance, el cronograma y la cotización final antes de iniciar. Los precios son pisos de entrada: la complejidad sube la cotización.",
     recommended: "Recomendable",
@@ -401,14 +401,14 @@ export const es = {
   ],
 
   PROCESS_SECTION: {
-    label: "04 — PROCESO",
-    headline: "Alinear → Lanzar",
+    label: "03 — MÉTODO",
+    headline: "Cómo enviamos",
     subline:
-      "Cuatro pasos. Alcance por escrito primero. Nada de desarrollos en caja negra.",
+      "Cómo trabajamos, en cuatro pasos — alcance por escrito primero, sin desarrollos en caja negra.",
   },
 
   WORKS_SECTION: {
-    label: "07 — LO QUE CONSTRUIMOS",
+    label: "06 — LO QUE CONSTRUIMOS",
     headline: "CAPACIDADES",
     subline:
       "Ejemplos de lo que lanzamos: sistemas de producto, sitios de marca, APIs y herramientas operativas. Cuando confirmemos el encaje, solicita un recorrido privado de proyectos identificables.",
@@ -562,9 +562,9 @@ export const es = {
     offerHeadlineAccent: "entregamos.",
     offerSubline:
       "Ingeniería de producto, diseño y sistemas — con alcance claro, de un solo equipo senior.",
-    proofLabel: "03 — RESPALDO",
-    proofHeadline: "Así trabajamos",
-    faqLabel: "06 — PREGUNTAS FRECUENTES",
+    proofLabel: "03 — MÉTODO",
+    proofHeadline: "Cómo enviamos",
+    faqLabel: "05 — PREGUNTAS FRECUENTES",
     faqHeadline: "Claridad antes de empezar.",
     faqSubline: "Los detalles prácticos, respondidos sin rodeos.",
     openMenu: "Abrir menú",

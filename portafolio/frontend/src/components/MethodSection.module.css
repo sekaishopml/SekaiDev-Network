@@ -1,0 +1,228 @@
+.section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  color: #111;
+  background:
+    linear-gradient(180deg, #d6d6d6 0%, #cfcfcf 100%);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding:
+    clamp(2.75rem, 6vh, 4rem)
+    clamp(1.15rem, 4vw, 3rem)
+    clamp(2.5rem, 5vh, 3.5rem);
+}
+
+.rule {
+  position: absolute;
+  left: clamp(1.15rem, 4vw, 3rem);
+  right: clamp(1.15rem, 4vw, 3rem);
+  top: 0;
+  height: 1px;
+  background: rgba(17, 17, 17, 0.12);
+}
+
+.grid {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.35fr);
+    align-items: end;
+    column-gap: clamp(2rem, 5vw, 4rem);
+  }
+}
+
+.head {
+  min-width: 0;
+}
+
+.eyebrow {
+  display: block;
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(17, 17, 17, 0.45);
+}
+
+.title {
+  margin: 0.55rem 0 0;
+  font-family: var(--font-oswald), sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.25rem, 6vw, 3.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: #111;
+}
+
+.subline {
+  margin: 0.7rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgba(17, 17, 17, 0.62);
+  max-width: 28rem;
+}
+
+.signals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.65rem;
+  margin-top: 1.15rem;
+  padding: 0;
+  list-style: none;
+}
+
+.signal {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid rgba(17, 17, 17, 0.16);
+  background: rgba(255, 255, 255, 0.28);
+  min-width: min(100%, 8.5rem);
+}
+
+.signalValue {
+  font-family: var(--font-oswald), sans-serif;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #5c1a33;
+  line-height: 1;
+}
+
+.signalLabel {
+  font-size: 0.5625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(17, 17, 17, 0.5);
+  line-height: 1.35;
+  max-width: 14ch;
+}
+
+.steps {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid rgba(17, 17, 17, 0.14);
+  background: rgba(255, 255, 255, 0.22);
+}
+
+@media (min-width: 700px) {
+  .steps {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.step {
+  position: relative;
+  padding: 0.9rem 0.85rem 1rem;
+  min-width: 0;
+}
+
+.step:nth-child(odd) {
+  border-right: 1px solid rgba(17, 17, 17, 0.1);
+}
+
+.step:nth-child(-n + 2) {
+  border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+}
+
+@media (min-width: 700px) {
+  .step {
+    border-right: 1px solid rgba(17, 17, 17, 0.1);
+    border-bottom: 0 !important;
+  }
+
+  .step:last-child {
+    border-right: 0;
+  }
+
+  .step:nth-child(odd) {
+    border-right: 1px solid rgba(17, 17, 17, 0.1);
+  }
+}
+
+.stepNum {
+  display: block;
+  font-family: var(--font-oswald), sans-serif;
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: rgba(92, 26, 51, 0.75);
+}
+
+.stepTitle {
+  margin: 0.4rem 0 0;
+  font-family: var(--font-oswald), sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: #111;
+}
+
+.stepBody {
+  margin: 0.45rem 0 0;
+  font-size: 0.7rem;
+  line-height: 1.45;
+  color: rgba(17, 17, 17, 0.62);
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-top: 1.15rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(17, 17, 17, 0.1);
+}
+
+.trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trust li {
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(17, 17, 17, 0.48);
+}
+
+.trust li::before {
+  content: "·";
+  margin-right: 0.65rem;
+  color: rgba(92, 26, 51, 0.55);
+}
+
+.trust li:first-child::before {
+  content: none;
+  margin: 0;
+}
+
+.note {
+  margin: 0;
+  font-size: 0.65rem;
+  line-height: 1.45;
+  color: rgba(17, 17, 17, 0.45);
+  max-width: 22rem;
+}
