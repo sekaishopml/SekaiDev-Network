@@ -1,14 +1,100 @@
 "use client";
 
 import { useRef } from "react";
-import { useSectionReveal } from "@/hooks/useSectionReveal";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@/hooks/useGsapSafe";
 import { useT } from "@/components/LocaleProvider";
 import { jumpTo } from "@/lib/navigation";
+import { PRICING_SCROLL } from "@/lib/motion/pricingScroll";
+import styles from "./PricingSection.module.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function PricingSection() {
   const rootRef = useRef<HTMLElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLSpanElement>(null);
   const t = useT();
-  useSectionReveal(rootRef, { preset: "cards" });
+  const p = t.PRICING;
+
+  useGSAP(
+    () => {
+      const root = rootRef.current;
+      const pin = pinRef.current;
+      const track = trackRef.current;
+      const progress = progressRef.current;
+      if (!root || !pin || !track) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          desktop: PRICING_SCROLL.desktopQuery,
+          mobile: PRICING_SCROLL.mobileQuery,
+          reduceMotion: PRICING_SCROLL.reducedMotionQuery,
+        },
+        (context) => {
+          const conditions = context.conditions as {
+            desktop: boolean;
+            mobile: boolean;
+            reduceMotion: boolean;
+          };
+
+          if (conditions.reduceMotion || conditions.mobile) {
+            gsap.set(track, { clearProps: "transform" });
+            if (progress) gsap.set(progress, { scaleX: 1 });
+            return;
+          }
+
+          if (!conditions.desktop) return;
+
+          const getTravel = () => {
+            const overflow = track.scrollWidth - pin.clientWidth;
+            return Math.max(overflow, 0);
+          };
+
+          gsap.set(track, { x: 0 });
+          if (progress) gsap.set(progress, { scaleX: 0 });
+
+          gsap.to(track, {
+            x: () => -getTravel(),
+            ease: "none",
+            scrollTrigger: {
+              trigger: pin,
+              start: "top top",
+              end: () =>
+                `+=${Math.round(getTravel() * (1 + PRICING_SCROLL.endPad))}`,
+              pin: true,
+              pinSpacing: true,
+              scrub: PRICING_SCROLL.scrub,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+              onUpdate: (self) => {
+                if (progress) {
+                  gsap.set(progress, { scaleX: self.progress });
+                }
+              },
+            },
+          });
+        }
+      );
+
+      document.fonts?.ready.then(() => {
+        if (root.isConnected) ScrollTrigger.refresh();
+      });
+      gsap.delayedCall(0.08, () => ScrollTrigger.refresh());
+
+      const onResize = () => ScrollTrigger.refresh();
+      window.addEventListener("resize", onResize);
+      return () => window.removeEventListener("resize", onResize);
+    },
+    {
+      scope: rootRef,
+      dependencies: [p.headline, p.tiers.length, t.CTAS.pricingFoot],
+    }
+  );
 
   const jump = (intent: string) => {
     jumpTo(t.CTAS.primary.href, intent);
@@ -18,84 +104,80 @@ export default function PricingSection() {
     <section
       ref={rootRef}
       id="pricing"
-      className="relative w-full px-6 md:px-12 pt-24 md:pt-32 pb-[calc(5rem+env(safe-area-inset-bottom,0px))] md:pb-32 bg-foreground text-background"
+      className={styles.section}
+      aria-labelledby="pricing-heading"
     >
-      <div className="max-w-3xl" data-reveal>
-        <span className="text-background/50 text-xs tracking-widest uppercase">
-          05 — {t.PRICING.sectionLabel}
-        </span>
-        <h2 className="font-display text-3xl md:text-5xl font-bold mt-4 leading-tight">
-          {t.PRICING.headline}
-        </h2>
-        <p className="mt-4 text-sm md:text-base text-background/70 max-w-xl leading-relaxed">
-          {t.PRICING.subline}
-        </p>
-      </div>
+      <div className={styles.atmosphere} aria-hidden="true" />
 
-      <div className="mt-12 md:mt-16 grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-0 border-t border-background/20">
-        {t.PRICING.tiers.map((tier) => (
-          <article
-            key={tier.id}
-            data-reveal
-            className={`relative flex flex-col border-b lg:border-b-0 lg:border-r border-background/20 last:lg:border-r-0 py-8 lg:py-10 lg:px-8 first:lg:pl-0 last:lg:pr-0 ${
-              "featured" in tier && tier.featured
-                ? "bg-background/[0.04]"
-                : ""
-            }`}
-          >
-            {"featured" in tier && tier.featured && (
-              <span className="absolute top-8 right-0 lg:right-8 text-[9px] tracking-[0.2em] uppercase text-accent">
-                {t.PRICING.recommended}
-              </span>
-            )}
-            <p className="text-[10px] tracking-[0.2em] uppercase text-background/45">
-              {tier.timeline}
-            </p>
-            <h3 className="font-display text-2xl md:text-3xl font-bold mt-3 tracking-tight">
-              {tier.title}
-            </h3>
-            <p className="mt-2 text-sm text-background/65">{tier.tagline}</p>
-            <p className="mt-5 font-display text-lg tracking-wide text-accent">
-              {tier.priceFrom}
-            </p>
-            <p className="mt-3 text-xs text-background/55 leading-relaxed max-w-xs">
-              {tier.bestFor}
-            </p>
-            <ul className="mt-6 space-y-2.5 flex-1">
-              {tier.includes.map((line) => (
-                <li
-                  key={line}
-                  className="text-xs text-background/75 leading-snug pl-3 border-l border-background/25"
+      <div ref={pinRef} className={styles.pin}>
+        <header className={styles.head}>
+          <span className={styles.eyebrow}>05 — {p.sectionLabel}</span>
+          <h2 id="pricing-heading" className={styles.title}>
+            {p.headline}
+          </h2>
+          <p className={styles.subline}>{p.subline}</p>
+          <p className={styles.marketNote}>{p.marketNote}</p>
+        </header>
+
+        <div className={styles.railMeta} aria-hidden="true">
+          <span className={styles.hint}>{p.scrollHint}</span>
+          <div className={styles.progressTrack}>
+            <span ref={progressRef} className={styles.progressFill} />
+          </div>
+        </div>
+
+        <div className={styles.viewport}>
+          <div ref={trackRef} className={styles.track}>
+            {p.tiers.map((tier) => {
+              const featured = Boolean(tier.featured);
+              return (
+                <article
+                  key={tier.id}
+                  className={`${styles.card} ${featured ? styles.cardFeatured : ""}`}
+                  data-tier={tier.id}
+                  data-featured={featured || undefined}
                 >
-                  {line}
-                </li>
-              ))}
-            </ul>
-            <button
-              type="button"
-              onClick={() => jump(tier.intent)}
-              className="mt-8 self-start inline-flex min-h-[44px] items-center text-[10px] md:text-xs tracking-widest uppercase border border-background/35 px-5 py-2.5 hover:bg-background hover:text-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-            >
-              {tier.cta}
-            </button>
-          </article>
-        ))}
-      </div>
+                  {featured ? (
+                    <span className={styles.badge}>{p.recommended}</span>
+                  ) : null}
+                  <p className={styles.timeline}>{tier.timeline}</p>
+                  <h3 className={styles.name}>{tier.title}</h3>
+                  <p className={styles.tagline}>{tier.tagline}</p>
+                  <div className={styles.priceRow}>
+                    <span className={styles.price}>{tier.priceFrom}</span>
+                    {tier.priceUnit ? (
+                      <span className={styles.priceUnit}>{tier.priceUnit}</span>
+                    ) : null}
+                  </div>
+                  <p className={styles.bestFor}>{tier.bestFor}</p>
+                  <ul className={styles.includes}>
+                    {tier.includes.map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ul>
+                  <button
+                    type="button"
+                    className={`${styles.cta} ${featured ? styles.ctaFeatured : ""}`}
+                    onClick={() => jump(tier.intent)}
+                  >
+                    {tier.cta}
+                  </button>
+                </article>
+              );
+            })}
+          </div>
+        </div>
 
-      <div
-        className="mt-10 md:mt-12 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4"
-        data-reveal
-      >
-        <p className="text-[10px] md:text-xs tracking-widest uppercase text-background/45 max-w-lg leading-relaxed">
-          {t.PRICING.disclaimer}
-        </p>
-        <button
-          type="button"
-          onClick={() => jump("launch")}
-          className="inline-flex min-h-[44px] items-center text-[10px] md:text-xs tracking-widest uppercase text-background/70 hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-        >
-          {t.CTAS.pricingFoot} →
-        </button>
+        <div className={styles.foot}>
+          <p className={styles.disclaimer}>{p.disclaimer}</p>
+          <button
+            type="button"
+            className={styles.footCta}
+            onClick={() => jump("launch")}
+          >
+            {t.CTAS.pricingFoot} →
+          </button>
+        </div>
       </div>
     </section>
   );

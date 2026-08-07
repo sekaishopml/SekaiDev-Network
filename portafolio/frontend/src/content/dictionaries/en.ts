@@ -204,26 +204,50 @@ export const en = {
 
   PRICING: {
     sectionLabel: "Investment",
-    headline: "Clear ways to work together.",
+    headline: "Services priced for serious builds.",
     subline:
-      "USD · starting ranges · written quote before build. Three engagement shapes, scoped after a short discovery call.",
+      "USD starting ranges · written quote before build. Scroll sideways to compare brand, sprint, launch, and ongoing partner capacity.",
+    marketNote:
+      "Anchored to US boutique mid-market — senior nearshore delivery from Ecuador (UTC−5), not offshore commodity rates.",
+    scrollHint: "Scroll to compare",
     disclaimer:
-      "Final scope, timeline, and quote confirmed in writing before any build starts.",
+      "Final scope, timeline, and quote confirmed in writing before any build starts. Prices are starting floors — complexity moves the quote up.",
     recommended: "Recommended",
     tiers: [
       {
+        id: "brand",
+        title: "Brand Presence",
+        tagline: "A site that sells the studio you are.",
+        timeline: "3–5 weeks",
+        priceFrom: "From $16,500",
+        priceUnit: "USD",
+        bestFor:
+          "Premium marketing / brand sites with motion, CMS hooks, and conversion-first IA.",
+        includes: [
+          "Art direction + conversion wireframes",
+          "Custom Next.js front end",
+          "Motion system tuned to the brand",
+          "SEO / analytics baseline",
+          "Staging → production launch + handoff",
+        ],
+        cta: "Scope a brand site",
+        intent: "brand",
+      },
+      {
         id: "sprint",
         title: "Signal Sprint",
-        tagline: "One milestone. Shipped.",
+        tagline: "One critical milestone. Shipped.",
         timeline: "2–4 weeks",
-        priceFrom: "From $7,500 USD",
-        bestFor: "Validate UX, ship a feature slice, or unblock a stuck MVP.",
+        priceFrom: "From $14,500",
+        priceUnit: "USD",
+        bestFor:
+          "Unblock a stuck MVP, validate UX/architecture, or ship one high-stakes slice.",
         includes: [
-          "Discovery call + written scope",
-          "UX / architecture signal before build",
-          "One defined deliverable",
-          "Production-quality code + handoff",
-          "Async updates · 1–2 syncs",
+          "Paid discovery + written scope",
+          "UX or architecture signal before build",
+          "One production-grade deliverable",
+          "Code review + deployment path",
+          "Async updates · focused syncs",
         ],
         cta: "Start a sprint",
         intent: "sprint",
@@ -231,17 +255,18 @@ export const en = {
       {
         id: "launch",
         title: "Launch Standard",
-        tagline: "Design, build, and ship.",
-        timeline: "6–10 weeks",
-        priceFrom: "From $22,000 USD",
+        tagline: "Design, full-stack build, and launch.",
+        timeline: "8–14 weeks",
+        priceFrom: "From $48,000",
+        priceUnit: "USD",
         bestFor:
-          "Brand site, product v1, or platform foundation you can operate.",
+          "Product v1, ops console, or platform foundation — the engagement most teams should start with.",
         includes: [
           "Product + visual direction",
-          "Full-stack build as scoped",
-          "Staging → production launch",
-          "Analytics / auth hooks where needed",
-          "Docs + post-launch plan",
+          "Go / Next.js / Postgres as scoped",
+          "Auth, APIs, and core flows",
+          "Maps / realtime when the product needs it",
+          "Staging → production + docs + 30-day hypercare",
         ],
         cta: "Scope a launch",
         intent: "launch",
@@ -252,14 +277,16 @@ export const en = {
         title: "Product Partner",
         tagline: "Senior capacity on your roadmap.",
         timeline: "3+ months · monthly",
-        priceFrom: "From $9,500 USD / mo",
-        bestFor: "Steady velocity without hiring in-house yet.",
+        priceFrom: "From $18,500",
+        priceUnit: "USD / mo",
+        bestFor:
+          "Keep shipping after launch without hiring a full in-house senior pod yet.",
         includes: [
-          "Dedicated senior engineering time",
-          "Roadmap + weekly sync",
+          "Dedicated senior engineering + design hours",
+          "Roadmap ownership + weekly sync",
           "Iterative shipping loops",
-          "Architecture ownership",
-          "Pause / scale with 30-day notice",
+          "Architecture + performance care",
+          "Pause or scale with 30-day notice",
         ],
         cta: "Talk partnership",
         intent: "partner",
@@ -276,7 +303,7 @@ export const en = {
     {
       question: "What is the minimum budget?",
       answer:
-        "Signal Sprint starts from $7,500 USD for one defined milestone. If your need is smaller than that, we will say so early and point you toward a better-fit path rather than force a package.",
+        "Brand Presence and Signal Sprint start from $14,500–$16,500 USD. Launch Standard — our recommended path for a real product — starts from $48,000 USD. If your need is smaller, we will say so early rather than force a package.",
     },
     {
       question: "How do payments work?",
@@ -304,10 +331,9 @@ export const en = {
         "You do. The final handoff includes the agreed source code, design files, documentation, and the access needed to run what we build.",
     },
     {
-      question:
-        "How do Signal Sprint, Launch Standard, and Product Partner differ?",
+      question: "How do the four engagements differ?",
       answer:
-        "Signal Sprint is for one defined milestone. Launch Standard covers a larger design-and-build release. Product Partner is ongoing senior capacity for teams with a continuing roadmap.",
+        "Brand Presence is a premium marketing/brand site. Signal Sprint ships one defined milestone. Launch Standard (recommended) is a full design-and-build product launch. Product Partner is ongoing senior capacity on a monthly retainer.",
     },
     {
       question: "Can you work across Ecuador and US time zones?",
@@ -317,7 +343,7 @@ export const en = {
     {
       question: "How soon can we start and how long does a project take?",
       answer:
-        "Timing depends on current availability and scope. A Signal Sprint is typically 2–4 weeks, Launch Standard 6–10 weeks, and Product Partner starts at three months.",
+        "Timing depends on current availability and scope. Brand Presence is typically 3–5 weeks, Signal Sprint 2–4 weeks, Launch Standard 8–14 weeks, and Product Partner starts at three months.",
     },
     {
       question: "Can you stay involved after launch?",
@@ -476,11 +502,11 @@ export const en = {
   ],
 
   BUDGETS: [
-    "$7.5k–$12k (Sprint-sized)",
-    "$12k–$22k",
-    "$22k–$45k (Launch-sized)",
-    "$45k+",
-    "Monthly retainer ($9.5k+ / mo)",
+    "$14.5k–$22k (Sprint / Brand)",
+    "$22k–$48k",
+    "$48k–$90k (Launch-sized)",
+    "$90k+",
+    "Monthly retainer ($18.5k+ / mo)",
     "Not sure yet",
   ],
 

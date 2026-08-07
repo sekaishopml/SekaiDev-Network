@@ -220,27 +220,50 @@ export const es = {
 
   PRICING: {
     sectionLabel: "Inversión",
-    headline: "Formas claras de trabajar juntos.",
+    headline: "Servicios con precio de build serio.",
     subline:
-      "USD · rangos iniciales · cotización escrita antes de construir. Tres modalidades, definidas después de una breve llamada de descubrimiento.",
+      "USD · rangos iniciales · cotización escrita antes de construir. Desliza en horizontal para comparar marca, sprint, lanzamiento y capacidad continua.",
+    marketNote:
+      "Anclado al mid-market boutique de EE.UU. — entrega senior nearshore desde Ecuador (UTC−5), no tarifas commodity offshore.",
+    scrollHint: "Desliza para comparar",
     disclaimer:
-      "Confirmamos por escrito el alcance, el cronograma y la cotización final antes de iniciar cualquier desarrollo.",
-    recommended: "Recomendado",
+      "Confirmamos por escrito el alcance, el cronograma y la cotización final antes de iniciar. Los precios son pisos de entrada: la complejidad sube la cotización.",
+    recommended: "Recomendable",
     tiers: [
+      {
+        id: "brand",
+        title: "Brand Presence",
+        tagline: "Un sitio que vende el estudio que eres.",
+        timeline: "3–5 semanas",
+        priceFrom: "Desde $16,500",
+        priceUnit: "USD",
+        bestFor:
+          "Sitios de marca / marketing premium con motion, CMS y arquitectura pensada para convertir.",
+        includes: [
+          "Dirección de arte + wireframes de conversión",
+          "Front end a medida en Next.js",
+          "Sistema de motion alineado a la marca",
+          "Base de SEO / analítica",
+          "Lanzamiento staging → producción + entrega",
+        ],
+        cta: "Definir un sitio de marca",
+        intent: "brand",
+      },
       {
         id: "sprint",
         title: "Signal Sprint",
-        tagline: "Un hito. Listo para lanzar.",
+        tagline: "Un hito crítico. Entregado.",
         timeline: "2–4 semanas",
-        priceFrom: "Desde $7,500 USD",
+        priceFrom: "Desde $14,500",
+        priceUnit: "USD",
         bestFor:
-          "Validar UX, lanzar una parte funcional o destrabar un MVP estancado.",
+          "Destrabar un MVP, validar UX/arquitectura o lanzar una porción de alto impacto.",
         includes: [
-          "Llamada de descubrimiento + alcance por escrito",
-          "Validación temprana de UX / arquitectura",
-          "Un entregable definido",
-          "Código con calidad de producción + entrega",
-          "Actualizaciones async · 1–2 reuniones",
+          "Descubrimiento pago + alcance por escrito",
+          "Señal de UX o arquitectura antes de construir",
+          "Un entregable con calidad de producción",
+          "Revisión de código + ruta de despliegue",
+          "Actualizaciones async · syncs enfocados",
         ],
         cta: "Iniciar un sprint",
         intent: "sprint",
@@ -248,17 +271,18 @@ export const es = {
       {
         id: "launch",
         title: "Launch Standard",
-        tagline: "Diseñar, construir y lanzar.",
-        timeline: "6–10 semanas",
-        priceFrom: "Desde $22,000 USD",
+        tagline: "Diseñar, construir full-stack y lanzar.",
+        timeline: "8–14 semanas",
+        priceFrom: "Desde $48,000",
+        priceUnit: "USD",
         bestFor:
-          "Un sitio de marca, un producto v1 o una base de plataforma que tu equipo pueda operar.",
+          "Producto v1, consola operativa o base de plataforma — la modalidad con la que la mayoría debería empezar.",
         includes: [
           "Dirección de producto y visual",
-          "Desarrollo full-stack según el alcance",
-          "Lanzamiento de staging a producción",
-          "Analítica / autenticación cuando aplique",
-          "Documentación + plan pos-lanzamiento",
+          "Go / Next.js / Postgres según alcance",
+          "Auth, APIs y flujos centrales",
+          "Mapas / tiempo real cuando el producto lo pida",
+          "Staging → producción + docs + 30 días de hypercare",
         ],
         cta: "Definir un lanzamiento",
         intent: "launch",
@@ -267,17 +291,18 @@ export const es = {
       {
         id: "partner",
         title: "Product Partner",
-        tagline: "Capacidad senior para avanzar tu roadmap.",
+        tagline: "Capacidad senior sobre tu roadmap.",
         timeline: "3+ meses · mensual",
-        priceFrom: "Desde $9,500 USD / mes",
+        priceFrom: "Desde $18,500",
+        priceUnit: "USD / mes",
         bestFor:
-          "Mantener velocidad constante sin contratar aún un equipo interno.",
+          "Seguir enviando valor después del lanzamiento sin armar aún un pod senior interno.",
         includes: [
-          "Tiempo dedicado de ingeniería senior",
-          "Roadmap + reunión semanal",
+          "Horas dedicadas de ingeniería + diseño senior",
+          "Ownership del roadmap + sync semanal",
           "Ciclos continuos de entrega",
-          "Responsabilidad sobre la arquitectura",
-          "Pausa / escala con 30 días de aviso",
+          "Cuidado de arquitectura y rendimiento",
+          "Pausa o escala con 30 días de aviso",
         ],
         cta: "Conversar sobre una alianza",
         intent: "partner",
@@ -294,7 +319,7 @@ export const es = {
     {
       question: "¿Cuál es el presupuesto mínimo?",
       answer:
-        "Signal Sprint empieza desde $7,500 USD para un hito definido. Si tu necesidad es menor, te lo diremos desde el inicio y recomendaremos una alternativa más adecuada en vez de forzar un paquete.",
+        "Brand Presence y Signal Sprint empiezan desde $14,500–$16,500 USD. Launch Standard — la vía recomendable para un producto real — empieza desde $48,000 USD. Si tu necesidad es menor, te lo diremos pronto en vez de forzar un paquete.",
     },
     {
       question: "¿Cómo funcionan los pagos?",
@@ -322,10 +347,9 @@ export const es = {
         "Tú. La entrega final incluye el código fuente, los archivos de diseño, la documentación y los accesos acordados para operar lo que construimos.",
     },
     {
-      question:
-        "¿En qué se diferencian Signal Sprint, Launch Standard y Product Partner?",
+      question: "¿En qué se diferencian las cuatro modalidades?",
       answer:
-        "Signal Sprint resuelve un hito definido. Launch Standard cubre un lanzamiento más amplio de diseño y desarrollo. Product Partner aporta capacidad senior continua a equipos con un roadmap activo.",
+        "Brand Presence es un sitio de marca/marketing premium. Signal Sprint entrega un hito definido. Launch Standard (recomendable) es un lanzamiento completo de diseño y desarrollo. Product Partner es capacidad senior continua en retainer mensual.",
     },
     {
       question: "¿Pueden trabajar entre Ecuador y las zonas horarias de EE. UU.?",
@@ -340,7 +364,7 @@ export const es = {
     {
       question: "¿Cuándo pueden empezar y cuánto tarda un proyecto?",
       answer:
-        "Depende de la disponibilidad y del alcance. Signal Sprint suele tomar 2–4 semanas, Launch Standard 6–10 semanas y Product Partner comienza con un compromiso de tres meses.",
+        "Depende de la disponibilidad y del alcance. Brand Presence suele tomar 3–5 semanas, Signal Sprint 2–4 semanas, Launch Standard 8–14 semanas y Product Partner comienza con tres meses.",
     },
     {
       question: "¿Pueden seguir involucrados después del lanzamiento?",
@@ -518,11 +542,11 @@ export const es = {
   ],
 
   BUDGETS: [
-    "$7.5k–$12k (tamaño Sprint)",
-    "$12k–$22k",
-    "$22k–$45k (tamaño Launch)",
-    "$45k+",
-    "Retainer mensual ($9.5k+ / mes)",
+    "$14.5k–$22k (Sprint / Brand)",
+    "$22k–$48k",
+    "$48k–$90k (tamaño Launch)",
+    "$90k+",
+    "Retainer mensual ($18.5k+ / mes)",
     "Aún no estoy seguro",
   ],
 

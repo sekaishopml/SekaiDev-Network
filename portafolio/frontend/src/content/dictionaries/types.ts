@@ -98,6 +98,8 @@ export type StudioDictionary = {
     sectionLabel: string;
     headline: string;
     subline: string;
+    marketNote: string;
+    scrollHint: string;
     disclaimer: string;
     recommended: string;
     tiers: readonly {
@@ -106,6 +108,7 @@ export type StudioDictionary = {
       tagline: string;
       timeline: string;
       priceFrom: string;
+      priceUnit?: string;
       bestFor: string;
       includes: readonly string[];
       cta: string;

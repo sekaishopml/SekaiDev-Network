@@ -75,7 +75,7 @@ export default function Contact({ footer }: ContactProps) {
   }, [t]);
 
   const defaultProjectType = (() => {
-    if (intent === "sprint" || intent === "services")
+    if (intent === "brand" || intent === "sprint" || intent === "services")
       return t.PROJECT_TYPES[1];
     if (intent === "launch" || intent === "product" || intent === "partner")
       return t.PROJECT_TYPES[0];
@@ -83,11 +83,10 @@ export default function Contact({ footer }: ContactProps) {
   })();
 
   const defaultBudget = (() => {
-    if (intent === "sprint") return t.BUDGETS[0];
-    if (intent === "launch") return t.BUDGETS[2];
+    if (intent === "brand" || intent === "sprint" || intent === "services")
+      return t.BUDGETS[0];
+    if (intent === "launch" || intent === "product") return t.BUDGETS[2];
     if (intent === "partner") return t.BUDGETS[4];
-    if (intent === "services") return t.BUDGETS[0];
-    if (intent === "product") return t.BUDGETS[2];
     return "";
   })();
 
