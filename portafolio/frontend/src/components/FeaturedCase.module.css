@@ -72,9 +72,9 @@
   z-index: 1;
   min-height: 0;
   padding:
-    calc(5rem + env(safe-area-inset-top, 0px))
+    calc(3.75rem + env(safe-area-inset-top, 0px))
     clamp(1rem, 4vw, 2rem)
-    clamp(3rem, 9vw, 5rem);
+    clamp(2rem, 6vw, 3.25rem);
 }
 
 .cine {
@@ -121,7 +121,7 @@
     "copy"
     "stage"
     "story";
-  gap: clamp(1.5rem, 6vw, 2.5rem);
+  gap: clamp(1.1rem, 4.5vw, 1.75rem);
   align-items: start;
 }
 
@@ -142,11 +142,11 @@
 }
 
 .title {
-  margin: 0.7rem 0 0;
+  margin: 0.55rem 0 0;
   font-family: var(--font-oswald), sans-serif;
   font-weight: 700;
   max-width: 100%;
-  font-size: clamp(2.75rem, 13vw, 4.5rem);
+  font-size: clamp(2.5rem, 12vw, 4rem);
   line-height: 0.94;
   letter-spacing: -0.04em;
   text-transform: uppercase;
@@ -160,8 +160,8 @@
 }
 
 .role {
-  margin: 0.9rem 0 0;
-  font-size: 0.6875rem;
+  margin: 0.7rem 0 0;
+  font-size: 0.625rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: rgba(240, 235, 230, 0.5);
@@ -171,20 +171,20 @@
 .stack {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 1.1rem 0 0;
+  gap: 0.4rem;
+  margin: 0.85rem 0 0;
   padding: 0;
   list-style: none;
   will-change: opacity, transform;
 }
 
 .stackItem {
-  font-size: 0.625rem;
-  letter-spacing: 0.16em;
+  font-size: 0.5625rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: rgba(240, 235, 230, 0.7);
   border: 1px solid rgba(240, 235, 230, 0.22);
-  padding: 0.4rem 0.75rem;
+  padding: 0.32rem 0.6rem;
 }
 
 /* Mobile story beats stay in document flow. */
@@ -199,7 +199,7 @@
 
 .storyPanel {
   position: relative;
-  padding: 1.35rem 0 1.5rem;
+  padding: 1rem 0 1.1rem;
   border-top: 1px solid rgba(240, 235, 230, 0.12);
   opacity: 1;
   visibility: visible;
@@ -227,22 +227,22 @@
 }
 
 .storyText {
-  margin: 0.65rem 0 0;
-  font-size: clamp(0.95rem, 3.8vw, 1.0625rem);
-  line-height: 1.65;
+  margin: 0.5rem 0 0;
+  font-size: clamp(0.9rem, 3.6vw, 1rem);
+  line-height: 1.55;
   color: rgba(240, 235, 230, 0.84);
   max-width: 42rem;
 }
 
 .storyNote {
-  margin: 0.75rem 0 0;
-  font-size: 0.6rem;
+  margin: 0.55rem 0 0;
+  font-size: 0.575rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: rgba(240, 235, 230, 0.38);
 }
 
-/* Route stage — hero-scale visual plane */
+/* Compact CyTaxi dispatch / live-trip card */
 .stageCol {
   grid-area: stage;
   position: relative;
@@ -252,95 +252,220 @@
 
 .stage {
   position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   width: 100%;
-  height: clamp(13rem, 56vw, 25rem);
-  border: 1px solid rgba(240, 235, 230, 0.14);
+  min-height: 0;
+  height: clamp(11.5rem, 48vw, 15.5rem);
+  border: 1px solid rgba(240, 235, 230, 0.16);
+  border-radius: 0;
   background:
-    linear-gradient(155deg, rgba(42, 34, 42, 0.95) 0%, rgba(8, 8, 10, 0.98) 52%, rgba(58, 28, 44, 0.85) 100%);
+    linear-gradient(160deg, rgba(28, 24, 30, 0.98) 0%, rgba(8, 8, 10, 0.99) 55%, rgba(42, 22, 34, 0.95) 100%);
   overflow: hidden;
   transform-origin: center center;
-}
-
-.stageFrame {
-  position: absolute;
-  inset: 14px;
-  border: 1px solid rgba(240, 235, 230, 0.1);
-  pointer-events: none;
-  z-index: 2;
+  box-shadow: inset 0 0 0 1px rgba(255, 205, 221, 0.04);
 }
 
 .stageGlow {
   position: absolute;
-  inset: -20%;
-  background: radial-gradient(circle at 50% 40%, rgba(232, 150, 175, 0.22), transparent 55%);
+  inset: -30% -10% auto;
+  height: 70%;
+  background: radial-gradient(circle at 55% 40%, rgba(232, 150, 175, 0.2), transparent 58%);
   will-change: opacity, transform;
   z-index: 0;
+  pointer-events: none;
 }
 
-.stageLabel,
-.stageMeta {
-  position: absolute;
-  z-index: 3;
+.stageChrome {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.8rem 0.35rem;
+}
+
+.stageProduct {
   font-size: 0.5625rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240, 235, 230, 0.72);
+}
+
+.liveBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.5rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(240, 235, 230, 0.55);
+  color: rgba(255, 205, 221, 0.9);
 }
 
-.stageLabel {
-  top: 1.6rem;
-  left: 1.75rem;
+.liveDot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: #e9a9bf;
+  box-shadow: 0 0 0 3px rgba(233, 169, 191, 0.18);
+  transform-origin: center;
 }
 
-.stageMeta {
-  right: 1.75rem;
-  bottom: 1.6rem;
+.mapPane {
+  position: relative;
+  z-index: 1;
+  min-height: 0;
+  margin: 0 0.55rem;
+  border: 1px solid rgba(240, 235, 230, 0.1);
+  background:
+    linear-gradient(180deg, rgba(18, 18, 22, 0.9), rgba(12, 12, 14, 0.95)),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 18px,
+      rgba(240, 235, 230, 0.03) 18px,
+      rgba(240, 235, 230, 0.03) 19px
+    );
+  overflow: hidden;
 }
 
 .routeSvg {
-  position: absolute;
-  inset: 18% 5% 14%;
-  width: 90%;
-  height: 68%;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 5.5rem;
   overflow: visible;
-  z-index: 1;
+}
+
+.mapGrid path {
+  stroke: rgba(240, 235, 230, 0.08);
+  stroke-width: 1;
+}
+
+.blockGhost {
+  fill: rgba(240, 235, 230, 0.035);
+  stroke: rgba(240, 235, 230, 0.06);
+  stroke-width: 1;
 }
 
 .routePath {
   fill: none;
-  stroke: rgba(255, 205, 221, 0.9);
-  stroke-width: 1.7;
+  stroke: rgba(255, 205, 221, 0.92);
+  stroke-width: 2.2;
   stroke-linecap: round;
   will-change: stroke-dashoffset;
 }
 
 .routePathGhost {
   fill: none;
-  stroke: rgba(255, 205, 221, 0.12);
-  stroke-width: 1.7;
+  stroke: rgba(255, 205, 221, 0.14);
+  stroke-width: 2.2;
   stroke-linecap: round;
 }
 
-.routeNode {
-  fill: #e9a9bf;
-  stroke: #050506;
-  stroke-width: 3;
-  opacity: 1;
-  transform-origin: center;
+.routeStop {
   transform-box: fill-box;
+  transform-origin: center;
 }
 
-.scanline {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 205, 221, 0.55), transparent);
-  top: 20%;
-  opacity: 0;
+.stopHalo {
+  fill: rgba(233, 169, 191, 0.14);
+}
+
+.stopCore {
+  fill: #e9a9bf;
+  stroke: #0a0a0c;
+  stroke-width: 2;
+}
+
+.stopCoreB {
+  fill: #f0ebe6;
+  stroke: #0a0a0c;
+  stroke-width: 2;
+}
+
+.stopLetter {
+  fill: rgba(240, 235, 230, 0.7);
+  font-size: 9px;
+  font-family: var(--font-oswald), sans-serif;
+  letter-spacing: 0.08em;
+}
+
+.routeCar {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.carBody {
+  fill: #e9a9bf;
+}
+
+.carCab {
+  fill: #1a1216;
+}
+
+.tripHud {
+  position: relative;
   z-index: 2;
-  will-change: transform, opacity;
-  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.8rem 0.7rem;
+  border-top: 1px solid rgba(240, 235, 230, 0.08);
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.28));
+}
+
+.tripStops {
+  min-width: 0;
+}
+
+.tripStops p {
+  margin: 0;
+  font-size: 0.5625rem;
+  letter-spacing: 0.04em;
+  color: rgba(240, 235, 230, 0.72);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tripStops p + p {
+  margin-top: 0.2rem;
+}
+
+.tripStops span {
+  display: inline-block;
+  width: 0.85rem;
+  color: rgba(233, 169, 191, 0.9);
+  font-family: var(--font-oswald), sans-serif;
+}
+
+.tripMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
+  flex-shrink: 0;
+}
+
+.tripMeta span {
+  font-size: 0.5rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(240, 235, 230, 0.45);
+}
+
+.tripMeta strong {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #ffc9d9;
+}
+
+.hudBit {
+  will-change: opacity, transform;
 }
 
 /* The progress rail only belongs to the desktop pinned experience. */
@@ -364,13 +489,13 @@
   margin: 0 auto;
   padding:
     0
-    clamp(1.25rem, 4vw, 3rem)
-    calc(clamp(4.5rem, 10vh, 7rem) + env(safe-area-inset-bottom, 0px));
+    clamp(1.1rem, 4vw, 2.5rem)
+    calc(clamp(3.25rem, 8vh, 5rem) + env(safe-area-inset-bottom, 0px));
 }
 
 .afterHead {
-  margin: 0 0 1.5rem;
-  font-size: 0.625rem;
+  margin: 0 0 1.1rem;
+  font-size: 0.575rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: rgba(240, 235, 230, 0.4);
@@ -378,9 +503,9 @@
 
 .detailGrid {
   display: grid;
-  gap: 2rem;
+  gap: 1.5rem;
   border-top: 1px solid rgba(240, 235, 230, 0.14);
-  padding-top: clamp(1.75rem, 4vh, 2.5rem);
+  padding-top: clamp(1.25rem, 3vh, 1.85rem);
 }
 
 @media (min-width: 700px) {
@@ -409,16 +534,16 @@
 }
 
 .listItem {
-  padding: 0.6rem 0 0.6rem 0.9rem;
-  font-size: 0.8125rem;
-  line-height: 1.5;
+  padding: 0.45rem 0 0.45rem 0.8rem;
+  font-size: 0.75rem;
+  line-height: 1.45;
   color: rgba(240, 235, 230, 0.68);
   border-left: 1px solid rgba(232, 150, 175, 0.35);
   will-change: transform, opacity;
 }
 
 .ctaWrap {
-  margin-top: clamp(2.5rem, 6vh, 3.5rem);
+  margin-top: clamp(1.75rem, 4.5vh, 2.5rem);
   will-change: transform, opacity;
 }
 
@@ -482,17 +607,11 @@
   .watermark {
     top: 1%;
     right: -0.04em;
-    font-size: clamp(8rem, 48vw, 15rem);
+    font-size: clamp(6.5rem, 40vw, 12rem);
   }
 
-  .stageLabel {
-    top: 1.25rem;
-    left: 1.25rem;
-  }
-
-  .stageMeta {
-    right: 1.25rem;
-    bottom: 1.25rem;
+  .stage {
+    height: clamp(11rem, 46vw, 14.5rem);
   }
 }
 
@@ -506,14 +625,14 @@
     display: flex;
     align-items: center;
     padding:
-      calc(5.5rem + env(safe-area-inset-top, 0px))
+      calc(4.5rem + env(safe-area-inset-top, 0px))
       clamp(1.5rem, 4vw, 3rem)
-      3rem;
+      2.25rem;
   }
 
   .cine {
-    min-height: min(78vh, 42rem);
-    min-height: min(78svh, 42rem);
+    min-height: min(68vh, 34rem);
+    min-height: min(68svh, 34rem);
   }
 
   .cineGrid {
@@ -521,11 +640,11 @@
       "copy stage"
       "story stage";
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    grid-template-rows: auto minmax(8.5rem, 1fr);
-    column-gap: clamp(2rem, 4vw, 3.5rem);
-    row-gap: clamp(1.75rem, 4vh, 2.5rem);
-    min-height: min(70vh, 38rem);
-    min-height: min(70svh, 38rem);
+    grid-template-rows: auto minmax(6.5rem, 1fr);
+    column-gap: clamp(1.5rem, 3.5vw, 2.75rem);
+    row-gap: clamp(1.1rem, 2.5vh, 1.75rem);
+    min-height: min(58vh, 30rem);
+    min-height: min(58svh, 30rem);
     align-items: center;
   }
 
@@ -534,7 +653,7 @@
   }
 
   .title {
-    font-size: clamp(4rem, 7vw, 6.5rem);
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
     line-height: 0.88;
     letter-spacing: -0.05em;
     will-change: transform, opacity;
@@ -542,7 +661,7 @@
 
   .storyDock {
     align-self: start;
-    min-height: 8.5rem;
+    min-height: 6.5rem;
   }
 
   .storyPanel {
@@ -561,12 +680,18 @@
 
   .stage {
     height: auto;
-    aspect-ratio: 5 / 3.2;
-    min-height: clamp(14rem, 32vh, 22rem);
+    aspect-ratio: 16 / 10;
+    min-height: clamp(11.5rem, 24vh, 16rem);
+    max-height: 18rem;
     will-change: transform, opacity;
   }
 
-  .routeNode {
+  .routeSvg {
+    min-height: 7rem;
+  }
+
+  .routeStop,
+  .routeCar {
     will-change: transform, opacity;
   }
 
@@ -588,16 +713,14 @@
   .title,
   .stage,
   .routePath,
-  .routeNode,
+  .routeStop,
+  .routeCar,
   .storyPanel,
   .progressFill,
-  .scanline,
-  .veil {
+  .liveDot,
+  .veil,
+  .hudBit {
     will-change: auto !important;
-  }
-
-  .stage {
-    clip-path: none;
   }
 
   .progressRail {
@@ -609,7 +732,7 @@
     inset: auto;
     opacity: 1;
     visibility: visible;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
   }
 
   .storyDock {

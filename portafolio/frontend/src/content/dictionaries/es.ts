@@ -192,6 +192,17 @@ export const es = {
       handoff: "Entrega",
       buildNotes: "Notas de construcción",
     },
+    stageUi: {
+      aria: "Tarjeta de viaje CyTaxi — origen, ruta y ETA",
+      product: "CyTaxi",
+      live: "En vivo",
+      status: "En camino",
+      pickup: "Origen",
+      dropoff: "Destino",
+      pickupPlace: "Centro",
+      dropoffPlace: "Aeropuerto",
+      eta: "ETA 6 min",
+    },
   },
 
   PROOF: {

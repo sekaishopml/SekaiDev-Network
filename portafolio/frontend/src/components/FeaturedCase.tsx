@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import gsap from "gsap";
+import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@/hooks/useGsapSafe";
 import { useT } from "@/components/LocaleProvider";
@@ -9,13 +10,17 @@ import { jumpTo } from "@/lib/navigation";
 import { FEATURED_CINE } from "@/lib/motion/featuredCase";
 import styles from "./FeaturedCase.module.css";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+
+const ROUTE_D =
+  "M36 118C88 42 138 132 198 72S300 34 384 90";
 
 export default function FeaturedCase() {
   const rootRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const t = useT();
   const c = t.FEATURED_CASE;
+  const ui = c.stageUi;
 
   const storyBeats = [
     {
@@ -53,13 +58,17 @@ export default function FeaturedCase() {
       const stage = root.querySelector<HTMLElement>(`.${styles.stage}`);
       const stageGlow = root.querySelector<HTMLElement>(`.${styles.stageGlow}`);
       const path = root.querySelector<SVGPathElement>(`.${styles.routePath}`);
-      const nodes = gsap.utils.toArray<SVGCircleElement>(
-        root.querySelectorAll(`.${styles.routeNode}`)
+      const nodes = gsap.utils.toArray<SVGGElement>(
+        root.querySelectorAll(`.${styles.routeStop}`)
+      );
+      const car = root.querySelector<SVGGElement>(`.${styles.routeCar}`);
+      const liveDot = root.querySelector<HTMLElement>(`.${styles.liveDot}`);
+      const hudBits = gsap.utils.toArray<HTMLElement>(
+        root.querySelectorAll(`.${styles.hudBit}`)
       );
       const panels = gsap.utils.toArray<HTMLElement>(
         root.querySelectorAll(`.${styles.storyPanel}`)
       );
-      const scanline = root.querySelector<HTMLElement>(`.${styles.scanline}`);
       const progressRail = root.querySelector<HTMLElement>(
         `.${styles.progressRail}`
       );
@@ -88,23 +97,116 @@ export default function FeaturedCase() {
         return length;
       };
 
+      const prepTripVisual = () => {
+        gsap.set(nodes, { autoAlpha: 0, scale: 0.55 });
+        if (car) gsap.set(car, { autoAlpha: 0, scale: 0.7 });
+        if (hudBits.length) gsap.set(hudBits, { autoAlpha: 0, y: 6 });
+        if (liveDot) gsap.set(liveDot, { scale: 0.6, opacity: 0.35 });
+        return drawPathFromZero();
+      };
+
+      const playTripVisual = (
+        opts: { duration: number; stagger: number },
+        position?: number | string
+      ) => {
+        const pathLength = path ? path.getTotalLength() : 0;
+        const tl = gsap.timeline();
+        if (path && pathLength) {
+          tl.to(
+            path,
+            {
+              strokeDashoffset: 0,
+              duration: opts.duration,
+              ease: "power2.out",
+            },
+            0
+          );
+        }
+        if (nodes.length) {
+          tl.to(
+            nodes,
+            {
+              autoAlpha: 1,
+              scale: 1,
+              duration: 0.28,
+              stagger: opts.stagger,
+              ease: "back.out(1.4)",
+            },
+            opts.duration * 0.15
+          );
+        }
+        if (car && path) {
+          tl.to(
+            car,
+            {
+              autoAlpha: 1,
+              scale: 1,
+              duration: 0.22,
+              ease: "power2.out",
+            },
+            opts.duration * 0.2
+          ).to(
+            car,
+            {
+              duration: opts.duration * 0.85,
+              ease: "power1.inOut",
+              motionPath: {
+                path,
+                align: path,
+                alignOrigin: [0.5, 0.5],
+                autoRotate: 90,
+                start: 0.08,
+                end: 0.72,
+              },
+            },
+            opts.duration * 0.22
+          );
+        }
+        if (hudBits.length) {
+          tl.to(
+            hudBits,
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.32,
+              stagger: 0.05,
+              ease: "power2.out",
+            },
+            opts.duration * 0.35
+          );
+        }
+        if (liveDot) {
+          tl.to(
+            liveDot,
+            { scale: 1, opacity: 1, duration: 0.25, ease: "power2.out" },
+            opts.duration * 0.3
+          );
+          tl.to(
+            liveDot,
+            {
+              scale: 1.35,
+              opacity: 0.55,
+              duration: 0.7,
+              ease: "sine.inOut",
+              yoyo: true,
+              repeat: -1,
+            },
+            opts.duration * 0.55
+          );
+        }
+        return { tl, position };
+      };
+
       // Reveal helpers use an explicit gsap.set (hidden state) + gsap.to
-      // (scrollTrigger-driven reveal) instead of gsap.from(). gsap.from()
-      // defaults immediateRender:true, which renders the "from" values the
-      // instant the tween is created — decoupled from ScrollTrigger's own
-      // progress math. If a refresh (matchMedia switch, font load, layout
-      // shift) recomputes the trigger's start position after that render,
-      // above-the-fold content can be left stuck invisible. gsap.to()
-      // never immediate-renders, so visibility is always driven by the
-      // ScrollTrigger's current, correctly-refreshed progress.
+      // (scrollTrigger-driven reveal) instead of gsap.from().
       const revealDetails = (start: string) => {
         if (after && detailBlocks.length) {
-          gsap.set(detailBlocks, { y: 28, autoAlpha: 0 });
+          gsap.set(detailBlocks, { y: 22, autoAlpha: 0 });
           gsap.to(detailBlocks, {
             y: 0,
             autoAlpha: 1,
-            duration: 0.65,
-            stagger: 0.1,
+            duration: 0.55,
+            stagger: 0.08,
             ease: "power2.out",
             scrollTrigger: {
               trigger: after,
@@ -116,16 +218,16 @@ export default function FeaturedCase() {
         }
 
         if (detailGrid && listItems.length) {
-          gsap.set(listItems, { y: 12, autoAlpha: 0 });
+          gsap.set(listItems, { y: 10, autoAlpha: 0 });
           gsap.to(listItems, {
             y: 0,
             autoAlpha: 1,
-            duration: 0.45,
-            stagger: 0.04,
+            duration: 0.4,
+            stagger: 0.035,
             ease: "power2.out",
             scrollTrigger: {
               trigger: detailGrid,
-              start: "top 82%",
+              start: "top 84%",
               toggleActions: "play none none none",
               once: true,
             },
@@ -133,15 +235,15 @@ export default function FeaturedCase() {
         }
 
         if (cta) {
-          gsap.set(cta, { y: 18, autoAlpha: 0 });
+          gsap.set(cta, { y: 14, autoAlpha: 0 });
           gsap.to(cta, {
             y: 0,
             autoAlpha: 1,
-            duration: 0.6,
+            duration: 0.5,
             ease: "power2.out",
             scrollTrigger: {
               trigger: cta,
-              start: "top 90%",
+              start: "top 92%",
               toggleActions: "play none none none",
               once: true,
             },
@@ -153,10 +255,6 @@ export default function FeaturedCase() {
 
       mm.add(
         {
-          // desktopQuery / mobileQuery are exact complements (De Morgan's
-          // law over min-width+min-height), so every viewport — including
-          // short landscape phones/tablets and short desktop windows —
-          // lands in exactly one branch below.
           desktop: FEATURED_CINE.desktopQuery,
           mobile: FEATURED_CINE.mobileQuery,
           reduceMotion: FEATURED_CINE.reducedMotionQuery,
@@ -184,6 +282,9 @@ export default function FeaturedCase() {
                 detailBlocks,
                 listItems,
                 cta,
+                hudBits,
+                car,
+                nodes,
               ],
               { clearProps: "all" }
             );
@@ -194,11 +295,28 @@ export default function FeaturedCase() {
               y: 0,
             });
             gsap.set(nodes, { autoAlpha: 1, scale: 1 });
+            gsap.set(hudBits, { autoAlpha: 1, y: 0 });
             if (path) {
               gsap.set(path, {
                 strokeDasharray: "none",
                 strokeDashoffset: 0,
               });
+            }
+            if (car && path) {
+              gsap.set(car, {
+                autoAlpha: 1,
+                scale: 1,
+                motionPath: {
+                  path,
+                  align: path,
+                  alignOrigin: [0.5, 0.5],
+                  autoRotate: 90,
+                  start: 0.48,
+                  end: 0.48,
+                },
+              });
+            } else if (car) {
+              gsap.set(car, { autoAlpha: 1, scale: 1 });
             }
             if (progressRail) gsap.set(progressRail, { display: "none" });
             return;
@@ -208,18 +326,18 @@ export default function FeaturedCase() {
             gsap.set([title, eyebrow, role, stack, stage, panels], {
               clearProps: "all",
             });
-            gsap.set(nodes, { autoAlpha: 0, scale: 0.55 });
+            prepTripVisual();
 
             const mobileIntro = [eyebrow, title, role, stack].filter(
               (element): element is HTMLElement => Boolean(element)
             );
             if (mobileIntro.length) {
-              gsap.set(mobileIntro, { y: 18, autoAlpha: 0 });
+              gsap.set(mobileIntro, { y: 14, autoAlpha: 0 });
               gsap.to(mobileIntro, {
                 y: 0,
                 autoAlpha: 1,
                 duration: FEATURED_CINE.mobileRevealDuration,
-                stagger: 0.07,
+                stagger: 0.06,
                 ease: "power2.out",
                 scrollTrigger: {
                   trigger: pin,
@@ -232,7 +350,7 @@ export default function FeaturedCase() {
 
             if (stage) {
               gsap.set(stage, {
-                y: 24,
+                y: 18,
                 autoAlpha: 0,
                 scale: FEATURED_CINE.mobileStageScaleFrom,
               });
@@ -240,51 +358,23 @@ export default function FeaturedCase() {
                 y: 0,
                 autoAlpha: 1,
                 scale: 1,
-                duration: 0.65,
+                duration: 0.55,
                 ease: "power2.out",
                 scrollTrigger: {
                   trigger: stage,
                   start: "top 84%",
                   toggleActions: "play none none none",
                   once: true,
+                  onEnter: () => {
+                    playTripVisual({
+                      duration: FEATURED_CINE.mobilePathDuration,
+                      stagger: 0.07,
+                    });
+                  },
                 },
               });
             }
 
-            const pathLength = drawPathFromZero();
-            if (path && pathLength) {
-              gsap.to(path, {
-                strokeDashoffset: 0,
-                duration: FEATURED_CINE.mobilePathDuration,
-                ease: "power2.out",
-                scrollTrigger: {
-                  trigger: stage ?? path,
-                  start: "top 82%",
-                  toggleActions: "play none none none",
-                  once: true,
-                },
-              });
-            }
-            if (nodes.length) {
-              gsap.to(nodes, {
-                autoAlpha: 1,
-                scale: 1,
-                duration: 0.32,
-                stagger: 0.08,
-                ease: "back.out(1.4)",
-                scrollTrigger: {
-                  trigger: stage ?? nodes[0],
-                  start: "top 80%",
-                  toggleActions: "play none none none",
-                  once: true,
-                },
-              });
-            }
-
-            // Each story beat is its own chapter: a slightly deeper
-            // (scale) + higher (y) start than the intro gives the stack a
-            // subtle sense of depth as the reader moves through it, without
-            // ever pinning or scrubbing the content itself.
             panels.forEach((panel) => {
               gsap.set(panel, {
                 y: FEATURED_CINE.mobilePanelYFrom,
@@ -306,16 +396,6 @@ export default function FeaturedCase() {
               });
             });
 
-            // Atmosphere-only depth: a short, local parallax/opacity drift
-            // on the decorative (aria-hidden) orbs + veil, scoped to the
-            // intro→stage→story block via `pin` as the trigger. This is a
-            // normal scrub tied to natural document scroll — it does not
-            // pin anything and does not stretch across the whole page —
-            // so it reads as ambient depth rather than a cinema scrub.
-            // Orbs (small blurred circles) get translated; the veil (a
-            // full-bleed inset:0 gradient) only fades, since translating a
-            // full-size overlay by a percentage of its own height would
-            // expose gaps at its edges.
             if (orbs.length) {
               const range = FEATURED_CINE.mobileAtmosphereRange;
               orbs.forEach((orb, index) => {
@@ -358,12 +438,7 @@ export default function FeaturedCase() {
             return;
           }
 
-          if (!conditions.desktop) {
-            // desktopQuery / mobileQuery are exact complements, so this
-            // branch should be unreachable. Bail out defensively instead
-            // of guessing a pin distance for an unrecognized viewport.
-            return;
-          }
+          if (!conditions.desktop) return;
 
           const pinEnd = () =>
             `+=${Math.round(window.innerHeight * FEATURED_CINE.pinScreens)}`;
@@ -374,20 +449,18 @@ export default function FeaturedCase() {
             autoAlpha: 0,
             transformOrigin: "left center",
           });
-          gsap.set([eyebrow, role, stack], { autoAlpha: 0, y: 24 });
+          gsap.set([eyebrow, role, stack], { autoAlpha: 0, y: 18 });
           gsap.set(stage, {
             scale: FEATURED_CINE.stageScaleFrom,
             y: FEATURED_CINE.stageYFrom,
             autoAlpha: 0.35,
           });
-          gsap.set(stageGlow, { opacity: 0, scale: 0.84 });
-          gsap.set(panels, { autoAlpha: 0, y: 28 });
-          gsap.set(watermark, { opacity: 0.02, scale: 1.06 });
+          gsap.set(stageGlow, { opacity: 0, scale: 0.9 });
+          gsap.set(panels, { autoAlpha: 0, y: 20 });
+          gsap.set(watermark, { opacity: 0.02, scale: 1.04 });
           gsap.set(veil, { opacity: 0.32, xPercent: -6 });
-          gsap.set(scanline, { opacity: 0, y: 0 });
-          gsap.set(nodes, { autoAlpha: 0, scale: 0.4 });
+          prepTripVisual();
 
-          const pathLength = drawPathFromZero();
           const tl = gsap.timeline({
             defaults: { ease: FEATURED_CINE.easeHold },
             scrollTrigger: {
@@ -408,61 +481,89 @@ export default function FeaturedCase() {
               scale: 1,
               y: 0,
               autoAlpha: 1,
-              duration: 0.2,
+              duration: 0.18,
               ease: "power2.out",
             },
             0
           )
             .to(
               eyebrow,
-              { autoAlpha: 1, y: 0, duration: 0.14, ease: "power2.out" },
-              0.04
+              { autoAlpha: 1, y: 0, duration: 0.12, ease: "power2.out" },
+              0.03
             )
             .to(
               watermark,
-              { opacity: 0.07, scale: 1, duration: 0.28, ease: "power1.out" },
+              { opacity: 0.06, scale: 1, duration: 0.24, ease: "power1.out" },
               0
             )
-            .to(veil, { opacity: 0.14, xPercent: 0, duration: 0.3 }, 0)
+            .to(veil, { opacity: 0.14, xPercent: 0, duration: 0.26 }, 0)
             .to(
               stage,
               {
                 scale: 1,
                 y: 0,
                 autoAlpha: 1,
-                duration: 0.25,
+                duration: 0.22,
                 ease: "power2.out",
               },
-              0.12
+              0.1
             )
-            .to(stageGlow, { opacity: 1, scale: 1, duration: 0.2 }, 0.16)
+            .to(stageGlow, { opacity: 1, scale: 1, duration: 0.16 }, 0.14)
             .to(
+              [role, stack],
+              { autoAlpha: 1, y: 0, stagger: 0.03, duration: 0.11 },
+              0.22
+            );
+
+          if (path) {
+            tl.to(path, { strokeDashoffset: 0, duration: 0.24 }, 0.16);
+          }
+          if (nodes.length) {
+            tl.to(
               nodes,
               {
                 autoAlpha: 1,
                 scale: 1,
-                stagger: 0.04,
-                duration: 0.12,
+                stagger: 0.035,
+                duration: 0.1,
                 ease: "back.out(1.5)",
               },
-              0.31
-            )
-            .to(
-              [role, stack],
-              { autoAlpha: 1, y: 0, stagger: 0.04, duration: 0.12 },
-              0.27
+              0.26
             );
-
-          if (path && pathLength) {
-            tl.to(path, { strokeDashoffset: 0, duration: 0.28 }, 0.19);
           }
-          if (scanline) {
-            tl.fromTo(
-              scanline,
-              { opacity: 0, y: 0 },
-              { opacity: 0.8, y: 180, duration: 0.2, ease: "none" },
-              0.21
-            ).to(scanline, { opacity: 0, duration: 0.08 }, 0.41);
+          if (car && path) {
+            tl.to(car, { autoAlpha: 1, scale: 1, duration: 0.1 }, 0.28).to(
+              car,
+              {
+                duration: 0.28,
+                ease: "none",
+                motionPath: {
+                  path,
+                  align: path,
+                  alignOrigin: [0.5, 0.5],
+                  autoRotate: 90,
+                  start: 0.08,
+                  end: 0.72,
+                },
+              },
+              0.3
+            );
+          }
+          if (hudBits.length) {
+            tl.to(
+              hudBits,
+              {
+                autoAlpha: 1,
+                y: 0,
+                stagger: 0.03,
+                duration: 0.1,
+                ease: "power2.out",
+              },
+              0.34
+            );
+          }
+          if (liveDot) {
+            tl.to(liveDot, { scale: 1, opacity: 1, duration: 0.08 }, 0.32);
           }
 
           FEATURED_CINE.chapterWindows.forEach((window, index) => {
@@ -486,7 +587,7 @@ export default function FeaturedCase() {
                 panel,
                 {
                   autoAlpha: 0,
-                  y: -16,
+                  y: -12,
                   duration: duration * 0.28,
                   ease: "power1.in",
                 },
@@ -497,9 +598,9 @@ export default function FeaturedCase() {
 
           tl.to(
             title,
-            { scale: 0.97, duration: 0.1, ease: "power1.inOut" },
+            { scale: 0.98, duration: 0.08, ease: "power1.inOut" },
             0.9
-          ).to(watermark, { opacity: 0.04, yPercent: 5, duration: 0.12 }, 0.88);
+          ).to(watermark, { opacity: 0.035, yPercent: 4, duration: 0.1 }, 0.88);
 
           if (progressFill) {
             gsap.fromTo(
@@ -512,7 +613,7 @@ export default function FeaturedCase() {
                   trigger: pin,
                   start: "top top",
                   end: pinEnd,
-                  scrub: 0.45,
+                  scrub: 0.4,
                   invalidateOnRefresh: true,
                 },
               }
@@ -522,10 +623,10 @@ export default function FeaturedCase() {
           orbs.forEach((orb, index) => {
             gsap.fromTo(
               orb,
-              { y: index % 2 === 0 ? -40 : 32, x: index === 1 ? 24 : -16 },
+              { y: index % 2 === 0 ? -28 : 22, x: index === 1 ? 16 : -12 },
               {
-                y: index % 2 === 0 ? 70 : -55,
-                x: index === 1 ? -32 : 28,
+                y: index % 2 === 0 ? 48 : -36,
+                x: index === 1 ? -22 : 18,
                 ease: "none",
                 scrollTrigger: {
                   trigger: root,
@@ -538,17 +639,19 @@ export default function FeaturedCase() {
             );
           });
 
-          revealDetails("top 78%");
+          revealDetails("top 80%");
         }
       );
 
-      // Font metrics affect both the pin distance and mobile stacked-panel starts.
       document.fonts?.ready.then(() => {
         if (root.isConnected) ScrollTrigger.refresh();
       });
       gsap.delayedCall(0.05, () => ScrollTrigger.refresh());
     },
-    { scope: rootRef, dependencies: [c.title, c.challenge, t.CTAS.featuredCase] }
+    {
+      scope: rootRef,
+      dependencies: [c.title, c.challenge, ui.eta, t.CTAS.featuredCase],
+    }
   );
 
   return (
@@ -593,38 +696,95 @@ export default function FeaturedCase() {
                   </li>
                 ))}
               </ul>
-
             </div>
 
             <div className={styles.stageCol}>
               <div
                 className={styles.stage}
                 role="img"
-                aria-label="Abstract route-system visual for the CyTaxi case"
+                aria-label={ui.aria}
               >
                 <div className={styles.stageGlow} aria-hidden="true" />
-                <div className={styles.stageFrame} aria-hidden="true" />
-                <div className={styles.scanline} aria-hidden="true" />
-                <span className={styles.stageLabel}>CYTAXI / ROUTE SYSTEM</span>
-                <svg
-                  className={styles.routeSvg}
-                  viewBox="0 0 500 180"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    className={styles.routePathGhost}
-                    d="M-10 142C74 18 126 164 215 73S355 25 510 100"
-                  />
-                  <path
-                    className={styles.routePath}
-                    d="M-10 142C74 18 126 164 215 73S355 25 510 100"
-                  />
-                  <circle className={styles.routeNode} cx="126" cy="112" r="5" />
-                  <circle className={styles.routeNode} cx="310" cy="58" r="5" />
-                  <circle className={styles.routeNode} cx="442" cy="82" r="5" />
-                </svg>
-                <span className={styles.stageMeta}>GO · NEXT · POSTGRES</span>
+
+                <div className={styles.stageChrome} aria-hidden="true">
+                  <span className={`${styles.hudBit} ${styles.stageProduct}`}>
+                    {ui.product}
+                  </span>
+                  <span className={`${styles.hudBit} ${styles.liveBadge}`}>
+                    <span className={styles.liveDot} />
+                    {ui.live}
+                  </span>
+                </div>
+
+                <div className={styles.mapPane} aria-hidden="true">
+                  <svg
+                    className={styles.routeSvg}
+                    viewBox="0 0 420 160"
+                    fill="none"
+                  >
+                    <g className={styles.mapGrid} opacity="0.45">
+                      <path d="M0 40H420M0 80H420M0 120H420" />
+                      <path d="M70 0V160M140 0V160M210 0V160M280 0V160M350 0V160" />
+                    </g>
+                    <path
+                      className={styles.blockGhost}
+                      d="M52 28h48v34H52zM168 18h56v28h-56zM292 44h64v36h-64zM98 96h70v38H98zM248 102h78v30h-78z"
+                    />
+                    <path className={styles.routePathGhost} d={ROUTE_D} />
+                    <path className={styles.routePath} d={ROUTE_D} />
+
+                    <g className={styles.routeStop} transform="translate(36 118)">
+                      <circle r="11" className={styles.stopHalo} />
+                      <circle r="5.5" className={styles.stopCore} />
+                      <text y="-14" textAnchor="middle" className={styles.stopLetter}>
+                        A
+                      </text>
+                    </g>
+                    <g className={styles.routeStop} transform="translate(384 90)">
+                      <circle r="11" className={styles.stopHalo} />
+                      <circle r="5.5" className={styles.stopCoreB} />
+                      <text y="-14" textAnchor="middle" className={styles.stopLetter}>
+                        B
+                      </text>
+                    </g>
+
+                    <g className={styles.routeCar}>
+                      <rect
+                        x="-9"
+                        y="-5"
+                        width="18"
+                        height="10"
+                        rx="3"
+                        className={styles.carBody}
+                      />
+                      <rect
+                        x="-5"
+                        y="-3.2"
+                        width="7"
+                        height="6.4"
+                        rx="1.2"
+                        className={styles.carCab}
+                      />
+                    </g>
+                  </svg>
+                </div>
+
+                <div className={styles.tripHud} aria-hidden="true">
+                  <div className={`${styles.hudBit} ${styles.tripStops}`}>
+                    <p>
+                      <span>A</span>
+                      {ui.pickup} · {ui.pickupPlace}
+                    </p>
+                    <p>
+                      <span>B</span>
+                      {ui.dropoff} · {ui.dropoffPlace}
+                    </p>
+                  </div>
+                  <div className={`${styles.hudBit} ${styles.tripMeta}`}>
+                    <span>{ui.status}</span>
+                    <strong>{ui.eta}</strong>
+                  </div>
+                </div>
               </div>
             </div>
 

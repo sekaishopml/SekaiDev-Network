@@ -77,6 +77,18 @@ export type StudioDictionary = {
       handoff: string;
       buildNotes: string;
     };
+    /** Decorative product chrome for the dispatch/map stage (not real metrics). */
+    stageUi: {
+      aria: string;
+      product: string;
+      live: string;
+      status: string;
+      pickup: string;
+      dropoff: string;
+      pickupPlace: string;
+      dropoffPlace: string;
+      eta: string;
+    };
   };
   PROOF: {
     metrics: readonly { value: string; label: string }[];

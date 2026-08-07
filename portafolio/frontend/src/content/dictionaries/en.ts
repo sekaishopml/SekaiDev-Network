@@ -179,6 +179,17 @@ export const en = {
       handoff: "Handoff",
       buildNotes: "Build notes",
     },
+    stageUi: {
+      aria: "CyTaxi live trip card — pickup, route, and ETA",
+      product: "CyTaxi",
+      live: "Live",
+      status: "En route",
+      pickup: "Pickup",
+      dropoff: "Dropoff",
+      pickupPlace: "Downtown",
+      dropoffPlace: "Airport",
+      eta: "ETA 6 min",
+    },
   },
 
   PROOF: {

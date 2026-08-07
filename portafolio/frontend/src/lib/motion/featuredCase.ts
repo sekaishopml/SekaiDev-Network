@@ -17,19 +17,19 @@ export const FEATURED_CINE = {
   mobileQuery: `(max-width: ${DESKTOP_MIN_WIDTH - 1}px), (max-height: ${DESKTOP_MIN_HEIGHT - 1}px)`,
   reducedMotionQuery: "(prefers-reduced-motion: reduce)",
   /** Desktop-only scroll distance, measured again on every refresh. */
-  pinScreens: 1.85,
-  scrub: 0.75,
+  pinScreens: 1.4,
+  scrub: 0.7,
   /** Keep the desktop bloom inside its column at every supported width. */
-  titleScaleFrom: 1.16,
-  titleYFrom: 42,
-  stageScaleFrom: 0.9,
-  stageYFrom: 34,
+  titleScaleFrom: 1.1,
+  titleYFrom: 28,
+  stageScaleFrom: 0.94,
+  stageYFrom: 22,
   /** Mobile is reveal-on-enter only; it never receives a scrub timeline. */
-  mobileRevealDuration: 0.52,
-  mobilePathDuration: 0.85,
-  mobileStageScaleFrom: 0.95,
-  mobilePanelYFrom: 22,
-  mobilePanelScaleFrom: 0.985,
+  mobileRevealDuration: 0.48,
+  mobilePathDuration: 0.75,
+  mobileStageScaleFrom: 0.96,
+  mobilePanelYFrom: 16,
+  mobilePanelScaleFrom: 0.99,
   /**
    * Decorative-only atmosphere drift for mobile. Scoped to the intro→stage→
    * story block (the pin wrapper) so it reads as a short, local depth cue —
