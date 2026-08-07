@@ -148,6 +148,8 @@ export type StudioDictionary = {
     footerStack: string;
     offerLabel: string;
     offerHeadline: string;
+    offerHeadlineAccent: string;
+    offerSubline: string;
     proofLabel: string;
     proofHeadline: string;
     faqLabel: string;

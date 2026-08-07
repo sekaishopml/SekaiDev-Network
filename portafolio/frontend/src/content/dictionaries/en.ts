@@ -128,17 +128,17 @@ export const en = {
     {
       title: "Ship the product",
       body:
-        "Web apps and platforms — auth, APIs, realtime — clean architecture, documented for future iteration.",
+        "Web apps and platforms with auth, APIs, and realtime — clean architecture, ready for the next iteration.",
     },
     {
       title: "Design that converts",
       body:
-        "UX/UI and brand sites with clear hierarchy. Motion and 3D as craft, not the whole offer.",
+        "UX/UI and brand sites with clear hierarchy. Motion only when it earns attention.",
     },
     {
       title: "One senior team",
       body:
-        "Design-aware engineers who prototype fast, communicate clearly, and own launch.",
+        "Design-aware engineers who prototype fast, communicate clearly, and own the launch.",
     },
   ],
 
@@ -471,7 +471,10 @@ export const en = {
     footerRights: "ALL RIGHTS RESERVED.",
     footerStack: "NEXT.JS · THREE.JS · GO · POSTGRES",
     offerLabel: "01 — OFFER",
-    offerHeadline: "What we deliver",
+    offerHeadline: "What we",
+    offerHeadlineAccent: "deliver.",
+    offerSubline:
+      "Product engineering, design, and systems — scoped clearly, shipped by one senior team.",
     proofLabel: "03 — PROOF",
     proofHeadline: "How we show up",
     faqLabel: "06 — FAQ",

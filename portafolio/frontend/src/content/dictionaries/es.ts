@@ -140,17 +140,17 @@ export const es = {
     {
       title: "Lanza el producto",
       body:
-        "Apps web y plataformas con autenticación, APIs y tiempo real: arquitectura limpia y documentada para seguir creciendo.",
+        "Apps y plataformas con auth, APIs y tiempo real — arquitectura limpia, lista para la siguiente iteración.",
     },
     {
       title: "Diseño que convierte",
       body:
-        "UX/UI y sitios de marca con jerarquía clara. Movimiento y 3D como recursos estratégicos, no como el producto completo.",
+        "UX/UI y sitios de marca con jerarquía clara. Movimiento solo cuando gana atención.",
     },
     {
       title: "Un solo equipo senior",
       body:
-        "Ingenieros con criterio de diseño que prototipan rápido, comunican con claridad y se hacen cargo del lanzamiento.",
+        "Ingenieros con criterio de diseño: prototipan rápido, comunican claro y se hacen cargo del lanzamiento.",
     },
   ],
 
@@ -513,7 +513,10 @@ export const es = {
     footerRights: "TODOS LOS DERECHOS RESERVADOS.",
     footerStack: "NEXT.JS · THREE.JS · GO · POSTGRES",
     offerLabel: "01 — OFERTA",
-    offerHeadline: "Lo que entregamos",
+    offerHeadline: "Lo que",
+    offerHeadlineAccent: "entregamos.",
+    offerSubline:
+      "Ingeniería de producto, diseño y sistemas — con alcance claro, de un solo equipo senior.",
     proofLabel: "03 — RESPALDO",
     proofHeadline: "Así trabajamos",
     faqLabel: "06 — PREGUNTAS FRECUENTES",
