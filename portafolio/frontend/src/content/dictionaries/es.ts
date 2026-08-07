@@ -402,9 +402,12 @@ export const es = {
 
   PROCESS_SECTION: {
     label: "03 — MÉTODO",
-    headline: "Cómo enviamos",
+    headline: "Primero por escrito.",
+    headlineAccent: "Después construimos.",
     subline:
-      "Cómo trabajamos, en cuatro pasos — alcance por escrito primero, sin desarrollos en caja negra.",
+      "Cómo opera el estudio — y el camino en cuatro pasos de alinear a lanzar.",
+    boardLabel: "Hoja de ruta",
+    boardFlow: "Alinear → Prototipar → Construir → Lanzar",
   },
 
   WORKS_SECTION: {
@@ -563,7 +566,7 @@ export const es = {
     offerSubline:
       "Ingeniería de producto, diseño y sistemas — con alcance claro, de un solo equipo senior.",
     proofLabel: "03 — MÉTODO",
-    proofHeadline: "Cómo enviamos",
+    proofHeadline: "Primero por escrito.",
     faqLabel: "05 — PREGUNTAS FRECUENTES",
     faqHeadline: "Claridad antes de empezar.",
     faqSubline: "Los detalles prácticos, respondidos sin rodeos.",

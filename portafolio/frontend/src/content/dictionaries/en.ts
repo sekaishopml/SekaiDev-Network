@@ -381,9 +381,12 @@ export const en = {
 
   PROCESS_SECTION: {
     label: "03 — METHOD",
-    headline: "How we ship",
+    headline: "Written first.",
+    headlineAccent: "Then we build.",
     subline:
-      "Proof of how we work, then four steps — written scope first, no black-box builds.",
+      "How the studio shows up — and the four-step path from alignment to launch.",
+    boardLabel: "Run sheet",
+    boardFlow: "Align → Prototype → Build → Launch",
   },
 
   WORKS_SECTION: {
@@ -524,7 +527,7 @@ export const en = {
     offerSubline:
       "Product engineering, design, and systems — scoped clearly, shipped by one senior team.",
     proofLabel: "03 — METHOD",
-    proofHeadline: "How we ship",
+    proofHeadline: "Written first.",
     faqLabel: "05 — FAQ",
     faqHeadline: "Clear before we begin.",
     faqSubline: "The practical details, answered plainly.",

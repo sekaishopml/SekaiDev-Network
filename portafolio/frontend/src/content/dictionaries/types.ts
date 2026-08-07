@@ -118,7 +118,14 @@ export type StudioDictionary = {
   };
   FAQ_ITEMS: readonly { question: string; answer: string }[];
   PROCESS: readonly { step: string; title: string; body: string }[];
-  PROCESS_SECTION: { label: string; headline: string; subline: string };
+  PROCESS_SECTION: {
+    label: string;
+    headline: string;
+    headlineAccent?: string;
+    subline: string;
+    boardLabel: string;
+    boardFlow: string;
+  };
   WORKS_SECTION: { label: string; headline: string; subline: string };
   WORKS: readonly {
     id: string;
