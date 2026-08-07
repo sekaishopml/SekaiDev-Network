@@ -57,6 +57,7 @@ export type StudioDictionary = {
   FEATURED_CASE: {
     label: string;
     title: string;
+    titleLine2?: string;
     role: string;
     challenge: string;
     solution: string;
@@ -67,6 +68,14 @@ export type StudioDictionary = {
     handoff: string;
     href: string | null;
     outcomeNote: string;
+    labels: {
+      challenge: string;
+      solution: string;
+      delivered: string;
+      decisions: string;
+      result: string;
+      handoff: string;
+    };
   };
   PROOF: {
     metrics: readonly { value: string; label: string }[];

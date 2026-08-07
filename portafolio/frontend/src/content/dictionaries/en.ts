@@ -144,7 +144,8 @@ export const en = {
 
   FEATURED_CASE: {
     label: "Featured case",
-    title: "CyTaxi Platform",
+    title: "CyTaxi",
+    titleLine2: "Platform",
     role: "Full-stack product engineering",
     challenge:
       "A ride platform needed production dispatch, payments, and live tracking — not a template MVP.",
@@ -169,6 +170,14 @@ export const en = {
       "A production-ready codebase, documented platform foundation, and a clear path for the next product iterations.",
     href: null,
     outcomeNote: "Outcome detail & walkthrough available on request.",
+    labels: {
+      challenge: "Challenge",
+      solution: "Solution",
+      delivered: "Delivered",
+      decisions: "Key decisions",
+      result: "Result",
+      handoff: "Handoff",
+    },
   },
 
   PROOF: {

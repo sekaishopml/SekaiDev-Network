@@ -156,7 +156,8 @@ export const es = {
 
   FEATURED_CASE: {
     label: "Caso destacado",
-    title: "Plataforma CyTaxi",
+    title: "CyTaxi",
+    titleLine2: "Platform",
     role: "Ingeniería de producto full-stack",
     challenge:
       "Una plataforma de movilidad necesitaba despacho operativo, pagos y seguimiento en vivo; no otro MVP armado con una plantilla.",
@@ -182,6 +183,14 @@ export const es = {
     href: null,
     outcomeNote:
       "Los resultados detallados y el recorrido del caso están disponibles bajo solicitud.",
+    labels: {
+      challenge: "Reto",
+      solution: "Solución",
+      delivered: "Entregado",
+      decisions: "Decisiones clave",
+      result: "Resultado",
+      handoff: "Entrega",
+    },
   },
 
   PROOF: {
