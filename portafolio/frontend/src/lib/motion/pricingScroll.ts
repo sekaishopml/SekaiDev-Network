@@ -8,7 +8,7 @@ export const PRICING_SCROLL = {
    * Extra vertical scroll after the track finishes traveling — keeps the
    * section "frozen" a beat so the last card is readable before unpinning.
    */
-  endPadScreens: 0.35,
+  endPadScreens: 0.45,
   /** Minimum horizontal travel so pin always has something to scrub. */
-  minTravelPx: 480,
+  minTravelPx: 560,
 } as const;

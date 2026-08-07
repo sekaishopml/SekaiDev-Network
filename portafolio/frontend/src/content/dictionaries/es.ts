@@ -220,25 +220,30 @@ export const es = {
 
   PRICING: {
     sectionLabel: "Inversión",
-    headline: "Servicios con precio de build serio.",
+    headline: "Elige el camino que lanza.",
     subline:
-      "USD · rangos iniciales · cotización escrita antes de construir. Al llegar aquí el scroll congela la sección: solo se mueve el carrusel de precios y luego continúa la página.",
+      "Tarifas cliente en USD · descuento ya aplicado · cotización escrita antes de construir. Al llegar, el scroll congela la sección: se mueve el carrusel y luego sigue la página.",
     marketNote:
-      "Anclado al mid-market boutique de EE.UU. — entrega senior nearshore desde Ecuador (UTC−5), no tarifas commodity offshore.",
-    scrollHint: "Scroll — se mueve el rail",
+      "Los pisos de estudio siguen el mid-market boutique de EE.UU. Los clientes activos pagan las tarifas de abajo — fijadas en la cotización escrita.",
+    offerBanner:
+      "Descuento de cliente en cada modalidad — compara lista vs. tu tarifa. Launch Standard es la mejor relación valor/producto.",
+    scrollHint: "Scroll — compara ofertas",
     disclaimer:
-      "Confirmamos por escrito el alcance, el cronograma y la cotización final antes de iniciar. Los precios son pisos de entrada: la complejidad sube la cotización.",
+      "Las tarifas cliente mostradas son pisos de entrada con el descuento del estudio aplicado. Confirmamos por escrito alcance, cronograma y cotización antes de construir. La complejidad puede subir el número — nunca en silencio.",
     recommended: "Recomendable",
+    clientRate: "Tarifa cliente",
     tiers: [
       {
         id: "brand",
         title: "Brand Presence",
-        tagline: "Un sitio que vende el estudio que eres.",
+        tagline: "Un sitio que vende quién eres.",
         timeline: "3–5 semanas",
-        priceFrom: "Desde $16,500",
+        priceWas: "$19,500",
+        priceFrom: "$16,500",
         priceUnit: "USD",
+        saveLabel: "Ahorras $3,000",
         bestFor:
-          "Sitios de marca / marketing premium con motion, CMS y arquitectura pensada para convertir.",
+          "Sitios de marca / marketing premium con motion, CMS y estructura pensada para convertir.",
         includes: [
           "Dirección de arte + wireframes de conversión",
           "Front end a medida en Next.js",
@@ -250,12 +255,39 @@ export const es = {
         intent: "brand",
       },
       {
+        id: "launch",
+        title: "Launch Standard",
+        tagline: "Diseñar, construir y lanzar el producto.",
+        timeline: "8–14 semanas",
+        priceWas: "$62,000",
+        priceFrom: "$48,000",
+        priceUnit: "USD",
+        saveLabel: "Ahorras $14,000",
+        offerNote:
+          "El mejor camino para la mayoría — producto + dirección de marca, build full-stack y 30 días de hypercare incluidos en la tarifa cliente.",
+        bestFor:
+          "Producto v1, consola operativa o base de plataforma que puedas operar y hacer crecer.",
+        includes: [
+          "Dirección de producto y visual",
+          "Go / Next.js / Postgres según alcance",
+          "Auth, APIs y flujos centrales del producto",
+          "Mapas / tiempo real cuando el producto lo pida",
+          "Staging → producción + docs + 30 días de hypercare",
+          "Prioridad de agenda al reservar este camino",
+        ],
+        cta: "Empezar con Launch",
+        intent: "launch",
+        featured: true,
+      },
+      {
         id: "sprint",
         title: "Signal Sprint",
         tagline: "Un hito crítico. Entregado.",
         timeline: "2–4 semanas",
-        priceFrom: "Desde $14,500",
+        priceWas: "$17,500",
+        priceFrom: "$14,500",
         priceUnit: "USD",
+        saveLabel: "Ahorras $3,000",
         bestFor:
           "Destrabar un MVP, validar UX/arquitectura o lanzar una porción de alto impacto.",
         includes: [
@@ -269,32 +301,14 @@ export const es = {
         intent: "sprint",
       },
       {
-        id: "launch",
-        title: "Launch Standard",
-        tagline: "Diseñar, construir full-stack y lanzar.",
-        timeline: "8–14 semanas",
-        priceFrom: "Desde $48,000",
-        priceUnit: "USD",
-        bestFor:
-          "Producto v1, consola operativa o base de plataforma — la modalidad con la que la mayoría debería empezar.",
-        includes: [
-          "Dirección de producto y visual",
-          "Go / Next.js / Postgres según alcance",
-          "Auth, APIs y flujos centrales",
-          "Mapas / tiempo real cuando el producto lo pida",
-          "Staging → producción + docs + 30 días de hypercare",
-        ],
-        cta: "Definir un lanzamiento",
-        intent: "launch",
-        featured: true,
-      },
-      {
         id: "partner",
         title: "Product Partner",
         tagline: "Capacidad senior sobre tu roadmap.",
         timeline: "3+ meses · mensual",
-        priceFrom: "Desde $18,500",
+        priceWas: "$22,000",
+        priceFrom: "$18,500",
         priceUnit: "USD / mes",
+        saveLabel: "Ahorras $3,500 / mes",
         bestFor:
           "Seguir enviando valor después del lanzamiento sin armar aún un pod senior interno.",
         includes: [
@@ -319,7 +333,7 @@ export const es = {
     {
       question: "¿Cuál es el presupuesto mínimo?",
       answer:
-        "Brand Presence y Signal Sprint empiezan desde $14,500–$16,500 USD. Launch Standard — la vía recomendable para un producto real — empieza desde $48,000 USD. Si tu necesidad es menor, te lo diremos pronto en vez de forzar un paquete.",
+        "Con el descuento de cliente aplicado, Brand Presence y Signal Sprint empiezan desde $14,500–$16,500 USD. Launch Standard — la vía recomendable — empieza desde $48,000 USD (lista $62,000). Si tu necesidad es menor, te lo diremos pronto en vez de forzar un paquete.",
     },
     {
       question: "¿Cómo funcionan los pagos?",

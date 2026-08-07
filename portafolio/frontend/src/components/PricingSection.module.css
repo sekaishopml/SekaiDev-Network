@@ -1,4 +1,4 @@
-/* Do NOT use overflow: clip/hidden on this section — it breaks ScrollTrigger pin. */
+/* Do NOT use overflow: clip/hidden here — it breaks ScrollTrigger pin. */
 .section {
   position: relative;
   width: 100%;
@@ -13,8 +13,8 @@
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(ellipse 70% 50% at 10% 0%, rgba(92, 26, 51, 0.35), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 90% 80%, rgba(232, 150, 175, 0.08), transparent 50%),
+    radial-gradient(ellipse 75% 55% at 12% 0%, rgba(92, 26, 51, 0.42), transparent 58%),
+    radial-gradient(ellipse 55% 45% at 88% 85%, rgba(232, 150, 175, 0.12), transparent 52%),
     #0c0c0e;
 }
 
@@ -26,15 +26,15 @@
   display: flex;
   flex-direction: column;
   padding:
-    calc(3.75rem + env(safe-area-inset-top, 0px))
+    calc(4.5rem + env(safe-area-inset-top, 0px))
     0
-    calc(1.75rem + env(safe-area-inset-bottom, 0px));
+    calc(2.25rem + env(safe-area-inset-bottom, 0px));
 }
 
 .head {
   flex-shrink: 0;
-  padding: 0 clamp(1.15rem, 4vw, 3rem);
-  max-width: 40rem;
+  padding: 0 clamp(1.25rem, 4vw, 3.25rem);
+  max-width: 46rem;
 }
 
 .eyebrow {
@@ -46,32 +46,48 @@
 }
 
 .title {
-  margin: 0.55rem 0 0;
+  margin: 0.75rem 0 0;
   font-family: var(--font-oswald), sans-serif;
   font-weight: 700;
-  font-size: clamp(2.1rem, 6vw, 3.25rem);
-  line-height: 0.95;
-  letter-spacing: -0.035em;
+  font-size: clamp(2.5rem, 7vw, 3.85rem);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
   text-transform: uppercase;
   color: #f0ebe6;
 }
 
 .subline {
-  margin: 0.65rem 0 0;
-  font-size: clamp(0.85rem, 2.2vw, 0.98rem);
+  margin: 0.9rem 0 0;
+  font-size: clamp(0.95rem, 2.4vw, 1.1rem);
+  line-height: 1.55;
+  color: rgba(240, 235, 230, 0.72);
+  max-width: 38rem;
+}
+
+.offerBanner {
+  margin: 1rem 0 0;
+  padding: 0.75rem 0.95rem;
+  font-size: 0.8rem;
   line-height: 1.5;
-  color: rgba(240, 235, 230, 0.68);
-  max-width: 34rem;
+  color: #ffc9d9;
+  border-left: 2px solid rgba(232, 150, 175, 0.75);
+  background: linear-gradient(
+    90deg,
+    rgba(92, 26, 51, 0.35),
+    rgba(92, 26, 51, 0.08) 70%,
+    transparent
+  );
+  max-width: 40rem;
 }
 
 .marketNote {
-  margin: 0.65rem 0 0;
-  font-size: 0.575rem;
-  letter-spacing: 0.14em;
+  margin: 0.85rem 0 0;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(232, 150, 175, 0.72);
-  max-width: 36rem;
-  line-height: 1.45;
+  color: rgba(232, 150, 175, 0.65);
+  max-width: 40rem;
+  line-height: 1.5;
 }
 
 .railMeta {
@@ -79,22 +95,22 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-top: 1rem;
-  padding: 0 clamp(1.15rem, 4vw, 3rem);
+  margin-top: 1.35rem;
+  padding: 0 clamp(1.25rem, 4vw, 3.25rem);
   flex-shrink: 0;
 }
 
 .hint {
-  font-size: 0.55rem;
+  font-size: 0.6rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(240, 235, 230, 0.4);
+  color: rgba(240, 235, 230, 0.42);
 }
 
 .progressTrack {
   flex: 1;
-  max-width: 14rem;
-  height: 1px;
+  max-width: 16rem;
+  height: 2px;
   background: rgba(240, 235, 230, 0.12);
   overflow: hidden;
 }
@@ -113,16 +129,16 @@
   position: relative;
   flex: 1;
   min-height: 0;
-  margin-top: 1rem;
+  margin-top: 1.35rem;
   overflow: hidden;
 }
 
 .track {
   display: flex;
   align-items: stretch;
-  gap: 1rem;
+  gap: 1.25rem;
   height: 100%;
-  padding: 0.25rem clamp(1.15rem, 4vw, 3rem) 0.35rem;
+  padding: 0.5rem clamp(1.25rem, 4vw, 3.25rem) 0.6rem;
   width: max-content;
   will-change: transform;
 }
@@ -130,122 +146,203 @@
 .card {
   position: relative;
   flex: 0 0 auto;
-  /* Fixed-ish widths so the track always overflows the viewport → pin has travel. */
-  width: min(78vw, 20rem);
+  width: min(84vw, 22.5rem);
   display: flex;
   flex-direction: column;
-  padding: 1.2rem 1.15rem 1.25rem;
-  border: 1px solid rgba(240, 235, 230, 0.14);
-  background: rgba(18, 18, 22, 0.92);
+  padding: 1.65rem 1.5rem 1.6rem;
+  border: 1px solid rgba(240, 235, 230, 0.16);
+  background: rgba(18, 18, 22, 0.94);
   color: #f0ebe6;
 }
 
 .cardFeatured {
-  width: min(82vw, 21.5rem);
-  border-color: rgba(232, 150, 175, 0.45);
+  width: min(88vw, 26rem);
+  border-color: rgba(232, 150, 175, 0.55);
   background:
-    linear-gradient(165deg, rgba(58, 28, 40, 0.55) 0%, rgba(14, 14, 16, 0.96) 48%, rgba(18, 18, 22, 0.98) 100%);
-  box-shadow: inset 0 0 0 1px rgba(232, 150, 175, 0.08);
+    linear-gradient(
+      165deg,
+      rgba(78, 36, 52, 0.72) 0%,
+      rgba(22, 14, 18, 0.98) 42%,
+      rgba(12, 12, 14, 0.99) 100%
+    );
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 205, 221, 0.1),
+    0 0 40px rgba(232, 150, 175, 0.12);
 }
 
-.badge {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 0.5rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #ffc9d9;
-  border: 1px solid rgba(232, 150, 175, 0.45);
-  padding: 0.28rem 0.55rem;
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
 }
 
 .timeline {
   margin: 0;
-  font-size: 0.55rem;
+  font-size: 0.625rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(240, 235, 230, 0.42);
-  padding-right: 5.5rem;
+  color: rgba(240, 235, 230, 0.45);
+}
+
+.badge {
+  flex-shrink: 0;
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #1a1014;
+  background: #e9a9bf;
+  border: 0;
+  padding: 0.4rem 0.65rem;
+  font-weight: 600;
 }
 
 .name {
-  margin: 0.6rem 0 0;
+  margin: 1rem 0 0;
   font-family: var(--font-oswald), sans-serif;
   font-weight: 700;
-  font-size: clamp(1.5rem, 3.5vw, 1.85rem);
+  font-size: clamp(1.75rem, 4vw, 2.15rem);
   letter-spacing: -0.03em;
   text-transform: uppercase;
   line-height: 1;
 }
 
-.tagline {
-  margin: 0.4rem 0 0;
-  font-size: 0.78rem;
-  line-height: 1.4;
-  color: rgba(240, 235, 230, 0.62);
+.cardFeatured .name {
+  font-size: clamp(1.95rem, 4.2vw, 2.45rem);
 }
 
-.priceRow {
-  margin-top: 1rem;
+.tagline {
+  margin: 0.55rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: rgba(240, 235, 230, 0.68);
+}
+
+.priceBlock {
+  margin-top: 1.35rem;
+  padding: 0.95rem 0;
+  border-top: 1px solid rgba(240, 235, 230, 0.1);
+  border-bottom: 1px solid rgba(240, 235, 230, 0.1);
+}
+
+.cardFeatured .priceBlock {
+  border-color: rgba(232, 150, 175, 0.22);
+  background: rgba(0, 0, 0, 0.18);
+  margin-left: -0.35rem;
+  margin-right: -0.35rem;
+  padding-left: 0.85rem;
+  padding-right: 0.85rem;
+}
+
+.priceMeta {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.35rem 0.5rem;
+  align-items: center;
+  gap: 0.45rem 0.65rem;
+  margin-bottom: 0.45rem;
 }
 
-.price {
-  font-family: var(--font-oswald), sans-serif;
-  font-size: 1.25rem;
-  letter-spacing: 0.02em;
-  color: #e9a9bf;
-}
-
-.priceUnit {
+.rateLabel {
   font-size: 0.575rem;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(240, 235, 230, 0.45);
 }
 
+.saveChip {
+  font-size: 0.575rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1a1014;
+  background: rgba(255, 201, 217, 0.92);
+  padding: 0.22rem 0.5rem;
+  font-weight: 600;
+}
+
+.priceRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.45rem 0.65rem;
+}
+
+.priceWas {
+  font-family: var(--font-oswald), sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  color: rgba(240, 235, 230, 0.35);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+.price {
+  font-family: var(--font-oswald), sans-serif;
+  font-size: 1.75rem;
+  letter-spacing: 0.01em;
+  color: #ffc9d9;
+  line-height: 1;
+}
+
+.cardFeatured .price {
+  font-size: 2.05rem;
+  color: #ffe0ea;
+}
+
+.priceUnit {
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(240, 235, 230, 0.5);
+}
+
+.offerNote {
+  margin: 1rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: rgba(255, 205, 221, 0.88);
+  max-width: 34ch;
+}
+
 .bestFor {
-  margin: 0.65rem 0 0;
-  font-size: 0.7rem;
-  line-height: 1.45;
-  color: rgba(240, 235, 230, 0.58);
-  max-width: 28ch;
+  margin: 0.95rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: rgba(240, 235, 230, 0.62);
+  max-width: 34ch;
 }
 
 .includes {
-  margin: 0.9rem 0 0;
+  margin: 1.25rem 0 0;
   padding: 0;
   list-style: none;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.55rem;
 }
 
 .includes li {
-  font-size: 0.675rem;
-  line-height: 1.4;
-  color: rgba(240, 235, 230, 0.78);
-  padding-left: 0.65rem;
-  border-left: 1px solid rgba(232, 150, 175, 0.35);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: rgba(240, 235, 230, 0.82);
+  padding-left: 0.8rem;
+  border-left: 1px solid rgba(232, 150, 175, 0.4);
 }
 
 .cta {
-  margin-top: 1.1rem;
-  align-self: flex-start;
-  min-height: 44px;
+  margin-top: 1.5rem;
+  align-self: stretch;
+  min-height: 48px;
   display: inline-flex;
   align-items: center;
-  font-size: 0.6rem;
+  justify-content: center;
+  gap: 0.55rem;
+  font-size: 0.675rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: #f0ebe6;
   border: 1px solid rgba(240, 235, 230, 0.35);
-  padding: 0.6rem 1rem;
+  padding: 0.8rem 1.15rem;
   background: transparent;
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
@@ -257,18 +354,20 @@
 }
 
 .ctaFeatured {
-  border-color: rgba(232, 150, 175, 0.65);
-  color: #ffc9d9;
+  border-color: transparent;
+  background: #e9a9bf;
+  color: #1a1014;
+  font-weight: 600;
 }
 
 .ctaFeatured:hover {
-  background: #e9a9bf;
-  color: #0c0c0e;
-  border-color: #e9a9bf;
+  background: #ffc9d9;
+  color: #1a1014;
+  border-color: transparent;
 }
 
 .cta:focus-visible {
-  outline: 2px solid rgba(232, 150, 175, 0.8);
+  outline: 2px solid rgba(232, 150, 175, 0.85);
   outline-offset: 3px;
 }
 
@@ -278,29 +377,29 @@
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 0.75rem 1.5rem;
-  margin-top: 1rem;
-  padding: 0 clamp(1.15rem, 4vw, 3rem);
+  gap: 0.9rem 1.75rem;
+  margin-top: 1.25rem;
+  padding: 0 clamp(1.25rem, 4vw, 3.25rem);
 }
 
 .disclaimer {
   margin: 0;
-  font-size: 0.55rem;
-  letter-spacing: 0.14em;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(240, 235, 230, 0.38);
-  max-width: 34rem;
-  line-height: 1.5;
+  color: rgba(240, 235, 230, 0.4);
+  max-width: 38rem;
+  line-height: 1.55;
 }
 
 .footCta {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(240, 235, 230, 0.65);
+  color: rgba(240, 235, 230, 0.7);
   background: none;
   border: 0;
   padding: 0;
@@ -318,19 +417,19 @@
 
 @media (min-width: 900px) {
   .card {
-    width: 21.5rem;
-    min-height: min(52vh, 26rem);
+    width: 23.5rem;
+    min-height: min(58vh, 32rem);
   }
 
   .cardFeatured {
-    width: 23rem;
+    width: 27rem;
+    min-height: min(62vh, 34rem);
   }
 }
 
-/* Stacked fallback — no pin / no scrub */
 .reduced .pin {
   min-height: 0;
-  padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(3.25rem + env(safe-area-inset-bottom, 0px));
 }
 
 .reduced .viewport {
@@ -340,15 +439,15 @@
 .reduced .track {
   flex-wrap: wrap;
   width: 100%;
-  max-width: 72rem;
+  max-width: 74rem;
   height: auto;
   will-change: auto;
-  gap: 0.85rem;
+  gap: 1.1rem;
 }
 
 .reduced .card,
 .reduced .cardFeatured {
-  width: min(100%, 22rem);
+  width: min(100%, 26rem);
   min-height: 0;
 }
 

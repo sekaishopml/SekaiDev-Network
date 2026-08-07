@@ -28,6 +28,9 @@ export default function PricingSection() {
       if (!root || !pin || !track) return;
 
       const mm = gsap.matchMedia();
+      const featured = root.querySelector<HTMLElement>(
+        `[data-featured="true"]`
+      );
 
       mm.add(PRICING_SCROLL.reducedMotionQuery, () => {
         gsap.set(track, { clearProps: "transform" });
@@ -45,6 +48,21 @@ export default function PricingSection() {
 
         gsap.set(track, { x: 0, force3D: true });
         if (progress) gsap.set(progress, { scaleX: 0 });
+
+        if (featured) {
+          gsap.fromTo(
+            featured,
+            { boxShadow: "0 0 0 0 rgba(232, 150, 175, 0)" },
+            {
+              boxShadow: "0 0 48px 0 rgba(232, 150, 175, 0.18)",
+              duration: 1.4,
+              ease: "sine.inOut",
+              yoyo: true,
+              repeat: -1,
+              delay: 0.4,
+            }
+          );
+        }
 
         const tween = gsap.to(track, {
           x: () => -getTravel(),
@@ -64,8 +82,6 @@ export default function PricingSection() {
             scrub: PRICING_SCROLL.scrub,
             anticipatePin: 1,
             invalidateOnRefresh: true,
-            // Lenis drives real window scroll — fixed pins are correct here.
-            // Avoid overflow:clip on ancestors (breaks pin).
             onUpdate: (self) => {
               if (progress) gsap.set(progress, { scaleX: self.progress });
             },
@@ -84,7 +100,6 @@ export default function PricingSection() {
       };
       document.fonts?.ready.then(refresh);
       gsap.delayedCall(0.1, refresh);
-      // Previous sections (featured pin) can shift layout after first paint.
       gsap.delayedCall(0.45, refresh);
 
       window.addEventListener("resize", refresh);
@@ -116,6 +131,7 @@ export default function PricingSection() {
             {p.headline}
           </h2>
           <p className={styles.subline}>{p.subline}</p>
+          <p className={styles.offerBanner}>{p.offerBanner}</p>
           <p className={styles.marketNote}>{p.marketNote}</p>
         </header>
 
@@ -137,30 +153,53 @@ export default function PricingSection() {
                   data-tier={tier.id}
                   data-featured={featured || undefined}
                 >
-                  {featured ? (
-                    <span className={styles.badge}>{p.recommended}</span>
-                  ) : null}
-                  <p className={styles.timeline}>{tier.timeline}</p>
-                  <h3 className={styles.name}>{tier.title}</h3>
-                  <p className={styles.tagline}>{tier.tagline}</p>
-                  <div className={styles.priceRow}>
-                    <span className={styles.price}>{tier.priceFrom}</span>
-                    {tier.priceUnit ? (
-                      <span className={styles.priceUnit}>{tier.priceUnit}</span>
+                  <div className={styles.cardTop}>
+                    <p className={styles.timeline}>{tier.timeline}</p>
+                    {featured ? (
+                      <span className={styles.badge}>{p.recommended}</span>
                     ) : null}
                   </div>
+
+                  <h3 className={styles.name}>{tier.title}</h3>
+                  <p className={styles.tagline}>{tier.tagline}</p>
+
+                  <div className={styles.priceBlock}>
+                    <div className={styles.priceMeta}>
+                      <span className={styles.rateLabel}>{p.clientRate}</span>
+                      {tier.saveLabel ? (
+                        <span className={styles.saveChip}>{tier.saveLabel}</span>
+                      ) : null}
+                    </div>
+                    <div className={styles.priceRow}>
+                      {tier.priceWas ? (
+                        <span className={styles.priceWas}>{tier.priceWas}</span>
+                      ) : null}
+                      <span className={styles.price}>{tier.priceFrom}</span>
+                      {tier.priceUnit ? (
+                        <span className={styles.priceUnit}>{tier.priceUnit}</span>
+                      ) : null}
+                    </div>
+                  </div>
+
+                  {tier.offerNote ? (
+                    <p className={styles.offerNote}>{tier.offerNote}</p>
+                  ) : null}
+
                   <p className={styles.bestFor}>{tier.bestFor}</p>
+
                   <ul className={styles.includes}>
                     {tier.includes.map((line) => (
                       <li key={line}>{line}</li>
                     ))}
                   </ul>
+
                   <button
                     type="button"
                     className={`${styles.cta} ${featured ? styles.ctaFeatured : ""}`}
                     onClick={() => jump(tier.intent)}
                   >
                     {tier.cta}
+                    <span aria-hidden>→</span>
                   </button>
                 </article>
               );

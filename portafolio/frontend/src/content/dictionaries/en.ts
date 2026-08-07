@@ -204,25 +204,30 @@ export const en = {
 
   PRICING: {
     sectionLabel: "Investment",
-    headline: "Services priced for serious builds.",
+    headline: "Pick the path that ships.",
     subline:
-      "USD starting ranges · written quote before build. Scroll to freeze this section — the price rail moves, then the page continues.",
+      "Clear USD client rates · discount already applied · written quote before build. Scroll to freeze — the price rail moves, then the page continues.",
     marketNote:
-      "Anchored to US boutique mid-market — senior nearshore delivery from Ecuador (UTC−5), not offshore commodity rates.",
-    scrollHint: "Scroll — rail moves",
+      "Studio floors sit at US boutique mid-market. Active clients get the rates below — locked in the written quote.",
+    offerBanner:
+      "Client discount on every engagement — compare list vs. your rate. Launch Standard is the best value for a real product.",
+    scrollHint: "Scroll — compare offers",
     disclaimer:
-      "Final scope, timeline, and quote confirmed in writing before any build starts. Prices are starting floors — complexity moves the quote up.",
+      "Client rates shown are starting floors with the studio discount applied. Final scope, timeline, and quote confirmed in writing before build. Complexity can move the number up — never surprise you silently.",
     recommended: "Recommended",
+    clientRate: "Client rate",
     tiers: [
       {
         id: "brand",
         title: "Brand Presence",
-        tagline: "A site that sells the studio you are.",
+        tagline: "A site that sells who you are.",
         timeline: "3–5 weeks",
-        priceFrom: "From $16,500",
+        priceWas: "$19,500",
+        priceFrom: "$16,500",
         priceUnit: "USD",
+        saveLabel: "Save $3,000",
         bestFor:
-          "Premium marketing / brand sites with motion, CMS hooks, and conversion-first IA.",
+          "Premium brand / marketing sites with motion, CMS hooks, and conversion-first structure.",
         includes: [
           "Art direction + conversion wireframes",
           "Custom Next.js front end",
@@ -234,12 +239,39 @@ export const en = {
         intent: "brand",
       },
       {
+        id: "launch",
+        title: "Launch Standard",
+        tagline: "Design, build, and launch the product.",
+        timeline: "8–14 weeks",
+        priceWas: "$62,000",
+        priceFrom: "$48,000",
+        priceUnit: "USD",
+        saveLabel: "Save $14,000",
+        offerNote:
+          "Best path for most teams — product + brand direction, full-stack build, and 30-day hypercare included at the client rate.",
+        bestFor:
+          "Product v1, ops console, or platform foundation you can operate and grow.",
+        includes: [
+          "Product + visual direction",
+          "Go / Next.js / Postgres as scoped",
+          "Auth, APIs, and core product flows",
+          "Maps / realtime when the product needs it",
+          "Staging → production + docs + 30-day hypercare",
+          "Priority scheduling when you book this path",
+        ],
+        cta: "Start with Launch",
+        intent: "launch",
+        featured: true,
+      },
+      {
         id: "sprint",
         title: "Signal Sprint",
         tagline: "One critical milestone. Shipped.",
         timeline: "2–4 weeks",
-        priceFrom: "From $14,500",
+        priceWas: "$17,500",
+        priceFrom: "$14,500",
         priceUnit: "USD",
+        saveLabel: "Save $3,000",
         bestFor:
           "Unblock a stuck MVP, validate UX/architecture, or ship one high-stakes slice.",
         includes: [
@@ -253,32 +285,14 @@ export const en = {
         intent: "sprint",
       },
       {
-        id: "launch",
-        title: "Launch Standard",
-        tagline: "Design, full-stack build, and launch.",
-        timeline: "8–14 weeks",
-        priceFrom: "From $48,000",
-        priceUnit: "USD",
-        bestFor:
-          "Product v1, ops console, or platform foundation — the engagement most teams should start with.",
-        includes: [
-          "Product + visual direction",
-          "Go / Next.js / Postgres as scoped",
-          "Auth, APIs, and core flows",
-          "Maps / realtime when the product needs it",
-          "Staging → production + docs + 30-day hypercare",
-        ],
-        cta: "Scope a launch",
-        intent: "launch",
-        featured: true,
-      },
-      {
         id: "partner",
         title: "Product Partner",
         tagline: "Senior capacity on your roadmap.",
         timeline: "3+ months · monthly",
-        priceFrom: "From $18,500",
+        priceWas: "$22,000",
+        priceFrom: "$18,500",
         priceUnit: "USD / mo",
+        saveLabel: "Save $3,500 / mo",
         bestFor:
           "Keep shipping after launch without hiring a full in-house senior pod yet.",
         includes: [
@@ -303,7 +317,7 @@ export const en = {
     {
       question: "What is the minimum budget?",
       answer:
-        "Brand Presence and Signal Sprint start from $14,500–$16,500 USD. Launch Standard — our recommended path for a real product — starts from $48,000 USD. If your need is smaller, we will say so early rather than force a package.",
+        "With the client discount applied, Brand Presence and Signal Sprint start from $14,500–$16,500 USD. Launch Standard — our recommended path — starts from $48,000 USD (list $62,000). If your need is smaller, we will say so early rather than force a package.",
     },
     {
       question: "How do payments work?",

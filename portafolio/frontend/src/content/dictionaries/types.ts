@@ -99,16 +99,22 @@ export type StudioDictionary = {
     headline: string;
     subline: string;
     marketNote: string;
+    offerBanner: string;
     scrollHint: string;
     disclaimer: string;
     recommended: string;
+    clientRate: string;
     tiers: readonly {
       id: string;
       title: string;
       tagline: string;
       timeline: string;
+      /** Struck list / studio floor before client rate. */
+      priceWas?: string;
       priceFrom: string;
       priceUnit?: string;
+      saveLabel?: string;
+      offerNote?: string;
       bestFor: string;
       includes: readonly string[];
       cta: string;
