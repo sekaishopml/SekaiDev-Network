@@ -66,17 +66,15 @@
   mix-blend-mode: overlay;
 }
 
-/* Pinned cinematic viewport */
+/* Mobile is a normal editorial flow. Pinning is added at the desktop breakpoint. */
 .pinWrap {
   position: relative;
   z-index: 1;
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
+  min-height: 0;
   padding:
-    calc(5.5rem + env(safe-area-inset-top, 0px))
-    clamp(1.25rem, 4vw, 3rem)
-    3rem;
+    calc(5rem + env(safe-area-inset-top, 0px))
+    clamp(1rem, 4vw, 2rem)
+    clamp(3rem, 9vw, 5rem);
 }
 
 .cine {
@@ -84,7 +82,7 @@
   width: 100%;
   max-width: 72rem;
   margin: 0 auto;
-  min-height: min(78svh, 42rem);
+  min-height: 0;
 }
 
 .watermark {
@@ -101,27 +99,37 @@
   user-select: none;
   will-change: transform, opacity;
   z-index: 0;
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.9) 30%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.9) 30%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
 }
 
 .cineGrid {
   position: relative;
   z-index: 1;
   display: grid;
-  gap: clamp(1.5rem, 4vh, 2.5rem);
-  align-items: center;
-}
-
-@media (min-width: 960px) {
-  .cineGrid {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    gap: clamp(2rem, 4vw, 3.5rem);
-    min-height: min(70svh, 38rem);
-  }
+  grid-template-areas:
+    "copy"
+    "stage"
+    "story";
+  gap: clamp(1.5rem, 6vw, 2.5rem);
+  align-items: start;
 }
 
 .copyCol {
+  grid-area: copy;
   position: relative;
   z-index: 2;
+  min-width: 0;
 }
 
 .eyebrow {
@@ -134,15 +142,16 @@
 }
 
 .title {
-  margin: 0.85rem 0 0;
+  margin: 0.7rem 0 0;
   font-family: var(--font-oswald), sans-serif;
   font-weight: 700;
-  font-size: clamp(3.5rem, 11vw, 7rem);
-  line-height: 0.88;
-  letter-spacing: -0.05em;
+  max-width: 100%;
+  font-size: clamp(2.75rem, 13vw, 4.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
   text-transform: uppercase;
   color: #f0ebe6;
-  will-change: transform, opacity, filter;
+  overflow-wrap: normal;
 }
 
 .titleLine2 {
@@ -151,7 +160,7 @@
 }
 
 .role {
-  margin: 1.1rem 0 0;
+  margin: 0.9rem 0 0;
   font-size: 0.6875rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -163,7 +172,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin: 1.35rem 0 0;
+  margin: 1.1rem 0 0;
   padding: 0;
   list-style: none;
   will-change: opacity, transform;
@@ -178,39 +187,51 @@
   padding: 0.4rem 0.75rem;
 }
 
-/* Story panel — crossfades during pin */
+/* Mobile story beats stay in document flow. */
 .storyDock {
+  grid-area: story;
+  display: grid;
+  gap: 0;
   position: relative;
-  margin-top: clamp(1.75rem, 4vh, 2.5rem);
-  min-height: 8.5rem;
+  min-height: 0;
+  counter-reset: storyChapter;
 }
 
 .storyPanel {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  visibility: hidden;
-  will-change: opacity, transform;
-}
-
-.storyPanelActive {
-  /* GSAP owns visibility; class is a hook */
+  position: relative;
+  padding: 1.35rem 0 1.5rem;
+  border-top: 1px solid rgba(240, 235, 230, 0.12);
+  opacity: 1;
+  visibility: visible;
+  counter-increment: storyChapter;
 }
 
 .storyLabel {
   margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.65em;
   font-size: 0.625rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: rgba(232, 150, 175, 0.7);
 }
 
+/* Numbers the stacked chapters (01, 02, ...) so the story reads as a clear
+   sequence on mobile, where there's no progress rail to imply position. */
+.storyLabel::before {
+  content: counter(storyChapter, decimal-leading-zero);
+  color: rgba(240, 235, 230, 0.32);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+}
+
 .storyText {
   margin: 0.65rem 0 0;
-  font-size: clamp(0.95rem, 1.8vw, 1.125rem);
-  line-height: 1.6;
+  font-size: clamp(0.95rem, 3.8vw, 1.0625rem);
+  line-height: 1.65;
   color: rgba(240, 235, 230, 0.84);
-  max-width: 36ch;
+  max-width: 42rem;
 }
 
 .storyNote {
@@ -223,22 +244,21 @@
 
 /* Route stage — hero-scale visual plane */
 .stageCol {
+  grid-area: stage;
   position: relative;
   z-index: 1;
+  min-width: 0;
 }
 
 .stage {
   position: relative;
   width: 100%;
-  aspect-ratio: 5 / 3.2;
-  min-height: clamp(14rem, 32vh, 22rem);
+  height: clamp(13rem, 56vw, 25rem);
   border: 1px solid rgba(240, 235, 230, 0.14);
   background:
     linear-gradient(155deg, rgba(42, 34, 42, 0.95) 0%, rgba(8, 8, 10, 0.98) 52%, rgba(58, 28, 44, 0.85) 100%);
   overflow: hidden;
   transform-origin: center center;
-  will-change: transform, opacity, clip-path;
-  clip-path: inset(12% 8% 12% 8%);
 }
 
 .stageFrame {
@@ -305,10 +325,9 @@
   fill: #e9a9bf;
   stroke: #050506;
   stroke-width: 3;
-  opacity: 0;
+  opacity: 1;
   transform-origin: center;
   transform-box: fill-box;
-  will-change: transform, opacity;
 }
 
 .scanline {
@@ -324,22 +343,17 @@
   pointer-events: none;
 }
 
-/* Progress across pin */
+/* The progress rail only belongs to the desktop pinned experience. */
 .progressRail {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: rgba(240, 235, 230, 0.08);
-  z-index: 4;
+  display: none;
 }
 
 .progressFill {
   width: 100%;
-  height: 0%;
+  height: 100%;
   background: linear-gradient(180deg, rgba(232, 150, 175, 0.1), rgba(232, 150, 175, 0.9));
-  will-change: height;
+  transform: scaleY(0);
+  transform-origin: top center;
 }
 
 /* After pin — deep detail */
@@ -433,23 +447,138 @@
   outline-offset: 4px;
 }
 
-@media (max-width: 767px) {
+/*
+ * Mirrors FEATURED_CINE.mobileQuery in lib/motion/featuredCase.ts exactly
+ * (max-width: 959px OR max-height: 699px). Any viewport that JS treats as
+ * the non-pinned, stacked layout — including short-height wide viewports
+ * like tablets/small windows in landscape — must also get this CSS, or the
+ * pin-ready desktop layout below (absolutely-positioned story panels, etc.)
+ * would apply without the desktop timeline that's supposed to drive it.
+ */
+@media (max-width: 959px), (max-height: 699px) {
+  .orb {
+    filter: none;
+    /* Orbs receive a short scrub-driven parallax on mobile (see
+       FeaturedCase.tsx); keep the transform hint, drop the (expensive)
+       blur filter instead. */
+    will-change: transform;
+  }
+
+  .orbA {
+    width: 24rem;
+    height: 24rem;
+  }
+
+  .orbB,
+  .orbC {
+    width: 20rem;
+    height: 20rem;
+  }
+
   .progressRail {
     display: none;
   }
 
+  .watermark {
+    top: 1%;
+    right: -0.04em;
+    font-size: clamp(8rem, 48vw, 15rem);
+  }
+
+  .stageLabel {
+    top: 1.25rem;
+    left: 1.25rem;
+  }
+
+  .stageMeta {
+    right: 1.25rem;
+    bottom: 1.25rem;
+  }
+}
+
+/* Mirrors FEATURED_CINE.desktopQuery exactly — the pin+scrub cinema only
+   ever gets this layout when there's both the width AND the height to
+   support it. */
+@media (min-width: 960px) and (min-height: 700px) {
   .pinWrap {
-    min-height: auto;
-    padding-top: calc(5rem + env(safe-area-inset-top, 0px));
-    padding-bottom: 2rem;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding:
+      calc(5.5rem + env(safe-area-inset-top, 0px))
+      clamp(1.5rem, 4vw, 3rem)
+      3rem;
   }
 
   .cine {
-    min-height: 0;
+    min-height: min(78vh, 42rem);
+    min-height: min(78svh, 42rem);
+  }
+
+  .cineGrid {
+    grid-template-areas:
+      "copy stage"
+      "story stage";
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    grid-template-rows: auto minmax(8.5rem, 1fr);
+    column-gap: clamp(2rem, 4vw, 3.5rem);
+    row-gap: clamp(1.75rem, 4vh, 2.5rem);
+    min-height: min(70vh, 38rem);
+    min-height: min(70svh, 38rem);
+    align-items: center;
+  }
+
+  .copyCol {
+    align-self: end;
+  }
+
+  .title {
+    font-size: clamp(4rem, 7vw, 6.5rem);
+    line-height: 0.88;
+    letter-spacing: -0.05em;
+    will-change: transform, opacity;
   }
 
   .storyDock {
-    min-height: 9.5rem;
+    align-self: start;
+    min-height: 8.5rem;
+  }
+
+  .storyPanel {
+    position: absolute;
+    inset: 0;
+    padding: 0;
+    border-top: 0;
+    opacity: 0;
+    visibility: hidden;
+    will-change: opacity, transform;
+  }
+
+  .storyText {
+    max-width: 36ch;
+  }
+
+  .stage {
+    height: auto;
+    aspect-ratio: 5 / 3.2;
+    min-height: clamp(14rem, 32vh, 22rem);
+    will-change: transform, opacity;
+  }
+
+  .routeNode {
+    will-change: transform, opacity;
+  }
+
+  .progressRail {
+    position: absolute;
+    display: block;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(240, 235, 230, 0.08);
+    z-index: 4;
   }
 }
 
@@ -471,8 +600,13 @@
     clip-path: none;
   }
 
+  .progressRail {
+    display: none;
+  }
+
   .storyPanel {
     position: relative;
+    inset: auto;
     opacity: 1;
     visibility: visible;
     margin-bottom: 1.25rem;

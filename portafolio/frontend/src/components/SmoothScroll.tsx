@@ -32,6 +32,19 @@ function LenisBridge({ jumpDuration }: { jumpDuration: number }) {
     const raf = (time: number) => {
       lenis.raf(time * 1000);
     };
+    // No ScrollTrigger.scrollerProxy() needed: this Lenis instance is
+    // mounted with default `wrapper: window` / `content: document.documentElement`
+    // (no custom wrapper/content elements are passed in `options`), which
+    // means Lenis drives the *real* `window.scrollTo`/scrollTop under the
+    // hood rather than faking scroll via CSS transforms on an inner
+    // container. ScrollTrigger's default scroller (`window`) therefore
+    // already reads the correct, real scroll position on every frame —
+    // scrollerProxy is only required when the scroller's visible position
+    // and its actual DOM scroll position diverge (e.g. a transform-based
+    // virtual scroller). All we need to bridge is *timing*: keep GSAP's
+    // ticker driving Lenis's raf, and tell ScrollTrigger to re-read the
+    // (real) scroll position on every Lenis "scroll" event so pinned/scrubbed
+    // triggers stay perfectly in sync with the smoothed motion.
     const onScroll = () => ScrollTrigger.update();
 
     gsap.ticker.add(raf);
