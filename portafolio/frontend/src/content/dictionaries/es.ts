@@ -190,6 +190,7 @@ export const es = {
       decisions: "Decisiones clave",
       result: "Resultado",
       handoff: "Entrega",
+      buildNotes: "Notas de construcción",
     },
   },
 

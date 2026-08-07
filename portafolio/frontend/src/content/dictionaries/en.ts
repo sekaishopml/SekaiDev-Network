@@ -177,6 +177,7 @@ export const en = {
       decisions: "Key decisions",
       result: "Result",
       handoff: "Handoff",
+      buildNotes: "Build notes",
     },
   },
 

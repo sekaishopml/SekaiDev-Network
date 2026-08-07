@@ -75,6 +75,7 @@ export type StudioDictionary = {
       decisions: string;
       result: string;
       handoff: string;
+      buildNotes: string;
     };
   };
   PROOF: {
