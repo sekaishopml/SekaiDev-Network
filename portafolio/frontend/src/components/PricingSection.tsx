@@ -42,6 +42,7 @@ export default function PricingSection() {
         root.classList.remove(styles.reduced);
 
         const getTravel = () => {
+          // Includes side padding used to optically center cards on phones.
           const overflow = track.scrollWidth - pin.clientWidth;
           return Math.max(overflow, PRICING_SCROLL.minTravelPx);
         };
