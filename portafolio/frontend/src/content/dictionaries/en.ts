@@ -246,7 +246,7 @@ export const en = {
         priceFrom: "$18,500",
         priceUnit: "USD",
         offerNote:
-          "Usual choice for a real product in Ecuador/LatAm: direction, full-stack build, launch, and 30 days of support.",
+          "Usual pick: direction, full-stack, launch, and 30 days of support.",
         bestFor:
           "Product v1, ops console, or platform base your team can run day to day.",
         includes: [

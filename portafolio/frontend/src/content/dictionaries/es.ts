@@ -254,7 +254,7 @@ export const es = {
         priceFrom: "$18,500",
         priceUnit: "USD",
         offerNote:
-          "La opción habitual para un producto real en Ecuador/LatAm: dirección, build full-stack, lanzamiento y 30 días de soporte.",
+          "Opción habitual: dirección, full-stack, lanzamiento y 30 días de soporte.",
         bestFor:
           "Producto v1, consola operativa o base de plataforma que tu equipo pueda operar día a día.",
         includes: [
