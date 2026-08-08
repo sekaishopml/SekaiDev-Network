@@ -214,14 +214,14 @@ export const es = {
     sectionLabel: "Precios",
     headline: "Paquetes claros. Cotización por escrito primero.",
     subline:
-      "Precios iniciales en USD. Desliza de lado para comparar. El número final lo confirmamos por escrito antes de construir.",
+      "Precios iniciales en USD para Ecuador y LatAm. Desliza para comparar. El número final lo confirmamos por escrito antes de construir.",
     marketNote:
-      "Nos alineamos a tarifas de estudios serios en EE. UU. Abajo están las tarifas cliente desde las que cotizamos.",
+      "Referenciados a estudios de producto serios en Ecuador — por encima de webs plantilla, por debajo de tarifas de agencia US.",
     offerBanner:
       "En cada paquete ves precio de lista y tarifa cliente. Launch Standard suele ser la opción para un producto completo.",
     scrollHint: "Desliza para comparar paquetes",
     disclaimer:
-      "Estos son precios de entrada con tarifa cliente. Alcance, cronograma y cotización final van por escrito antes de construir. Si el trabajo crece, lo decimos antes de subir el precio.",
+      "Precios de entrada con tarifa cliente. Alcance, cronograma y cotización final van por escrito antes de construir. Si el trabajo crece, lo decimos antes de subir el precio.",
     recommended: "Recomendable",
     clientRate: "Tarifa cliente",
     tiers: [
@@ -230,11 +230,11 @@ export const es = {
         title: "Brand Presence",
         tagline: "Un sitio que explica quién eres y qué hacer después.",
         timeline: "3–5 semanas",
-        priceWas: "$19,500",
-        priceFrom: "$16,500",
+        priceWas: "$6,200",
+        priceFrom: "$4,500",
         priceUnit: "USD",
         bestFor:
-          "Sitios de marca o marketing con motion a medida, CMS y un camino claro para convertir.",
+          "Sitios de marca o marketing con motion a medida y un camino claro para convertir — no una plantilla.",
         includes: [
           "Dirección de arte + wireframes de conversión",
           "Front end a medida en Next.js",
@@ -250,19 +250,19 @@ export const es = {
         title: "Launch Standard",
         tagline: "Diseñar, construir y lanzar el producto.",
         timeline: "8–14 semanas",
-        priceWas: "$62,000",
-        priceFrom: "$48,000",
+        priceWas: "$24,500",
+        priceFrom: "$18,500",
         priceUnit: "USD",
         offerNote:
-          "La opción habitual para un producto real: dirección, build full-stack, lanzamiento y 30 días de soporte después de salir.",
+          "La opción habitual para un producto real en Ecuador/LatAm: dirección, build full-stack, lanzamiento y 30 días de soporte.",
         bestFor:
           "Producto v1, consola operativa o base de plataforma que tu equipo pueda operar día a día.",
         includes: [
           "Dirección de producto y visual",
           "Go / Next.js / Postgres según alcance",
           "Auth, APIs y flujos centrales del producto",
-          "Tiempo real / integraciones cuando el producto lo pida",
-          "Staging → producción + docs + 30 días de soporte post-lanzamiento",
+          "Tiempo real / integraciones cuando haga falta",
+          "Staging → producción + docs + 30 días de soporte",
         ],
         cta: "Empezar con Launch",
         intent: "launch",
@@ -273,8 +273,8 @@ export const es = {
         title: "Signal Sprint",
         tagline: "Un hito definido, entregado.",
         timeline: "2–4 semanas",
-        priceWas: "$17,500",
-        priceFrom: "$14,500",
+        priceWas: "$8,900",
+        priceFrom: "$6,800",
         priceUnit: "USD",
         bestFor:
           "Destrabar un MVP, revisar UX o arquitectura a tiempo, o lanzar una porción importante.",
@@ -293,8 +293,8 @@ export const es = {
         title: "Product Partner",
         tagline: "Seguir construyendo con ritmo mensual.",
         timeline: "3+ meses · mensual",
-        priceWas: "$22,000",
-        priceFrom: "$18,500",
+        priceWas: "$5,200",
+        priceFrom: "$3,800",
         priceUnit: "USD / mes",
         bestFor:
           "Seguir entregando después del lanzamiento sin contratar aún un equipo completo.",
@@ -320,7 +320,7 @@ export const es = {
     {
       question: "¿Cuánto cuesta trabajar con ustedes?",
       answer:
-        "Brand Presence y Signal Sprint empiezan desde $14,500–$16,500 USD. Launch Standard — el lanzamiento completo habitual — desde $48,000 (lista $62,000). Product Partner desde $18,500/mes. Si tu presupuesto está por debajo, te lo diremos pronto en vez de forzar un mal encaje.",
+        "Brand Presence desde $4,500 USD, Signal Sprint desde $6,800, Launch Standard (producto completo habitual) desde $18,500 (lista $24,500). Product Partner desde $3,800/mes. Si tu presupuesto está por debajo, te lo diremos pronto.",
     },
     {
       question: "¿Qué modalidad me conviene?",
@@ -525,11 +525,11 @@ export const es = {
   ],
 
   BUDGETS: [
-    "$14.5k–$22k (Sprint / Brand)",
-    "$22k–$48k",
-    "$48k–$90k (tamaño Launch)",
-    "$90k+",
-    "Retainer mensual ($18.5k+ / mes)",
+    "$4.5k–$8k (Brand / Sprint)",
+    "$8k–$18.5k",
+    "$18.5k–$35k (tamaño Launch)",
+    "$35k+",
+    "Retainer mensual ($3.8k+ / mes)",
     "Aún no estoy seguro",
   ],
 

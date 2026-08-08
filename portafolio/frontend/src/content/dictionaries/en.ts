@@ -206,14 +206,14 @@ export const en = {
     sectionLabel: "Pricing",
     headline: "Clear packages. Written quote first.",
     subline:
-      "USD starting prices. Scroll sideways to compare. We confirm the final number in writing before any build.",
+      "Starting prices in USD for Ecuador and LatAm. Scroll to compare. Final number confirmed in writing before we build.",
     marketNote:
-      "We price in line with serious US studio work. The numbers below are the client rates we quote from.",
+      "Benchmarked against serious product studios in Ecuador — above template websites, below US agency list rates.",
     offerBanner:
-      "List price vs. client rate is shown on each package. Launch Standard is the usual pick for a full product.",
+      "Each card shows list price and client rate. Launch Standard is the usual pick for a full product.",
     scrollHint: "Scroll to compare packages",
     disclaimer:
-      "These are starting prices with our client rate applied. Scope, timeline, and final quote come in writing before build. If the work grows, we say so before the price moves.",
+      "Starting prices with our client rate. Scope, timeline, and final quote come in writing before build. If the work grows, we say so before the price moves.",
     recommended: "Recommended",
     clientRate: "Client rate",
     tiers: [
@@ -222,11 +222,11 @@ export const en = {
         title: "Brand Presence",
         tagline: "A site that explains who you are and what to do next.",
         timeline: "3–5 weeks",
-        priceWas: "$19,500",
-        priceFrom: "$16,500",
+        priceWas: "$6,200",
+        priceFrom: "$4,500",
         priceUnit: "USD",
         bestFor:
-          "Brand or marketing sites with custom motion, CMS hooks, and a clear path to convert.",
+          "Brand or marketing sites with custom motion and a clear path to convert — not a template.",
         includes: [
           "Art direction + conversion wireframes",
           "Custom Next.js front end",
@@ -242,19 +242,19 @@ export const en = {
         title: "Launch Standard",
         tagline: "Design, build, and launch the product.",
         timeline: "8–14 weeks",
-        priceWas: "$62,000",
-        priceFrom: "$48,000",
+        priceWas: "$24,500",
+        priceFrom: "$18,500",
         priceUnit: "USD",
         offerNote:
-          "Usual choice for a real product: direction, full-stack build, launch, and 30 days of post-launch support.",
+          "Usual choice for a real product in Ecuador/LatAm: direction, full-stack build, launch, and 30 days of support.",
         bestFor:
           "Product v1, ops console, or platform base your team can run day to day.",
         includes: [
           "Product + visual direction",
           "Go / Next.js / Postgres as scoped",
           "Auth, APIs, and core product flows",
-          "Realtime / integrations when the product needs them",
-          "Staging → production + docs + 30 days post-launch support",
+          "Realtime / integrations when needed",
+          "Staging → production + docs + 30 days support",
         ],
         cta: "Start with Launch",
         intent: "launch",
@@ -265,11 +265,11 @@ export const en = {
         title: "Signal Sprint",
         tagline: "One defined milestone, delivered.",
         timeline: "2–4 weeks",
-        priceWas: "$17,500",
-        priceFrom: "$14,500",
+        priceWas: "$8,900",
+        priceFrom: "$6,800",
         priceUnit: "USD",
         bestFor:
-          "Unblock a stuck MVP, check UX or architecture early, or ship one important slice.",
+          "Unblock an MVP, check UX or architecture early, or ship one important slice.",
         includes: [
           "Discovery call + written scope",
           "UX or architecture review before build",
@@ -285,8 +285,8 @@ export const en = {
         title: "Product Partner",
         tagline: "Keep building on a monthly cadence.",
         timeline: "3+ months · monthly",
-        priceWas: "$22,000",
-        priceFrom: "$18,500",
+        priceWas: "$5,200",
+        priceFrom: "$3,800",
         priceUnit: "USD / mo",
         bestFor:
           "Keep shipping after launch without hiring a full team yet.",
@@ -312,7 +312,7 @@ export const en = {
     {
       question: "What does it cost to work with you?",
       answer:
-        "Brand Presence and Signal Sprint start from $14,500–$16,500 USD. Launch Standard — the usual full product launch — starts from $48,000 (list $62,000). Product Partner is from $18,500/month. If your budget is below that floor, we will tell you early instead of stretching a bad fit.",
+        "Brand Presence starts from $4,500 USD, Signal Sprint from $6,800, Launch Standard (usual full product) from $18,500 (list $24,500). Product Partner is from $3,800/month. If your budget is below that floor, we will say so early.",
     },
     {
       question: "Which engagement should I pick?",
@@ -506,11 +506,11 @@ export const en = {
   ],
 
   BUDGETS: [
-    "$14.5k–$22k (Sprint / Brand)",
-    "$22k–$48k",
-    "$48k–$90k (Launch-sized)",
-    "$90k+",
-    "Monthly retainer ($18.5k+ / mo)",
+    "$4.5k–$8k (Brand / Sprint)",
+    "$8k–$18.5k",
+    "$18.5k–$35k (Launch-sized)",
+    "$35k+",
+    "Monthly retainer ($3.8k+ / mo)",
     "Not sure yet",
   ],
 
