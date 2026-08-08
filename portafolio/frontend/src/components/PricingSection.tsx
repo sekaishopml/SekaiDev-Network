@@ -47,6 +47,15 @@ export default function PricingSection() {
         gsap.set(track, { x: 0, force3D: true });
         if (progress) gsap.set(progress, { scaleX: 0 });
 
+        const mobileNavHide = window.matchMedia("(max-width: 899px)");
+        const setPricingPinChrome = (active: boolean) => {
+          if (active && mobileNavHide.matches) {
+            document.documentElement.dataset.pricingPin = "true";
+          } else {
+            delete document.documentElement.dataset.pricingPin;
+          }
+        };
+
         const tween = gsap.to(track, {
           x: () => -getTravel(),
           ease: "none",
@@ -65,6 +74,8 @@ export default function PricingSection() {
             scrub: PRICING_SCROLL.scrub,
             anticipatePin: 1,
             invalidateOnRefresh: true,
+            onToggle: (self) => setPricingPinChrome(self.isActive),
+            onRefresh: (self) => setPricingPinChrome(self.isActive),
             onUpdate: (self) => {
               if (progress) gsap.set(progress, { scaleX: self.progress });
             },
@@ -72,6 +83,7 @@ export default function PricingSection() {
         });
 
         return () => {
+          setPricingPinChrome(false);
           tween.scrollTrigger?.kill();
           tween.kill();
           gsap.set(track, { clearProps: "transform" });

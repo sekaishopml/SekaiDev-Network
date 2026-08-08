@@ -167,6 +167,25 @@ html[data-menu-open="true"] .sticky-cta-mobile {
   pointer-events: none;
 }
 
+/*
+ * Pricing pin on phones: clear the fixed nav + sticky CTA so the
+ * horizontal rail can sit in the optical center of the viewport.
+ */
+@media (max-width: 899px) {
+  html[data-pricing-pin="true"] [data-site-nav] {
+    opacity: 0 !important;
+    transform: translate3d(0, -110%, 0) !important;
+    pointer-events: none !important;
+  }
+
+  html[data-pricing-pin="true"] .sticky-cta-mobile {
+    opacity: 0;
+    transform: translate3d(0, 110%, 0);
+    pointer-events: none;
+    visibility: hidden;
+  }
+}
+
 .font-display {
   font-family: var(--font-oswald), sans-serif;
 }

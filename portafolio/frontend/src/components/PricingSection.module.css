@@ -433,6 +433,13 @@
       0
       calc(0.85rem + env(safe-area-inset-bottom, 0px));
     gap: 0;
+    transition: padding-top 0.28s ease;
+  }
+
+  /* Nav is hidden while pinned — reclaim that top band for the rail. */
+  :global(html[data-pricing-pin="true"]) .pin {
+    padding-top: calc(1.1rem + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(1.1rem + env(safe-area-inset-bottom, 0px));
   }
 
   .head {
