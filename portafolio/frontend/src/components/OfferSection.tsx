@@ -38,29 +38,31 @@ export default function OfferSection() {
 
       const headBits = root.querySelectorAll("[data-offer-head]");
       const foot = root.querySelector("[data-offer-foot]");
-      if (headBits.length) {
+
+      if (headBits.length && !reduced) {
         gsap.from(headBits, {
-          opacity: reduced ? 1 : 0,
-          y: reduced ? 0 : 22,
-          duration: reduced ? 0 : 0.85,
-          stagger: 0.08,
+          opacity: 0,
+          y: 16,
+          duration: 0.7,
+          stagger: 0.06,
           ease: REVEAL.ease,
           scrollTrigger: {
             trigger: root,
-            start: "top 78%",
+            start: "top 80%",
             toggleActions: "play none none reverse",
           },
         });
       }
-      if (foot) {
+
+      if (foot && !reduced) {
         gsap.from(foot, {
-          opacity: reduced ? 1 : 0,
-          y: reduced ? 0 : 18,
-          duration: reduced ? 0 : 0.75,
+          opacity: 0,
+          y: 12,
+          duration: 0.65,
           ease: REVEAL.ease,
           scrollTrigger: {
             trigger: foot,
-            start: "top 88%",
+            start: "top 90%",
             toggleActions: "play none none reverse",
           },
         });
@@ -75,71 +77,54 @@ export default function OfferSection() {
         const panel = row.querySelector<HTMLElement>("[data-offer-panel]");
         if (!stage || !panel) return;
 
-        // Measure natural panel height for a stable scrub.
-        const measure = () => {
-          const prev = stage.style.height;
-          stage.style.height = "auto";
-          const h = panel.scrollHeight;
-          stage.style.height = prev;
-          return Math.max(h, 96);
-        };
-
         if (reduced) {
-          gsap.set(stage, { height: "auto", autoAlpha: 1 });
-          gsap.set(panel, { clearProps: "transform,opacity,filter" });
+          gsap.set(stage, { clearProps: "clipPath,opacity" });
+          gsap.set(panel, { clearProps: "yPercent,opacity" });
           row.classList.add(styles.isOpen);
           return;
         }
 
-        gsap.set(stage, { height: 0, autoAlpha: 0, overflow: "hidden" });
-        gsap.set(panel, {
-          y: 28,
-          scale: 0.97,
-          opacity: 0.35,
-          filter: "blur(6px)",
-          transformOrigin: "50% 0%",
+        // Clip unfold — no height measuring, no blur (cheaper + cleaner).
+        gsap.set(stage, {
+          clipPath: "inset(0% 0% 100% 0%)",
+          opacity: 0,
+        });
+        gsap.set(panel, { yPercent: 10, opacity: 0.55 });
+
+        const st = {
+          trigger: row,
+          start: OFFER_SCROLL.start,
+          end: OFFER_SCROLL.end,
+          scrub: OFFER_SCROLL.scrub,
+          onUpdate: (self: ScrollTrigger) => {
+            row.classList.toggle(styles.isOpen, self.progress > 0.4);
+          },
+        };
+
+        gsap.to(stage, {
+          clipPath: "inset(0% 0% 0% 0%)",
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: st,
         });
 
-        const tl = gsap.timeline({
-          defaults: { ease: OFFER_SCROLL.easePanel },
+        gsap.to(panel, {
+          yPercent: 0,
+          opacity: 1,
+          ease: "none",
           scrollTrigger: {
             trigger: row,
             start: OFFER_SCROLL.start,
             end: OFFER_SCROLL.end,
             scrub: OFFER_SCROLL.scrub,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => {
-              row.classList.toggle(styles.isOpen, self.progress > 0.45);
-            },
           },
         });
-
-        tl.to(
-          stage,
-          {
-            height: () => measure(),
-            autoAlpha: 1,
-            duration: 1,
-          },
-          0
-        ).to(
-          panel,
-          {
-            y: 0,
-            scale: 1,
-            opacity: 1,
-            filter: "blur(0px)",
-            duration: 1,
-          },
-          0.08
-        );
       });
 
       const refresh = () => {
         if (root.isConnected) ScrollTrigger.refresh();
       };
       document.fonts?.ready.then(refresh);
-      gsap.delayedCall(0.2, refresh);
 
       return () => {
         rows.forEach((row) => row.classList.remove(styles.isOpen));
@@ -159,6 +144,7 @@ export default function OfferSection() {
       aria-labelledby="offer-heading"
     >
       <div className={styles.offerAtmosphere} aria-hidden="true" />
+      <div className={styles.offerGrain} aria-hidden="true" />
 
       <div className={styles.offerInner}>
         <header className={styles.offerHead}>
@@ -178,11 +164,7 @@ export default function OfferSection() {
 
         <ol id="works" className={styles.offerList}>
           {t.WORKS.map((p, i) => (
-            <li
-              key={p.id}
-              data-offer-row
-              className={styles.offerRow}
-            >
+            <li key={p.id} data-offer-row className={styles.offerRow}>
               <div className={styles.offerMain}>
                 <span className={styles.offerIndex} aria-hidden="true">
                   {String(i + 1).padStart(2, "0")}

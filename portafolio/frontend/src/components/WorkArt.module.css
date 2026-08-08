@@ -45,26 +45,26 @@
 
 .art--crm {
   background:
-    linear-gradient(135deg, rgba(92, 26, 51, 0.16), transparent 55%),
-    #c9c9c9;
+    linear-gradient(145deg, rgba(92, 26, 51, 0.1), transparent 58%),
+    #c6c4c2;
 }
 
 .art--websites {
   background:
-    linear-gradient(115deg, rgba(224, 142, 175, 0.42), transparent 50%),
-    #d0d0d0;
+    linear-gradient(125deg, rgba(92, 26, 51, 0.08), transparent 55%),
+    #c9c7c5;
 }
 
 .art--api {
   background:
-    linear-gradient(160deg, rgba(88, 139, 172, 0.38), transparent 52%),
-    #cdcdcd;
+    linear-gradient(160deg, rgba(40, 48, 56, 0.1), transparent 55%),
+    #c5c4c2;
 }
 
 .art--dashboards {
   background:
-    linear-gradient(135deg, rgba(220, 187, 116, 0.36), transparent 50%),
-    #cdcdcd;
+    linear-gradient(135deg, rgba(55, 48, 40, 0.08), transparent 55%),
+    #c7c5c3;
 }
 
 .label {
