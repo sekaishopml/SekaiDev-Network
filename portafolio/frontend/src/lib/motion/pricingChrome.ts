@@ -2,16 +2,19 @@ import gsap from "gsap";
 
 /**
  * GSAP hide/show for fixed chrome while the pricing pin owns the
- * mobile viewport. Timed to match site chrome (nav entrance ~1100ms,
- * hero copy ~0.9s power2.out) — slower lift, not a snappy cut.
+ * mobile viewport. Paced like site cinema (hero bloom ~1.15s,
+ * arc/bonsai settle ~1.05s, nav entrance 1100ms) — a slow lift,
+ * not a snappy cut.
  */
 
-/** Aligned with Navigation `duration-[1100ms]` / HERO_ENTRANCE.copyDuration. */
+/** Softer / longer than nav CSS so the pin handoff feels deliberate. */
 const CHROME = {
-  hideDuration: 1.05,
-  showDuration: 1.12,
-  ctaLag: 0.08,
-  easeHide: "power2.inOut" as const,
+  hideDuration: 1.55,
+  showDuration: 1.65,
+  ctaLag: 0.12,
+  /** Opacity leads the travel so the exit reads as a fade-lift. */
+  fadeLead: 0.18,
+  easeHide: "sine.inOut" as const,
   easeShow: "power2.out" as const,
 };
 
@@ -46,31 +49,48 @@ export function setPricingChromeHidden(hide: boolean) {
     document.documentElement.dataset.pricingPin = "true";
 
     if (nav) {
+      // Fade starts first; travel fills the rest of the window.
+      chromeTl.to(
+        nav,
+        {
+          autoAlpha: 0,
+          duration: CHROME.hideDuration * 0.72,
+          ease: "sine.out",
+        },
+        0
+      );
       chromeTl.to(
         nav,
         {
           yPercent: -100,
-          autoAlpha: 0,
           duration: CHROME.hideDuration,
           ease: CHROME.easeHide,
         },
-        0
+        CHROME.fadeLead
       );
     }
     if (cta) {
       chromeTl.to(
         cta,
         {
-          yPercent: 110,
           autoAlpha: 0,
-          duration: CHROME.hideDuration * 0.92,
-          ease: CHROME.easeHide,
+          duration: CHROME.hideDuration * 0.68,
+          ease: "sine.out",
         },
         CHROME.ctaLag
       );
+      chromeTl.to(
+        cta,
+        {
+          yPercent: 110,
+          duration: CHROME.hideDuration * 0.95,
+          ease: CHROME.easeHide,
+        },
+        CHROME.ctaLag + CHROME.fadeLead
+      );
     }
     // Keep hit-testing until the fade is mostly done.
-    chromeTl.set(nodes, { pointerEvents: "none" }, CHROME.hideDuration * 0.55);
+    chromeTl.set(nodes, { pointerEvents: "none" }, CHROME.hideDuration * 0.65);
     return;
   }
 
@@ -97,7 +117,7 @@ export function setPricingChromeHidden(hide: boolean) {
       {
         yPercent: 0,
         autoAlpha: 1,
-        duration: CHROME.showDuration * 0.92,
+        duration: CHROME.showDuration * 0.95,
         ease: CHROME.easeShow,
       },
       CHROME.ctaLag
