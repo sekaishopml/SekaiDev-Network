@@ -194,6 +194,7 @@ export type StudioDictionary = {
     offerHeadline: string;
     offerHeadlineAccent: string;
     offerSubline: string;
+    offerPromise: string;
     proofLabel: string;
     proofHeadline: string;
     faqLabel: string;

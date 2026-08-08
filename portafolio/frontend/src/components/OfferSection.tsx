@@ -24,7 +24,7 @@ export default function OfferSection() {
     };
   }, []);
 
-  const onCapabilityClick = (href: string) => {
+  const openItem = (href: string) => {
     if (href.startsWith("#")) {
       jumpTo(href);
       return;
@@ -57,83 +57,64 @@ export default function OfferSection() {
           </div>
         </header>
 
-        <ol className={styles.offerList}>
-          {t.OUTCOMES.map((o, i) => (
-            <li key={o.title} data-reveal className={styles.offerRow}>
-              <span className={styles.offerIndex} aria-hidden="true">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3 className={styles.offerRowTitle}>{o.title}</h3>
-              <p className={styles.offerRowBody}>{o.body}</p>
+        {/* Single rail: offer = capabilities. #works kept for deep links. */}
+        <ol id="works" className={styles.offerList}>
+          {t.WORKS.map((p, i) => (
+            <li key={p.id} data-reveal>
+              <button
+                type="button"
+                className={styles.offerRow}
+                onClick={() => openItem(p.href)}
+              >
+                <span className={styles.offerIndex} aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                <div className={styles.offerCopy}>
+                  <h3 className={styles.offerRowTitle}>{p.title}</h3>
+                  <p className={styles.offerTags}>{p.tags}</p>
+                </div>
+
+                <p className={styles.offerRowBody}>
+                  <span className={styles.offerNeed}>{p.challenge}</span>
+                  {p.result}
+                </p>
+
+                <div className={styles.offerArt} aria-hidden="true">
+                  <WorkArt
+                    slug={p.slug as "crm" | "websites" | "api" | "dashboards"}
+                    compact
+                  />
+                </div>
+
+                <span className={styles.offerArrow} aria-hidden="true">
+                  →
+                </span>
+              </button>
             </li>
           ))}
         </ol>
 
-        <div className={styles.offerCta} data-reveal>
-          <button
-            type="button"
-            onClick={() => jumpTo(t.CTAS.primary.href)}
-            className={styles.offerBtnPrimary}
-          >
-            {t.CTAS.primary.labelUpper}
-          </button>
-          {intent === "services" && (
+        <div className={styles.offerFoot} data-reveal>
+          <p className={styles.offerPromise}>{t.UI.offerPromise}</p>
+          <div className={styles.offerCta}>
             <button
               type="button"
-              onClick={() => jumpTo(t.CTAS.pricing.href, "services")}
-              className={styles.offerBtnGhost}
+              onClick={() => jumpTo(t.CTAS.primary.href)}
+              className={styles.offerBtnPrimary}
             >
-              {t.CTAS.pricing.labelUpper}
+              {t.CTAS.primary.labelUpper}
             </button>
-          )}
-        </div>
-
-        {/* Former 06 — capabilities live here so #works deep links still land. */}
-        <div id="works" className={styles.capabilities}>
-          <header className={styles.capHead} data-reveal>
-            <span className={styles.capEyebrow}>{t.WORKS_SECTION.label}</span>
-            <h3 className={styles.capTitle}>{t.WORKS_SECTION.headline}</h3>
-            <p className={styles.capSubline}>{t.WORKS_SECTION.subline}</p>
-          </header>
-
-          <ul className={styles.capGrid}>
-            {t.WORKS.map((p) => (
-              <li key={p.id}>
-                <button
-                  type="button"
-                  data-reveal
-                  onClick={() => onCapabilityClick(p.href)}
-                  className={styles.capItem}
-                >
-                  <WorkArt
-                    slug={p.slug as "crm" | "websites" | "api" | "dashboards"}
-                    label={p.kind}
-                  />
-                  <div className={styles.capMeta}>
-                    <span className={styles.capId} aria-hidden="true">
-                      {p.id}
-                    </span>
-                    <span className={styles.capKind}>{p.kind}</span>
-                    <span className={styles.capArrow} aria-hidden="true">
-                      →
-                    </span>
-                  </div>
-                  <h4 className={styles.capName}>{p.title}</h4>
-                  <p className={styles.capTags}>{p.tags}</p>
-                  <dl className={styles.capFacts}>
-                    <div>
-                      <dt>{t.WORKS_SECTION.needLabel}</dt>
-                      <dd>{p.challenge}</dd>
-                    </div>
-                    <div>
-                      <dt>{t.WORKS_SECTION.outcomeLabel}</dt>
-                      <dd>{p.result}</dd>
-                    </div>
-                  </dl>
-                </button>
-              </li>
-            ))}
-          </ul>
+            {intent === "services" && (
+              <button
+                type="button"
+                onClick={() => jumpTo(t.CTAS.pricing.href, "services")}
+                className={styles.offerBtnGhost}
+              >
+                {t.CTAS.pricing.labelUpper}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </section>

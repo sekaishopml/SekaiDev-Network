@@ -6,6 +6,8 @@ type WorkSlug = "crm" | "websites" | "api" | "dashboards";
 interface WorkArtProps {
   slug: WorkSlug;
   label?: string;
+  /** Slim mark for inline offer rows — no card chrome. */
+  compact?: boolean;
 }
 
 function CrmArt() {
@@ -121,12 +123,19 @@ const SCENES: Record<WorkSlug, () => ReactElement> = {
   dashboards: DashboardsArt,
 };
 
-export default function WorkArt({ slug, label = "CAPABILITY" }: WorkArtProps) {
+export default function WorkArt({
+  slug,
+  label = "CAPABILITY",
+  compact = false,
+}: WorkArtProps) {
   const Scene = SCENES[slug];
   return (
-    <div className={`${styles.art} ${styles[`art--${slug}`]}`} aria-hidden>
+    <div
+      className={`${styles.art} ${styles[`art--${slug}`]} ${compact ? styles.artCompact : ""}`}
+      aria-hidden
+    >
       <Scene />
-      <p className={styles.label}>{label}</p>
+      {!compact ? <p className={styles.label}>{label}</p> : null}
     </div>
   );
 }
