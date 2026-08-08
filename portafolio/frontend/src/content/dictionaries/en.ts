@@ -3,10 +3,10 @@ import type { StudioDictionary } from "./types";
 /** English source-of-truth copy. Keep this object structurally aligned with es. */
 export const en = {
   meta: {
-    title: "SekaiDev | Product engineering & brand experiences",
+    title: "SekaiDev | Apps, APIs & brand sites",
     description:
-      "Product engineering, APIs, UX/UI, and brand sites — one senior team. Craft when it earns the click.",
-    ogTitle: "SekaiDev | Product experiences that feel inevitable",
+      "Senior product engineering from Ecuador: web apps, APIs, UX/UI, and brand sites. One small team you work with directly.",
+    ogTitle: "SekaiDev | Product engineering from Ecuador",
     keywords: [
       "product engineering",
       "software studio",
@@ -32,8 +32,8 @@ export const en = {
       href: "#works",
     },
     pricing: {
-      label: "View investment",
-      labelUpper: "VIEW INVESTMENT",
+      label: "See pricing",
+      labelUpper: "SEE PRICING",
       href: "#pricing",
     },
     featuredCase: "Discuss a similar build",
@@ -52,7 +52,7 @@ export const en = {
     eyebrow: "Full-stack studio for",
     tagline: "We design and ship the product.",
     subline:
-      "Product engineering, APIs, UX/UI, and brand sites — one senior team. Craft when it earns the click.",
+      "Web apps, APIs, UX/UI, and brand sites. Small senior team based in Ecuador, working with clients across LatAm and the US.",
     heroCtaPrimary: { label: "See if we fit", href: "#contact" },
     heroCtaSecondary: { label: "See selected work", href: "#works" },
     available: "Available for projects",
@@ -61,7 +61,7 @@ export const en = {
   TRUST_STRIP: [
     "Reply within 24 hours",
     "Written scope before build",
-    "Clear no-fit if we are not right",
+    "We say so early if we are not the right team",
   ],
 
   FUNNEL_PATHS: [
@@ -69,14 +69,14 @@ export const en = {
       id: "product",
       intent: "product",
       label: "I have a product",
-      hint: "Apps, APIs, dashboards — ship the next milestone.",
+      hint: "Apps, APIs, or dashboards that need to get built and launched.",
       href: "#offer",
     },
     {
       id: "services",
       intent: "services",
       label: "I want more requests",
-      hint: "Sites & systems that convert visits into booked demand.",
+      hint: "A site or system that turns visits into real bookings and leads.",
       href: "#pricing",
     },
   ],
@@ -96,12 +96,12 @@ export const en = {
       intent: "services",
     },
     { label: "How we work", href: "#process", mobileOnly: false },
-    { label: "Investment", href: "#pricing", mobileOnly: false },
+    { label: "Pricing", href: "#pricing", mobileOnly: false },
     { label: "Contact", href: "#contact", mobileOnly: false },
     { label: "Selected work", href: "#works", mobileOnly: false },
   ],
 
-  NAV_TRUST: "Reply within 24h · written scope before build · clear no-fit",
+  NAV_TRUST: "Reply within 24h · written scope before build · honest if we are not a fit",
 
   INDUSTRIES: [
     "Startup / product",
@@ -117,28 +117,28 @@ export const en = {
   LOOK_COPY: {
     look: "LOOK",
     closer: "CLOSER.",
-    past: "PAST THE PITCH.",
-    find: "FIND",
-    signal: "THE STUDIO.",
-    ship: "PRODUCT. API. BRAND.",
-    subline: "Senior engineering + design. Motion when it converts.",
+    past: "",
+    find: "THIS",
+    signal: "IS THE WORK.",
+    ship: "APPS · APIS · BRAND SITES",
+    subline: "Senior engineering and design from Ecuador.",
   },
 
   OUTCOMES: [
     {
-      title: "Ship the product",
+      title: "Web apps and platforms",
       body:
-        "Web apps and platforms with auth, APIs, and realtime — clean architecture, ready for the next iteration.",
+        "Auth, APIs, and live features when you need them. Built so your team can keep changing the product after launch.",
     },
     {
-      title: "Design that converts",
+      title: "Sites that sell the work",
       body:
-        "UX/UI and brand sites with clear hierarchy. Motion only when it earns attention.",
+        "Brand and marketing sites with clear structure. Animation only if it helps someone understand or take action.",
     },
     {
-      title: "One senior team",
+      title: "You talk to the builders",
       body:
-        "Design-aware engineers who prototype fast, communicate clearly, and own the launch.",
+        "A small senior team — not a handoff chain. We own architecture, design, and the launch together.",
     },
   ],
 
@@ -148,28 +148,28 @@ export const en = {
     titleLine2: "Platform",
     role: "Full-stack product engineering",
     challenge:
-      "A ride platform needed production dispatch, payments, and live tracking — not a template MVP.",
+      "A ride platform needed live dispatch, payments, and tracking that could run in production.",
     solution:
-      "Built end-to-end with Go APIs, Next.js clients, Postgres, and maps — structured for ops scale.",
+      "We built it with Go APIs, Next.js clients, Postgres, and maps, shaped for day-to-day ops.",
     result:
-      "A shippable ride platform foundation with real-time flows and a stack ready for iteration.",
+      "A working platform base with real-time trip flows and room to add the next features.",
     stack: ["Go", "Next.js", "Postgres", "Maps"],
     deliverables: [
       "Driver and rider product flows",
-      "Dispatch and operations foundation",
+      "Dispatch and operations base",
       "Go API and Postgres data model",
       "Maps and live-location integration",
     ],
     decisions: [
-      "Go services for core platform APIs",
-      "Next.js clients for product surfaces",
-      "Postgres as the operational system of record",
-      "Maps built into dispatch and trip flows",
+      "Go for the core platform APIs",
+      "Next.js for the product interfaces",
+      "Postgres as the system of record",
+      "Maps inside dispatch and trip flows",
     ],
     handoff:
-      "A production-ready codebase, documented platform foundation, and a clear path for the next product iterations.",
+      "Production codebase, docs for the platform, and a clear list of what to build next.",
     href: null,
-    outcomeNote: "Outcome detail & walkthrough available on request.",
+    outcomeNote: "Detailed results and a walkthrough available on request.",
     labels: {
       challenge: "Challenge",
       solution: "Solution",
@@ -180,7 +180,7 @@ export const en = {
       buildNotes: "Build notes",
     },
     stageUi: {
-      aria: "CyTaxi live trip card — pickup, route, and ETA",
+      aria: "CyTaxi live trip card: pickup, route, and ETA",
       product: "CyTaxi",
       live: "Live",
       status: "En route",
@@ -194,40 +194,39 @@ export const en = {
 
   PROOF: {
     metrics: [
-      { value: "Full-stack", label: "Product + brand in one studio" },
-      { value: "Async-first", label: "Clear updates, focused syncs" },
-      { value: "Senior", label: "Small team, high ownership" },
+      { value: "24h", label: "Typical reply window" },
+      { value: "UTC−5", label: "Ecuador · overlap with US East/Central" },
+      { value: "Written", label: "Scope before any build starts" },
     ],
     note:
-      "Named references and case walkthroughs shared privately once we confirm fit.",
+      "We share named references and case walkthroughs privately after we confirm fit.",
   },
 
   PRICING: {
-    sectionLabel: "Investment",
-    headline: "Pick the path that ships.",
+    sectionLabel: "Pricing",
+    headline: "Clear packages. Written quote first.",
     subline:
-      "Clear USD client rates · discount already applied · written quote before build. Scroll to freeze — the price rail moves, then the page continues.",
+      "USD starting prices. Scroll sideways to compare. We confirm the final number in writing before any build.",
     marketNote:
-      "Studio floors sit at US boutique mid-market. Active clients get the rates below — locked in the written quote.",
+      "We price in line with serious US studio work. The numbers below are the client rates we quote from.",
     offerBanner:
-      "Client discount on every engagement — compare list vs. your rate. Launch Standard is the best value for a real product.",
-    scrollHint: "Scroll — compare offers",
+      "List price vs. client rate is shown on each package. Launch Standard is the usual pick for a full product.",
+    scrollHint: "Scroll to compare packages",
     disclaimer:
-      "Client rates shown are starting floors with the studio discount applied. Final scope, timeline, and quote confirmed in writing before build. Complexity can move the number up — never surprise you silently.",
+      "These are starting prices with our client rate applied. Scope, timeline, and final quote come in writing before build. If the work grows, we say so before the price moves.",
     recommended: "Recommended",
     clientRate: "Client rate",
     tiers: [
       {
         id: "brand",
         title: "Brand Presence",
-        tagline: "A site that sells who you are.",
+        tagline: "A site that explains who you are and what to do next.",
         timeline: "3–5 weeks",
         priceWas: "$19,500",
         priceFrom: "$16,500",
         priceUnit: "USD",
-        saveLabel: "Save $3,000",
         bestFor:
-          "Premium brand / marketing sites with motion, CMS hooks, and conversion-first structure.",
+          "Brand or marketing sites with custom motion, CMS hooks, and a clear path to convert.",
         includes: [
           "Art direction + conversion wireframes",
           "Custom Next.js front end",
@@ -246,18 +245,16 @@ export const en = {
         priceWas: "$62,000",
         priceFrom: "$48,000",
         priceUnit: "USD",
-        saveLabel: "Save $14,000",
         offerNote:
-          "Best path for most teams — product + brand direction, full-stack build, and 30-day hypercare included at the client rate.",
+          "Usual choice for a real product: direction, full-stack build, launch, and 30 days of post-launch support.",
         bestFor:
-          "Product v1, ops console, or platform foundation you can operate and grow.",
+          "Product v1, ops console, or platform base your team can run day to day.",
         includes: [
           "Product + visual direction",
           "Go / Next.js / Postgres as scoped",
           "Auth, APIs, and core product flows",
           "Maps / realtime when the product needs it",
-          "Staging → production + docs + 30-day hypercare",
-          "Priority scheduling when you book this path",
+          "Staging → production + docs + 30 days post-launch support",
         ],
         cta: "Start with Launch",
         intent: "launch",
@@ -266,20 +263,19 @@ export const en = {
       {
         id: "sprint",
         title: "Signal Sprint",
-        tagline: "One critical milestone. Shipped.",
+        tagline: "One defined milestone, delivered.",
         timeline: "2–4 weeks",
         priceWas: "$17,500",
         priceFrom: "$14,500",
         priceUnit: "USD",
-        saveLabel: "Save $3,000",
         bestFor:
-          "Unblock a stuck MVP, validate UX/architecture, or ship one high-stakes slice.",
+          "Unblock a stuck MVP, check UX or architecture early, or ship one important slice.",
         includes: [
-          "Paid discovery + written scope",
-          "UX or architecture signal before build",
-          "One production-grade deliverable",
+          "Discovery call + written scope",
+          "UX or architecture review before build",
+          "One production-ready deliverable",
           "Code review + deployment path",
-          "Async updates · focused syncs",
+          "Async updates and a few focused calls",
         ],
         cta: "Start a sprint",
         intent: "sprint",
@@ -292,14 +288,13 @@ export const en = {
         priceWas: "$22,000",
         priceFrom: "$18,500",
         priceUnit: "USD / mo",
-        saveLabel: "Save $3,500 / mo",
         bestFor:
-          "Keep shipping after launch without hiring a full in-house senior pod yet.",
+          "Keep building after launch without hiring a full senior team yet.",
         includes: [
-          "Dedicated senior engineering + design hours",
-          "Roadmap ownership + weekly sync",
-          "Iterative shipping loops",
-          "Architecture + performance care",
+          "Senior engineering and design hours each month",
+          "Shared roadmap + weekly sync",
+          "Steady delivery cycles",
+          "Architecture and performance care",
           "Pause or scale with 30-day notice",
         ],
         cta: "Talk partnership",
@@ -317,7 +312,7 @@ export const en = {
     {
       question: "What is the minimum budget?",
       answer:
-        "With the client discount applied, Brand Presence and Signal Sprint start from $14,500–$16,500 USD. Launch Standard — our recommended path — starts from $48,000 USD (list $62,000). If your need is smaller, we will say so early rather than force a package.",
+        "Brand Presence and Signal Sprint start from $14,500–$16,500 USD. Launch Standard, our usual full-product package, starts from $48,000 USD (list $62,000). If you need something smaller, we will say so early.",
     },
     {
       question: "How do payments work?",
@@ -337,7 +332,7 @@ export const en = {
     {
       question: "What if we are not a fit?",
       answer:
-        "We will say so early. If the scope, timing, or working model is not right for either side, you get a clear no-fit rather than a vague sales loop.",
+        "We will say so early. If the scope, timing, or working style is wrong for either side, we tell you plainly instead of dragging a sales process.",
     },
     {
       question: "Who owns the code and design?",
@@ -371,35 +366,35 @@ export const en = {
       step: "01",
       title: "Align",
       body:
-        "Goals, constraints, budget, and success metrics — written before build.",
+        "Goals, limits, budget, and what success looks like — written before we build.",
     },
     {
       step: "02",
       title: "Prototype",
       body:
-        "UX / architecture signal early so you do not pay for the wrong direction.",
+        "We check UX or architecture early so you do not pay for the wrong direction.",
     },
     {
       step: "03",
       title: "Build",
       body:
-        "Production-quality loops with clear owners and async updates.",
+        "Production work with clear owners and regular async updates.",
     },
     {
       step: "04",
       title: "Launch",
       body:
-        "Ship, hand off, and leave a next-step roadmap — not a black box.",
+        "We ship, hand over the project, and leave a short plan for what comes next.",
     },
   ],
 
   PROCESS_SECTION: {
     label: "03 — METHOD",
-    headline: "Written first.",
+    headline: "Scope on paper.",
     headlineAccent: "Then we build.",
     subline:
-      "How the studio shows up — and the four-step path from alignment to launch.",
-    boardLabel: "Run sheet",
+      "How we work with clients, from the first call through launch.",
+    boardLabel: "Steps",
     boardFlow: "Align → Prototype → Build → Launch",
   },
 
@@ -407,7 +402,7 @@ export const en = {
     label: "06 — WHAT WE BUILD",
     headline: "CAPABILITIES",
     subline:
-      "Examples of surfaces we ship — product systems, brand sites, APIs, and ops tools. Ask for a private walkthrough of named work when we confirm fit.",
+      "Examples of what we usually build: product systems, brand sites, APIs, and ops tools. Ask for a private walkthrough of named work once we confirm fit.",
   },
 
   WORKS: [
@@ -416,8 +411,8 @@ export const en = {
       slug: "crm",
       title: "CRM systems",
       kind: "Capability",
-      challenge: "Pipelines, contacts, and ops in one product surface.",
-      result: "Clean data model, roles, and workflows teams can run daily.",
+      challenge: "Pipelines, contacts, and ops in one place.",
+      result: "A clean data model, roles, and workflows teams can run daily.",
       tags: "Go · Next.js · Postgres",
       href: "#contact",
     },
@@ -426,8 +421,8 @@ export const en = {
       slug: "websites",
       title: "Product websites",
       kind: "Capability",
-      challenge: "Brand sites that feel premium and convert.",
-      result: "Clear hierarchy, motion with intent, CTAs that earn the click.",
+      challenge: "Brand sites that look serious and convert.",
+      result: "Clear hierarchy, restrained motion, and CTAs people can follow.",
       tags: "Next.js · Tailwind · GSAP",
       href: "#contact",
     },
@@ -436,8 +431,8 @@ export const en = {
       slug: "api",
       title: "API & backends",
       kind: "Capability",
-      challenge: "Secure APIs without technical debt.",
-      result: "Auth, data models, and services startups can extend.",
+      challenge: "Secure APIs that do not trap you later.",
+      result: "Auth, data models, and services you can extend.",
       tags: "Go · FastAPI · PostgreSQL",
       href: "#contact",
     },
@@ -446,8 +441,8 @@ export const en = {
       slug: "dashboards",
       title: "Dashboards",
       kind: "Capability",
-      challenge: "Ops interfaces teams actually use.",
-      result: "Clear data views, alerts, and native-feeling workflows.",
+      challenge: "Ops screens teams will actually open every day.",
+      result: "Clear data views, alerts, and simple workflows.",
       tags: "React · Charts · Realtime",
       href: "#contact",
     },
@@ -456,15 +451,15 @@ export const en = {
   ABOUT: {
     label: "09 — ABOUT",
     headlineLine1: "A SMALL",
-    headlineLine2: "SENIOR STUDIO",
+    headlineLine2: "SENIOR TEAM",
     body1:
-      "SEKAIDEV is a compact senior studio based in Ecuador, working remotely across Latin America and beyond. We build products, APIs, UX/UI, and brand sites for startups and brands.",
+      "SekaiDev is a small senior team based in Ecuador. We work remotely with clients across Latin America and the US on products, APIs, UX/UI, and brand sites.",
     body2:
-      "You work directly with the builders responsible for architecture, design craft, and launch, with clear communication from the first call through handoff.",
+      "You talk directly with the people building the work — architecture, design, and launch — from the first call through handoff.",
     pillars: [
-      { label: "PRODUCT", detail: "Web apps & platforms that ship" },
-      { label: "SYSTEMS", detail: "APIs, data, and cloud backends" },
-      { label: "DESIGN", detail: "UX/UI, brand sites, motion with intent" },
+      { label: "PRODUCT", detail: "Web apps and platforms" },
+      { label: "SYSTEMS", detail: "APIs, data, and backends" },
+      { label: "DESIGN", detail: "UX/UI and brand sites" },
     ],
   },
 
@@ -473,13 +468,13 @@ export const en = {
     headlineLine1: "TELL US",
     headlineLine2: "WHAT YOU'RE BUILDING",
     subline:
-      "Goal, timeline, and budget range — we reply within 24 hours with next steps or a clear no-fit.",
+      "Tell us the goal, timeline, and budget range. We reply within 24 hours with next steps, or we say we are not the right team.",
     trustLine:
-      "Reply within 24h · written scope before build · clear no-fit if we are not right",
+      "Reply within 24h · written scope before build · honest if we are not a fit",
     fields: {
       name: { label: "Name" },
       email: { label: "Email" },
-      company: { label: "Company", hint: "Optional — helps us prep." },
+      company: { label: "Company", hint: "Optional, helps us prepare." },
       industry: {
         label: "Industry",
         hint: "Optional",
@@ -494,14 +489,14 @@ export const en = {
           "What are you building, for whom, and what does success look like?",
       },
     },
-    optionalDetails: "Timeline, type & context — optional",
+    optionalDetails: "Timeline, type, and context (optional)",
     submit: { idle: "See if we fit", sending: "Sending…" },
     successTitle: "Inquiry received",
     successBody:
-      "We'll reply within 24 hours with next steps — or a clear no-fit.",
-    privacyNote: "No mailing lists. Your details go straight to the studio.",
+      "We will reply within 24 hours with next steps, or tell you plainly if we are not a fit.",
+    privacyNote: "No mailing lists. Your note goes to the team that builds the work.",
     whatsappPrefill:
-      "Hi SekaiDev — I'd like to see if we fit for a project.",
+      "Hi SekaiDev, I want to check if we are a fit for a project.",
   },
 
   PROJECT_TYPES: [
@@ -529,22 +524,22 @@ export const en = {
   ],
 
   UI: {
-    choosePath: "Choose your path",
-    scrollExplore: "Scroll to explore",
+    choosePath: "Where should we start?",
+    scrollExplore: "Scroll to continue",
     skipIntro: "Skip intro",
     stillFit: "Still a fit?",
     footerRights: "ALL RIGHTS RESERVED.",
     footerStack: "NEXT.JS · THREE.JS · GO · POSTGRES",
     offerLabel: "01 — OFFER",
     offerHeadline: "What we",
-    offerHeadlineAccent: "deliver.",
+    offerHeadlineAccent: "build.",
     offerSubline:
-      "Product engineering, design, and systems — scoped clearly, shipped by one senior team.",
+      "Product engineering, design, and systems from one senior team, with a written scope first.",
     proofLabel: "03 — METHOD",
-    proofHeadline: "Written first.",
+    proofHeadline: "Scope on paper.",
     faqLabel: "05 — FAQ",
-    faqHeadline: "Clear before we begin.",
-    faqSubline: "The practical details, answered plainly.",
+    faqHeadline: "Practical questions first.",
+    faqSubline: "Straight answers before we start.",
     openMenu: "Open menu",
     closeMenu: "Close menu",
     contactErrors: {

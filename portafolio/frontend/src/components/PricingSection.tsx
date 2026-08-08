@@ -28,9 +28,6 @@ export default function PricingSection() {
       if (!root || !pin || !track) return;
 
       const mm = gsap.matchMedia();
-      const featured = root.querySelector<HTMLElement>(
-        `[data-featured="true"]`
-      );
 
       mm.add(PRICING_SCROLL.reducedMotionQuery, () => {
         gsap.set(track, { clearProps: "transform" });
@@ -49,21 +46,6 @@ export default function PricingSection() {
 
         gsap.set(track, { x: 0, force3D: true });
         if (progress) gsap.set(progress, { scaleX: 0 });
-
-        if (featured) {
-          gsap.fromTo(
-            featured,
-            { boxShadow: "0 0 0 0 rgba(232, 150, 175, 0)" },
-            {
-              boxShadow: "0 0 48px 0 rgba(232, 150, 175, 0.18)",
-              duration: 1.4,
-              ease: "sine.inOut",
-              yoyo: true,
-              repeat: -1,
-              delay: 0.4,
-            }
-          );
-        }
 
         const tween = gsap.to(track, {
           x: () => -getTravel(),
@@ -167,9 +149,6 @@ export default function PricingSection() {
                   <div className={styles.priceBlock}>
                     <div className={styles.priceMeta}>
                       <span className={styles.rateLabel}>{p.clientRate}</span>
-                      {tier.saveLabel ? (
-                        <span className={styles.saveChip}>{tier.saveLabel}</span>
-                      ) : null}
                     </div>
                     <div className={styles.priceRow}>
                       {tier.priceWas ? (

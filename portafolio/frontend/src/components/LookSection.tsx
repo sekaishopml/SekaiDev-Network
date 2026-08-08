@@ -30,7 +30,8 @@ function LookSection() {
             id="look-beyond"
             className={`${styles.subLabel} ${styles.lookBeyond}`}
           >
-            {t.LOOK_COPY.closer} {t.LOOK_COPY.past}
+            {t.LOOK_COPY.closer}
+            {t.LOOK_COPY.past ? ` ${t.LOOK_COPY.past}` : null}
           </p>
         </div>
 

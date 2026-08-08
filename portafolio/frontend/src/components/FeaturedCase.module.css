@@ -26,7 +26,7 @@
   height: min(58vw, 32rem);
   top: -12%;
   left: -14%;
-  background: radial-gradient(circle, rgba(232, 150, 175, 0.32), transparent 68%);
+  background: radial-gradient(circle, rgba(232, 150, 175, 0.18), transparent 68%);
 }
 
 .orbB {
@@ -34,7 +34,7 @@
   height: min(44vw, 24rem);
   right: -10%;
   top: 22%;
-  background: radial-gradient(circle, rgba(140, 170, 220, 0.22), transparent 70%);
+  background: radial-gradient(circle, rgba(140, 170, 220, 0.1), transparent 70%);
 }
 
 .orbC {
@@ -42,7 +42,7 @@
   height: min(52vw, 28rem);
   left: 30%;
   bottom: -16%;
-  background: radial-gradient(circle, rgba(92, 26, 51, 0.4), transparent 65%);
+  background: radial-gradient(circle, rgba(92, 26, 51, 0.22), transparent 65%);
 }
 
 .veil {
