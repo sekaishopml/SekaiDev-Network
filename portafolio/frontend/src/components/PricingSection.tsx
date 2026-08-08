@@ -72,7 +72,9 @@ export default function PricingSection() {
             pin: true,
             pinSpacing: true,
             scrub: PRICING_SCROLL.scrub,
-            anticipatePin: 1,
+            // anticipatePin fights Lenis on enter and briefly drops isActive,
+            // which used to snap the nav away via the chrome reverse path.
+            anticipatePin: 0,
             invalidateOnRefresh: true,
             // onToggle only — onRefresh can flicker isActive during pin
             // settle and used to snap the nav via a reverse fromTo.

@@ -17,8 +17,13 @@ const CHROME = {
   ctaLag: 0.1,
   easeHide: "power2.inOut" as const,
   easeShow: "power2.out" as const,
-  /** Absorb ScrollTrigger pin flicker on enter/leave. */
-  settleMs: 70,
+  /** Hide promptly once the pin reads active. */
+  hideSettleMs: 40,
+  /**
+   * Pin/Lenis can drop isActive for a few frames on enter — keep chrome
+   * hidden until inactive stays true long enough.
+   */
+  showSettleMs: 220,
 };
 
 let chromeTl: gsap.core.Timeline | null = null;
@@ -52,14 +57,6 @@ function applyChrome(hide: boolean) {
 
   if (hide) {
     document.documentElement.dataset.pricingPin = "true";
-
-    // Ensure we start from a known resting pose if Tailwind still owns transform.
-    if (nav && gsap.getProperty(nav, "yPercent") === 0) {
-      gsap.set(nav, { yPercent: 0, autoAlpha: Number(gsap.getProperty(nav, "opacity")) || 1 });
-    }
-    if (cta && gsap.getProperty(cta, "yPercent") === 0) {
-      gsap.set(cta, { yPercent: 0, autoAlpha: Number(gsap.getProperty(cta, "opacity")) || 1 });
-    }
 
     if (nav) {
       chromeTl.to(
@@ -123,12 +120,11 @@ export function setPricingChromeHidden(hide: boolean) {
   desired = hide;
   if (settleTimer) clearTimeout(settleTimer);
 
-  // Hide can start promptly; still wait one settle window so a same-frame
-  // false→true→false pin flicker cannot fire the broken reverse path.
+  const delay = hide ? CHROME.hideSettleMs : CHROME.showSettleMs;
   settleTimer = setTimeout(() => {
     settleTimer = null;
     applyChrome(desired);
-  }, CHROME.settleMs);
+  }, delay);
 }
 
 export function resetPricingChrome() {
