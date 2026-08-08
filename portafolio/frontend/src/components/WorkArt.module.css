@@ -4,17 +4,23 @@
   align-items: center;
   justify-content: center;
   height: 136px;
-  margin: -1px -1px 1.15rem;
+  margin: 0;
   overflow: hidden;
-  border: 1px solid rgba(17, 17, 17, 0.14);
-  background: #cfcfcf;
-  transform: scale(1);
-  transform-origin: center center;
-  transition:
-    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 280ms ease,
-    border-color 280ms ease;
+  border: 1px solid rgba(22, 20, 22, 0.14);
+  background: #c6c4c2;
   z-index: 1;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  gap: 0.35rem;
+  padding: 0.65rem 1rem 0.75rem;
+  box-sizing: border-box;
 }
 
 .artCompact {
@@ -26,105 +32,91 @@
   box-shadow: none !important;
 }
 
-.artCompact .scene {
-  max-width: 140px;
-  max-height: 44px;
-  margin: 0;
+.artCompact .stage {
   padding: 0;
+  gap: 0;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  :global(.group):hover .art {
-    transform: scale(1.06);
-    overflow: visible;
-    z-index: 3;
-    border-color: rgba(92, 26, 51, 0.35);
-    box-shadow: 0 12px 28px rgba(17, 17, 17, 0.12);
-  }
+.artCompact .scene {
+  width: 140px;
+  height: 44px;
 }
 
 .art--crm {
   background:
-    linear-gradient(145deg, rgba(92, 26, 51, 0.1), transparent 58%),
+    linear-gradient(145deg, rgba(92, 26, 51, 0.09), transparent 58%),
     #c6c4c2;
 }
 
 .art--websites {
   background:
-    linear-gradient(125deg, rgba(92, 26, 51, 0.08), transparent 55%),
-    #c9c7c5;
+    linear-gradient(125deg, rgba(92, 26, 51, 0.07), transparent 55%),
+    #c8c6c4;
 }
 
 .art--api {
   background:
-    linear-gradient(160deg, rgba(40, 48, 56, 0.1), transparent 55%),
+    linear-gradient(160deg, rgba(40, 48, 56, 0.09), transparent 55%),
     #c5c4c2;
 }
 
 .art--dashboards {
   background:
-    linear-gradient(135deg, rgba(55, 48, 40, 0.08), transparent 55%),
+    linear-gradient(135deg, rgba(55, 48, 40, 0.07), transparent 55%),
     #c7c5c3;
 }
 
 .label {
-  position: absolute;
-  z-index: 3;
-  left: 50%;
-  bottom: 12px;
-  transform: translateX(-50%);
+  position: static;
+  z-index: 2;
   margin: 0;
-  font-size: 9px;
+  font-size: 0.5625rem;
   letter-spacing: 0.2em;
-  color: rgba(17, 17, 17, 0.55);
+  color: rgba(22, 20, 22, 0.48);
   text-transform: uppercase;
   white-space: nowrap;
+  text-align: center;
+  line-height: 1;
 }
 
 .scene {
-  position: relative;
-  inset: auto;
   display: block;
-  width: 100%;
-  max-width: 280px;
+  width: min(100%, 420px);
   height: auto;
-  max-height: 72px;
-  margin: 0 auto 10px;
-  padding: 0 12px;
-  box-sizing: border-box;
+  max-height: 78px;
+  margin: 0 auto;
+  flex: 0 1 auto;
+  overflow: visible;
 }
 
 @media (max-width: 767px) {
   .art {
-    height: 112px;
-    margin-bottom: 1rem;
+    height: 120px;
   }
 
   .scene {
-    max-height: 58px;
-    padding: 0 10px;
-    margin-bottom: 8px;
+    max-height: 68px;
   }
 
-  .label {
-    bottom: 10px;
-    font-size: 8px;
+  .stage {
+    padding: 0.55rem 0.75rem 0.65rem;
   }
 }
 
-/* —— CRM: pipeline nodes —— */
+/* —— CRM —— */
 .crmLine {
   fill: none;
-  stroke: rgba(17, 17, 17, 0.28);
-  stroke-width: 1.5;
-  stroke-dasharray: 6 5;
-  animation: crmDash 2.8s linear infinite;
+  stroke: url(#wa-crm-line);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 5 7;
+  animation: crmDash 3.6s linear infinite;
 }
 
 .crmNode {
-  fill: #fff;
-  stroke: rgba(17, 17, 17, 0.45);
-  stroke-width: 1.5;
+  fill: rgba(255, 255, 255, 0.92);
+  stroke: rgba(22, 20, 22, 0.4);
+  stroke-width: 1.4;
 }
 
 .crmPacket {
@@ -134,18 +126,23 @@
 .crmNodeAccent {
   fill: var(--accent, #5c1a33);
   stroke: none;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: crmPulse 2.8s cubic-bezier(0.45, 0, 0.2, 1) infinite;
 }
 
 .crmCard {
-  fill: rgba(255, 255, 255, 0.85);
-  stroke: rgba(17, 17, 17, 0.3);
+  fill: rgba(255, 255, 255, 0.82);
+  stroke: rgba(22, 20, 22, 0.22);
   stroke-width: 1;
-  animation: crmCardIn 2.6s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: crmCard 3.4s cubic-bezier(0.45, 0, 0.2, 1) infinite;
 }
 
 @keyframes crmDash {
   to {
-    stroke-dashoffset: -44;
+    stroke-dashoffset: -48;
   }
 }
 
@@ -156,150 +153,138 @@
     opacity: 1;
   }
   50% {
-    transform: scale(1.18);
-    opacity: 0.85;
+    transform: scale(1.12);
+    opacity: 0.9;
   }
 }
 
-@keyframes crmMove {
-  0% {
-    offset-distance: 0%;
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    offset-distance: 100%;
-    opacity: 0;
-  }
-}
-
-@keyframes crmCardIn {
+@keyframes crmCard {
   0%,
   100% {
-    transform: translateY(4px);
-    opacity: 0.55;
+    opacity: 0.45;
+    transform: translateY(3px);
   }
   40%,
-  70% {
-    transform: translateY(0);
+  65% {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* —— Websites: layout frames —— */
+/* —— Websites —— */
 .webFrame {
-  fill: rgba(255, 255, 255, 0.88);
-  stroke: rgba(17, 17, 17, 0.35);
+  fill: rgba(255, 255, 255, 0.9);
+  stroke: rgba(22, 20, 22, 0.28);
   stroke-width: 1.25;
-  transform-origin: left center;
-  animation: webGrow 3s ease-in-out infinite;
+}
+
+.webChrome {
+  fill: rgba(22, 20, 22, 0.06);
+  stroke: none;
+}
+
+.webDot {
+  fill: rgba(22, 20, 22, 0.22);
 }
 
 .webBar {
-  fill: rgba(17, 17, 17, 0.7);
-  animation: webBar 3s ease-in-out infinite;
+  fill: rgba(22, 20, 22, 0.55);
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: webReveal 4s cubic-bezier(0.45, 0, 0.2, 1) infinite;
 }
 
 .webBlock {
-  fill: rgba(224, 142, 175, 0.55);
-  animation: webBlock 3s ease-in-out infinite;
+  fill: rgba(92, 26, 51, 0.28);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: webBlock 4s cubic-bezier(0.45, 0, 0.2, 1) infinite;
 }
 
 .webCursor {
   fill: #1a1418;
   stroke: #fff;
   stroke-width: 1;
-  animation: webCursor 3s ease-in-out infinite;
+  animation: webCursor 4s cubic-bezier(0.45, 0, 0.2, 1) infinite;
 }
 
-@keyframes webGrow {
-  0% {
-    transform: scaleX(0.2);
-    opacity: 0.4;
-  }
-  25%,
-  75% {
-    transform: scaleX(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scaleX(0.2);
-    opacity: 0.4;
-  }
-}
-
-@keyframes webBar {
+@keyframes webReveal {
   0%,
-  15% {
+  12% {
     opacity: 0;
-    transform: scaleX(0);
+    transform: scaleX(0.2);
   }
-  35%,
-  70% {
+  28%,
+  72% {
     opacity: 1;
     transform: scaleX(1);
   }
+  88%,
   100% {
     opacity: 0;
-    transform: scaleX(0);
+    transform: scaleX(0.2);
   }
 }
 
 @keyframes webBlock {
   0%,
-  30% {
+  18% {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(6px);
   }
-  50%,
-  75% {
+  34%,
+  70% {
     opacity: 1;
     transform: translateY(0);
   }
+  88%,
   100% {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(4px);
   }
 }
 
 @keyframes webCursor {
-  0% {
-    transform: translate(8px, 40px);
+  0%,
+  10% {
+    transform: translate(-6px, 18px);
     opacity: 0;
   }
-  20% {
+  22% {
     opacity: 1;
   }
   45% {
-    transform: translate(55px, 14px);
+    transform: translate(-42px, 4px);
   }
-  70% {
-    transform: translate(100px, 42px);
+  68% {
+    transform: translate(2px, 16px);
+    opacity: 1;
   }
+  86%,
   100% {
-    transform: translate(8px, 40px);
+    transform: translate(8px, 8px);
     opacity: 0;
   }
 }
 
-/* —— API: request flow —— */
+/* —— API —— */
 .apiServer {
   fill: rgba(255, 255, 255, 0.9);
-  stroke: rgba(17, 17, 17, 0.4);
-  stroke-width: 1.5;
+  stroke: rgba(22, 20, 22, 0.32);
+  stroke-width: 1.35;
+}
+
+.apiSlot {
+  fill: rgba(22, 20, 22, 0.14);
 }
 
 .apiLine {
   fill: none;
-  stroke: rgba(88, 139, 172, 0.7);
-  stroke-width: 1.5;
-  stroke-dasharray: 4 4;
-  animation: apiDash 1.6s linear infinite;
+  stroke: rgba(22, 20, 22, 0.28);
+  stroke-width: 1.4;
+  stroke-dasharray: 3 5;
+  stroke-linecap: round;
+  animation: apiDash 2.2s linear infinite;
 }
 
 .apiDot {
@@ -308,9 +293,10 @@
 
 .apiBrace {
   fill: none;
-  stroke: rgba(17, 17, 17, 0.45);
-  stroke-width: 1.5;
-  animation: apiBlink 2.4s ease-in-out infinite;
+  stroke: rgba(22, 20, 22, 0.35);
+  stroke-width: 1.4;
+  stroke-linecap: square;
+  animation: apiBlink 3s cubic-bezier(0.45, 0, 0.2, 1) infinite;
 }
 
 @keyframes apiDash {
@@ -319,100 +305,103 @@
   }
 }
 
-@keyframes apiHop {
-  0% {
-    transform: translateX(0);
-    opacity: 0;
-  }
-  15% {
-    opacity: 1;
-  }
-  50% {
-    transform: translateX(72px);
-    opacity: 1;
-  }
-  85% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(120px);
-    opacity: 0;
-  }
-}
-
 @keyframes apiBlink {
   0%,
   100% {
-    opacity: 0.35;
+    opacity: 0.3;
   }
-  40%,
+  45%,
   60% {
     opacity: 1;
   }
 }
 
-/* —— Dashboards: bars + sparkline —— */
+/* —— Dashboards —— */
+.dashAxis {
+  stroke: rgba(22, 20, 22, 0.16);
+  stroke-width: 1;
+}
+
+.dashBar,
+.dashBarAccent {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: dashGrow 3.6s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+
 .dashBar {
-  fill: rgba(17, 17, 17, 0.35);
-  transform-origin: bottom center;
-  animation: dashGrow 2.8s ease-in-out infinite;
+  fill: rgba(22, 20, 22, 0.28);
 }
 
 .dashBarAccent {
   fill: var(--accent, #5c1a33);
-  transform-origin: bottom center;
-  animation: dashGrow 2.8s ease-in-out infinite;
 }
 
 .dashLine {
   fill: none;
-  stroke: rgba(88, 139, 172, 0.85);
+  stroke: rgba(22, 20, 22, 0.42);
   stroke-width: 1.75;
   stroke-linecap: round;
-  stroke-dasharray: 140;
-  animation: dashDraw 2.8s ease-in-out infinite;
+  stroke-linejoin: round;
+  stroke-dasharray: 180;
+  stroke-dashoffset: 180;
+  animation: dashDraw 3.6s cubic-bezier(0.45, 0, 0.2, 1) infinite;
 }
 
 .dashAlert {
   fill: var(--accent, #5c1a33);
-  animation: dashAlert 2.8s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dashAlert 3.6s cubic-bezier(0.45, 0, 0.2, 1) infinite;
 }
 
 @keyframes dashGrow {
   0%,
-  100% {
-    transform: scaleY(0.35);
+  8% {
+    transform: scaleY(0.2);
+    opacity: 0.5;
   }
-  45%,
-  65% {
+  35%,
+  68% {
     transform: scaleY(1);
+    opacity: 1;
+  }
+  92%,
+  100% {
+    transform: scaleY(0.2);
+    opacity: 0.5;
   }
 }
 
 @keyframes dashDraw {
-  0% {
-    stroke-dashoffset: 140;
+  0%,
+  12% {
+    stroke-dashoffset: 180;
+    opacity: 0.4;
   }
-  45%,
+  40%,
   70% {
     stroke-dashoffset: 0;
+    opacity: 1;
   }
+  92%,
   100% {
-    stroke-dashoffset: -20;
+    stroke-dashoffset: -12;
+    opacity: 0.5;
   }
 }
 
 @keyframes dashAlert {
   0%,
-  55%,
+  48%,
   100% {
     opacity: 0.35;
     transform: scale(1);
   }
-  65%,
-  75% {
+  58%,
+  70% {
     opacity: 1;
-    transform: scale(1.25);
+    transform: scale(1.15);
   }
 }
 
@@ -421,7 +410,6 @@
   .crmNodeAccent,
   .crmPacket,
   .crmCard,
-  .webFrame,
   .webBar,
   .webBlock,
   .webCursor,
@@ -435,17 +423,19 @@
     animation: none !important;
   }
 
-  .webFrame,
   .webBar,
   .webBlock,
   .crmCard,
+  .crmNodeAccent,
   .dashBar,
-  .dashBarAccent {
+  .dashBarAccent,
+  .dashAlert {
     opacity: 1;
     transform: none;
   }
 
   .dashLine {
     stroke-dashoffset: 0;
+    opacity: 1;
   }
 }

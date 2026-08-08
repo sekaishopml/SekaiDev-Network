@@ -226,26 +226,29 @@
 
 .offerPanel {
   position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .offerPanel > * {
   margin: 0 !important;
   width: 100%;
-  max-width: 40rem;
+  max-width: none;
+  height: 140px;
   border-color: rgba(22, 20, 22, 0.16) !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
 @media (min-width: 900px) {
   .offerPanel > * {
-    max-width: 48rem;
-    height: 148px;
+    height: 156px;
   }
 }
 
 @media (max-width: 899px) {
   .offerPanel > * {
-    height: 118px;
+    height: 124px;
   }
 }
 
