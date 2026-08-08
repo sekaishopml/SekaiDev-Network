@@ -6,6 +6,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@/hooks/useGsapSafe";
 import { useT } from "@/components/LocaleProvider";
 import { jumpTo } from "@/lib/navigation";
+import {
+  resetPricingChrome,
+  setPricingChromeHidden,
+} from "@/lib/motion/pricingChrome";
 import { PRICING_SCROLL } from "@/lib/motion/pricingScroll";
 import styles from "./PricingSection.module.css";
 
@@ -48,12 +52,8 @@ export default function PricingSection() {
         if (progress) gsap.set(progress, { scaleX: 0 });
 
         const mobileNavHide = window.matchMedia("(max-width: 899px)");
-        const setPricingPinChrome = (active: boolean) => {
-          if (active && mobileNavHide.matches) {
-            document.documentElement.dataset.pricingPin = "true";
-          } else {
-            delete document.documentElement.dataset.pricingPin;
-          }
+        const syncChrome = (active: boolean) => {
+          setPricingChromeHidden(Boolean(active && mobileNavHide.matches));
         };
 
         const tween = gsap.to(track, {
@@ -74,8 +74,8 @@ export default function PricingSection() {
             scrub: PRICING_SCROLL.scrub,
             anticipatePin: 1,
             invalidateOnRefresh: true,
-            onToggle: (self) => setPricingPinChrome(self.isActive),
-            onRefresh: (self) => setPricingPinChrome(self.isActive),
+            onToggle: (self) => syncChrome(self.isActive),
+            onRefresh: (self) => syncChrome(self.isActive),
             onUpdate: (self) => {
               if (progress) gsap.set(progress, { scaleX: self.progress });
             },
@@ -83,7 +83,7 @@ export default function PricingSection() {
         });
 
         return () => {
-          setPricingPinChrome(false);
+          resetPricingChrome();
           tween.scrollTrigger?.kill();
           tween.kill();
           gsap.set(track, { clearProps: "transform" });

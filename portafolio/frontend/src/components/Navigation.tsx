@@ -125,7 +125,7 @@ export default function Navigation() {
     <>
       <header
         data-site-nav
-        className={`fixed top-0 left-0 right-0 z-50 pt-[env(safe-area-inset-top,0px)] h-[calc(5rem+env(safe-area-inset-top,0px))] md:h-[calc(6rem+env(safe-area-inset-top,0px))] px-6 md:px-12 bg-background/90 backdrop-blur-sm transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none ${
+        className={`fixed top-0 left-0 right-0 z-50 pt-[env(safe-area-inset-top,0px)] h-[calc(5rem+env(safe-area-inset-top,0px))] md:h-[calc(6rem+env(safe-area-inset-top,0px))] px-6 md:px-12 bg-background/90 backdrop-blur-sm transition-[opacity,transform] duration-[1100ms] ease-out motion-reduce:transition-none ${
           presented
             ? "opacity-100 translate-y-0"
             : "opacity-0 -translate-y-3 pointer-events-none"
