@@ -2,21 +2,21 @@ import type { StudioDictionary } from "./types";
 
 /**
  * Español latinoamericano (Ecuador).
- * El tono prioriza claridad comercial y criterio técnico sobre traducción literal.
+ * Tono: claro, humano, sin jerga de agencia. Como se lo explicarías a un amigo.
  */
 export const es = {
   meta: {
-    title: "SekaiDev | Apps, APIs y sitios de marca",
+    title: "SekaiDev | Apps, webs y sistemas a medida",
     description:
-      "Ingeniería de producto desde Ecuador: apps web, APIs, UX/UI y sitios de marca. Un equipo pequeño con el que hablas directo.",
-    ogTitle: "SekaiDev | Ingeniería de producto desde Ecuador",
+      "Diseñamos y construimos apps, webs y sistemas desde Ecuador. Equipo pequeño: hablas directo con quien programa.",
+    ogTitle: "SekaiDev | Apps, webs y sistemas desde Ecuador",
     keywords: [
-      "ingeniería de producto",
-      "estudio de software",
-      "desarrollo de apps web",
-      "desarrollo de APIs",
-      "diseño UX/UI",
-      "experiencias de marca",
+      "desarrollo de software Ecuador",
+      "apps web a medida",
+      "sitios web para empresas",
+      "desarrollo Next.js Ecuador",
+      "estudio de software Quito",
+      "UX UI Ecuador",
       "Ecuador",
       "Latinoamérica",
     ],
@@ -26,12 +26,12 @@ export const es = {
 
   CTAS: {
     primary: {
-      label: "Ver si encajamos",
-      labelUpper: "VER SI ENCAJAMOS",
+      label: "Hablemos de tu proyecto",
+      labelUpper: "HABLEMOS DE TU PROYECTO",
       href: "#contact",
     },
     secondary: {
-      label: "Ver qué construimos",
+      label: "Ver qué hacemos",
       href: "#works",
     },
     pricing: {
@@ -39,8 +39,8 @@ export const es = {
       labelUpper: "VER PRECIOS",
       href: "#pricing",
     },
-    featuredCase: "Conversemos sobre un proyecto similar",
-    pricingFoot: "Solicitar una cotización a medida",
+    featuredCase: "Quiero algo parecido",
+    pricingFoot: "Pedir una cotización",
     whatsapp: {
       label: "WhatsApp",
       labelUpper: "WHATSAPP",
@@ -52,43 +52,43 @@ export const es = {
     email: "hello@sekaidevec.com",
     siteUrl: "https://portafolio.sekaidevec.com",
     icp: "startups y marcas",
-    eyebrow: "Estudio full-stack para",
-    tagline: "Diseñamos y lanzamos tu producto.",
+    eyebrow: "Estudio de software para",
+    tagline: "Diseñamos tu producto y lo dejamos listo para usar.",
     subline:
-      "Apps web, APIs, UX/UI y sitios de marca. Equipo pequeño en Ecuador, con clientes en LatAm y EE. UU.",
-    heroCtaPrimary: { label: "Ver si encajamos", href: "#contact" },
+      "Apps, webs y sistemas a medida. Somos un equipo pequeño en Ecuador; también trabajamos con clientes en LatAm y EE. UU.",
+    heroCtaPrimary: { label: "Hablemos de tu proyecto", href: "#contact" },
     heroCtaSecondary: {
-      label: "Ver qué construimos",
+      label: "Ver qué hacemos",
       href: "#works",
     },
-    available: "Disponible para proyectos",
+    available: "Disponibles para proyectos nuevos",
   },
 
   TRUST_STRIP: [
-    "Respondemos en menos de 24 horas",
-    "Alcance por escrito antes de construir",
-    "Te lo decimos pronto si no somos el equipo adecuado",
+    "Te respondemos en menos de 24 horas",
+    "Primero te mandamos el plan por escrito",
+    "Si no somos el equipo correcto, te lo decimos",
   ],
 
   FUNNEL_PATHS: [
     {
       id: "product",
       intent: "product",
-      label: "Tengo un producto",
-      hint: "Apps, APIs o dashboards que necesitan construirse y lanzarse.",
+      label: "Tengo una idea o un producto",
+      hint: "Una app, un panel o un sistema que hay que construir y sacar a la calle.",
       href: "#offer",
     },
     {
       id: "services",
       intent: "services",
-      label: "Quiero generar más oportunidades",
-      hint: "Un sitio o sistema que convierte visitas en reservas y leads reales.",
+      label: "Quiero más clientes",
+      hint: "Una web o sistema que convierta visitas en mensajes, reservas o ventas.",
       href: "#pricing",
     },
   ],
 
   NAV_LINKS: [
-    { label: "Qué resolvemos", href: "#offer", mobileOnly: false },
+    { label: "Qué hacemos", href: "#offer", mobileOnly: false },
     {
       label: "Para startups",
       href: "#offer",
@@ -96,7 +96,7 @@ export const es = {
       intent: "product",
     },
     {
-      label: "Para empresas de servicios",
+      label: "Para negocios",
       href: "#pricing",
       mobileOnly: true,
       intent: "services",
@@ -108,15 +108,15 @@ export const es = {
   ],
 
   NAV_TRUST:
-    "Respuesta en menos de 24 h · alcance por escrito · honestos si no encajamos",
+    "Respuesta en menos de 24 h · plan por escrito · sinceros si no encajamos",
 
   INDUSTRIES: [
     "Startup / producto",
     "Barbería / salón",
     "Restaurante / hospitalidad",
     "Estudio jurídico",
-    "Estudio de arquitectura / diseño",
-    "Ecommerce",
+    "Arquitectura / diseño",
+    "Tienda online",
     "Publicidad / agencia",
     "Otro",
   ],
@@ -127,25 +127,25 @@ export const es = {
     past: "",
     find: "ESTO",
     signal: "ES EL TRABAJO.",
-    ship: "APPS · APIS · SITIOS DE MARCA",
-    subline: "Ingeniería de producto y diseño desde Ecuador.",
+    ship: "APPS · SISTEMAS · WEBS DE MARCA",
+    subline: "Diseño y desarrollo desde Ecuador.",
   },
 
   OUTCOMES: [
     {
       title: "Apps y plataformas",
       body:
-        "Auth, APIs y funciones en vivo cuando hacen falta. Hecho para que tu equipo pueda seguir cambiando el producto después del lanzamiento.",
+        "Login, paneles y todo lo que tu equipo usa a diario. Lo dejamos listo para que puedan seguir mejorándolo después.",
     },
     {
-      title: "Sitios que venden el trabajo",
+      title: "Webs que venden tu trabajo",
       body:
-        "Sitios de marca y marketing con estructura clara. Animación solo si ayuda a entender o a actuar.",
+        "Sitios claros: quién eres, qué ofreces y qué hacer después. Animación solo si ayuda a entender.",
     },
     {
       title: "Hablas con quien construye",
       body:
-        "Un equipo pequeño, sin cadena de handoffs. Arquitectura, diseño y lanzamiento con las mismas personas.",
+        "Sin intermediarios. Las mismas personas diseñan, programan y te acompañan hasta el lanzamiento.",
     },
   ],
 
@@ -153,39 +153,39 @@ export const es = {
     label: "Proyecto de ejemplo",
     title: "CyTaxi",
     titleLine2: "Platform",
-    role: "Un build entre varios — producto, APIs y UI de ops",
+    role: "Producto, sistemas y pantalla de operaciones",
     challenge:
-      "Un cliente necesitaba un producto de movilidad en producción: despacho, pagos y seguimiento que ops pudiera operar a diario.",
+      "Necesitaban una app de movilidad lista para trabajar: pedidos, pagos y seguimiento que el equipo de operaciones pudiera usar todos los días.",
     solution:
-      "Armamos la superficie de producto y el backend en Go/Postgres alrededor de flujos reales de viaje — el mismo enfoque que usamos en otras plataformas.",
+      "Armamos la app y el sistema detrás con Go y Postgres, siguiendo cómo ocurre un viaje de verdad — el mismo enfoque que usamos en otras plataformas.",
     result:
-      "Una base viva que podían operar y extender. Lo mostramos para dejar claro: entregamos productos completos, no decks.",
+      "Una base que podían operar y seguir creciendo. Lo mostramos para dejar claro: entregamos productos completos, no solo presentaciones.",
     stack: ["Go", "Next.js", "Postgres", "Maps"],
     deliverables: [
-      "Flujos de producto para conductores y pasajeros",
-      "Consola de ops / despacho",
-      "API en Go y modelo de datos en Postgres",
-      "Ubicación en tiempo real donde el producto lo pedía",
+      "Flujos para conductores y pasajeros",
+      "Panel para el equipo de operaciones",
+      "API en Go y base de datos en Postgres",
+      "Ubicación en vivo donde el producto lo pedía",
     ],
     decisions: [
-      "Go para las APIs centrales",
-      "Next.js para la UI del producto",
+      "Go para las APIs principales",
+      "Next.js para las pantallas",
       "Postgres como fuente de verdad",
-      "Mapas solo donde el flujo de viaje los necesitaba",
+      "Mapas solo donde el viaje los necesitaba",
     ],
     handoff:
-      "Código de producción, docs de la plataforma y una lista corta de qué construir después.",
+      "Código listo para producción, documentación y una lista corta de qué construir después.",
     href: null,
     outcomeNote:
-      "Más trabajo con nombre y recorridos disponibles cuando confirmemos encaje.",
+      "Más ejemplos con nombre y recorrido los compartimos en privado cuando veamos que hay encaje.",
     labels: {
-      challenge: "Reto",
-      solution: "Solución",
-      delivered: "Entregado",
+      challenge: "El reto",
+      solution: "Qué hicimos",
+      delivered: "Qué entregamos",
       decisions: "Decisiones clave",
       result: "Resultado",
       handoff: "Entrega",
-      buildNotes: "Notas de construcción",
+      buildNotes: "Notas del build",
     },
     stageUi: {
       aria: "Tarjeta de viaje de ejemplo del build CyTaxi",
@@ -202,47 +202,47 @@ export const es = {
 
   PROOF: {
     metrics: [
-      { value: "24 h", label: "Ventana típica de respuesta" },
-      { value: "UTC−5", label: "Ecuador · traslape con EE. UU. Este/Central" },
-      { value: "Por escrito", label: "Alcance antes de empezar a construir" },
+      { value: "24 h", label: "Tiempo típico de respuesta" },
+      { value: "UTC−5", label: "Ecuador · buen horario con EE. UU. Este/Central" },
+      { value: "Por escrito", label: "Plan claro antes de empezar a construir" },
     ],
     note:
-      "Compartimos referencias y recorridos de casos en privado cuando confirmamos que hay encaje.",
+      "Si hacemos match, te compartimos referencias y recorridos de proyectos en privado.",
   },
 
   PRICING: {
     sectionLabel: "Precios",
-    headline: "Paquetes claros. Cotización por escrito primero.",
+    headline: "Precios claros. Primero la cotización por escrito.",
     subline:
-      "Precios iniciales en USD para Ecuador y LatAm. Desliza para comparar. El número final lo confirmamos por escrito antes de construir.",
+      "Montos iniciales en dólares para Ecuador y LatAm. Desliza para comparar. El número final te lo confirmamos por escrito antes de construir.",
     marketNote:
-      "Referenciados a estudios de producto serios en Ecuador — por encima de webs plantilla, por debajo de tarifas de agencia US.",
+      "Por encima de una web plantilla. Por debajo de tarifas de agencia en EE. UU.",
     offerBanner:
-      "En cada paquete ves precio de lista y tarifa cliente. Launch Standard suele ser la opción para un producto completo.",
+      "En cada paquete ves el precio de lista y el precio para ti. Launch Standard suele ser la opción para un producto completo.",
     scrollHint: "Desliza para comparar paquetes",
     disclaimer:
-      "Precios de entrada con tarifa cliente. Alcance, cronograma y cotización final van por escrito antes de construir. Si el trabajo crece, lo decimos antes de subir el precio.",
+      "Estos son precios de entrada. Alcance, fechas y cotización final van por escrito. Si el trabajo crece, te avisamos antes de subir el precio.",
     recommended: "Recomendable",
-    clientRate: "Tarifa cliente",
+    clientRate: "Tu precio",
     tiers: [
       {
         id: "brand",
         title: "Brand Presence",
-        tagline: "Un sitio que explica quién eres y qué hacer después.",
+        tagline: "Una web que explica quién eres y qué hacer después.",
         timeline: "3–5 semanas",
         priceWas: "$6,200",
         priceFrom: "$4,500",
         priceUnit: "USD",
         bestFor:
-          "Sitios de marca o marketing con motion a medida y un camino claro para convertir — no una plantilla.",
+          "Web de marca o marketing hecha a medida, con un camino claro para que te escriban o compren — no una plantilla.",
         includes: [
-          "Dirección de arte + wireframes de conversión",
-          "Front end a medida en Next.js",
-          "Sistema de motion alineado a la marca",
-          "Base de SEO / analítica",
-          "Lanzamiento staging → producción + entrega",
+          "Diseño y estructura pensados para convertir",
+          "Sitio a medida en Next.js",
+          "Animación alineada a tu marca",
+          "Base de SEO y analítica",
+          "Pruebas, salida al aire y entrega",
         ],
-        cta: "Definir un sitio de marca",
+        cta: "Quiero una web de marca",
         intent: "brand",
       },
       {
@@ -254,15 +254,15 @@ export const es = {
         priceFrom: "$18,500",
         priceUnit: "USD",
         offerNote:
-          "Opción habitual: dirección, full-stack, lanzamiento y 30 días de soporte.",
+          "Lo más habitual: diseño, desarrollo completo, lanzamiento y 30 días de soporte.",
         bestFor:
-          "Producto v1, consola operativa o base de plataforma que tu equipo pueda operar día a día.",
+          "Tu primera versión del producto, un panel de operaciones o la base de una plataforma que tu equipo pueda usar día a día.",
         includes: [
-          "Dirección de producto y visual",
-          "Go / Next.js / Postgres según alcance",
-          "Auth, APIs y flujos centrales del producto",
-          "Tiempo real / integraciones cuando haga falta",
-          "Staging → producción + docs + 30 días de soporte",
+          "Dirección de producto y diseño",
+          "Stack según el proyecto (Go, Next.js, Postgres…)",
+          "Login, APIs y flujos principales",
+          "Integraciones o tiempo real si hace falta",
+          "Salida al aire, documentación y 30 días de soporte",
         ],
         cta: "Empezar con Launch",
         intent: "launch",
@@ -271,41 +271,41 @@ export const es = {
       {
         id: "sprint",
         title: "Signal Sprint",
-        tagline: "Un hito definido, entregado.",
+        tagline: "Un avance concreto, entregado.",
         timeline: "2–4 semanas",
         priceWas: "$8,900",
         priceFrom: "$6,800",
         priceUnit: "USD",
         bestFor:
-          "Destrabar un MVP, revisar UX o arquitectura a tiempo, o lanzar una porción importante.",
+          "Cuando necesitas destrabar un MVP, revisar diseño o arquitectura, o sacar una pieza importante rápido.",
         includes: [
-          "Llamada de descubrimiento + alcance por escrito",
+          "Llamada inicial + plan por escrito",
           "Revisión de UX o arquitectura antes de construir",
-          "Un entregable listo para producción",
-          "Revisión de código + ruta de despliegue",
-          "Actualizaciones async y algunas llamadas puntuales",
+          "Un entregable listo para usar",
+          "Revisión de código y cómo publicarlo",
+          "Actualizaciones por mensaje y algunas llamadas cortas",
         ],
-        cta: "Iniciar un sprint",
+        cta: "Pedir un sprint",
         intent: "sprint",
       },
       {
         id: "partner",
         title: "Product Partner",
-        tagline: "Seguir construyendo con ritmo mensual.",
+        tagline: "Seguir construyendo mes a mes.",
         timeline: "3+ meses · mensual",
         priceWas: "$5,200",
         priceFrom: "$3,800",
         priceUnit: "USD / mes",
         bestFor:
-          "Seguir entregando después del lanzamiento sin contratar aún un equipo completo.",
+          "Cuando ya lanzaste y quieres seguir mejorando sin contratar aún un equipo completo.",
         includes: [
-          "Horas mensuales de ingeniería y diseño",
-          "Roadmap compartido + reunión semanal",
-          "Ciclos estables de entrega",
-          "Cuidado de arquitectura y rendimiento",
-          "Pausa o escala con 30 días de aviso",
+          "Horas mensuales de desarrollo y diseño",
+          "Plan compartido + reunión semanal",
+          "Entregas con ritmo estable",
+          "Cuidado de velocidad y arquitectura",
+          "Puedes pausar o subir con 30 días de aviso",
         ],
-        cta: "Conversar sobre una alianza",
+        cta: "Hablar de una alianza",
         intent: "partner",
       },
     ],
@@ -315,92 +315,92 @@ export const es = {
     {
       question: "¿Qué pasa después de escribirnos?",
       answer:
-        "Recibes una respuesta real en menos de 24 horas — no un autoresponder. Pedimos solo lo necesario para ver si encajamos: objetivo, usuarios, plazos y presupuesto. Si tiene sentido, enviamos un alcance escrito antes de construir. Si no, te lo decimos y paramos ahí.",
+        "Te respondemos de verdad en menos de 24 horas — no un robot. Pedimos lo justo para entender si podemos ayudarte: objetivo, usuarios, plazos y presupuesto. Si tiene sentido, te mandamos el plan por escrito. Si no, te lo decimos y listo.",
     },
     {
       question: "¿Cuánto cuesta trabajar con ustedes?",
       answer:
-        "Brand Presence desde $4,500 USD, Signal Sprint desde $6,800, Launch Standard (producto completo habitual) desde $18,500 (lista $24,500). Product Partner desde $3,800/mes. Si tu presupuesto está por debajo, te lo diremos pronto.",
+        "Web de marca desde $4,500 USD. Sprint desde $6,800. Producto completo (Launch Standard) desde $18,500 (lista $24,500). Alianza mensual desde $3,800/mes. Si tu presupuesto está más abajo, te lo decimos pronto.",
     },
     {
-      question: "¿Qué modalidad me conviene?",
+      question: "¿Qué paquete me conviene?",
       answer:
-        "Brand Presence: un sitio de marca o marketing. Signal Sprint: un hito definido cuando necesitas algo afuera rápido. Launch Standard (recomendable): diseño + desarrollo para un lanzamiento completo. Product Partner: horas mensuales si quieres seguir construyendo después del lanzamiento.",
+        "Brand Presence: una web de marca o marketing. Signal Sprint: un avance concreto cuando necesitas algo afuera rápido. Launch Standard (recomendable): diseño + desarrollo para lanzar un producto completo. Product Partner: horas mensuales si quieres seguir después del lanzamiento.",
     },
     {
       question: "¿Cómo funcionan pagos y contrato?",
       answer:
-        "Cotizamos en USD, normalmente por transferencia. Antes de cualquier cobro recibes una cotización escrita con depósito, hitos, fechas y entregables — más qué está dentro y fuera del alcance. Confirmamos por escrito propiedad, rondas de revisión y calendario de pagos. Los cambios de alcance requieren aprobación escrita. Factura bajo pedido.",
+        "Cotizamos en dólares, normalmente por transferencia. Antes de cobrar te mandamos una cotización escrita con anticipo, hitos, fechas y qué incluye (y qué no). Los cambios de alcance se aprueban por escrito. Factura bajo pedido.",
     },
     {
-      question: "¿Quién es dueño del código y del diseño?",
+      question: "¿De quién es el código y el diseño?",
       answer:
-        "Tú. La entrega incluye el código acordado, archivos de diseño, documentación y los accesos para operar y extender lo que lanzamos. Sin repos rehenes. Sin licencias sorpresa.",
+        "Tuyos. Te entregamos el código, los archivos de diseño, la documentación y los accesos. Sin repos retenidos ni licencias escondidas.",
     },
     {
       question: "¿Pueden trabajar con equipos en EE. UU. y LatAm?",
       answer:
-        "Sí. Estamos en Ecuador (UTC−5 todo el año) con buen solape para las zonas Este y Central de EE. UU. Async por defecto — avances claros por escrito — y llamadas cortas solo cuando una decisión lo pide.",
+        "Sí. Estamos en Ecuador (UTC−5 todo el año), con buen horario para la costa Este y Central de EE. UU. Trabajamos sobre todo por mensaje con avances claros, y hacemos llamadas cortas solo cuando hay que decidir algo.",
     },
     {
       question: "¿Cuánto tarda un proyecto?",
       answer:
-        "Rangos típicos una vez arrancamos: Brand Presence 3–5 semanas, Signal Sprint 2–4 semanas, Launch Standard 8–14 semanas. Product Partner abre en tres meses. La fecha de inicio depende de la capacidad actual; te damos una ventana honesta en la primera llamada.",
+        "Web de marca: 3–5 semanas. Sprint: 2–4 semanas. Producto completo: 8–14 semanas. La alianza mensual abre en tres meses. La fecha de inicio depende de la agenda; en la primera llamada te damos una ventana real.",
     },
     {
       question: "¿Qué pasa si no encajamos?",
       answer:
-        "Preferimos perder un deal a tomar el proyecto equivocado. Alcance, timing o forma de trabajo incorrectos: te lo decimos claro y liberamos a las dos partes.",
+        "Preferimos perder un proyecto a tomar el equivocado. Si el alcance, el tiempo o la forma de trabajar no dan, te lo decimos claro y cada uno sigue su camino.",
     },
     {
       question: "¿Pueden seguir después del lanzamiento?",
       answer:
-        "Sí. Podemos dejar un plan corto pos-lanzamiento, o continuar con Product Partner si quieres iteración continua sin contratar aún un equipo completo.",
+        "Sí. Podemos dejarte un plan corto de lo que sigue, o continuar con Product Partner si quieres mejoras constantes sin armar aún un equipo interno.",
     },
   ],
 
   PROCESS: [
     {
       step: "01",
-      title: "Alinear",
+      title: "Entender",
       body:
-        "Objetivos, límites, presupuesto y qué cuenta como éxito, por escrito antes de construir.",
+        "Objetivos, límites, presupuesto y cómo se ve el éxito — por escrito, antes de construir.",
     },
     {
       step: "02",
-      title: "Prototipar",
+      title: "Diseñar",
       body:
-        "Revisamos UX o arquitectura a tiempo para que no pagues la dirección equivocada.",
+        "Revisamos pantallas o arquitectura a tiempo, para no pagar la dirección equivocada.",
     },
     {
       step: "03",
       title: "Construir",
       body:
-        "Trabajo de producción con responsables claros y actualizaciones async regulares.",
+        "Trabajo real, con responsables claros y avances que puedes ver seguido.",
     },
     {
       step: "04",
       title: "Lanzar",
       body:
-        "Lanzamos, entregamos el proyecto y dejamos un plan corto de lo que sigue.",
+        "Salimos al aire, te entregamos todo y dejamos un plan corto de lo que viene.",
     },
   ],
 
   PROCESS_SECTION: {
     label: "02 — MÉTODO",
-    headline: "Alcance por escrito.",
+    headline: "Primero el plan por escrito.",
     headlineAccent: "Después construimos.",
     subline:
-      "De la primera llamada al lanzamiento — las mismas personas, alcance por escrito primero.",
+      "De la primera llamada al lanzamiento — las mismas personas, con el plan claro desde el inicio.",
     boardLabel: "Pasos",
-    boardFlow: "Alinear → Prototipar → Construir → Lanzar",
+    boardFlow: "Entender → Diseñar → Construir → Lanzar",
   },
 
   WORKS_SECTION: {
     label: "Capacidades",
-    headline: "Qué cubre esto.",
+    headline: "En qué te podemos ayudar.",
     subline:
-      "Sistemas de producto, sitios de marca, APIs y herramientas internas. Recorridos con nombre cuando confirmemos encaje.",
+      "Apps, webs de marca, sistemas y herramientas internas. Ejemplos con nombre los vemos juntos cuando haya encaje.",
     needLabel: "Necesidad",
     outcomeLabel: "Resultado",
   },
@@ -409,20 +409,20 @@ export const es = {
     {
       id: "01",
       slug: "crm",
-      title: "CRM y sistemas de ops",
+      title: "CRM y operaciones",
       kind: "Producto",
-      challenge: "Pipelines, contactos y operación diaria en un solo lugar.",
-      result: "Modelo de datos, roles y flujos que tu equipo sí puede usar.",
+      challenge: "Clientes, pedidos y el día a día del equipo en un solo lugar.",
+      result: "Datos, roles y flujos que tu gente sí puede usar.",
       tags: "Go · Next.js · Postgres",
       href: "#contact",
     },
     {
       id: "02",
       slug: "websites",
-      title: "Sitios de marca y producto",
+      title: "Webs de marca y producto",
       kind: "Sitio",
-      challenge: "Un sitio serio que hace que la gente actúe.",
-      result: "Estructura clara, motion ligero y CTAs que se entienden.",
+      challenge: "Una web seria que invite a escribir o comprar.",
+      result: "Estructura clara, movimiento justo y botones que se entienden.",
       tags: "Next.js · Tailwind · GSAP",
       href: "#contact",
     },
@@ -431,18 +431,18 @@ export const es = {
       slug: "api",
       title: "APIs y backends",
       kind: "Sistemas",
-      challenge: "Servicios en los que puedes confiar y extender después.",
-      result: "Auth, modelos de datos y APIs que crecen con el producto.",
+      challenge: "El motor detrás de la app: estable y listo para crecer.",
+      result: "Login, datos y APIs que acompañan al producto.",
       tags: "Go · FastAPI · PostgreSQL",
       href: "#contact",
     },
     {
       id: "04",
       slug: "dashboards",
-      title: "Herramientas internas y dashboards",
+      title: "Paneles y herramientas internas",
       kind: "Tools",
-      challenge: "Pantallas de admin y vistas de ops que el equipo usa a diario.",
-      result: "Tablas, KPIs y flujos — claros, rápidos, sin adornos.",
+      challenge: "Pantallas que el equipo usa todos los días.",
+      result: "Tablas, números y flujos — claros, rápidos, sin adornos.",
       tags: "React · Charts · Postgres",
       href: "#contact",
     },
@@ -453,24 +453,24 @@ export const es = {
     headlineLine1: "UN EQUIPO",
     headlineLine2: "QUE CONSTRUYE",
     body1:
-      "SekaiDev es un equipo pequeño en Ecuador. Trabajamos remoto con clientes en LatAm y EE. UU. en apps web, APIs, UX/UI y sitios de marca — lo que pida el proyecto, no un solo nicho.",
+      "SekaiDev es un equipo pequeño en Ecuador. Trabajamos remoto con clientes en LatAm y EE. UU. en apps, webs y sistemas — lo que pida el proyecto, no un solo nicho.",
     body2:
-      "Hablas con quienes escriben el código y dan forma a la UI, desde la primera llamada hasta la entrega.",
+      "Desde el primer mensaje hablas con quienes escriben el código y dan forma a las pantallas.",
     pillars: [
-      { label: "PRODUCTO", detail: "Apps web y plataformas" },
+      { label: "PRODUCTO", detail: "Apps y plataformas" },
       { label: "SISTEMAS", detail: "APIs, datos y backends" },
-      { label: "DISEÑO", detail: "UX/UI y sitios de marca" },
+      { label: "DISEÑO", detail: "UX/UI y webs de marca" },
     ],
   },
 
   CONTACT_COPY: {
     sectionLabel: "Contacto",
     headlineLine1: "CUÉNTANOS",
-    headlineLine2: "QUÉ ESTÁS CONSTRUYENDO",
+    headlineLine2: "QUÉ QUIERES CONSTRUIR",
     subline:
-      "Cuéntanos el objetivo, el cronograma y el rango de presupuesto. Respondemos en menos de 24 horas con los siguientes pasos, o te decimos si no somos el equipo adecuado.",
+      "Objetivo, plazos y rango de presupuesto. Te respondemos en menos de 24 horas con los siguientes pasos — o te decimos si no somos el equipo adecuado.",
     trustLine:
-      "Respuesta en menos de 24 h · alcance por escrito · honestos si no encajamos",
+      "Respuesta en menos de 24 h · plan por escrito · sinceros si no encajamos",
     fields: {
       name: { label: "Nombre" },
       email: { label: "Email" },
@@ -481,39 +481,39 @@ export const es = {
       industry: {
         label: "Industria",
         hint: "Opcional",
-        placeholder: "Selecciona…",
+        placeholder: "Elige una…",
       },
       projectType: {
         label: "Tipo de proyecto",
-        placeholder: "Selecciona…",
+        placeholder: "Elige una…",
       },
-      timeline: { label: "Cronograma", placeholder: "Selecciona…" },
+      timeline: { label: "Plazo", placeholder: "Elige uno…" },
       budget: {
         label: "Rango de presupuesto",
-        placeholder: "Selecciona…",
+        placeholder: "Elige uno…",
       },
       message: {
         label: "Mensaje",
         placeholder:
-          "¿Qué estás construyendo, para quién y cómo se ve el éxito?",
+          "¿Qué quieres construir, para quién, y cómo sabrás que salió bien?",
       },
     },
-    optionalDetails: "Cronograma, tipo y contexto (opcional)",
-    submit: { idle: "Ver si encajamos", sending: "Enviando…" },
-    successTitle: "Recibimos tu consulta",
+    optionalDetails: "Plazo, tipo y contexto (opcional)",
+    submit: { idle: "Enviar mensaje", sending: "Enviando…" },
+    successTitle: "Recibimos tu mensaje",
     successBody:
-      "Responderemos en menos de 24 horas con los siguientes pasos, o te diremos con claridad si no encajamos.",
+      "Te respondemos en menos de 24 horas con los siguientes pasos, o te decimos con claridad si no encajamos.",
     privacyNote:
       "Sin listas de correo. Tu mensaje llega al equipo que construye.",
     whatsappPrefill:
-      "Hola, SekaiDev. Quisiera saber si encajamos para un proyecto.",
+      "Hola SekaiDev, quiero hablar de un proyecto.",
   },
 
   PROJECT_TYPES: [
     "Producto / app web",
-    "Sitio de marca / marketing",
+    "Web de marca / marketing",
     "API / backend",
-    "Dashboard / herramienta interna",
+    "Panel / herramienta interna",
     "Otro",
   ],
 
@@ -521,7 +521,7 @@ export const es = {
     "Lo antes posible — 2–4 semanas (Sprint)",
     "1–2 meses",
     "3+ meses (Partner)",
-    "En exploración — sin fecha definida",
+    "Aún estoy explorando — sin fecha fija",
   ],
 
   BUDGETS: [
@@ -529,7 +529,7 @@ export const es = {
     "$8k–$18.5k",
     "$18.5k–$35k (tamaño Launch)",
     "$35k+",
-    "Retainer mensual ($3.8k+ / mes)",
+    "Mensual ($3.8k+ / mes)",
     "Aún no estoy seguro",
   ],
 
@@ -537,30 +537,30 @@ export const es = {
     choosePath: "¿Por dónde empezamos?",
     scrollExplore: "Desliza para continuar",
     skipIntro: "Saltar introducción",
-    stillFit: "¿Aún encajamos?",
+    stillFit: "¿Seguimos hablando?",
     footerRights: "TODOS LOS DERECHOS RESERVADOS.",
     footerStack: "NEXT.JS · THREE.JS · GO · POSTGRES",
     offerLabel: "01 — OFERTA",
     offerHeadline: "Lo que",
     offerHeadlineAccent: "construimos.",
     offerSubline:
-      "Apps, APIs, sitios de marca y herramientas internas — hechas de punta a punta por el mismo equipo pequeño.",
+      "Apps, webs de marca, sistemas y herramientas internas — de punta a punta, con el mismo equipo pequeño.",
     offerPromise:
-      "Hablas con quien construye. Alcance por escrito antes de build. Honestos si no encajamos.",
+      "Hablas con quien construye. Plan por escrito antes de empezar. Sinceros si no encajamos.",
     proofLabel: "02 — MÉTODO",
-    proofHeadline: "Alcance por escrito.",
+    proofHeadline: "Primero el plan por escrito.",
     faqLabel: "05 — PREGUNTAS",
     faqHeadline: "Preguntas frecuentes.",
     faqSubline:
-      "Encaje, dinero, propiedad y plazos — respondidos antes de que gastes tiempo en una llamada.",
+      "Encaje, plata, dueño del código y plazos — respondido antes de que gastes tiempo en una llamada.",
     openMenu: "Abrir menú",
     closeMenu: "Cerrar menú",
     contactErrors: {
       rateLimited:
-        "Demasiados intentos. Espera un momento antes de volver a intentar.",
+        "Demasiados intentos. Espera un momento e inténtalo de nuevo.",
       generic: "Algo salió mal. Inténtalo de nuevo.",
       mailtoBackup:
-        "Si el formulario sigue fallando, escríbenos directamente por email.",
+        "Si el formulario sigue fallando, escríbenos directo por email.",
     },
   },
 
@@ -572,22 +572,22 @@ export const es = {
       {
         id: "received",
         label: "Recibido",
-        desc: "Formulario, honeypot y límite de solicitudes validados",
+        desc: "Formulario recibido y validado",
       },
       {
         id: "reviewing",
         label: "En revisión",
-        desc: "El estudio evalúa el encaje en menos de 24 h",
+        desc: "Revisamos si podemos ayudar en menos de 24 h",
       },
       {
         id: "replied",
         label: "Respondido",
-        desc: "Siguientes pasos o no-fit claro",
+        desc: "Siguientes pasos o respuesta clara de no-fit",
       },
       {
         id: "qualified",
         label: "Calificado",
-        desc: "Llamada de alineación agendada / cotización enviada",
+        desc: "Llamada agendada / cotización enviada",
       },
     ],
     sampleLeads: [
@@ -603,35 +603,35 @@ export const es = {
         status: "reviewing",
         createdAt: "2026-08-03T16:45:00Z",
         messagePreview:
-          "Necesitamos una consola de ops y una web para el equipo de campo…",
+          "Necesitamos un panel de operaciones y una web para el equipo de campo…",
       },
       {
         reference: "SKD-20260802-B3C1",
         name: "Alex Rivera",
         email: "a***@atelier.co",
         company: "Atelier Co",
-        projectType: "Sitio de marca / marketing",
+        projectType: "Web de marca / marketing",
         timeline: "Lo antes posible — 2–4 semanas (Sprint)",
         budget: "$7.5k–$12k (tamaño Sprint)",
         priority: "normal",
         status: "received",
         createdAt: "2026-08-02T11:12:00Z",
         messagePreview:
-          "Landing de lanzamiento con movimiento para la lista de espera de un producto…",
+          "Landing de lanzamiento con movimiento para la lista de espera…",
       },
       {
         reference: "SKD-20260728-C9E0",
         name: "Sam Okonkwo",
         email: "s***@gridops.app",
         company: "GridOps",
-        projectType: "Dashboard / herramienta interna",
+        projectType: "Panel / herramienta interna",
         timeline: "3+ meses (Partner)",
-        budget: "Retainer mensual ($9.5k+ / mes)",
+        budget: "Mensual ($9.5k+ / mes)",
         priority: "high",
         status: "qualified",
         createdAt: "2026-07-28T09:30:00Z",
         messagePreview:
-          "Alianza continua de producto para dashboards operativos…",
+          "Alianza continua para paneles operativos…",
       },
     ],
   },

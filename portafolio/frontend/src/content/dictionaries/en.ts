@@ -3,17 +3,17 @@ import type { StudioDictionary } from "./types";
 /** English source-of-truth copy. Keep this object structurally aligned with es. */
 export const en = {
     meta: {
-    title: "SekaiDev | Apps, APIs & brand sites",
+    title: "SekaiDev | Custom apps, sites & systems",
     description:
-      "Product engineering from Ecuador: web apps, APIs, UX/UI, and brand sites. A small team you work with directly.",
-    ogTitle: "SekaiDev | Product engineering from Ecuador",
+      "We design and build apps, websites, and systems from Ecuador. Small team — you talk to the people who code.",
+    ogTitle: "SekaiDev | Apps, sites & systems from Ecuador",
     keywords: [
-      "product engineering",
-      "software studio",
-      "web app development",
-      "API development",
-      "UX/UI design",
-      "brand experiences",
+      "software studio Ecuador",
+      "custom web apps",
+      "business websites Ecuador",
+      "Next.js development Ecuador",
+      "UX UI Ecuador",
+      "product studio LatAm",
       "Ecuador",
       "Latin America",
     ],
@@ -23,12 +23,12 @@ export const en = {
 
   CTAS: {
     primary: {
-      label: "See if we fit",
-      labelUpper: "SEE IF WE FIT",
+      label: "Let's talk about your project",
+      labelUpper: "LET'S TALK ABOUT YOUR PROJECT",
       href: "#contact",
     },
     secondary: {
-      label: "See what we build",
+      label: "See what we do",
       href: "#works",
     },
     pricing: {
@@ -36,8 +36,8 @@ export const en = {
       labelUpper: "SEE PRICING",
       href: "#pricing",
     },
-    featuredCase: "Discuss a similar build",
-    pricingFoot: "Request a scoped quote",
+    featuredCase: "I want something like this",
+    pricingFoot: "Request a quote",
     whatsapp: {
       label: "WhatsApp",
       labelUpper: "WHATSAPP",
@@ -49,40 +49,43 @@ export const en = {
     email: "hello@sekaidevec.com",
     siteUrl: "https://portafolio.sekaidevec.com",
     icp: "startups & brands",
-    eyebrow: "Full-stack studio for",
-    tagline: "We design and ship the product.",
+    eyebrow: "Software studio for",
+    tagline: "We design your product and leave it ready to use.",
     subline:
-      "Web apps, APIs, UX/UI, and brand sites. Small team in Ecuador, working with clients across LatAm and the US.",
-    heroCtaPrimary: { label: "See if we fit", href: "#contact" },
-    heroCtaSecondary: { label: "See what we build", href: "#works" },
-    available: "Available for projects",
+      "Custom apps, websites, and systems. Small team in Ecuador — also working with clients across LatAm and the US.",
+    heroCtaPrimary: {
+      label: "Let's talk about your project",
+      href: "#contact",
+    },
+    heroCtaSecondary: { label: "See what we do", href: "#works" },
+    available: "Open for new projects",
   },
 
   TRUST_STRIP: [
-    "Reply within 24 hours",
-    "Written scope before build",
-    "We say so early if we are not the right team",
+    "We reply within 24 hours",
+    "You get a written plan before we build",
+    "If we are not the right team, we say so",
   ],
 
   FUNNEL_PATHS: [
     {
       id: "product",
       intent: "product",
-      label: "I have a product",
-      hint: "Apps, APIs, or dashboards that need to get built and launched.",
+      label: "I have an idea or a product",
+      hint: "An app, panel, or system that needs to get built and launched.",
       href: "#offer",
     },
     {
       id: "services",
       intent: "services",
-      label: "I want more requests",
-      hint: "A site or system that turns visits into real bookings and leads.",
+      label: "I want more customers",
+      hint: "A site or system that turns visits into messages, bookings, or sales.",
       href: "#pricing",
     },
   ],
 
   NAV_LINKS: [
-    { label: "What we solve", href: "#offer", mobileOnly: false },
+    { label: "What we do", href: "#offer", mobileOnly: false },
     {
       label: "For startups",
       href: "#offer",
@@ -90,7 +93,7 @@ export const en = {
       intent: "product",
     },
     {
-      label: "For service businesses",
+      label: "For businesses",
       href: "#pricing",
       mobileOnly: true,
       intent: "services",
@@ -101,7 +104,8 @@ export const en = {
     { label: "FAQ", href: "#faq", mobileOnly: false },
   ],
 
-  NAV_TRUST: "Reply within 24h · written scope before build · honest if we are not a fit",
+  NAV_TRUST:
+    "Reply within 24h · written plan first · honest if we are not a fit",
 
   INDUSTRIES: [
     "Startup / product",
@@ -126,19 +130,19 @@ export const en = {
 
   OUTCOMES: [
     {
-      title: "Web apps and platforms",
+      title: "Apps and platforms",
       body:
-        "Auth, APIs, and live features when you need them. Built so your team can keep changing the product after launch.",
+        "Login, panels, and the tools your team uses every day. Built so you can keep improving after launch.",
     },
     {
-      title: "Sites that sell the work",
+      title: "Sites that sell your work",
       body:
-        "Brand and marketing sites with clear structure. Animation only if it helps someone understand or take action.",
+        "Clear sites: who you are, what you offer, and what to do next. Animation only when it helps people understand.",
     },
     {
-      title: "You talk to the builders",
+      title: "You talk to who builds it",
       body:
-        "A small team — not a handoff chain. Architecture, design, and launch with the same people.",
+        "No middlemen. The same people design, code, and stay with you through launch.",
     },
   ],
 
@@ -204,18 +208,18 @@ export const en = {
 
   PRICING: {
     sectionLabel: "Pricing",
-    headline: "Clear packages. Written quote first.",
+    headline: "Clear prices. Written quote first.",
     subline:
-      "Starting prices in USD for Ecuador and LatAm. Scroll to compare. Final number confirmed in writing before we build.",
+      "Starting amounts in USD for Ecuador and LatAm. Scroll to compare. Final number confirmed in writing before we build.",
     marketNote:
-      "Benchmarked against serious product studios in Ecuador — above template websites, below US agency list rates.",
+      "Above a template website. Below US agency list rates.",
     offerBanner:
-      "Each card shows list price and client rate. Launch Standard is the usual pick for a full product.",
+      "Each package shows list price and your price. Launch Standard is usually the pick for a full product.",
     scrollHint: "Scroll to compare packages",
     disclaimer:
-      "Starting prices with our client rate. Scope, timeline, and final quote come in writing before build. If the work grows, we say so before the price moves.",
+      "These are starting prices. Scope, dates, and final quote come in writing. If the work grows, we tell you before the price moves.",
     recommended: "Recommended",
-    clientRate: "Client rate",
+    clientRate: "Your price",
     tiers: [
       {
         id: "brand",
@@ -226,15 +230,15 @@ export const en = {
         priceFrom: "$4,500",
         priceUnit: "USD",
         bestFor:
-          "Brand or marketing sites with custom motion and a clear path to convert — not a template.",
+          "A custom brand or marketing site with a clear path to get contacted or buy — not a template.",
         includes: [
-          "Art direction + conversion wireframes",
-          "Custom Next.js front end",
-          "Motion system tuned to the brand",
-          "SEO / analytics baseline",
-          "Staging → production launch + handoff",
+          "Design and structure built to convert",
+          "Custom Next.js site",
+          "Motion that matches your brand",
+          "SEO and analytics baseline",
+          "Testing, go-live, and handoff",
         ],
-        cta: "Scope a brand site",
+        cta: "I want a brand site",
         intent: "brand",
       },
       {
@@ -246,15 +250,15 @@ export const en = {
         priceFrom: "$18,500",
         priceUnit: "USD",
         offerNote:
-          "Usual pick: direction, full-stack, launch, and 30 days of support.",
+          "The usual pick: design, full build, launch, and 30 days of support.",
         bestFor:
-          "Product v1, ops console, or platform base your team can run day to day.",
+          "Your first product version, an ops panel, or a platform base your team can run every day.",
         includes: [
-          "Product + visual direction",
-          "Go / Next.js / Postgres as scoped",
-          "Auth, APIs, and core product flows",
-          "Realtime / integrations when needed",
-          "Staging → production + docs + 30 days support",
+          "Product and design direction",
+          "Stack that fits the project (Go, Next.js, Postgres…)",
+          "Login, APIs, and core flows",
+          "Integrations or realtime when needed",
+          "Go-live, docs, and 30 days of support",
         ],
         cta: "Start with Launch",
         intent: "launch",
@@ -263,41 +267,41 @@ export const en = {
       {
         id: "sprint",
         title: "Signal Sprint",
-        tagline: "One defined milestone, delivered.",
+        tagline: "One concrete milestone, delivered.",
         timeline: "2–4 weeks",
         priceWas: "$8,900",
         priceFrom: "$6,800",
         priceUnit: "USD",
         bestFor:
-          "Unblock an MVP, check UX or architecture early, or ship one important slice.",
+          "When you need to unblock an MVP, check design or architecture, or ship one important piece fast.",
         includes: [
-          "Discovery call + written scope",
+          "Kickoff call + written plan",
           "UX or architecture review before build",
-          "One production-ready deliverable",
-          "Code review + deployment path",
-          "Async updates and a few focused calls",
+          "One deliverable ready to use",
+          "Code review and how to publish it",
+          "Updates by message and a few short calls",
         ],
-        cta: "Start a sprint",
+        cta: "Request a sprint",
         intent: "sprint",
       },
       {
         id: "partner",
         title: "Product Partner",
-        tagline: "Keep building on a monthly cadence.",
+        tagline: "Keep building month to month.",
         timeline: "3+ months · monthly",
         priceWas: "$5,200",
         priceFrom: "$3,800",
         priceUnit: "USD / mo",
         bestFor:
-          "Keep shipping after launch without hiring a full team yet.",
+          "After launch, when you want to keep improving without hiring a full team yet.",
         includes: [
-          "Engineering and design hours each month",
-          "Shared roadmap + weekly sync",
-          "Steady delivery cycles",
-          "Architecture and performance care",
-          "Pause or scale with 30-day notice",
+          "Monthly engineering and design hours",
+          "Shared plan + weekly meeting",
+          "Steady delivery rhythm",
+          "Speed and architecture care",
+          "Pause or scale with 30 days notice",
         ],
-        cta: "Talk partnership",
+        cta: "Talk about a partnership",
         intent: "partner",
       },
     ],
@@ -354,37 +358,38 @@ export const en = {
   PROCESS: [
     {
       step: "01",
-      title: "Align",
+      title: "Understand",
       body:
         "Goals, limits, budget, and what success looks like — written before we build.",
     },
     {
       step: "02",
-      title: "Prototype",
+      title: "Design",
       body:
-        "We check UX or architecture early so you do not pay for the wrong direction.",
+        "We check screens or architecture early so you do not pay for the wrong direction.",
     },
     {
       step: "03",
       title: "Build",
       body:
-        "Production work with clear owners and regular async updates.",
+        "Real work, clear owners, and progress you can see often.",
     },
     {
       step: "04",
       title: "Launch",
       body:
-        "We ship, hand over the project, and leave a short plan for what comes next.",
+        "We go live, hand everything over, and leave a short plan for what comes next.",
     },
   ],
 
   PROCESS_SECTION: {
     label: "02 — METHOD",
-    headline: "Scope on paper.",
+    headline: "Written plan first.",
     headlineAccent: "Then we build.",
-    subline: "From the first call to launch — same people, written scope first.",
+    subline:
+      "From the first call to launch — same people, clear plan from day one.",
     boardLabel: "Steps",
-    boardFlow: "Align → Prototype → Build → Launch",
+    boardFlow: "Understand → Design → Build → Launch",
   },
 
   WORKS_SECTION: {
@@ -481,13 +486,12 @@ export const en = {
       },
     },
     optionalDetails: "Timeline, type, and context (optional)",
-    submit: { idle: "See if we fit", sending: "Sending…" },
-    successTitle: "Inquiry received",
+    submit: { idle: "Send message", sending: "Sending…" },
+    successTitle: "Got your message",
     successBody:
-      "We will reply within 24 hours with next steps, or tell you plainly if we are not a fit.",
-    privacyNote: "No mailing lists. Your note goes to the team that builds the work.",
-    whatsappPrefill:
-      "Hi SekaiDev, I want to check if we are a fit for a project.",
+      "We reply within 24 hours with next steps, or tell you clearly if we are not a fit.",
+    privacyNote: "No mailing lists. Your note goes to the team that builds.",
+    whatsappPrefill: "Hi SekaiDev, I want to talk about a project.",
   },
 
   PROJECT_TYPES: [
@@ -518,22 +522,22 @@ export const en = {
     choosePath: "Where should we start?",
     scrollExplore: "Scroll to continue",
     skipIntro: "Skip intro",
-    stillFit: "Still a fit?",
+    stillFit: "Still talking?",
     footerRights: "ALL RIGHTS RESERVED.",
     footerStack: "NEXT.JS · THREE.JS · GO · POSTGRES",
     offerLabel: "01 — OFFER",
     offerHeadline: "What we",
     offerHeadlineAccent: "build.",
     offerSubline:
-      "Apps, APIs, brand sites, and internal tools — built by the same small team end to end.",
+      "Apps, brand sites, systems, and internal tools — end to end with the same small team.",
     offerPromise:
-      "You talk to the builders. Written scope before build. Honest if we are not a fit.",
+      "You talk to who builds. Written plan before we start. Honest if we are not a fit.",
     proofLabel: "02 — METHOD",
-    proofHeadline: "Scope on paper.",
+    proofHeadline: "Written plan first.",
     faqLabel: "05 — FAQ",
     faqHeadline: "Common questions.",
     faqSubline:
-      "Fit, money, ownership, and timelines — answered before you spend time on a call.",
+      "Fit, money, who owns the code, and timelines — answered before you spend time on a call.",
     openMenu: "Open menu",
     closeMenu: "Close menu",
     contactErrors: {
