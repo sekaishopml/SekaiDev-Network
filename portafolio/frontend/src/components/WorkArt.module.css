@@ -316,9 +316,41 @@
   }
 }
 
-/* —— Dashboards —— */
-.dashAxis {
+/* —— Dashboards / internal tools (general admin UI) —— */
+.dashTile {
+  fill: rgba(255, 255, 255, 0.78);
   stroke: rgba(22, 20, 22, 0.16);
+  stroke-width: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: dashTile 3.8s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+
+.dashKpi {
+  fill: rgba(22, 20, 22, 0.18);
+  animation: dashFade 3.8s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+
+.dashKpiAccent {
+  fill: var(--accent, #5c1a33);
+  opacity: 0.75;
+  animation: dashFade 3.8s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+
+.dashRow {
+  fill: rgba(255, 255, 255, 0.72);
+  stroke: rgba(22, 20, 22, 0.1);
+  stroke-width: 0.75;
+  animation: dashFade 3.8s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+
+.dashRowAccent {
+  fill: var(--accent, #5c1a33);
+  animation: dashFade 3.8s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+
+.dashAxis {
+  stroke: rgba(22, 20, 22, 0.14);
   stroke-width: 1;
 }
 
@@ -326,82 +358,58 @@
 .dashBarAccent {
   transform-box: fill-box;
   transform-origin: center bottom;
-  animation: dashGrow 3.6s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+  animation: dashGrow 3.8s cubic-bezier(0.45, 0, 0.2, 1) infinite;
 }
 
 .dashBar {
-  fill: rgba(22, 20, 22, 0.28);
+  fill: rgba(22, 20, 22, 0.26);
 }
 
 .dashBarAccent {
   fill: var(--accent, #5c1a33);
 }
 
-.dashLine {
-  fill: none;
-  stroke: rgba(22, 20, 22, 0.42);
-  stroke-width: 1.75;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 180;
-  stroke-dashoffset: 180;
-  animation: dashDraw 3.6s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+@keyframes dashTile {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  45%,
+  65% {
+    opacity: 1;
+  }
 }
 
-.dashAlert {
-  fill: var(--accent, #5c1a33);
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: dashAlert 3.6s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+@keyframes dashFade {
+  0%,
+  12% {
+    opacity: 0.35;
+  }
+  30%,
+  70% {
+    opacity: 1;
+  }
+  90%,
+  100% {
+    opacity: 0.45;
+  }
 }
 
 @keyframes dashGrow {
   0%,
-  8% {
-    transform: scaleY(0.2);
-    opacity: 0.5;
+  10% {
+    transform: scaleY(0.25);
+    opacity: 0.55;
   }
-  35%,
+  38%,
   68% {
     transform: scaleY(1);
     opacity: 1;
   }
   92%,
   100% {
-    transform: scaleY(0.2);
-    opacity: 0.5;
-  }
-}
-
-@keyframes dashDraw {
-  0%,
-  12% {
-    stroke-dashoffset: 180;
-    opacity: 0.4;
-  }
-  40%,
-  70% {
-    stroke-dashoffset: 0;
-    opacity: 1;
-  }
-  92%,
-  100% {
-    stroke-dashoffset: -12;
-    opacity: 0.5;
-  }
-}
-
-@keyframes dashAlert {
-  0%,
-  48%,
-  100% {
-    opacity: 0.35;
-    transform: scale(1);
-  }
-  58%,
-  70% {
-    opacity: 1;
-    transform: scale(1.15);
+    transform: scaleY(0.25);
+    opacity: 0.55;
   }
 }
 
@@ -416,10 +424,13 @@
   .apiLine,
   .apiDot,
   .apiBrace,
+  .dashTile,
+  .dashKpi,
+  .dashKpiAccent,
+  .dashRow,
+  .dashRowAccent,
   .dashBar,
-  .dashBarAccent,
-  .dashLine,
-  .dashAlert {
+  .dashBarAccent {
     animation: none !important;
   }
 
@@ -427,15 +438,13 @@
   .webBlock,
   .crmCard,
   .crmNodeAccent,
+  .dashTile,
+  .dashKpi,
+  .dashKpiAccent,
+  .dashRow,
   .dashBar,
-  .dashBarAccent,
-  .dashAlert {
+  .dashBarAccent {
     opacity: 1;
     transform: none;
-  }
-
-  .dashLine {
-    stroke-dashoffset: 0;
-    opacity: 1;
   }
 }

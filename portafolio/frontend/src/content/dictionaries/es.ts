@@ -8,7 +8,7 @@ export const es = {
   meta: {
     title: "SekaiDev | Apps, APIs y sitios de marca",
     description:
-      "Ingeniería de producto senior desde Ecuador: apps web, APIs, UX/UI y sitios de marca. Un equipo pequeño con el que hablas directo.",
+      "Ingeniería de producto desde Ecuador: apps web, APIs, UX/UI y sitios de marca. Un equipo pequeño con el que hablas directo.",
     ogTitle: "SekaiDev | Ingeniería de producto desde Ecuador",
     keywords: [
       "ingeniería de producto",
@@ -55,7 +55,7 @@ export const es = {
     eyebrow: "Estudio full-stack para",
     tagline: "Diseñamos y lanzamos tu producto.",
     subline:
-      "Apps web, APIs, UX/UI y sitios de marca. Equipo senior pequeño en Ecuador, con clientes en LatAm y EE. UU.",
+      "Apps web, APIs, UX/UI y sitios de marca. Equipo pequeño en Ecuador, con clientes en LatAm y EE. UU.",
     heroCtaPrimary: { label: "Ver si encajamos", href: "#contact" },
     heroCtaSecondary: {
       label: "Ver qué construimos",
@@ -128,7 +128,7 @@ export const es = {
     find: "ESTO",
     signal: "ES EL TRABAJO.",
     ship: "APPS · APIS · SITIOS DE MARCA",
-    subline: "Ingeniería y diseño senior desde Ecuador.",
+    subline: "Ingeniería de producto y diseño desde Ecuador.",
   },
 
   OUTCOMES: [
@@ -145,39 +145,39 @@ export const es = {
     {
       title: "Hablas con quien construye",
       body:
-        "Un equipo senior pequeño, sin cadena de handoffs. Arquitectura, diseño y lanzamiento con las mismas personas.",
+        "Un equipo pequeño, sin cadena de handoffs. Arquitectura, diseño y lanzamiento con las mismas personas.",
     },
   ],
 
   FEATURED_CASE: {
-    label: "Caso destacado",
+    label: "Proyecto de ejemplo",
     title: "CyTaxi",
     titleLine2: "Platform",
-    role: "Ingeniería de producto full-stack",
+    role: "Un build entre varios — producto, APIs y UI de ops",
     challenge:
-      "Una plataforma de movilidad necesitaba despacho en vivo, pagos y seguimiento listos para producción.",
+      "Un cliente necesitaba un producto de movilidad en producción: despacho, pagos y seguimiento que ops pudiera operar a diario.",
     solution:
-      "Lo armamos con APIs en Go, clientes en Next.js, Postgres y mapas, pensado para la operación del día a día.",
+      "Armamos la superficie de producto y el backend en Go/Postgres alrededor de flujos reales de viaje — el mismo enfoque que usamos en otras plataformas.",
     result:
-      "Una base de plataforma operativa, con flujos de viaje en tiempo real y espacio para sumar lo que sigue.",
+      "Una base viva que podían operar y extender. Lo mostramos para dejar claro: entregamos productos completos, no decks.",
     stack: ["Go", "Next.js", "Postgres", "Maps"],
     deliverables: [
       "Flujos de producto para conductores y pasajeros",
-      "Base para despacho y operaciones",
+      "Consola de ops / despacho",
       "API en Go y modelo de datos en Postgres",
-      "Integración de mapas y ubicación en vivo",
+      "Ubicación en tiempo real donde el producto lo pedía",
     ],
     decisions: [
-      "Servicios en Go para las APIs centrales de la plataforma",
-      "Clientes en Next.js para las interfaces del producto",
-      "Postgres como fuente operativa de verdad",
-      "Mapas integrados en los flujos de despacho y viaje",
+      "Go para las APIs centrales",
+      "Next.js para la UI del producto",
+      "Postgres como fuente de verdad",
+      "Mapas solo donde el flujo de viaje los necesitaba",
     ],
     handoff:
-      "Código listo para producción, documentación de la plataforma y una lista clara de qué construir después.",
+      "Código de producción, docs de la plataforma y una lista corta de qué construir después.",
     href: null,
     outcomeNote:
-      "Resultados detallados y un recorrido del caso disponibles bajo solicitud.",
+      "Más trabajo con nombre y recorridos disponibles cuando confirmemos encaje.",
     labels: {
       challenge: "Reto",
       solution: "Solución",
@@ -188,7 +188,7 @@ export const es = {
       buildNotes: "Notas de construcción",
     },
     stageUi: {
-      aria: "Tarjeta de viaje CyTaxi: origen, ruta y ETA",
+      aria: "Tarjeta de viaje de ejemplo del build CyTaxi",
       product: "CyTaxi",
       live: "En vivo",
       status: "En camino",
@@ -261,7 +261,7 @@ export const es = {
           "Dirección de producto y visual",
           "Go / Next.js / Postgres según alcance",
           "Auth, APIs y flujos centrales del producto",
-          "Mapas / tiempo real cuando el producto lo pida",
+          "Tiempo real / integraciones cuando el producto lo pida",
           "Staging → producción + docs + 30 días de soporte post-lanzamiento",
         ],
         cta: "Empezar con Launch",
@@ -291,15 +291,15 @@ export const es = {
       {
         id: "partner",
         title: "Product Partner",
-        tagline: "Capacidad senior sobre tu roadmap.",
+        tagline: "Seguir construyendo con ritmo mensual.",
         timeline: "3+ meses · mensual",
         priceWas: "$22,000",
         priceFrom: "$18,500",
         priceUnit: "USD / mes",
         bestFor:
-          "Seguir construyendo después del lanzamiento sin contratar aún un equipo senior completo.",
+          "Seguir entregando después del lanzamiento sin contratar aún un equipo completo.",
         includes: [
-          "Horas mensuales de ingeniería y diseño senior",
+          "Horas mensuales de ingeniería y diseño",
           "Roadmap compartido + reunión semanal",
           "Ciclos estables de entrega",
           "Cuidado de arquitectura y rendimiento",
@@ -325,7 +325,7 @@ export const es = {
     {
       question: "¿Qué modalidad me conviene?",
       answer:
-        "Brand Presence: un sitio de marca o marketing serio. Signal Sprint: un hito definido cuando necesitas señal rápido. Launch Standard (recomendable): diseño + desarrollo para un lanzamiento real. Product Partner: capacidad senior en retainer cuando el roadmap no se detiene después del ship.",
+        "Brand Presence: un sitio de marca o marketing. Signal Sprint: un hito definido cuando necesitas algo afuera rápido. Launch Standard (recomendable): diseño + desarrollo para un lanzamiento completo. Product Partner: horas mensuales si quieres seguir construyendo después del lanzamiento.",
     },
     {
       question: "¿Cómo funcionan pagos y contrato?",
@@ -355,7 +355,7 @@ export const es = {
     {
       question: "¿Pueden seguir después del lanzamiento?",
       answer:
-        "Sí. Podemos dejar un plan corto pos-lanzamiento, o continuar con Product Partner cuando necesites iteración, mantenimiento o capacidad senior sin contratar un equipo completo.",
+        "Sí. Podemos dejar un plan corto pos-lanzamiento, o continuar con Product Partner si quieres iteración continua sin contratar aún un equipo completo.",
     },
   ],
 
@@ -387,20 +387,20 @@ export const es = {
   ],
 
   PROCESS_SECTION: {
-    label: "03 — MÉTODO",
+    label: "02 — MÉTODO",
     headline: "Alcance por escrito.",
     headlineAccent: "Después construimos.",
     subline:
-      "Cómo trabajamos con clientes, desde la primera llamada hasta el lanzamiento.",
+      "De la primera llamada al lanzamiento — las mismas personas, alcance por escrito primero.",
     boardLabel: "Pasos",
     boardFlow: "Alinear → Prototipar → Construir → Lanzar",
   },
 
   WORKS_SECTION: {
     label: "Capacidades",
-    headline: "Dónde entregamos.",
+    headline: "Qué cubre esto.",
     subline:
-      "Sistemas de producto, sitios de marca, APIs y herramientas de ops. Pide un recorrido privado de proyectos con nombre cuando confirmemos encaje.",
+      "Sistemas de producto, sitios de marca, APIs y herramientas internas. Recorridos con nombre cuando confirmemos encaje.",
     needLabel: "Necesidad",
     outcomeLabel: "Resultado",
   },
@@ -411,9 +411,8 @@ export const es = {
       slug: "crm",
       title: "CRM y sistemas de ops",
       kind: "Producto",
-      challenge: "Pipelines, contactos y ops en un solo lugar.",
-      result:
-        "Modelo de datos, roles y flujos que tu equipo puede usar a diario — sin parches.",
+      challenge: "Pipelines, contactos y operación diaria en un solo lugar.",
+      result: "Modelo de datos, roles y flujos que tu equipo sí puede usar.",
       tags: "Go · Next.js · Postgres",
       href: "#contact",
     },
@@ -422,9 +421,8 @@ export const es = {
       slug: "websites",
       title: "Sitios de marca y producto",
       kind: "Sitio",
-      challenge: "Un sitio serio que convierte.",
-      result:
-        "Jerarquía clara, motion contenido y CTAs que la gente sí puede seguir.",
+      challenge: "Un sitio serio que hace que la gente actúe.",
+      result: "Estructura clara, motion ligero y CTAs que se entienden.",
       tags: "Next.js · Tailwind · GSAP",
       href: "#contact",
     },
@@ -433,21 +431,19 @@ export const es = {
       slug: "api",
       title: "APIs y backends",
       kind: "Sistemas",
-      challenge: "Servicios seguros que no te atrapan después.",
-      result:
-        "Auth, modelos de datos y APIs que puedes extender cuando el producto crece.",
+      challenge: "Servicios en los que puedes confiar y extender después.",
+      result: "Auth, modelos de datos y APIs que crecen con el producto.",
       tags: "Go · FastAPI · PostgreSQL",
       href: "#contact",
     },
     {
       id: "04",
       slug: "dashboards",
-      title: "Dashboards",
-      kind: "Ops",
-      challenge: "Pantallas que el equipo abre todos los días.",
-      result:
-        "Vistas claras, alertas y flujos simples — hechos para operadores reales.",
-      tags: "React · Charts · Realtime",
+      title: "Herramientas internas y dashboards",
+      kind: "Tools",
+      challenge: "Pantallas de admin y vistas de ops que el equipo usa a diario.",
+      result: "Tablas, KPIs y flujos — claros, rápidos, sin adornos.",
+      tags: "React · Charts · Postgres",
       href: "#contact",
     },
   ],
@@ -455,11 +451,11 @@ export const es = {
   ABOUT: {
     label: "Nosotros",
     headlineLine1: "UN EQUIPO",
-    headlineLine2: "SENIOR Y CHICO",
+    headlineLine2: "QUE CONSTRUYE",
     body1:
-      "SekaiDev es un equipo senior pequeño con base en Ecuador. Trabajamos remoto con clientes en Latinoamérica y EE. UU. en productos, APIs, UX/UI y sitios de marca.",
+      "SekaiDev es un equipo pequeño en Ecuador. Trabajamos remoto con clientes en LatAm y EE. UU. en apps web, APIs, UX/UI y sitios de marca — lo que pida el proyecto, no un solo nicho.",
     body2:
-      "Hablas directo con quienes construyen: arquitectura, diseño y lanzamiento, desde la primera llamada hasta la entrega.",
+      "Hablas con quienes escriben el código y dan forma a la UI, desde la primera llamada hasta la entrega.",
     pillars: [
       { label: "PRODUCTO", detail: "Apps web y plataformas" },
       { label: "SISTEMAS", detail: "APIs, datos y backends" },
@@ -548,15 +544,15 @@ export const es = {
     offerHeadline: "Lo que",
     offerHeadlineAccent: "construimos.",
     offerSubline:
-      "Apps, APIs, sitios de marca y herramientas de ops — diseñados y lanzados por el mismo equipo senior.",
+      "Apps, APIs, sitios de marca y herramientas internas — hechas de punta a punta por el mismo equipo pequeño.",
     offerPromise:
       "Hablas con quien construye. Alcance por escrito antes de build. Honestos si no encajamos.",
-    proofLabel: "03 — MÉTODO",
+    proofLabel: "02 — MÉTODO",
     proofHeadline: "Alcance por escrito.",
     faqLabel: "05 — PREGUNTAS",
-    faqHeadline: "Pregunta antes de comprar.",
+    faqHeadline: "Preguntas frecuentes.",
     faqSubline:
-      "Respuestas claras sobre encaje, dinero, propiedad y plazos — para decidir sin un laberinto comercial.",
+      "Encaje, dinero, propiedad y plazos — respondidos antes de que gastes tiempo en una llamada.",
     openMenu: "Abrir menú",
     closeMenu: "Cerrar menú",
     contactErrors: {
@@ -607,7 +603,7 @@ export const es = {
         status: "reviewing",
         createdAt: "2026-08-03T16:45:00Z",
         messagePreview:
-          "Necesitamos una consola de despacho y una web para pasajeros, similar al alcance de CyTaxi…",
+          "Necesitamos una consola de ops y una web para el equipo de campo…",
       },
       {
         reference: "SKD-20260802-B3C1",

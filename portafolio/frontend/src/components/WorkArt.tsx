@@ -155,19 +155,33 @@ function ApiArt() {
   );
 }
 
+/** General admin / ops UI — KPIs + table + bars. Not maps, not GPS. */
 function DashboardsArt() {
   return (
     <svg className={styles.scene} viewBox={VB} preserveAspectRatio="xMidYMid meet" aria-hidden>
-      <line className={styles.dashAxis} x1="36" y1="92" x2="140" y2="92" />
-      <rect className={styles.dashBar} x="44" y="58" width="16" height="34" rx="2" style={{ animationDelay: "0s" }} />
-      <rect className={styles.dashBarAccent} x="70" y="40" width="16" height="52" rx="2" style={{ animationDelay: "0.12s" }} />
-      <rect className={styles.dashBar} x="96" y="50" width="16" height="42" rx="2" style={{ animationDelay: "0.24s" }} />
-      <rect className={styles.dashBarAccent} x="122" y="32" width="16" height="60" rx="2" style={{ animationDelay: "0.36s" }} />
-      <path
-        className={styles.dashLine}
-        d="M168 78 C184 78 190 48 206 48 C222 48 228 68 244 58 C258 50 268 36 284 36"
-      />
-      <circle className={styles.dashAlert} cx="284" cy="36" r="4.5" />
+      {/* KPI tiles */}
+      <rect className={styles.dashTile} x="28" y="18" width="72" height="34" rx="3" />
+      <rect className={styles.dashTile} x="108" y="18" width="72" height="34" rx="3" style={{ animationDelay: "0.15s" }} />
+      <rect className={styles.dashTile} x="188" y="18" width="72" height="34" rx="3" style={{ animationDelay: "0.3s" }} />
+      <rect className={styles.dashKpi} x="40" y="28" width="36" height="5" rx="1" />
+      <rect className={styles.dashKpiAccent} x="40" y="38" width="28" height="6" rx="1" />
+      <rect className={styles.dashKpi} x="120" y="28" width="36" height="5" rx="1" style={{ animationDelay: "0.15s" }} />
+      <rect className={styles.dashKpiAccent} x="120" y="38" width="32" height="6" rx="1" style={{ animationDelay: "0.15s" }} />
+      <rect className={styles.dashKpi} x="200" y="28" width="36" height="5" rx="1" style={{ animationDelay: "0.3s" }} />
+      <rect className={styles.dashKpiAccent} x="200" y="38" width="24" height="6" rx="1" style={{ animationDelay: "0.3s" }} />
+
+      {/* Table rows */}
+      <rect className={styles.dashRow} x="28" y="62" width="152" height="10" rx="1.5" />
+      <rect className={styles.dashRow} x="28" y="76" width="152" height="10" rx="1.5" style={{ animationDelay: "0.2s" }} />
+      <rect className={styles.dashRow} x="28" y="90" width="152" height="10" rx="1.5" style={{ animationDelay: "0.4s" }} />
+      <rect className={styles.dashRowAccent} x="28" y="62" width="4" height="10" rx="1" />
+
+      {/* Vertical bars — chart, not a route */}
+      <line className={styles.dashAxis} x1="198" y1="100" x2="292" y2="100" />
+      <rect className={styles.dashBar} x="208" y="72" width="12" height="28" rx="1.5" style={{ animationDelay: "0s" }} />
+      <rect className={styles.dashBarAccent} x="228" y="56" width="12" height="44" rx="1.5" style={{ animationDelay: "0.12s" }} />
+      <rect className={styles.dashBar} x="248" y="64" width="12" height="36" rx="1.5" style={{ animationDelay: "0.24s" }} />
+      <rect className={styles.dashBarAccent} x="268" y="48" width="12" height="52" rx="1.5" style={{ animationDelay: "0.36s" }} />
     </svg>
   );
 }

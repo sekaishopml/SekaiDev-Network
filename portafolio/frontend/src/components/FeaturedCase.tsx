@@ -681,7 +681,7 @@ export default function FeaturedCase() {
 
           <div className={styles.cineGrid}>
             <div className={styles.copyCol}>
-              <span className={styles.eyebrow}>02 — {c.label}</span>
+              <span className={styles.eyebrow}>03 — {c.label}</span>
               <h2 id="featured-heading" className={styles.title}>
                 {c.title}
                 {c.titleLine2 ? (

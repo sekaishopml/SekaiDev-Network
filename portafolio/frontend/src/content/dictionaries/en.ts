@@ -2,10 +2,10 @@ import type { StudioDictionary } from "./types";
 
 /** English source-of-truth copy. Keep this object structurally aligned with es. */
 export const en = {
-  meta: {
+    meta: {
     title: "SekaiDev | Apps, APIs & brand sites",
     description:
-      "Senior product engineering from Ecuador: web apps, APIs, UX/UI, and brand sites. One small team you work with directly.",
+      "Product engineering from Ecuador: web apps, APIs, UX/UI, and brand sites. A small team you work with directly.",
     ogTitle: "SekaiDev | Product engineering from Ecuador",
     keywords: [
       "product engineering",
@@ -52,7 +52,7 @@ export const en = {
     eyebrow: "Full-stack studio for",
     tagline: "We design and ship the product.",
     subline:
-      "Web apps, APIs, UX/UI, and brand sites. Small senior team based in Ecuador, working with clients across LatAm and the US.",
+      "Web apps, APIs, UX/UI, and brand sites. Small team in Ecuador, working with clients across LatAm and the US.",
     heroCtaPrimary: { label: "See if we fit", href: "#contact" },
     heroCtaSecondary: { label: "See what we build", href: "#works" },
     available: "Available for projects",
@@ -121,7 +121,7 @@ export const en = {
     find: "THIS",
     signal: "IS THE WORK.",
     ship: "APPS · APIS · BRAND SITES",
-    subline: "Senior engineering and design from Ecuador.",
+    subline: "Product engineering and design from Ecuador.",
   },
 
   OUTCOMES: [
@@ -138,38 +138,38 @@ export const en = {
     {
       title: "You talk to the builders",
       body:
-        "A small senior team — not a handoff chain. We own architecture, design, and the launch together.",
+        "A small team — not a handoff chain. Architecture, design, and launch with the same people.",
     },
   ],
 
   FEATURED_CASE: {
-    label: "Featured case",
+    label: "Example project",
     title: "CyTaxi",
     titleLine2: "Platform",
-    role: "Full-stack product engineering",
+    role: "One build among many — product, APIs, and ops UI",
     challenge:
-      "A ride platform needed live dispatch, payments, and tracking that could run in production.",
+      "A client needed a production ride product: dispatch, payments, and tracking that ops could run daily.",
     solution:
-      "We built it with Go APIs, Next.js clients, Postgres, and maps, shaped for day-to-day ops.",
+      "We built the product surface and the Go/Postgres backend around real trip flows — same approach we use on other platforms.",
     result:
-      "A working platform base with real-time trip flows and room to add the next features.",
+      "A live base they could operate and extend. The point of showing it: we ship full products, not slide decks.",
     stack: ["Go", "Next.js", "Postgres", "Maps"],
     deliverables: [
       "Driver and rider product flows",
-      "Dispatch and operations base",
+      "Ops / dispatch console",
       "Go API and Postgres data model",
-      "Maps and live-location integration",
+      "Realtime location where the product needed it",
     ],
     decisions: [
-      "Go for the core platform APIs",
-      "Next.js for the product interfaces",
+      "Go for the core APIs",
+      "Next.js for the product UI",
       "Postgres as the system of record",
-      "Maps inside dispatch and trip flows",
+      "Maps only where the trip flow required them",
     ],
     handoff:
-      "Production codebase, docs for the platform, and a clear list of what to build next.",
+      "Production codebase, platform docs, and a short list of what to build next.",
     href: null,
-    outcomeNote: "Detailed results and a walkthrough available on request.",
+    outcomeNote: "More named work and walkthroughs available after we confirm fit.",
     labels: {
       challenge: "Challenge",
       solution: "Solution",
@@ -180,7 +180,7 @@ export const en = {
       buildNotes: "Build notes",
     },
     stageUi: {
-      aria: "CyTaxi live trip card: pickup, route, and ETA",
+      aria: "Example trip card from the CyTaxi build",
       product: "CyTaxi",
       live: "Live",
       status: "En route",
@@ -253,7 +253,7 @@ export const en = {
           "Product + visual direction",
           "Go / Next.js / Postgres as scoped",
           "Auth, APIs, and core product flows",
-          "Maps / realtime when the product needs it",
+          "Realtime / integrations when the product needs them",
           "Staging → production + docs + 30 days post-launch support",
         ],
         cta: "Start with Launch",
@@ -283,15 +283,15 @@ export const en = {
       {
         id: "partner",
         title: "Product Partner",
-        tagline: "Senior capacity on your roadmap.",
+        tagline: "Keep building on a monthly cadence.",
         timeline: "3+ months · monthly",
         priceWas: "$22,000",
         priceFrom: "$18,500",
         priceUnit: "USD / mo",
         bestFor:
-          "Keep building after launch without hiring a full senior team yet.",
+          "Keep shipping after launch without hiring a full team yet.",
         includes: [
-          "Senior engineering and design hours each month",
+          "Engineering and design hours each month",
           "Shared roadmap + weekly sync",
           "Steady delivery cycles",
           "Architecture and performance care",
@@ -317,7 +317,7 @@ export const en = {
     {
       question: "Which engagement should I pick?",
       answer:
-        "Brand Presence: a serious marketing or brand site. Signal Sprint: one defined milestone when you need signal fast. Launch Standard (recommended): design + build for a real product launch. Product Partner: senior capacity on retainer when the roadmap does not pause after ship.",
+        "Brand Presence: a marketing or brand site. Signal Sprint: one defined milestone when you need something out fast. Launch Standard (recommended): design + build for a full product launch. Product Partner: monthly hours when you want to keep building after launch.",
     },
     {
       question: "How do payments and contracts work?",
@@ -347,7 +347,7 @@ export const en = {
     {
       question: "Can you stay on after launch?",
       answer:
-        "Yes. We can leave a short post-launch plan, or continue through Product Partner when you need iteration, maintenance, or senior product capacity without hiring a full team.",
+        "Yes. We can leave a short post-launch plan, or continue on Product Partner if you want ongoing iteration without hiring a full team yet.",
     },
   ],
 
@@ -379,20 +379,19 @@ export const en = {
   ],
 
   PROCESS_SECTION: {
-    label: "03 — METHOD",
+    label: "02 — METHOD",
     headline: "Scope on paper.",
     headlineAccent: "Then we build.",
-    subline:
-      "How we work with clients, from the first call through launch.",
+    subline: "From the first call to launch — same people, written scope first.",
     boardLabel: "Steps",
     boardFlow: "Align → Prototype → Build → Launch",
   },
 
   WORKS_SECTION: {
     label: "Capabilities",
-    headline: "Where we ship.",
+    headline: "What this covers.",
     subline:
-      "Product systems, brand sites, APIs, and ops tools. Ask for a private walkthrough of named work once we confirm fit.",
+      "Product systems, brand sites, APIs, and internal tools. Named walkthroughs after we confirm fit.",
     needLabel: "Need",
     outcomeLabel: "Outcome",
   },
@@ -403,9 +402,8 @@ export const en = {
       slug: "crm",
       title: "CRM & ops systems",
       kind: "Product",
-      challenge: "Pipelines, contacts, and ops in one place.",
-      result:
-        "Data model, roles, and workflows your team can run every day — without duct tape.",
+      challenge: "Pipelines, contacts, and day-to-day ops in one place.",
+      result: "A data model, roles, and workflows your team can actually run.",
       tags: "Go · Next.js · Postgres",
       href: "#contact",
     },
@@ -414,9 +412,8 @@ export const en = {
       slug: "websites",
       title: "Brand & product sites",
       kind: "Site",
-      challenge: "A site that looks serious and converts.",
-      result:
-        "Clear hierarchy, restrained motion, and CTAs people can actually follow.",
+      challenge: "A site that looks serious and gets people to act.",
+      result: "Clear structure, light motion, and CTAs that make sense.",
       tags: "Next.js · Tailwind · GSAP",
       href: "#contact",
     },
@@ -425,21 +422,19 @@ export const en = {
       slug: "api",
       title: "APIs & backends",
       kind: "Systems",
-      challenge: "Secure services that do not trap you later.",
-      result:
-        "Auth, data models, and APIs you can extend when the product grows.",
+      challenge: "Services you can trust and extend later.",
+      result: "Auth, data models, and APIs that grow with the product.",
       tags: "Go · FastAPI · PostgreSQL",
       href: "#contact",
     },
     {
       id: "04",
       slug: "dashboards",
-      title: "Dashboards",
-      kind: "Ops",
-      challenge: "Screens teams will open every day.",
-      result:
-        "Clear views, alerts, and simple workflows — built for real operators.",
-      tags: "React · Charts · Realtime",
+      title: "Internal tools & dashboards",
+      kind: "Tools",
+      challenge: "Admin screens and ops views teams use every day.",
+      result: "Tables, KPIs, and workflows — clear, fast, no fluff.",
+      tags: "React · Charts · Postgres",
       href: "#contact",
     },
   ],
@@ -447,11 +442,11 @@ export const en = {
   ABOUT: {
     label: "About",
     headlineLine1: "A SMALL",
-    headlineLine2: "SENIOR TEAM",
+    headlineLine2: "TEAM THAT BUILDS",
     body1:
-      "SekaiDev is a small senior team based in Ecuador. We work remotely with clients across Latin America and the US on products, APIs, UX/UI, and brand sites.",
+      "SekaiDev is a small team in Ecuador. We work remotely with clients in LatAm and the US on web apps, APIs, UX/UI, and brand sites — whatever the project needs, not one niche product.",
     body2:
-      "You talk directly with the people building the work — architecture, design, and launch — from the first call through handoff.",
+      "You talk to the people writing the code and shaping the UI, from the first call through handoff.",
     pillars: [
       { label: "PRODUCT", detail: "Web apps and platforms" },
       { label: "SYSTEMS", detail: "APIs, data, and backends" },
@@ -530,15 +525,15 @@ export const en = {
     offerHeadline: "What we",
     offerHeadlineAccent: "build.",
     offerSubline:
-      "Apps, APIs, brand sites, and ops tools — designed and shipped by the same senior team.",
+      "Apps, APIs, brand sites, and internal tools — built by the same small team end to end.",
     offerPromise:
       "You talk to the builders. Written scope before build. Honest if we are not a fit.",
-    proofLabel: "03 — METHOD",
+    proofLabel: "02 — METHOD",
     proofHeadline: "Scope on paper.",
     faqLabel: "05 — FAQ",
-    faqHeadline: "Ask before you buy.",
+    faqHeadline: "Common questions.",
     faqSubline:
-      "Clear answers on fit, money, ownership, and timelines — so you can decide without a sales maze.",
+      "Fit, money, ownership, and timelines — answered before you spend time on a call.",
     openMenu: "Open menu",
     closeMenu: "Close menu",
     contactErrors: {
@@ -586,7 +581,7 @@ export const en = {
         status: "reviewing",
         createdAt: "2026-08-03T16:45:00Z",
         messagePreview:
-          "Need a dispatch console + rider web — similar to CyTaxi scope…",
+          "Need an ops console and customer web app for our field team…",
       },
       {
         reference: "SKD-20260802-B3C1",
