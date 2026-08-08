@@ -100,42 +100,32 @@
 }
 
 .offerRow {
+  padding: clamp(1.35rem, 3.2vh, 2rem) 0 clamp(0.35rem, 1vh, 0.6rem);
+  border-bottom: 1px solid rgba(17, 17, 17, 0.14);
+  transition: border-color 0.45s ease;
+}
+
+.offerRow.isOpen {
+  border-bottom-color: rgba(92, 26, 51, 0.4);
+}
+
+.offerMain {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr;
   grid-template-areas:
-    "index copy arrow"
-    "index body arrow";
+    "index copy"
+    "index body";
   column-gap: clamp(0.85rem, 2.5vw, 2rem);
   row-gap: 0.45rem;
   align-items: start;
-  width: 100%;
-  margin: 0;
-  padding: clamp(1.35rem, 3.2vh, 2rem) 0;
-  border: 0;
-  border-bottom: 1px solid rgba(17, 17, 17, 0.14);
-  background: transparent;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-  transition: border-color 0.35s ease, background-color 0.3s ease;
-}
-
-.offerRow:hover {
-  border-bottom-color: rgba(92, 26, 51, 0.45);
-  background: rgba(17, 17, 17, 0.015);
-}
-
-.offerRow:focus-visible {
-  outline: 2px solid var(--accent, #5c1a33);
-  outline-offset: 3px;
 }
 
 @media (min-width: 900px) {
-  .offerRow {
-    grid-template-columns: 5.25rem minmax(11rem, 0.85fr) minmax(0, 1.2fr) 7.5rem auto;
-    grid-template-areas: "index copy body art arrow";
+  .offerMain {
+    grid-template-columns: 5.25rem minmax(11rem, 0.9fr) minmax(0, 1.25fr);
+    grid-template-areas: "index copy body";
     column-gap: clamp(1.25rem, 3vw, 2.5rem);
-    align-items: center;
+    align-items: baseline;
   }
 }
 
@@ -147,11 +137,11 @@
   line-height: 0.9;
   letter-spacing: -0.03em;
   color: rgba(17, 17, 17, 0.12);
-  transition: color 0.35s ease;
+  transition: color 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.offerRow:hover .offerIndex {
-  color: rgba(92, 26, 51, 0.35);
+.offerRow.isOpen .offerIndex {
+  color: rgba(92, 26, 51, 0.42);
 }
 
 .offerCopy {
@@ -167,10 +157,10 @@
   letter-spacing: -0.02em;
   line-height: 1.1;
   color: var(--foreground, #111);
-  transition: color 0.3s ease;
+  transition: color 0.45s ease;
 }
 
-.offerRow:hover .offerRowTitle {
+.offerRow.isOpen .offerRowTitle {
   color: var(--accent, #5c1a33);
 }
 
@@ -199,36 +189,47 @@
   color: rgba(17, 17, 17, 0.48);
 }
 
-.offerArt {
-  display: none;
-  grid-area: art;
-  pointer-events: none;
+/* Scroll-unfold stage — GSAP owns height / opacity */
+.offerStage {
+  margin-top: 0.85rem;
+  margin-left: 0;
+  will-change: height, opacity;
 }
 
 @media (min-width: 900px) {
-  .offerArt {
-    display: block;
-    opacity: 0.85;
-    transition: opacity 0.3s ease, transform 0.35s ease;
-  }
-
-  .offerRow:hover .offerArt {
-    opacity: 1;
-    transform: translateX(2px);
+  .offerStage {
+    margin-left: calc(5.25rem + clamp(1.25rem, 3vw, 2.5rem));
+    margin-top: 1.1rem;
   }
 }
 
-.offerArrow {
-  grid-area: arrow;
-  align-self: center;
-  font-size: 1.15rem;
-  color: rgba(17, 17, 17, 0.28);
-  transition: color 0.25s ease, transform 0.25s ease;
+.offerPanel {
+  padding-bottom: clamp(0.85rem, 2vh, 1.25rem);
+  will-change: transform, opacity, filter;
 }
 
-.offerRow:hover .offerArrow {
-  color: var(--accent, #5c1a33);
-  transform: translateX(4px);
+.offerPanel > * {
+  margin: 0 !important;
+  width: 100%;
+  max-width: 36rem;
+  box-shadow: none;
+}
+
+@media (min-width: 900px) {
+  .offerPanel > * {
+    max-width: 44rem;
+    height: 152px;
+  }
+}
+
+@media (max-width: 899px) {
+  .offerPanel > * {
+    height: 124px;
+  }
+}
+
+.offerRow.isOpen .offerPanel > * {
+  border-color: rgba(92, 26, 51, 0.28);
 }
 
 .offerFoot {
@@ -305,9 +306,12 @@
 @media (prefers-reduced-motion: reduce) {
   .offerRow,
   .offerIndex,
-  .offerRowTitle,
-  .offerArt,
-  .offerArrow {
+  .offerRowTitle {
     transition: none;
+  }
+
+  .offerStage {
+    height: auto !important;
+    opacity: 1 !important;
   }
 }

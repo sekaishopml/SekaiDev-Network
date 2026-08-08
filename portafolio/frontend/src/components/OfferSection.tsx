@@ -1,17 +1,22 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useSectionReveal } from "@/hooks/useSectionReveal";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@/hooks/useGsapSafe";
 import { useT } from "@/components/LocaleProvider";
 import WorkArt from "@/components/WorkArt";
 import { getIntent, jumpTo } from "@/lib/navigation";
+import { OFFER_SCROLL } from "@/lib/motion/offerScroll";
+import { REVEAL } from "@/lib/motion/revealPresets";
 import styles from "./OfferSection.module.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function OfferSection() {
   const rootRef = useRef<HTMLElement>(null);
   const [intent, setIntent] = useState("");
   const t = useT();
-  useSectionReveal(rootRef, { preset: "default" });
 
   useEffect(() => {
     const syncIntent = () => setIntent(getIntent());
@@ -24,13 +29,127 @@ export default function OfferSection() {
     };
   }, []);
 
-  const openItem = (href: string) => {
-    if (href.startsWith("#")) {
-      jumpTo(href);
-      return;
+  useGSAP(
+    () => {
+      const root = rootRef.current;
+      if (!root) return;
+
+      const reduced = window.matchMedia(OFFER_SCROLL.reducedQuery).matches;
+
+      const headBits = root.querySelectorAll("[data-offer-head]");
+      const foot = root.querySelector("[data-offer-foot]");
+      if (headBits.length) {
+        gsap.from(headBits, {
+          opacity: reduced ? 1 : 0,
+          y: reduced ? 0 : 22,
+          duration: reduced ? 0 : 0.85,
+          stagger: 0.08,
+          ease: REVEAL.ease,
+          scrollTrigger: {
+            trigger: root,
+            start: "top 78%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
+      if (foot) {
+        gsap.from(foot, {
+          opacity: reduced ? 1 : 0,
+          y: reduced ? 0 : 18,
+          duration: reduced ? 0 : 0.75,
+          ease: REVEAL.ease,
+          scrollTrigger: {
+            trigger: foot,
+            start: "top 88%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
+
+      const rows = Array.from(
+        root.querySelectorAll<HTMLElement>("[data-offer-row]")
+      );
+
+      rows.forEach((row) => {
+        const stage = row.querySelector<HTMLElement>("[data-offer-stage]");
+        const panel = row.querySelector<HTMLElement>("[data-offer-panel]");
+        if (!stage || !panel) return;
+
+        // Measure natural panel height for a stable scrub.
+        const measure = () => {
+          const prev = stage.style.height;
+          stage.style.height = "auto";
+          const h = panel.scrollHeight;
+          stage.style.height = prev;
+          return Math.max(h, 96);
+        };
+
+        if (reduced) {
+          gsap.set(stage, { height: "auto", autoAlpha: 1 });
+          gsap.set(panel, { clearProps: "transform,opacity,filter" });
+          row.classList.add(styles.isOpen);
+          return;
+        }
+
+        gsap.set(stage, { height: 0, autoAlpha: 0, overflow: "hidden" });
+        gsap.set(panel, {
+          y: 28,
+          scale: 0.97,
+          opacity: 0.35,
+          filter: "blur(6px)",
+          transformOrigin: "50% 0%",
+        });
+
+        const tl = gsap.timeline({
+          defaults: { ease: OFFER_SCROLL.easePanel },
+          scrollTrigger: {
+            trigger: row,
+            start: OFFER_SCROLL.start,
+            end: OFFER_SCROLL.end,
+            scrub: OFFER_SCROLL.scrub,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              row.classList.toggle(styles.isOpen, self.progress > 0.45);
+            },
+          },
+        });
+
+        tl.to(
+          stage,
+          {
+            height: () => measure(),
+            autoAlpha: 1,
+            duration: 1,
+          },
+          0
+        ).to(
+          panel,
+          {
+            y: 0,
+            scale: 1,
+            opacity: 1,
+            filter: "blur(0px)",
+            duration: 1,
+          },
+          0.08
+        );
+      });
+
+      const refresh = () => {
+        if (root.isConnected) ScrollTrigger.refresh();
+      };
+      document.fonts?.ready.then(refresh);
+      gsap.delayedCall(0.2, refresh);
+
+      return () => {
+        rows.forEach((row) => row.classList.remove(styles.isOpen));
+      };
+    },
+    {
+      scope: rootRef,
+      dependencies: [t.WORKS.length, t.UI.offerHeadline],
     }
-    window.open(href, "_blank", "noopener,noreferrer");
-  };
+  );
 
   return (
     <section
@@ -43,7 +162,7 @@ export default function OfferSection() {
 
       <div className={styles.offerInner}>
         <header className={styles.offerHead}>
-          <div data-reveal>
+          <div data-offer-head>
             <span className={styles.offerEyebrow}>{t.UI.offerLabel}</span>
             <h2 id="offer-heading" className={styles.offerTitle}>
               {t.UI.offerHeadline}
@@ -52,20 +171,19 @@ export default function OfferSection() {
               </span>
             </h2>
           </div>
-          <div className={styles.offerAside} data-reveal>
+          <div className={styles.offerAside} data-offer-head>
             <p className={styles.offerSubline}>{t.UI.offerSubline}</p>
           </div>
         </header>
 
-        {/* Single rail: offer = capabilities. #works kept for deep links. */}
         <ol id="works" className={styles.offerList}>
           {t.WORKS.map((p, i) => (
-            <li key={p.id} data-reveal>
-              <button
-                type="button"
-                className={styles.offerRow}
-                onClick={() => openItem(p.href)}
-              >
+            <li
+              key={p.id}
+              data-offer-row
+              className={styles.offerRow}
+            >
+              <div className={styles.offerMain}>
                 <span className={styles.offerIndex} aria-hidden="true">
                   {String(i + 1).padStart(2, "0")}
                 </span>
@@ -79,23 +197,21 @@ export default function OfferSection() {
                   <span className={styles.offerNeed}>{p.challenge}</span>
                   {p.result}
                 </p>
+              </div>
 
-                <div className={styles.offerArt} aria-hidden="true">
+              <div data-offer-stage className={styles.offerStage}>
+                <div data-offer-panel className={styles.offerPanel}>
                   <WorkArt
                     slug={p.slug as "crm" | "websites" | "api" | "dashboards"}
-                    compact
+                    label={p.kind}
                   />
                 </div>
-
-                <span className={styles.offerArrow} aria-hidden="true">
-                  →
-                </span>
-              </button>
+              </div>
             </li>
           ))}
         </ol>
 
-        <div className={styles.offerFoot} data-reveal>
+        <div className={styles.offerFoot} data-offer-foot>
           <p className={styles.offerPromise}>{t.UI.offerPromise}</p>
           <div className={styles.offerCta}>
             <button
