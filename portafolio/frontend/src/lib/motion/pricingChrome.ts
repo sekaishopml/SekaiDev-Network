@@ -2,9 +2,18 @@ import gsap from "gsap";
 
 /**
  * GSAP hide/show for fixed chrome while the pricing pin owns the
- * mobile viewport. Keeps nav + sticky CTA out of the way without a
- * hard CSS cut.
+ * mobile viewport. Timed to match site chrome (nav entrance ~1100ms,
+ * hero copy ~0.9s power2.out) — slower lift, not a snappy cut.
  */
+
+/** Aligned with Navigation `duration-[1100ms]` / HERO_ENTRANCE.copyDuration. */
+const CHROME = {
+  hideDuration: 1.05,
+  showDuration: 1.12,
+  ctaLag: 0.08,
+  easeHide: "power2.inOut" as const,
+  easeShow: "power2.out" as const,
+};
 
 let chromeTl: gsap.core.Timeline | null = null;
 let hidden = false;
@@ -40,10 +49,10 @@ export function setPricingChromeHidden(hide: boolean) {
       chromeTl.to(
         nav,
         {
-          yPercent: -108,
+          yPercent: -100,
           autoAlpha: 0,
-          duration: 0.52,
-          ease: "power3.in",
+          duration: CHROME.hideDuration,
+          ease: CHROME.easeHide,
         },
         0
       );
@@ -52,15 +61,16 @@ export function setPricingChromeHidden(hide: boolean) {
       chromeTl.to(
         cta,
         {
-          yPercent: 120,
+          yPercent: 110,
           autoAlpha: 0,
-          duration: 0.45,
-          ease: "power3.in",
+          duration: CHROME.hideDuration * 0.92,
+          ease: CHROME.easeHide,
         },
-        0.06
+        CHROME.ctaLag
       );
     }
-    chromeTl.set(nodes, { pointerEvents: "none" }, 0.18);
+    // Keep hit-testing until the fade is mostly done.
+    chromeTl.set(nodes, { pointerEvents: "none" }, CHROME.hideDuration * 0.55);
     return;
   }
 
@@ -70,12 +80,12 @@ export function setPricingChromeHidden(hide: boolean) {
   if (nav) {
     chromeTl.fromTo(
       nav,
-      { yPercent: -108, autoAlpha: 0 },
+      { yPercent: -100, autoAlpha: 0 },
       {
         yPercent: 0,
         autoAlpha: 1,
-        duration: 0.62,
-        ease: "power3.out",
+        duration: CHROME.showDuration,
+        ease: CHROME.easeShow,
       },
       0
     );
@@ -83,14 +93,14 @@ export function setPricingChromeHidden(hide: boolean) {
   if (cta) {
     chromeTl.fromTo(
       cta,
-      { yPercent: 120, autoAlpha: 0 },
+      { yPercent: 110, autoAlpha: 0 },
       {
         yPercent: 0,
         autoAlpha: 1,
-        duration: 0.55,
-        ease: "power3.out",
+        duration: CHROME.showDuration * 0.92,
+        ease: CHROME.easeShow,
       },
-      0.1
+      CHROME.ctaLag
     );
   }
 }
