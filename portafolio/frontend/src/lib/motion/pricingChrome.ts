@@ -2,24 +2,29 @@ import gsap from "gsap";
 
 /**
  * GSAP hide/show for fixed chrome while the pricing pin owns the
- * mobile viewport. Paced like site cinema (hero bloom ~1.15s,
- * arc/bonsai settle ~1.05s, nav entrance 1100ms) — a slow lift,
- * not a snappy cut.
+ * mobile viewport.
+ *
+ * Important: never use fromTo(... { yPercent: -100, autoAlpha: 0 }) for
+ * the reveal path. ScrollTrigger pin can flicker isActive for a frame on
+ * enter; that from-state would snap the nav off-screen instantly.
+ * Always tween from the current computed values, and debounce the
+ * desired state so brief toggles don't reverse the motion.
  */
 
-/** Softer / longer than nav CSS so the pin handoff feels deliberate. */
 const CHROME = {
-  hideDuration: 1.55,
-  showDuration: 1.65,
-  ctaLag: 0.12,
-  /** Opacity leads the travel so the exit reads as a fade-lift. */
-  fadeLead: 0.18,
-  easeHide: "sine.inOut" as const,
+  hideDuration: 1.35,
+  showDuration: 1.4,
+  ctaLag: 0.1,
+  easeHide: "power2.inOut" as const,
   easeShow: "power2.out" as const,
+  /** Absorb ScrollTrigger pin flicker on enter/leave. */
+  settleMs: 70,
 };
 
 let chromeTl: gsap.core.Timeline | null = null;
 let hidden = false;
+let desired = false;
+let settleTimer: ReturnType<typeof setTimeout> | null = null;
 
 function targets() {
   const nav = document.querySelector<HTMLElement>("[data-site-nav]");
@@ -27,7 +32,7 @@ function targets() {
   return { nav, cta };
 }
 
-export function setPricingChromeHidden(hide: boolean) {
+function applyChrome(hide: boolean) {
   if (hide === hidden) return;
   hidden = hide;
 
@@ -48,59 +53,49 @@ export function setPricingChromeHidden(hide: boolean) {
   if (hide) {
     document.documentElement.dataset.pricingPin = "true";
 
+    // Ensure we start from a known resting pose if Tailwind still owns transform.
+    if (nav && gsap.getProperty(nav, "yPercent") === 0) {
+      gsap.set(nav, { yPercent: 0, autoAlpha: Number(gsap.getProperty(nav, "opacity")) || 1 });
+    }
+    if (cta && gsap.getProperty(cta, "yPercent") === 0) {
+      gsap.set(cta, { yPercent: 0, autoAlpha: Number(gsap.getProperty(cta, "opacity")) || 1 });
+    }
+
     if (nav) {
-      // Fade starts first; travel fills the rest of the window.
-      chromeTl.to(
-        nav,
-        {
-          autoAlpha: 0,
-          duration: CHROME.hideDuration * 0.72,
-          ease: "sine.out",
-        },
-        0
-      );
       chromeTl.to(
         nav,
         {
           yPercent: -100,
+          autoAlpha: 0,
           duration: CHROME.hideDuration,
           ease: CHROME.easeHide,
         },
-        CHROME.fadeLead
+        0
       );
     }
     if (cta) {
       chromeTl.to(
         cta,
         {
+          yPercent: 110,
           autoAlpha: 0,
-          duration: CHROME.hideDuration * 0.68,
-          ease: "sine.out",
+          duration: CHROME.hideDuration * 0.92,
+          ease: CHROME.easeHide,
         },
         CHROME.ctaLag
       );
-      chromeTl.to(
-        cta,
-        {
-          yPercent: 110,
-          duration: CHROME.hideDuration * 0.95,
-          ease: CHROME.easeHide,
-        },
-        CHROME.ctaLag + CHROME.fadeLead
-      );
     }
-    // Keep hit-testing until the fade is mostly done.
-    chromeTl.set(nodes, { pointerEvents: "none" }, CHROME.hideDuration * 0.65);
+    chromeTl.set(nodes, { pointerEvents: "none" }, CHROME.hideDuration * 0.55);
     return;
   }
 
   delete document.documentElement.dataset.pricingPin;
   chromeTl.set(nodes, { pointerEvents: "auto" }, 0);
 
+  // Tween from CURRENT values — never snap to a forced "from" off-screen.
   if (nav) {
-    chromeTl.fromTo(
+    chromeTl.to(
       nav,
-      { yPercent: -100, autoAlpha: 0 },
       {
         yPercent: 0,
         autoAlpha: 1,
@@ -111,13 +106,12 @@ export function setPricingChromeHidden(hide: boolean) {
     );
   }
   if (cta) {
-    chromeTl.fromTo(
+    chromeTl.to(
       cta,
-      { yPercent: 110, autoAlpha: 0 },
       {
         yPercent: 0,
         autoAlpha: 1,
-        duration: CHROME.showDuration * 0.95,
+        duration: CHROME.showDuration * 0.92,
         ease: CHROME.easeShow,
       },
       CHROME.ctaLag
@@ -125,8 +119,25 @@ export function setPricingChromeHidden(hide: boolean) {
   }
 }
 
+export function setPricingChromeHidden(hide: boolean) {
+  desired = hide;
+  if (settleTimer) clearTimeout(settleTimer);
+
+  // Hide can start promptly; still wait one settle window so a same-frame
+  // false→true→false pin flicker cannot fire the broken reverse path.
+  settleTimer = setTimeout(() => {
+    settleTimer = null;
+    applyChrome(desired);
+  }, CHROME.settleMs);
+}
+
 export function resetPricingChrome() {
+  desired = false;
   hidden = false;
+  if (settleTimer) {
+    clearTimeout(settleTimer);
+    settleTimer = null;
+  }
   chromeTl?.kill();
   chromeTl = null;
   delete document.documentElement.dataset.pricingPin;

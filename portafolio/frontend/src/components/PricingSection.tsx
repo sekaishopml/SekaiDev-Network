@@ -74,15 +74,24 @@ export default function PricingSection() {
             scrub: PRICING_SCROLL.scrub,
             anticipatePin: 1,
             invalidateOnRefresh: true,
+            // onToggle only — onRefresh can flicker isActive during pin
+            // settle and used to snap the nav via a reverse fromTo.
             onToggle: (self) => syncChrome(self.isActive),
-            onRefresh: (self) => syncChrome(self.isActive),
             onUpdate: (self) => {
               if (progress) gsap.set(progress, { scaleX: self.progress });
             },
           },
         });
 
+        // Cover load / refresh already inside the pin range.
+        syncChrome(Boolean(tween.scrollTrigger?.isActive));
+
+        const onNavMq = () =>
+          syncChrome(Boolean(tween.scrollTrigger?.isActive && mobileNavHide.matches));
+        mobileNavHide.addEventListener("change", onNavMq);
+
         return () => {
+          mobileNavHide.removeEventListener("change", onNavMq);
           resetPricingChrome();
           tween.scrollTrigger?.kill();
           tween.kill();
