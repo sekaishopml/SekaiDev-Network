@@ -434,7 +434,9 @@
   outline-offset: 3px;
 }
 
-/* Phone / tablet: keep the rail optically centered in the live viewport. */
+/* Phone / tablet: keep the rail optically centered in the live viewport.
+   Compact head + cards so the featured tier CTA stays in frame — a fuller
+   plans page will carry the longer copy later. */
 @media (max-width: 899px) {
   .pin {
     min-height: 100svh;
@@ -442,9 +444,9 @@
     max-height: 100svh;
     justify-content: flex-start;
     padding:
-      calc(2.85rem + env(safe-area-inset-top, 0px))
+      calc(2.55rem + env(safe-area-inset-top, 0px))
       0
-      calc(0.75rem + env(safe-area-inset-bottom, 0px));
+      calc(0.55rem + env(safe-area-inset-bottom, 0px));
     gap: 0;
     /* Match pricingChrome hide so layout breathes with the nav. */
     transition:
@@ -454,8 +456,8 @@
 
   /* Nav is hidden while pinned — reclaim that top band for the rail. */
   :global(html[data-pricing-pin="true"]) .pin {
-    padding-top: calc(0.85rem + env(safe-area-inset-top, 0px));
-    padding-bottom: calc(0.95rem + env(safe-area-inset-bottom, 0px));
+    padding-top: calc(0.65rem + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(0.7rem + env(safe-area-inset-bottom, 0px));
   }
 
   .head {
@@ -464,35 +466,30 @@
   }
 
   .eyebrow {
-    font-size: 0.625rem;
+    font-size: 0.575rem;
   }
 
   .title {
-    margin-top: 0.3rem;
-    font-size: clamp(1.7rem, 7.4vw, 2.2rem);
-    max-width: 16ch;
+    margin-top: 0.2rem;
+    font-size: clamp(1.45rem, 6.4vw, 1.9rem);
+    max-width: 18ch;
+    line-height: 0.96;
   }
 
   .subline {
-    margin-top: 0.4rem;
-    font-size: 0.78rem;
-    line-height: 1.35;
-    max-width: 34ch;
+    margin-top: 0.3rem;
+    font-size: 0.72rem;
+    line-height: 1.3;
+    max-width: 36ch;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
+  /* Banner moves to the dedicated plans page — free height for the card. */
   .offerBanner {
-    margin-top: 0.45rem;
-    padding: 0.45rem 0.65rem;
-    font-size: 0.68rem;
-    line-height: 1.3;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    display: none;
   }
 
   .marketNote {
@@ -500,25 +497,25 @@
   }
 
   .railMeta {
-    margin-top: 0.5rem;
+    margin-top: 0.35rem;
     padding: 0 1.15rem;
   }
 
   .hint {
-    font-size: 0.55rem;
+    font-size: 0.5rem;
   }
 
   .viewport {
     flex: 1 1 auto;
-    margin-top: 0.55rem;
+    margin-top: 0.4rem;
     min-height: 0;
     align-items: center;
   }
 
   .track {
     /* Side padding so the active card can sit centered in the phone. */
-    --card-w: min(84vw, 21rem);
-    gap: 0.75rem;
+    --card-w: min(86vw, 21.5rem);
+    gap: 0.7rem;
     padding-block: 0;
     padding-inline: calc((100vw - var(--card-w)) / 2);
     align-items: center;
@@ -527,66 +524,99 @@
   .card,
   .cardFeatured {
     width: var(--card-w);
-    max-height: min(62svh, 30rem);
-    padding: 1.15rem 1.1rem 1.1rem;
+    max-height: min(72svh, 34rem);
+    padding: 0.95rem 1rem 0.95rem;
+  }
+
+  .badge {
+    font-size: 0.5rem;
+    padding: 0.32rem 0.5rem;
+  }
+
+  .timeline {
+    font-size: 0.575rem;
   }
 
   .name {
-    margin-top: 0.7rem;
-    font-size: 1.55rem;
+    margin-top: 0.5rem;
+    font-size: 1.4rem;
   }
 
   .cardFeatured .name {
-    font-size: 1.7rem;
-  }
-
-  .tagline {
-    margin-top: 0.4rem;
-    font-size: 0.84rem;
-  }
-
-  .priceBlock {
-    margin-top: 0.9rem;
-    padding: 0.7rem 0;
-  }
-
-  .price {
     font-size: 1.5rem;
   }
 
-  .cardFeatured .price {
-    font-size: 1.7rem;
+  .tagline {
+    margin-top: 0.28rem;
+    font-size: 0.78rem;
+    line-height: 1.3;
   }
 
+  .priceBlock {
+    margin-top: 0.65rem;
+    padding: 0.5rem 0;
+  }
+
+  .cardFeatured .priceBlock {
+    margin-left: -0.2rem;
+    margin-right: -0.2rem;
+    padding-left: 0.65rem;
+    padding-right: 0.65rem;
+  }
+
+  .priceMeta {
+    margin-bottom: 0.28rem;
+  }
+
+  .price {
+    font-size: 1.35rem;
+  }
+
+  .cardFeatured .price {
+    font-size: 1.5rem;
+  }
+
+  .priceWas {
+    font-size: 0.9rem;
+  }
+
+  /* Long pitch lives on the plans page; keep one short line on the card. */
   .offerNote {
-    margin-top: 0.7rem;
-    font-size: 0.78rem;
+    display: none;
   }
 
   .bestFor {
-    margin-top: 0.65rem;
-    font-size: 0.78rem;
+    margin-top: 0.5rem;
+    font-size: 0.72rem;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .includes {
-    margin-top: 0.85rem;
-    gap: 0.4rem;
+    margin-top: 0.6rem;
+    gap: 0.28rem;
   }
 
   .includes li {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
+    line-height: 1.35;
+    padding-left: 0.65rem;
   }
 
   .cta {
-    margin-top: 1rem;
-    min-height: 44px;
-    padding: 0.65rem 1rem;
+    margin-top: 0.75rem;
+    min-height: 42px;
+    padding: 0.55rem 0.9rem;
+    font-size: 0.625rem;
   }
 
   .foot {
-    margin-top: 0.55rem;
+    margin-top: 0.4rem;
     padding: 0 1.1rem;
-    gap: 0.35rem 1rem;
+    gap: 0.25rem 1rem;
   }
 
   .disclaimer {
@@ -594,20 +624,48 @@
   }
 
   .footCta {
-    min-height: 40px;
-    font-size: 0.6rem;
+    min-height: 36px;
+    font-size: 0.55rem;
   }
 }
 
-@media (max-width: 899px) and (max-height: 720px) {
-  .subline,
-  .offerBanner {
+@media (max-width: 899px) and (max-height: 700px) {
+  .subline {
     display: none;
   }
 
   .card,
   .cardFeatured {
-    max-height: min(64svh, 26rem);
+    max-height: min(78svh, 30rem);
+    padding: 0.8rem 0.9rem 0.85rem;
+  }
+
+  .includes {
+    gap: 0.22rem;
+  }
+
+  .includes li {
+    font-size: 0.64rem;
+  }
+
+  .cta {
+    margin-top: 0.6rem;
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 899px) and (max-height: 620px) {
+  .railMeta {
+    display: none;
+  }
+
+  .bestFor {
+    -webkit-line-clamp: 1;
+  }
+
+  .card,
+  .cardFeatured {
+    max-height: min(82svh, 28rem);
   }
 }
 
@@ -663,9 +721,17 @@
 .reduced .marketNote,
 .reduced .disclaimer,
 .reduced .subline,
-.reduced .offerBanner {
+.reduced .offerBanner,
+.reduced .offerNote,
+.reduced .railMeta {
   display: block;
   -webkit-line-clamp: unset;
+}
+
+.reduced .bestFor {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
 }
 
 .reduced .progressFill {
