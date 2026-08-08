@@ -132,7 +132,13 @@ export type StudioDictionary = {
     boardLabel: string;
     boardFlow: string;
   };
-  WORKS_SECTION: { label: string; headline: string; subline: string };
+  WORKS_SECTION: {
+    label: string;
+    headline: string;
+    subline: string;
+    needLabel: string;
+    outcomeLabel: string;
+  };
   WORKS: readonly {
     id: string;
     slug: string;

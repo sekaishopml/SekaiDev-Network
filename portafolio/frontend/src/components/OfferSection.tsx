@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSectionReveal } from "@/hooks/useSectionReveal";
 import { useT } from "@/components/LocaleProvider";
+import WorkArt from "@/components/WorkArt";
 import { getIntent, jumpTo } from "@/lib/navigation";
 import styles from "./OfferSection.module.css";
 
@@ -23,8 +24,21 @@ export default function OfferSection() {
     };
   }, []);
 
+  const onCapabilityClick = (href: string) => {
+    if (href.startsWith("#")) {
+      jumpTo(href);
+      return;
+    }
+    window.open(href, "_blank", "noopener,noreferrer");
+  };
+
   return (
-    <section ref={rootRef} id="offer" className={styles.offer} aria-labelledby="offer-heading">
+    <section
+      ref={rootRef}
+      id="offer"
+      className={styles.offer}
+      aria-labelledby="offer-heading"
+    >
       <div className={styles.offerAtmosphere} aria-hidden="true" />
 
       <div className={styles.offerInner}>
@@ -72,6 +86,54 @@ export default function OfferSection() {
               {t.CTAS.pricing.labelUpper}
             </button>
           )}
+        </div>
+
+        {/* Former 06 — capabilities live here so #works deep links still land. */}
+        <div id="works" className={styles.capabilities}>
+          <header className={styles.capHead} data-reveal>
+            <span className={styles.capEyebrow}>{t.WORKS_SECTION.label}</span>
+            <h3 className={styles.capTitle}>{t.WORKS_SECTION.headline}</h3>
+            <p className={styles.capSubline}>{t.WORKS_SECTION.subline}</p>
+          </header>
+
+          <ul className={styles.capGrid}>
+            {t.WORKS.map((p) => (
+              <li key={p.id}>
+                <button
+                  type="button"
+                  data-reveal
+                  onClick={() => onCapabilityClick(p.href)}
+                  className={styles.capItem}
+                >
+                  <WorkArt
+                    slug={p.slug as "crm" | "websites" | "api" | "dashboards"}
+                    label={p.kind}
+                  />
+                  <div className={styles.capMeta}>
+                    <span className={styles.capId} aria-hidden="true">
+                      {p.id}
+                    </span>
+                    <span className={styles.capKind}>{p.kind}</span>
+                    <span className={styles.capArrow} aria-hidden="true">
+                      →
+                    </span>
+                  </div>
+                  <h4 className={styles.capName}>{p.title}</h4>
+                  <p className={styles.capTags}>{p.tags}</p>
+                  <dl className={styles.capFacts}>
+                    <div>
+                      <dt>{t.WORKS_SECTION.needLabel}</dt>
+                      <dd>{p.challenge}</dd>
+                    </div>
+                    <div>
+                      <dt>{t.WORKS_SECTION.outcomeLabel}</dt>
+                      <dd>{p.result}</dd>
+                    </div>
+                  </dl>
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

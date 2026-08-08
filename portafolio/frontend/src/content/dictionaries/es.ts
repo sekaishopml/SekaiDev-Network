@@ -31,7 +31,7 @@ export const es = {
       href: "#contact",
     },
     secondary: {
-      label: "Ver proyectos seleccionados",
+      label: "Ver qué construimos",
       href: "#works",
     },
     pricing: {
@@ -58,7 +58,7 @@ export const es = {
       "Apps web, APIs, UX/UI y sitios de marca. Equipo senior pequeño en Ecuador, con clientes en LatAm y EE. UU.",
     heroCtaPrimary: { label: "Ver si encajamos", href: "#contact" },
     heroCtaSecondary: {
-      label: "Ver proyectos seleccionados",
+      label: "Ver qué construimos",
       href: "#works",
     },
     available: "Disponible para proyectos",
@@ -104,11 +104,7 @@ export const es = {
     { label: "Cómo trabajamos", href: "#process", mobileOnly: false },
     { label: "Precios", href: "#pricing", mobileOnly: false },
     { label: "Contacto", href: "#contact", mobileOnly: false },
-    {
-      label: "Proyectos seleccionados",
-      href: "#works",
-      mobileOnly: false,
-    },
+    { label: "Preguntas", href: "#faq", mobileOnly: false },
   ],
 
   NAV_TRUST:
@@ -317,64 +313,49 @@ export const es = {
 
   FAQ_ITEMS: [
     {
-      question: "¿Qué sucede durante el descubrimiento?",
+      question: "¿Qué pasa después de escribirnos?",
       answer:
-        "Empezamos con una conversación enfocada en el objetivo, los usuarios, las restricciones, el cronograma y el presupuesto. Si encajamos, convertimos esa información en un alcance escrito antes de comenzar a construir.",
+        "Recibes una respuesta real en menos de 24 horas — no un autoresponder. Pedimos solo lo necesario para ver si encajamos: objetivo, usuarios, plazos y presupuesto. Si tiene sentido, enviamos un alcance escrito antes de construir. Si no, te lo decimos y paramos ahí.",
     },
     {
-      question: "¿Cuál es el presupuesto mínimo?",
+      question: "¿Cuánto cuesta trabajar con ustedes?",
       answer:
-        "Brand Presence y Signal Sprint empiezan desde $14,500–$16,500 USD. Launch Standard, el paquete habitual de producto completo, empieza desde $48,000 USD (lista $62,000). Si necesitas algo más chico, te lo diremos pronto.",
+        "Brand Presence y Signal Sprint empiezan desde $14,500–$16,500 USD. Launch Standard — el lanzamiento completo habitual — desde $48,000 (lista $62,000). Product Partner desde $18,500/mes. Si tu presupuesto está por debajo, te lo diremos pronto en vez de forzar un mal encaje.",
     },
     {
-      question: "¿Cómo funcionan los pagos?",
+      question: "¿Qué modalidad me conviene?",
       answer:
-        "Cotizamos y cobramos en USD, normalmente mediante transferencia. Antes de cualquier cobro recibes una cotización escrita con el depósito inicial, los pagos por hitos, las fechas de vencimiento y cada entregable. Todo cambio de alcance requiere aprobación escrita antes de modificar el precio. Emitimos factura bajo pedido.",
+        "Brand Presence: un sitio de marca o marketing serio. Signal Sprint: un hito definido cuando necesitas señal rápido. Launch Standard (recomendable): diseño + desarrollo para un lanzamiento real. Product Partner: capacidad senior en retainer cuando el roadmap no se detiene después del ship.",
     },
     {
-      question: "¿Firmamos un contrato?",
+      question: "¿Cómo funcionan pagos y contrato?",
       answer:
-        "Sí. Antes de empezar confirmamos por escrito el alcance, el cronograma, el calendario de pagos, la propiedad intelectual y las revisiones incluidas. Sabrás con precisión qué está dentro y fuera del proyecto.",
-    },
-    {
-      question: "¿Cuántas revisiones están incluidas?",
-      answer:
-        "La propuesta especifica las rondas de revisión incluidas y los plazos para enviar feedback. Las rondas adicionales o los cambios de alcance se cotizan por separado.",
-    },
-    {
-      question: "¿Qué pasa si no encajamos?",
-      answer:
-        "Te lo diremos pronto. Si el alcance, los tiempos o la forma de trabajo no sirven para alguna de las partes, te lo decimos claro en vez de alargar un proceso comercial.",
+        "Cotizamos en USD, normalmente por transferencia. Antes de cualquier cobro recibes una cotización escrita con depósito, hitos, fechas y entregables — más qué está dentro y fuera del alcance. Confirmamos por escrito propiedad, rondas de revisión y calendario de pagos. Los cambios de alcance requieren aprobación escrita. Factura bajo pedido.",
     },
     {
       question: "¿Quién es dueño del código y del diseño?",
       answer:
-        "Tú. La entrega final incluye el código fuente, los archivos de diseño, la documentación y los accesos acordados para operar lo que construimos.",
+        "Tú. La entrega incluye el código acordado, archivos de diseño, documentación y los accesos para operar y extender lo que lanzamos. Sin repos rehenes. Sin licencias sorpresa.",
     },
     {
-      question: "¿En qué se diferencian las cuatro modalidades?",
+      question: "¿Pueden trabajar con equipos en EE. UU. y LatAm?",
       answer:
-        "Brand Presence es un sitio de marca/marketing premium. Signal Sprint entrega un hito definido. Launch Standard (recomendable) es un lanzamiento completo de diseño y desarrollo. Product Partner es capacidad senior continua en retainer mensual.",
+        "Sí. Estamos en Ecuador (UTC−5 todo el año) con buen solape para las zonas Este y Central de EE. UU. Async por defecto — avances claros por escrito — y llamadas cortas solo cuando una decisión lo pide.",
     },
     {
-      question: "¿Pueden trabajar entre Ecuador y las zonas horarias de EE. UU.?",
+      question: "¿Cuánto tarda un proyecto?",
       answer:
-        "Sí. Ecuador opera en UTC−5 todo el año y comparte horas laborales con las zonas Este y Central de EE. UU. Trabajamos async por defecto y coordinamos reuniones puntuales cuando una decisión requiere conversación en vivo.",
+        "Rangos típicos una vez arrancamos: Brand Presence 3–5 semanas, Signal Sprint 2–4 semanas, Launch Standard 8–14 semanas. Product Partner abre en tres meses. La fecha de inicio depende de la capacidad actual; te damos una ventana honesta en la primera llamada.",
     },
     {
-      question: "¿Trabajan de forma remota?",
+      question: "¿Qué pasa si no encajamos?",
       answer:
-        "Sí. SEKAIDEV opera de forma remota con comunicación escrita, avances visibles y responsables claros. Programamos reuniones enfocadas solo cuando ayudan a destrabar decisiones.",
+        "Preferimos perder un deal a tomar el proyecto equivocado. Alcance, timing o forma de trabajo incorrectos: te lo decimos claro y liberamos a las dos partes.",
     },
     {
-      question: "¿Cuándo pueden empezar y cuánto tarda un proyecto?",
+      question: "¿Pueden seguir después del lanzamiento?",
       answer:
-        "Depende de la disponibilidad y del alcance. Brand Presence suele tomar 3–5 semanas, Signal Sprint 2–4 semanas, Launch Standard 8–14 semanas y Product Partner comienza con tres meses.",
-    },
-    {
-      question: "¿Pueden seguir involucrados después del lanzamiento?",
-      answer:
-        "Sí. Podemos definir un plan pos-lanzamiento o continuar mediante Product Partner cuando necesites iteración, mantenimiento o capacidad senior de producto.",
+        "Sí. Podemos dejar un plan corto pos-lanzamiento, o continuar con Product Partner cuando necesites iteración, mantenimiento o capacidad senior sin contratar un equipo completo.",
     },
   ],
 
@@ -416,10 +397,12 @@ export const es = {
   },
 
   WORKS_SECTION: {
-    label: "06 — LO QUE CONSTRUIMOS",
-    headline: "CAPACIDADES",
+    label: "Capacidades",
+    headline: "Dónde entregamos.",
     subline:
-      "Ejemplos de lo que solemos construir: sistemas de producto, sitios de marca, APIs y herramientas operativas. Pide un recorrido privado de proyectos con nombre cuando confirmemos encaje.",
+      "Sistemas de producto, sitios de marca, APIs y herramientas de ops. Pide un recorrido privado de proyectos con nombre cuando confirmemos encaje.",
+    needLabel: "Necesidad",
+    outcomeLabel: "Resultado",
   },
 
   WORKS: [
@@ -469,7 +452,7 @@ export const es = {
   ],
 
   ABOUT: {
-    label: "09 — NOSOTROS",
+    label: "Nosotros",
     headlineLine1: "UN EQUIPO",
     headlineLine2: "SENIOR Y CHICO",
     body1:
@@ -564,12 +547,13 @@ export const es = {
     offerHeadline: "Lo que",
     offerHeadlineAccent: "construimos.",
     offerSubline:
-      "Ingeniería de producto, diseño y sistemas con un equipo senior y alcance por escrito primero.",
+      "Ingeniería de producto, diseño y sistemas con un equipo senior — alcance por escrito primero, después el trabajo.",
     proofLabel: "03 — MÉTODO",
     proofHeadline: "Alcance por escrito.",
-    faqLabel: "05 — PREGUNTAS FRECUENTES",
-    faqHeadline: "Preguntas prácticas primero.",
-    faqSubline: "Respuestas directas antes de empezar.",
+    faqLabel: "05 — PREGUNTAS",
+    faqHeadline: "Pregunta antes de comprar.",
+    faqSubline:
+      "Respuestas claras sobre encaje, dinero, propiedad y plazos — para decidir sin un laberinto comercial.",
     openMenu: "Abrir menú",
     closeMenu: "Cerrar menú",
     contactErrors: {

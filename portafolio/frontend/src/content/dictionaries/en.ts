@@ -28,7 +28,7 @@ export const en = {
       href: "#contact",
     },
     secondary: {
-      label: "See selected work",
+      label: "See what we build",
       href: "#works",
     },
     pricing: {
@@ -54,7 +54,7 @@ export const en = {
     subline:
       "Web apps, APIs, UX/UI, and brand sites. Small senior team based in Ecuador, working with clients across LatAm and the US.",
     heroCtaPrimary: { label: "See if we fit", href: "#contact" },
-    heroCtaSecondary: { label: "See selected work", href: "#works" },
+    heroCtaSecondary: { label: "See what we build", href: "#works" },
     available: "Available for projects",
   },
 
@@ -98,7 +98,7 @@ export const en = {
     { label: "How we work", href: "#process", mobileOnly: false },
     { label: "Pricing", href: "#pricing", mobileOnly: false },
     { label: "Contact", href: "#contact", mobileOnly: false },
-    { label: "Selected work", href: "#works", mobileOnly: false },
+    { label: "FAQ", href: "#faq", mobileOnly: false },
   ],
 
   NAV_TRUST: "Reply within 24h · written scope before build · honest if we are not a fit",
@@ -305,59 +305,49 @@ export const en = {
 
   FAQ_ITEMS: [
     {
-      question: "What happens in discovery?",
+      question: "What happens after I reach out?",
       answer:
-        "We start with a focused conversation about the goal, users, constraints, timeline, and budget. If there is a fit, we turn that into a written scope before build work begins.",
+        "You get a real reply within 24 hours — not a form autoresponder. We ask only what we need to judge fit: goal, users, timeline, and budget. If it makes sense, we send a written scope before any build starts. If it does not, we say so and stop there.",
     },
     {
-      question: "What is the minimum budget?",
+      question: "What does it cost to work with you?",
       answer:
-        "Brand Presence and Signal Sprint start from $14,500–$16,500 USD. Launch Standard, our usual full-product package, starts from $48,000 USD (list $62,000). If you need something smaller, we will say so early.",
+        "Brand Presence and Signal Sprint start from $14,500–$16,500 USD. Launch Standard — the usual full product launch — starts from $48,000 (list $62,000). Product Partner is from $18,500/month. If your budget is below that floor, we will tell you early instead of stretching a bad fit.",
     },
     {
-      question: "How do payments work?",
+      question: "Which engagement should I pick?",
       answer:
-        "Quotes are in USD, typically paid by bank or wire transfer. Before any charge, the written quote lists the deposit, milestone amounts, due dates, and deliverables. Scope changes need written approval. An invoice/factura is available on request.",
+        "Brand Presence: a serious marketing or brand site. Signal Sprint: one defined milestone when you need signal fast. Launch Standard (recommended): design + build for a real product launch. Product Partner: senior capacity on retainer when the roadmap does not pause after ship.",
     },
     {
-      question: "Do we sign a contract?",
+      question: "How do payments and contracts work?",
       answer:
-        "Yes. Scope, timeline, payment schedule, ownership, and revision allowance are confirmed in writing before work starts. You get clarity on what is in and out of the engagement.",
-    },
-    {
-      question: "How many revisions are included?",
-      answer:
-        "Your proposal states the included review rounds and feedback deadlines. Additional rounds or scope changes are quoted separately.",
-    },
-    {
-      question: "What if we are not a fit?",
-      answer:
-        "We will say so early. If the scope, timing, or working style is wrong for either side, we tell you plainly instead of dragging a sales process.",
+        "Quotes are in USD, usually by bank or wire. Before any charge you get a written quote with deposit, milestones, dates, and deliverables — plus what is in and out of scope. We confirm ownership, revision rounds, and the payment schedule in writing. Scope changes need written approval. Invoice/factura on request.",
     },
     {
       question: "Who owns the code and design?",
       answer:
-        "You do. The final handoff includes the agreed source code, design files, documentation, and the access needed to run what we build.",
+        "You do. Handoff includes the agreed source, design files, docs, and the access required to run and extend what we shipped. No hostage repos. No surprise license traps.",
     },
     {
-      question: "How do the four engagements differ?",
+      question: "Can you work with US and LatAm teams?",
       answer:
-        "Brand Presence is a premium marketing/brand site. Signal Sprint ships one defined milestone. Launch Standard (recommended) is a full design-and-build product launch. Product Partner is ongoing senior capacity on a monthly retainer.",
+        "Yes. We are based in Ecuador (UTC−5 year-round) with solid overlap for US Eastern and Central. Async by default — clear written updates — and short live calls when a decision actually needs one.",
     },
     {
-      question: "Can you work across Ecuador and US time zones?",
+      question: "How long does a project take?",
       answer:
-        "Yes. Ecuador is UTC−5 year-round, with working-hour overlap across US Eastern and Central time. Async updates by default; focused syncs when a decision needs a live call.",
+        "Typical ranges once we start: Brand Presence 3–5 weeks, Signal Sprint 2–4 weeks, Launch Standard 8–14 weeks. Product Partner opens at three months. Start date depends on current capacity; we will give you a honest window on the first call.",
     },
     {
-      question: "How soon can we start and how long does a project take?",
+      question: "What if we are not a fit?",
       answer:
-        "Timing depends on current availability and scope. Brand Presence is typically 3–5 weeks, Signal Sprint 2–4 weeks, Launch Standard 8–14 weeks, and Product Partner starts at three months.",
+        "We would rather lose a deal than take the wrong one. Wrong scope, wrong timing, or wrong working style — we say it plainly and free both sides to move on.",
     },
     {
-      question: "Can you stay involved after launch?",
+      question: "Can you stay on after launch?",
       answer:
-        "Yes. We can define a post-launch plan or continue through a Product Partner engagement when ongoing iteration, maintenance, or senior product capacity is needed.",
+        "Yes. We can leave a short post-launch plan, or continue through Product Partner when you need iteration, maintenance, or senior product capacity without hiring a full team.",
     },
   ],
 
@@ -399,10 +389,12 @@ export const en = {
   },
 
   WORKS_SECTION: {
-    label: "06 — WHAT WE BUILD",
-    headline: "CAPABILITIES",
+    label: "Capabilities",
+    headline: "Where we ship.",
     subline:
-      "Examples of what we usually build: product systems, brand sites, APIs, and ops tools. Ask for a private walkthrough of named work once we confirm fit.",
+      "Product systems, brand sites, APIs, and ops tools. Ask for a private walkthrough of named work once we confirm fit.",
+    needLabel: "Need",
+    outcomeLabel: "Outcome",
   },
 
   WORKS: [
@@ -449,7 +441,7 @@ export const en = {
   ],
 
   ABOUT: {
-    label: "09 — ABOUT",
+    label: "About",
     headlineLine1: "A SMALL",
     headlineLine2: "SENIOR TEAM",
     body1:
@@ -534,12 +526,13 @@ export const en = {
     offerHeadline: "What we",
     offerHeadlineAccent: "build.",
     offerSubline:
-      "Product engineering, design, and systems from one senior team, with a written scope first.",
+      "Product engineering, design, and systems from one senior team — written scope first, then the work.",
     proofLabel: "03 — METHOD",
     proofHeadline: "Scope on paper.",
     faqLabel: "05 — FAQ",
-    faqHeadline: "Practical questions first.",
-    faqSubline: "Straight answers before we start.",
+    faqHeadline: "Ask before you buy.",
+    faqSubline:
+      "Clear answers on fit, money, ownership, and timelines — so you can decide without a sales maze.",
     openMenu: "Open menu",
     closeMenu: "Close menu",
     contactErrors: {

@@ -12,7 +12,6 @@ import MethodSection from "@/components/MethodSection";
 import PricingSection from "@/components/PricingSection";
 import FaqSection from "@/components/FaqSection";
 import About from "@/components/About";
-import Works from "@/components/Works";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import StickyCta from "@/components/StickyCta";
@@ -31,8 +30,8 @@ const HeroSection = dynamic(() => import("@/components/HeroSection"), {
 
 /**
  * Conversion funnel:
- * Hero → Look → Offer → Featured → Method (03) → Pricing → FAQ
- * → Works → Contact → About.
+ * Hero → Look → Offer+capabilities (01) → Featured (02) → Method (03)
+ * → Pricing (04) → Contact → About → FAQ (05).
  */
 export default function Home() {
   const { loaded, setBonsaiLoaded, progress } = useBonsaiLoad();
@@ -53,10 +52,9 @@ export default function Home() {
           <FeaturedCase />
           <MethodSection />
           <PricingSection />
-          <FaqSection />
-          <Works />
           <Contact />
           <About />
+          <FaqSection />
           <div className="bg-background">
             <Footer />
           </div>

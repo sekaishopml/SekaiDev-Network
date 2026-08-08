@@ -216,10 +216,182 @@
   color: var(--accent, #5c1a33);
 }
 
+/* Capabilities (former 06) — same composition, not a second page */
+.capabilities {
+  margin-top: clamp(3.5rem, 9vh, 5.5rem);
+  padding-top: clamp(2.5rem, 6vh, 3.75rem);
+  border-top: 1px solid rgba(17, 17, 17, 0.14);
+  scroll-margin-top: 5.5rem;
+}
+
+.capHead {
+  max-width: 36rem;
+}
+
+.capEyebrow {
+  display: block;
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(17, 17, 17, 0.45);
+}
+
+.capTitle {
+  margin: 0.75rem 0 0;
+  font-family: var(--font-oswald), sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.85rem, 4.5vw, 2.75rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--foreground, #111);
+}
+
+.capSubline {
+  margin: 0.85rem 0 0;
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  line-height: 1.55;
+  color: rgba(17, 17, 17, 0.65);
+  max-width: 42ch;
+}
+
+.capGrid {
+  margin: clamp(1.75rem, 4vh, 2.75rem) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-top: 1px solid rgba(17, 17, 17, 0.14);
+}
+
+@media (min-width: 768px) {
+  .capGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.capItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: clamp(1.35rem, 3vh, 1.85rem) clamp(0.15rem, 1vw, 0.75rem);
+  border: 0;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.14);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .capItem {
+    padding-right: clamp(1rem, 2vw, 1.75rem);
+  }
+
+  .capGrid > li:nth-child(odd) .capItem {
+    padding-right: clamp(1.25rem, 2.5vw, 2rem);
+    border-right: 1px solid rgba(17, 17, 17, 0.1);
+  }
+
+  .capGrid > li:nth-child(even) .capItem {
+    padding-left: clamp(1.25rem, 2.5vw, 2rem);
+  }
+}
+
+.capItem:hover {
+  background: rgba(17, 17, 17, 0.025);
+}
+
+.capItem:focus-visible {
+  outline: 2px solid var(--accent, #5c1a33);
+  outline-offset: 2px;
+}
+
+.capMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 0.85rem;
+}
+
+.capId {
+  font-size: 0.625rem;
+  letter-spacing: 0.18em;
+  color: rgba(17, 17, 17, 0.4);
+}
+
+.capKind {
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(17, 17, 17, 0.5);
+  border: 1px solid rgba(17, 17, 17, 0.18);
+  padding: 0.2rem 0.45rem;
+}
+
+.capArrow {
+  margin-left: auto;
+  font-size: 1rem;
+  color: rgba(17, 17, 17, 0.35);
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.capItem:hover .capArrow {
+  color: var(--accent, #5c1a33);
+  transform: translateX(3px);
+}
+
+.capName {
+  margin: 0.85rem 0 0;
+  font-family: var(--font-oswald), sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--foreground, #111);
+  transition: color 0.25s ease;
+}
+
+.capItem:hover .capName {
+  color: var(--accent, #5c1a33);
+}
+
+.capTags {
+  margin: 0.4rem 0 0;
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(17, 17, 17, 0.42);
+}
+
+.capFacts {
+  margin: 0.95rem 0 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.capFacts dt {
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(17, 17, 17, 0.42);
+}
+
+.capFacts dd {
+  margin: 0.2rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgba(17, 17, 17, 0.68);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .offerRow,
   .offerIndex,
-  .offerRowTitle {
+  .offerRowTitle,
+  .capItem,
+  .capArrow,
+  .capName {
     transition: none;
   }
 }
