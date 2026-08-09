@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@/hooks/useGsapSafe";
@@ -23,6 +23,12 @@ export default function PricingSection() {
   const t = useT();
   const p = t.PRICING;
 
+  // Lead with the recommended tier — sells better on both rail and grid.
+  const tiers = useMemo(
+    () => [...p.tiers].sort((a, b) => Number(b.featured) - Number(a.featured)),
+    [p.tiers]
+  );
+
   useGSAP(
     () => {
       const root = rootRef.current;
@@ -33,68 +39,65 @@ export default function PricingSection() {
 
       const mm = gsap.matchMedia();
 
-      mm.add(PRICING_SCROLL.reducedMotionQuery, () => {
+      const clearRail = () => {
         gsap.set(track, { clearProps: "transform" });
         if (progress) gsap.set(progress, { scaleX: 1 });
-        root.classList.add(styles.reduced);
-      });
+        resetPricingChrome();
+      };
 
-      mm.add(`(prefers-reduced-motion: no-preference)`, () => {
-        root.classList.remove(styles.reduced);
+      // Desktop + reduced motion: static grid. No pin, no horizontal scrub.
+      mm.add(
+        `${PRICING_SCROLL.desktopQuery}, ${PRICING_SCROLL.reducedMotionQuery}`,
+        () => {
+          clearRail();
+          root.classList.add(styles.staticGrid);
+          root.classList.remove(styles.reduced);
+          return () => {
+            root.classList.remove(styles.staticGrid);
+          };
+        }
+      );
 
-        const desktopMq = window.matchMedia(PRICING_SCROLL.desktopQuery);
-        const mobileNavHide = window.matchMedia("(max-width: 899px)");
+      // Phones/tablets only: pinned horizontal compare rail.
+      mm.add(
+        `(max-width: 899px) and (prefers-reduced-motion: no-preference)`,
+        () => {
+          root.classList.remove(styles.staticGrid, styles.reduced);
 
-        const getTravel = () => {
-          // Measure against the rail viewport when present — pin width alone
-          // over-counts travel on desktop and leaves empty scrub at the end.
-          const rail = pin.querySelector<HTMLElement>(`.${styles.viewport}`);
-          const viewW = rail?.clientWidth || pin.clientWidth;
-          const overflow = Math.max(0, track.scrollWidth - viewW);
-          const floor = desktopMq.matches
-            ? PRICING_SCROLL.minTravelPxDesktop
-            : PRICING_SCROLL.minTravelPx;
-          // Only pad when the track barely overflows; otherwise scrub 1:1.
-          return overflow < 48 ? Math.max(overflow, floor) : overflow;
-        };
+          const getTravel = () => {
+            const rail = pin.querySelector<HTMLElement>(`.${styles.viewport}`);
+            const viewW = rail?.clientWidth || pin.clientWidth;
+            const overflow = Math.max(0, track.scrollWidth - viewW);
+            return overflow < 48
+              ? Math.max(overflow, PRICING_SCROLL.minTravelPx)
+              : overflow;
+          };
 
-        const getEndPad = () =>
-          Math.round(
-            window.innerHeight *
-              (desktopMq.matches
-                ? PRICING_SCROLL.endPadScreensDesktop
-                : PRICING_SCROLL.endPadScreens)
-          );
+          const getEndPad = () =>
+            Math.round(window.innerHeight * PRICING_SCROLL.endPadScreens);
 
-        gsap.set(track, { x: 0, force3D: true });
-        if (progress) gsap.set(progress, { scaleX: 0 });
+          gsap.set(track, { x: 0, force3D: true });
+          if (progress) gsap.set(progress, { scaleX: 0 });
 
-        const syncChrome = (active: boolean) => {
-          setPricingChromeHidden(Boolean(active && mobileNavHide.matches));
-        };
+          const syncChrome = (active: boolean) => {
+            setPricingChromeHidden(Boolean(active));
+          };
 
-        const tween = gsap.to(track, {
-          x: () => -getTravel(),
-          ease: "none",
-          scrollTrigger: {
-            trigger: pin,
-            start: "top top",
-            end: () => `+=${getTravel() + getEndPad()}`,
-            pin: true,
-            pinSpacing: true,
-            scrub: desktopMq.matches
-              ? PRICING_SCROLL.scrubDesktop
-              : PRICING_SCROLL.scrub,
-            // anticipatePin fights Lenis on enter and briefly drops isActive,
-            // which used to snap the nav away via the chrome reverse path.
-            anticipatePin: 0,
-            invalidateOnRefresh: true,
-            // onToggle only — onRefresh can flicker isActive during pin
-            // settle and used to snap the nav via a reverse fromTo.
-            onToggle: (self) => syncChrome(self.isActive),
-            onUpdate: (self) => {
-              if (progress) {
-                // Progress reflects card travel only — ignore the end hold pad.
+          const tween = gsap.to(track, {
+            x: () => -getTravel(),
+            ease: "none",
+            scrollTrigger: {
+              trigger: pin,
+              start: "top top",
+              end: () => `+=${getTravel() + getEndPad()}`,
+              pin: true,
+              pinSpacing: true,
+              scrub: PRICING_SCROLL.scrub,
+              anticipatePin: 0,
+              invalidateOnRefresh: true,
+              onToggle: (self) => syncChrome(self.isActive),
+              onUpdate: (self) => {
+                if (!progress) return;
                 const travel = getTravel();
                 const pad = getEndPad();
                 const total = travel + pad;
@@ -103,28 +106,20 @@ export default function PricingSection() {
                     ? Math.min(1, (self.progress * total) / Math.max(travel, 1))
                     : self.progress;
                 gsap.set(progress, { scaleX: cardProgress });
-              }
+              },
             },
-          },
-        });
+          });
 
-        // Cover load / refresh already inside the pin range.
-        syncChrome(Boolean(tween.scrollTrigger?.isActive));
+          syncChrome(Boolean(tween.scrollTrigger?.isActive));
 
-        const onNavMq = () =>
-          syncChrome(
-            Boolean(tween.scrollTrigger?.isActive && mobileNavHide.matches)
-          );
-        mobileNavHide.addEventListener("change", onNavMq);
-
-        return () => {
-          mobileNavHide.removeEventListener("change", onNavMq);
-          resetPricingChrome();
-          tween.scrollTrigger?.kill();
-          tween.kill();
-          gsap.set(track, { clearProps: "transform" });
-        };
-      });
+          return () => {
+            resetPricingChrome();
+            tween.scrollTrigger?.kill();
+            tween.kill();
+            gsap.set(track, { clearProps: "transform" });
+          };
+        }
+      );
 
       const refresh = () => {
         if (root.isConnected) ScrollTrigger.refresh();
@@ -138,7 +133,7 @@ export default function PricingSection() {
     },
     {
       scope: rootRef,
-      dependencies: [p.headline, p.tiers.length, t.CTAS.pricingFoot],
+      dependencies: [p.headline, tiers.length, t.CTAS.pricingFoot],
     }
   );
 
@@ -175,7 +170,7 @@ export default function PricingSection() {
 
         <div className={styles.viewport}>
           <div ref={trackRef} className={styles.track}>
-            {p.tiers.map((tier) => {
+            {tiers.map((tier) => {
               const featured = Boolean(tier.featured);
               return (
                 <article

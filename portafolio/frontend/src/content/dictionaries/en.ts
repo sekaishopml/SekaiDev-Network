@@ -210,7 +210,7 @@ export const en = {
     sectionLabel: "Pricing",
     headline: "Clear prices. Written quote first.",
     subline:
-      "Starting amounts in USD for Ecuador and LatAm. Scroll to compare. Final number confirmed in writing before we build.",
+      "Starting amounts in USD for Ecuador and LatAm. Final number confirmed in writing before we build.",
     marketNote:
       "Above a template website. Below US agency list rates.",
     offerBanner:
