@@ -2,7 +2,7 @@ import gsap from "gsap";
 
 /**
  * GSAP hide/show for fixed chrome while the pricing pin owns the
- * mobile viewport.
+ * viewport (mobile and desktop).
  *
  * Important: never use fromTo(... { yPercent: -100, autoAlpha: 0 }) for
  * the reveal path. ScrollTrigger pin can flicker isActive for a frame on
@@ -33,16 +33,20 @@ let settleTimer: ReturnType<typeof setTimeout> | null = null;
 
 function targets() {
   const nav = document.querySelector<HTMLElement>("[data-site-nav]");
-  const cta = document.querySelector<HTMLElement>(".sticky-cta-mobile");
-  return { nav, cta };
+  const ctaMobile = document.querySelector<HTMLElement>(".sticky-cta-mobile");
+  const ctaDesktop = document.querySelector<HTMLElement>(
+    "[data-sticky-cta-desktop]"
+  );
+  return { nav, ctaMobile, ctaDesktop };
 }
 
 function applyChrome(hide: boolean) {
   if (hide === hidden) return;
   hidden = hide;
 
-  const { nav, cta } = targets();
-  const nodes = [nav, cta].filter(Boolean) as HTMLElement[];
+  const { nav, ctaMobile, ctaDesktop } = targets();
+  const ctas = [ctaMobile, ctaDesktop].filter(Boolean) as HTMLElement[];
+  const nodes = [nav, ...ctas].filter(Boolean) as HTMLElement[];
   chromeTl?.kill();
 
   // Suspend CSS transitions so GSAP owns the motion cleanly.
@@ -70,9 +74,9 @@ function applyChrome(hide: boolean) {
         0
       );
     }
-    if (cta) {
+    if (ctas.length) {
       chromeTl.to(
-        cta,
+        ctas,
         {
           yPercent: 110,
           autoAlpha: 0,
@@ -102,9 +106,9 @@ function applyChrome(hide: boolean) {
       0
     );
   }
-  if (cta) {
+  if (ctas.length) {
     chromeTl.to(
-      cta,
+      ctas,
       {
         yPercent: 0,
         autoAlpha: 1,
@@ -138,8 +142,8 @@ export function resetPricingChrome() {
   chromeTl = null;
   delete document.documentElement.dataset.pricingPin;
   delete document.documentElement.dataset.pricingChrome;
-  const { nav, cta } = targets();
-  gsap.set([nav, cta].filter(Boolean), {
+  const { nav, ctaMobile, ctaDesktop } = targets();
+  gsap.set([nav, ctaMobile, ctaDesktop].filter(Boolean), {
     clearProps: "transform,opacity,visibility,pointerEvents",
   });
 }

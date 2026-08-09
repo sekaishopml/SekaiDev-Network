@@ -98,6 +98,7 @@ export default function StickyCta() {
     <>
       <button
         type="button"
+        data-sticky-cta-desktop
         onClick={jump}
         aria-label={t.CTAS.primary.label}
         aria-hidden={!show}

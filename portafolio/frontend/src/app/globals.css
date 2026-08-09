@@ -173,7 +173,8 @@ html[data-menu-open="true"] .sticky-cta-mobile {
  * that timeline runs so they don't fight the tween.
  */
 html[data-pricing-chrome="1"] [data-site-nav],
-html[data-pricing-chrome="1"] .sticky-cta-mobile {
+html[data-pricing-chrome="1"] .sticky-cta-mobile,
+html[data-pricing-chrome="1"] [data-sticky-cta-desktop] {
   transition: none !important;
 }
 
