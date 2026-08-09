@@ -53,7 +53,6 @@ export default function PricingSection() {
         root.classList.add(styles.rail);
 
         const desktopMq = window.matchMedia(PRICING_SCROLL.desktopQuery);
-        const mobileNavHide = window.matchMedia("(max-width: 899px)");
 
         const getTravel = () => {
           const rail = pin.querySelector<HTMLElement>(`.${styles.viewport}`);
@@ -81,8 +80,9 @@ export default function PricingSection() {
         gsap.set(track, { x: 0, force3D: true });
         if (progress) gsap.set(progress, { scaleX: 0 });
 
+        /* Same chrome as mobile: hide nav/CTA while the pin owns the viewport. */
         const syncChrome = (active: boolean) => {
-          setPricingChromeHidden(Boolean(active && mobileNavHide.matches));
+          setPricingChromeHidden(Boolean(active));
         };
 
         const tween = gsap.to(track, {
@@ -114,14 +114,7 @@ export default function PricingSection() {
 
         syncChrome(Boolean(tween.scrollTrigger?.isActive));
 
-        const onNavMq = () =>
-          syncChrome(
-            Boolean(tween.scrollTrigger?.isActive && mobileNavHide.matches)
-          );
-        mobileNavHide.addEventListener("change", onNavMq);
-
         return () => {
-          mobileNavHide.removeEventListener("change", onNavMq);
           resetPricingChrome();
           tween.scrollTrigger?.kill();
           tween.kill();
