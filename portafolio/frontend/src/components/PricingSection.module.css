@@ -575,8 +575,9 @@
 
   .viewport {
     flex: 1 1 auto;
-    margin-top: 0.4rem;
+    margin-top: 0.2rem;
     min-height: 0;
+    align-items: flex-start;
     align-items: center;
   }
 
