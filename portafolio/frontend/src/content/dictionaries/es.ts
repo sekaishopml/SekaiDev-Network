@@ -212,14 +212,14 @@ export const es = {
 
   PRICING: {
     sectionLabel: "Precios",
-    headline: "Precios claros. Primero la cotización por escrito.",
+    headline: "Precios claros. Cotización por escrito antes de arrancar.",
     subline:
-      "Montos iniciales en dólares para Ecuador y LatAm. Desliza o haz scroll para comparar. El número final va por escrito.",
+      "Montos de entrada en USD para Ecuador y LatAm. Compara al deslizar — el precio final siempre va por escrito.",
     marketNote:
       "Por encima de una web plantilla. Por debajo de tarifas de agencia en EE. UU.",
     offerBanner:
-      "En cada paquete ves el precio de lista y el precio para ti. Launch Standard suele ser la opción para un producto completo.",
-    scrollHint: "Desliza para comparar paquetes",
+      "Precio de lista vs tu precio en cada paquete. Launch Standard = producto completo.",
+    scrollHint: "Desliza — 4 paquetes",
     disclaimer:
       "Estos son precios de entrada. Alcance, fechas y cotización final van por escrito. Si el trabajo crece, te avisamos antes de subir el precio.",
     recommended: "Recomendable",

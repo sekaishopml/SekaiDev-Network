@@ -11,6 +11,7 @@ import {
   setPricingChromeHidden,
 } from "@/lib/motion/pricingChrome";
 import { PRICING_SCROLL } from "@/lib/motion/pricingScroll";
+import PricingFlora from "./PricingFlora";
 import styles from "./PricingSection.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -53,6 +54,9 @@ export default function PricingSection() {
         root.classList.add(styles.rail);
 
         const desktopMq = window.matchMedia(PRICING_SCROLL.desktopQuery);
+        const floraL = root.querySelector<HTMLElement>(`.${styles.floraLeft}`);
+        const floraR = root.querySelector<HTMLElement>(`.${styles.floraRight}`);
+        const floraB = root.querySelector<HTMLElement>(`.${styles.floraBloom}`);
 
         const getTravel = () => {
           const rail = pin.querySelector<HTMLElement>(`.${styles.viewport}`);
@@ -61,7 +65,11 @@ export default function PricingSection() {
           const floor = desktopMq.matches
             ? PRICING_SCROLL.minTravelPxDesktop
             : PRICING_SCROLL.minTravelPx;
-          return overflow < 32 ? Math.max(overflow, floor) : overflow;
+          const mult = desktopMq.matches
+            ? PRICING_SCROLL.travelMultiplierDesktop
+            : PRICING_SCROLL.travelMultiplierMobile;
+          if (overflow < 32) return Math.max(overflow, floor);
+          return Math.max(overflow * mult, floor);
         };
 
         const getEndPad = () =>
@@ -72,6 +80,17 @@ export default function PricingSection() {
                 : PRICING_SCROLL.endPadScreens)
           );
 
+        const getPinDistance = () => {
+          const travel = getTravel();
+          const pad = getEndPad();
+          if (!desktopMq.matches) return travel + pad;
+          const vh = window.innerHeight;
+          const stretched = travel + pad;
+          const min = vh * PRICING_SCROLL.targetScreensDesktopMin;
+          const max = vh * PRICING_SCROLL.targetScreensDesktopMax;
+          return Math.round(Math.min(max, Math.max(stretched, min)));
+        };
+
         const getScrub = () =>
           desktopMq.matches
             ? PRICING_SCROLL.scrubDesktop
@@ -79,8 +98,12 @@ export default function PricingSection() {
 
         gsap.set(track, { x: 0, force3D: true });
         if (progress) gsap.set(progress, { scaleX: 0 });
+        gsap.set([floraL, floraR, floraB].filter(Boolean), {
+          opacity: 0,
+          x: 0,
+          force3D: true,
+        });
 
-        /* Same chrome as mobile: hide nav/CTA while the pin owns the viewport. */
         const syncChrome = (active: boolean) => {
           setPricingChromeHidden(Boolean(active));
         };
@@ -91,7 +114,7 @@ export default function PricingSection() {
           scrollTrigger: {
             trigger: pin,
             start: "top top",
-            end: () => `+=${getTravel() + getEndPad()}`,
+            end: () => `+=${getPinDistance()}`,
             pin: true,
             pinSpacing: true,
             scrub: getScrub(),
@@ -99,15 +122,42 @@ export default function PricingSection() {
             invalidateOnRefresh: true,
             onToggle: (self) => syncChrome(self.isActive),
             onUpdate: (self) => {
-              if (!progress) return;
+              const pScroll = self.progress;
               const travel = getTravel();
-              const pad = getEndPad();
-              const total = travel + pad;
-              const cardProgress =
-                total > 0
-                  ? Math.min(1, (self.progress * total) / Math.max(travel, 1))
-                  : self.progress;
-              gsap.set(progress, { scaleX: cardProgress });
+              const total = getPinDistance();
+              if (progress) {
+                const cardProgress =
+                  total > 0
+                    ? Math.min(1, (pScroll * total) / Math.max(travel, 1))
+                    : pScroll;
+                gsap.set(progress, { scaleX: cardProgress });
+              }
+
+              /* Botanical reveal beats — gsap.set only, no per-frame tweens. */
+              if (floraL) {
+                const enter = Math.min(1, pScroll / 0.12);
+                gsap.set(floraL, {
+                  opacity: 0.42 * enter,
+                  x: (1 - enter) * -28,
+                  force3D: true,
+                });
+              }
+              if (floraR) {
+                const grow = Math.max(0, Math.min(1, (pScroll - 0.12) / 0.72));
+                gsap.set(floraR, {
+                  opacity: 0.34 * grow,
+                  x: (1 - grow) * 24,
+                  force3D: true,
+                });
+              }
+              if (floraB) {
+                const bloom = Math.max(0, Math.min(1, (pScroll - 0.08) / 0.35));
+                gsap.set(floraB, {
+                  opacity: 0.22 * bloom,
+                  scale: 0.85 + bloom * 0.15,
+                  force3D: true,
+                });
+              }
             },
           },
         });
@@ -119,6 +169,9 @@ export default function PricingSection() {
           tween.scrollTrigger?.kill();
           tween.kill();
           gsap.set(track, { clearProps: "transform" });
+          gsap.set([floraL, floraR, floraB].filter(Boolean), {
+            clearProps: "transform,opacity",
+          });
           root.classList.remove(styles.rail);
         };
       });
@@ -153,6 +206,12 @@ export default function PricingSection() {
       <div className={styles.atmosphere} aria-hidden="true" />
 
       <div ref={pinRef} className={styles.pin}>
+        <PricingFlora
+          leftClassName={styles.floraLeft}
+          rightClassName={styles.floraRight}
+          bloomClassName={styles.floraBloom}
+        />
+
         <header className={styles.head}>
           <span className={styles.eyebrow}>04 — {p.sectionLabel}</span>
           <h2 id="pricing-heading" className={styles.title}>
@@ -168,6 +227,7 @@ export default function PricingSection() {
           <div className={styles.progressTrack}>
             <span ref={progressRef} className={styles.progressFill} />
           </div>
+          <span className={styles.tierCount}>1–{tiers.length}</span>
         </div>
 
         <div className={styles.viewport}>

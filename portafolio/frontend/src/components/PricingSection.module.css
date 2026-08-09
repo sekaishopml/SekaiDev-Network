@@ -13,9 +13,44 @@
   pointer-events: none;
   z-index: 0;
   background:
-    linear-gradient(180deg, rgba(92, 26, 51, 0.18) 0%, transparent 38%),
-    linear-gradient(105deg, transparent 44%, rgba(255, 255, 255, 0.03) 44.5%, transparent 45%),
-    #0c0c0e;
+    radial-gradient(ellipse 70% 45% at 12% 22%, rgba(92, 26, 51, 0.42), transparent 62%),
+    radial-gradient(ellipse 55% 50% at 88% 68%, rgba(196, 122, 146, 0.16), transparent 58%),
+    radial-gradient(ellipse 90% 40% at 50% 100%, rgba(58, 30, 42, 0.55), transparent 70%),
+    linear-gradient(180deg, #1a1216 0%, #121014 42%, #0e0c0e 100%);
+}
+
+/* Edge flora — under content, never over card copy */
+.floraLeft,
+.floraRight,
+.floraBloom {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  color: #e8a0b7;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.floraLeft {
+  left: clamp(-0.5rem, 0.5vw, 0.75rem);
+  top: 14%;
+  height: min(72%, 36rem);
+  width: min(7.5rem, 10vw);
+}
+
+.floraRight {
+  right: clamp(-0.25rem, 0.8vw, 0.75rem);
+  top: 18%;
+  height: min(68%, 34rem);
+  width: min(6.5rem, 9vw);
+}
+
+.floraBloom {
+  right: clamp(4rem, 12vw, 10rem);
+  bottom: 12%;
+  width: min(3.5rem, 5vw);
+  height: auto;
+  color: #c47a92;
 }
 
 .atmosphere::after {
@@ -36,11 +71,11 @@
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   padding:
-    calc(4.25rem + env(safe-area-inset-top, 0px))
+    calc(3.25rem + env(safe-area-inset-top, 0px))
     0
-    calc(2rem + env(safe-area-inset-bottom, 0px));
+    calc(1.25rem + env(safe-area-inset-bottom, 0px));
 }
 
 .head {
@@ -106,8 +141,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  margin-top: 1.35rem;
+  gap: 0.85rem;
+  margin-top: 0.65rem;
   padding: 0 clamp(1.25rem, 4vw, 3.25rem);
   flex-shrink: 0;
 }
@@ -116,13 +151,26 @@
   font-size: 0.6rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(240, 235, 230, 0.42);
+  color: rgba(240, 235, 230, 0.58);
+}
+
+.hint::after {
+  content: " →";
+  color: rgba(232, 150, 175, 0.75);
+}
+
+.tierCount {
+  flex-shrink: 0;
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(232, 150, 175, 0.65);
 }
 
 .progressTrack {
   flex: 1;
-  max-width: 16rem;
-  height: 2px;
+  max-width: 22rem;
+  height: 3px;
   background: rgba(240, 235, 230, 0.12);
   overflow: hidden;
 }
@@ -131,7 +179,8 @@
   display: block;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, rgba(232, 150, 175, 0.35), rgba(232, 150, 175, 0.95));
+  background: linear-gradient(90deg, rgba(232, 150, 175, 0.35), #e9a9bf);
+  box-shadow: 0 0 10px rgba(233, 169, 191, 0.35);
   transform: scaleX(0);
   transform-origin: left center;
   will-change: transform;
@@ -139,12 +188,13 @@
 
 .viewport {
   position: relative;
+  z-index: 1;
   flex: 1 1 auto;
   min-height: 0;
-  margin-top: 1.35rem;
+  margin-top: 0.45rem;
   overflow: hidden;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .track {
@@ -178,15 +228,18 @@
 
 .cardFeatured {
   width: min(88vw, 26rem);
-  border-color: rgba(232, 150, 175, 0.5);
+  border-color: rgba(233, 169, 191, 0.58);
   background:
     linear-gradient(
       165deg,
-      rgba(58, 30, 42, 0.65) 0%,
+      rgba(58, 30, 42, 0.72) 0%,
       rgba(18, 14, 16, 0.98) 48%,
       rgba(12, 12, 14, 0.99) 100%
     );
-  box-shadow: inset 0 0 0 1px rgba(255, 205, 221, 0.08);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 205, 221, 0.1),
+    0 0 48px rgba(233, 169, 191, 0.14),
+    0 16px 40px rgba(0, 0, 0, 0.4);
 }
 
 .cardTop {
@@ -212,6 +265,7 @@
   color: #1a1014;
   background: #e9a9bf;
   border: 0;
+  animation: badgePulse 2.8s ease-in-out infinite;
   padding: 0.4rem 0.65rem;
   font-weight: 600;
 }
@@ -444,9 +498,9 @@
     max-height: 100svh;
     justify-content: flex-start;
     padding:
-      calc(2.55rem + env(safe-area-inset-top, 0px))
+      calc(2rem + env(safe-area-inset-top, 0px))
       0
-      calc(0.55rem + env(safe-area-inset-bottom, 0px));
+      calc(0.5rem + env(safe-area-inset-bottom, 0px));
     gap: 0;
     /* Match pricingChrome hide so layout breathes with the nav. */
     transition:
@@ -456,8 +510,21 @@
 
   /* Nav is hidden while pinned — reclaim that top band for the rail. */
   :global(html[data-pricing-pin="true"]) .pin {
-    padding-top: calc(0.65rem + env(safe-area-inset-top, 0px));
-    padding-bottom: calc(0.7rem + env(safe-area-inset-bottom, 0px));
+    padding-top: calc(0.5rem + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(0.55rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .floraRight,
+  .floraBloom {
+    display: none;
+  }
+
+  .floraLeft {
+    width: 38vw;
+    height: 55%;
+    bottom: 10%;
+    top: auto;
+    opacity: 0.12;
   }
 
   .head {
@@ -498,7 +565,7 @@
   }
 
   .railMeta {
-    margin-top: 0.35rem;
+    margin-top: 0.25rem;
     padding: 0 1.15rem;
   }
 
@@ -540,17 +607,17 @@
 
   .name {
     margin-top: 0.5rem;
-    font-size: 1.4rem;
+    font-size: 1.55rem;
   }
 
   .cardFeatured .name {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
   }
 
   .tagline {
     margin-top: 0.28rem;
-    font-size: 0.78rem;
-    line-height: 1.3;
+    font-size: 0.85rem;
+    line-height: 1.35;
   }
 
   .priceBlock {
@@ -676,14 +743,17 @@
 /* Desktop rail: same pin logic as mobile — nav hides, cards show full offer */
 @media (min-width: 900px) {
   .rail .pin {
+    --pricing-head: 18%;
+    --pricing-rail: 72%;
+    --pricing-foot: 10%;
     min-height: 100vh;
     height: 100vh;
     max-height: 100vh;
     justify-content: flex-start;
     padding:
-      calc(4.75rem + env(safe-area-inset-top, 0px))
+      calc(3rem + env(safe-area-inset-top, 0px))
       0
-      calc(0.85rem + env(safe-area-inset-bottom, 0px));
+      calc(0.7rem + env(safe-area-inset-bottom, 0px));
     gap: 0;
     transition:
       padding-top 1.35s cubic-bezier(0.33, 1, 0.68, 1),
@@ -692,12 +762,22 @@
 
   /* Nav is hidden while pinned — reclaim the top band for the rail. */
   :global(html[data-pricing-pin="true"]) .rail .pin {
-    padding-top: calc(1.1rem + env(safe-area-inset-top, 0px));
-    padding-bottom: calc(0.85rem + env(safe-area-inset-bottom, 0px));
+    padding-top: calc(0.7rem + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(0.65rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .rail .floraLeft {
+    opacity: 0.2;
+  }
+
+  .rail .floraRight {
+    opacity: 0.16;
   }
 
   .rail .head {
-    max-width: 36rem;
+    flex: 0 0 auto;
+    max-width: 38rem;
+    max-height: calc(var(--pricing-head) - 2rem);
     padding: 0 clamp(1.5rem, 4vw, 3rem);
   }
 
@@ -707,17 +787,17 @@
   }
 
   .rail .title {
-    margin-top: var(--stack-eyebrow);
-    font-size: clamp(2.35rem, 4vw, 3.35rem);
+    margin-top: 0.45rem;
+    font-size: clamp(2.15rem, 3.6vw, 3rem);
     max-width: 18ch;
     line-height: var(--type-title-lh);
     letter-spacing: var(--type-title-tracking);
   }
 
   .rail .subline {
-    margin-top: 0.55rem;
-    font-size: var(--type-sub);
-    line-height: var(--type-sub-lh);
+    margin-top: 0.35rem;
+    font-size: clamp(0.88rem, 1.2vw, 1rem);
+    line-height: 1.4;
     max-width: 34rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -735,20 +815,21 @@
   }
 
   .rail .railMeta {
-    margin-top: 0.45rem;
+    margin-top: 0.3rem;
     padding: 0 clamp(1.5rem, 4vw, 3rem);
   }
 
   .rail .hint {
-    font-size: 0.55rem;
+    font-size: 0.58rem;
   }
 
   .rail .viewport {
     flex: 1 1 auto;
     min-height: 0;
     height: auto;
-    margin-top: 0.55rem;
-    align-items: center;
+    max-height: var(--pricing-rail);
+    margin-top: 0.25rem;
+    align-items: flex-start;
   }
 
   .rail .track {
@@ -786,18 +867,18 @@
   }
 
   .rail .name {
-    margin-top: 0.45rem;
-    font-size: 1.45rem;
+    margin-top: 0.5rem;
+    font-size: 1.65rem;
   }
 
   .rail .cardFeatured .name {
-    font-size: 1.6rem;
+    font-size: 1.85rem;
   }
 
   .rail .tagline {
-    margin-top: 0.25rem;
-    font-size: 0.78rem;
-    line-height: 1.3;
+    margin-top: 0.3rem;
+    font-size: 0.875rem;
+    line-height: 1.35;
   }
 
   /* Drop the heavy price “central line” — keep spacing, sell the number. */
@@ -874,9 +955,12 @@
   }
 
   .rail .foot {
-    flex-shrink: 0;
-    margin-top: 0.45rem;
-    padding: 0.35rem clamp(1.5rem, 4vw, 3rem) 0;
+    flex: 0 0 auto;
+    max-height: var(--pricing-foot);
+    margin-top: 0.2rem;
+    padding: 0.25rem clamp(1.5rem, 4vw, 3rem) 0;
+    display: flex;
+    align-items: center;
   }
 
   .rail .disclaimer {
@@ -980,4 +1064,33 @@
 
 .reduced .progressFill {
   will-change: auto;
+}
+
+.reduced .floraLeft,
+.reduced .floraRight,
+.reduced .floraBloom {
+  opacity: 0.08;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge {
+    animation: none;
+  }
+
+  .floraLeft,
+  .floraRight,
+  .floraBloom {
+    transform: none !important;
+  }
+}
+
+@keyframes badgePulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(233, 169, 191, 0);
+  }
+  50% {
+    box-shadow: 0 0 14px rgba(233, 169, 191, 0.4);
+  }
 }

@@ -208,14 +208,14 @@ export const en = {
 
   PRICING: {
     sectionLabel: "Pricing",
-    headline: "Clear prices. Written quote first.",
+    headline: "Clear prices. Written quote before we start.",
     subline:
-      "Starting amounts in USD for Ecuador and LatAm. Scroll to compare packages. Final number confirmed in writing.",
+      "Starting amounts in USD for Ecuador and LatAm. Scroll to compare — the final number always comes in writing.",
     marketNote:
       "Above a template website. Below US agency list rates.",
     offerBanner:
-      "Each package shows list price and your price. Launch Standard is usually the pick for a full product.",
-    scrollHint: "Scroll to compare packages",
+      "List price vs your price on every package. Launch Standard = the full product.",
+    scrollHint: "Scroll — 4 packages",
     disclaimer:
       "These are starting prices. Scope, dates, and final quote come in writing. If the work grows, we tell you before the price moves.",
     recommended: "Recommended",
