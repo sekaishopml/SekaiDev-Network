@@ -134,21 +134,21 @@
 
 .eyebrow {
   display: block;
-  font-size: 0.6875rem;
-  letter-spacing: 0.22em;
+  font-size: var(--type-eyebrow);
+  letter-spacing: var(--type-eyebrow-tracking);
   text-transform: uppercase;
   color: rgba(240, 235, 230, 0.45);
   will-change: transform, opacity;
 }
 
 .title {
-  margin: 0.55rem 0 0;
+  margin: var(--stack-eyebrow) 0 0;
   font-family: var(--font-oswald), sans-serif;
   font-weight: 700;
   max-width: 100%;
-  font-size: clamp(2.5rem, 12vw, 4rem);
-  line-height: 0.94;
-  letter-spacing: -0.04em;
+  font-size: var(--type-title);
+  line-height: var(--type-title-lh);
+  letter-spacing: var(--type-title-tracking);
   text-transform: uppercase;
   color: #f0ebe6;
   overflow-wrap: normal;
@@ -551,9 +551,9 @@
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  min-height: 44px;
-  font-size: 0.6875rem;
-  letter-spacing: 0.18em;
+  min-height: var(--type-cta-min-h);
+  font-size: var(--type-cta);
+  letter-spacing: var(--type-cta-tracking);
   text-transform: uppercase;
   color: #f0ebe6;
   border-bottom: 1px solid rgba(240, 235, 230, 0.35);
@@ -653,9 +653,9 @@
   }
 
   .title {
-    font-size: clamp(3.5rem, 6vw, 5.5rem);
-    line-height: 0.88;
-    letter-spacing: -0.05em;
+    font-size: var(--type-title);
+    line-height: var(--type-title-lh);
+    letter-spacing: var(--type-title-tracking);
     will-change: transform, opacity;
   }
 

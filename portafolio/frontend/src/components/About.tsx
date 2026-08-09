@@ -14,21 +14,46 @@ export default function About() {
     <section
       ref={rootRef}
       id="about"
-      className="min-h-[70vh] w-full px-6 md:px-12 pt-28 md:pt-32 pb-16 flex flex-col justify-center bg-background"
+      className="w-full flex flex-col justify-center bg-background"
+      style={{
+        paddingTop: "var(--section-pad-y)",
+        paddingBottom: "var(--section-pad-y-bottom)",
+        paddingLeft: "var(--gutter-x)",
+        paddingRight: "var(--gutter-x)",
+        minHeight: "min(70svh, 40rem)",
+      }}
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-start">
         <div data-reveal>
-          <span className="text-muted text-xs tracking-widest">
+          <span
+            className="text-muted uppercase block"
+            style={{
+              fontSize: "var(--type-eyebrow)",
+              letterSpacing: "var(--type-eyebrow-tracking)",
+            }}
+          >
             {t.ABOUT.label}
           </span>
-          <h2 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold mt-4 leading-tight">
+          <h2
+            className="font-display font-bold uppercase"
+            style={{
+              marginTop: "var(--stack-eyebrow)",
+              fontSize: "var(--type-title)",
+              lineHeight: "var(--type-title-lh)",
+              letterSpacing: "var(--type-title-tracking)",
+            }}
+          >
             {t.ABOUT.headlineLine1}
             <br />
             {t.ABOUT.headlineLine2}
           </h2>
         </div>
         <div
-          className="text-sm md:text-base lg:text-lg leading-relaxed text-foreground/80"
+          className="text-foreground/80"
+          style={{
+            fontSize: "var(--type-body)",
+            lineHeight: "var(--type-body-lh)",
+          }}
           data-reveal
         >
           <p className="mb-4">{t.ABOUT.body1}</p>

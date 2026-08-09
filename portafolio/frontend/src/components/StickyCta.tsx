@@ -103,11 +103,16 @@ export default function StickyCta() {
         aria-label={t.CTAS.primary.label}
         aria-hidden={!show}
         tabIndex={show ? 0 : -1}
-        className={`hidden md:block fixed right-6 bottom-8 z-40 px-5 py-3 min-h-[44px] bg-accent text-white text-[10px] tracking-widest font-medium shadow-lg transition-[opacity,transform] duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+        className={`hidden md:block fixed right-6 bottom-8 z-40 px-5 py-3 bg-accent text-white uppercase font-medium shadow-lg transition-[opacity,transform] duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
           show
             ? "opacity-100 translate-y-0"
             : "opacity-0 translate-y-3 pointer-events-none"
         }`}
+        style={{
+          fontSize: "var(--type-cta)",
+          letterSpacing: "var(--type-cta-tracking)",
+          minHeight: "var(--type-cta-min-h)",
+        }}
       >
         {label}
       </button>
@@ -126,7 +131,12 @@ export default function StickyCta() {
             type="button"
             onClick={jump}
             tabIndex={show ? 0 : -1}
-            className="w-full min-h-[44px] py-3 bg-accent text-white text-xs tracking-widest font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            className="w-full py-3 bg-accent text-white uppercase font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            style={{
+              fontSize: "var(--type-cta)",
+              letterSpacing: "var(--type-cta-tracking)",
+              minHeight: "var(--type-cta-min-h)",
+            }}
           >
             {label}
           </button>

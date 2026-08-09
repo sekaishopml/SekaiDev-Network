@@ -12,9 +12,9 @@
   background: var(--offer-stone);
   border-top: 1px solid var(--offer-line);
   padding:
-    clamp(4.25rem, 9vh, 6.5rem)
-    clamp(1.25rem, 4vw, 3rem)
-    calc(clamp(3.75rem, 7vh, 5.5rem) + env(safe-area-inset-bottom, 0px));
+    var(--section-pad-y)
+    var(--gutter-x)
+    calc(var(--section-pad-y-bottom) + env(safe-area-inset-bottom, 0px));
 }
 
 /* Quiet stone wash — no candy gradients */
@@ -63,19 +63,19 @@
 
 .offerEyebrow {
   display: block;
-  font-size: 0.6875rem;
-  letter-spacing: 0.22em;
+  font-size: var(--type-eyebrow);
+  letter-spacing: var(--type-eyebrow-tracking);
   text-transform: uppercase;
   color: rgba(22, 20, 22, 0.42);
 }
 
 .offerTitle {
-  margin: 0.75rem 0 0;
+  margin: var(--stack-eyebrow) 0 0;
   font-family: var(--font-oswald), sans-serif;
   font-weight: 700;
-  font-size: clamp(2.65rem, 7.5vw, 5.25rem);
-  line-height: 0.92;
-  letter-spacing: -0.04em;
+  font-size: var(--type-title);
+  line-height: var(--type-title-lh);
+  letter-spacing: var(--type-title-tracking);
   text-transform: uppercase;
   color: var(--offer-ink);
 }
@@ -99,8 +99,8 @@
 
 .offerSubline {
   margin: 0;
-  font-size: clamp(0.9375rem, 1.55vw, 1.05rem);
-  line-height: 1.55;
+  font-size: var(--type-sub);
+  line-height: var(--type-sub-lh);
   color: var(--offer-mute);
   max-width: 32ch;
 }
@@ -290,10 +290,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
+  min-height: var(--type-cta-min-h);
   padding: 0.75rem 1.85rem;
-  font-size: 0.6875rem;
-  letter-spacing: 0.18em;
+  font-size: var(--type-cta);
+  letter-spacing: var(--type-cta-tracking);
   font-weight: 500;
   text-transform: uppercase;
   border: 1px solid transparent;

@@ -5,9 +5,9 @@
   background: var(--background, #d6d6d6);
   border-top: 1px solid rgba(17, 17, 17, 0.1);
   padding:
-    clamp(4rem, 9vh, 6.5rem)
-    clamp(1.25rem, 4vw, 3rem)
-    calc(clamp(4rem, 8vh, 5.5rem) + env(safe-area-inset-bottom, 0px));
+    var(--section-pad-y)
+    var(--gutter-x)
+    calc(var(--section-pad-y-bottom) + env(safe-area-inset-bottom, 0px));
 }
 
 .atmosphere {
@@ -48,27 +48,27 @@
 
 .eyebrow {
   display: block;
-  font-size: 0.6875rem;
-  letter-spacing: 0.22em;
+  font-size: var(--type-eyebrow);
+  letter-spacing: var(--type-eyebrow-tracking);
   text-transform: uppercase;
   color: rgba(17, 17, 17, 0.45);
 }
 
 .title {
-  margin: 0.85rem 0 0;
+  margin: var(--stack-eyebrow) 0 0;
   font-family: var(--font-oswald), sans-serif;
   font-weight: 700;
-  font-size: clamp(2.35rem, 6vw, 3.75rem);
-  line-height: 0.95;
-  letter-spacing: -0.035em;
+  font-size: var(--type-title);
+  line-height: var(--type-title-lh);
+  letter-spacing: var(--type-title-tracking);
   text-transform: uppercase;
   color: var(--foreground, #111);
 }
 
 .subline {
-  margin: 1rem 0 0;
-  font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
-  line-height: 1.55;
+  margin: var(--stack-sub) 0 0;
+  font-size: var(--type-sub);
+  line-height: var(--type-sub-lh);
   color: rgba(17, 17, 17, 0.68);
   max-width: 34ch;
 }
@@ -89,10 +89,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
+  min-height: var(--type-cta-min-h);
   padding: 0.75rem 1.75rem;
-  font-size: 0.6875rem;
-  letter-spacing: 0.18em;
+  font-size: var(--type-cta);
+  letter-spacing: var(--type-cta-tracking);
   font-weight: 500;
   text-transform: uppercase;
   background: var(--accent, #5c1a33);

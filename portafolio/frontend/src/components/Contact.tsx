@@ -172,19 +172,47 @@ export default function Contact({ footer }: ContactProps) {
     <section
       ref={rootRef}
       id="contact"
-      className="relative min-h-screen w-full px-6 md:px-12 pt-28 md:pt-32 pb-28 md:pb-20 flex flex-col justify-between bg-background"
+      className="relative w-full flex flex-col justify-between bg-background"
+      style={{
+        paddingTop: "var(--section-pad-y)",
+        paddingBottom: "calc(var(--section-pad-y-bottom) + env(safe-area-inset-bottom, 0px))",
+        paddingLeft: "var(--gutter-x)",
+        paddingRight: "var(--gutter-x)",
+        minHeight: "min(100svh, 56rem)",
+      }}
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
         <div data-reveal>
-          <span className="text-muted text-xs tracking-widest">
+          <span
+            className="text-muted uppercase block"
+            style={{
+              fontSize: "var(--type-eyebrow)",
+              letterSpacing: "var(--type-eyebrow-tracking)",
+            }}
+          >
             {t.CONTACT_COPY.sectionLabel.toUpperCase()}
           </span>
-          <h2 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold mt-4 leading-tight">
+          <h2
+            className="font-display font-bold uppercase"
+            style={{
+              marginTop: "var(--stack-eyebrow)",
+              fontSize: "var(--type-title)",
+              lineHeight: "var(--type-title-lh)",
+              letterSpacing: "var(--type-title-tracking)",
+            }}
+          >
             {t.CONTACT_COPY.headlineLine1}
             <br />
             {t.CONTACT_COPY.headlineLine2}
           </h2>
-          <p className="mt-4 md:mt-6 text-sm md:text-base text-foreground/80 max-w-md">
+          <p
+            className="text-foreground/80 max-w-md"
+            style={{
+              marginTop: "var(--stack-sub)",
+              fontSize: "var(--type-sub)",
+              lineHeight: "var(--type-sub-lh)",
+            }}
+          >
             {t.CONTACT_COPY.subline}
           </p>
 
@@ -459,7 +487,12 @@ export default function Contact({ footer }: ContactProps) {
             <button
               type="submit"
               disabled={status === "sending"}
-              className="mt-1 self-start w-full md:w-auto px-8 py-3 bg-accent text-white border border-accent text-[10px] md:text-xs tracking-widest font-medium hover:bg-foreground hover:border-foreground transition-colors disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              className="mt-1 self-start w-full md:w-auto px-8 py-3 bg-accent text-white border border-accent font-medium hover:bg-foreground hover:border-foreground transition-colors disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent uppercase"
+              style={{
+                fontSize: "var(--type-cta)",
+                letterSpacing: "var(--type-cta-tracking)",
+                minHeight: "var(--type-cta-min-h)",
+              }}
             >
               {status === "sending"
                 ? t.CONTACT_COPY.submit.sending.toUpperCase()
