@@ -24,12 +24,33 @@
   height: 100%;
   border-radius: 3px;
   border: 2px solid rgba(26, 20, 24, 0.55);
-  background: #ffffff;
+  background:
+    linear-gradient(180deg, #f7f5f4 0%, #ffffff 28%, #faf8f7 100%);
   box-shadow:
     0 6px 18px rgba(26, 20, 24, 0.12),
     0 0 0 1px rgba(255, 255, 255, 0.4) inset;
   transform-origin: center center;
   overflow: visible;
+}
+
+.chrome {
+  position: absolute;
+  top: 4%;
+  left: 3.5%;
+  display: flex;
+  gap: 4px;
+  z-index: 2;
+}
+
+.chrome span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(26, 20, 24, 0.18);
+}
+
+.chrome span:nth-child(1) {
+  background: rgba(92, 26, 51, 0.55);
 }
 
 .handle {
@@ -88,16 +109,16 @@
   position: absolute;
   left: 3.5%;
   right: 3.5%;
-  top: 9%;
-  height: 18%;
+  top: 12%;
+  height: 14%;
   border-radius: 2px;
   background:
     linear-gradient(
       90deg,
-      rgba(26, 20, 24, 0.88) 0%,
-      rgba(26, 20, 24, 0.88) 22%,
-      #ececec 22%,
-      #ececec 100%
+      rgba(26, 20, 24, 0.9) 0%,
+      rgba(26, 20, 24, 0.9) 20%,
+      #ebe7e4 20%,
+      #ebe7e4 100%
     );
   border: 1px solid rgba(26, 20, 24, 0.35);
   transform-origin: left center;
@@ -107,76 +128,120 @@
 .panel {
   position: absolute;
   left: 3.5%;
-  top: 32%;
-  bottom: 7%;
-  width: 28%;
+  top: 30%;
+  bottom: 6%;
+  width: 27%;
   border-radius: 2px;
-  background: #f0f0f0;
+  background:
+    linear-gradient(180deg, #ece8e5 0%, #e4dfdb 100%);
   border: 1px solid rgba(26, 20, 24, 0.4);
   transform-origin: top center;
-  opacity: 0;
-}
-
-.panel::before,
-.panel::after {
-  content: "";
-  position: absolute;
-  left: 12%;
-  right: 12%;
-  height: 8%;
-  border-radius: 1px;
-  background: rgba(26, 20, 24, 0.28);
-}
-
-.panel::before {
-  top: 12%;
-}
-.panel::after {
-  top: 28%;
-  width: 58%;
-  right: auto;
-}
-
-.card {
-  position: absolute;
-  left: 33.5%;
-  right: 3.5%;
-  top: 32%;
-  bottom: 7%;
-  border-radius: 2px;
-  background: #fafafa;
-  border: 1px solid rgba(26, 20, 24, 0.4);
   opacity: 0;
   overflow: hidden;
 }
 
-.cardLine {
+.navItem {
   position: absolute;
-  left: 8%;
+  left: 12%;
+  right: 12%;
   height: 7%;
   border-radius: 1px;
   background: rgba(26, 20, 24, 0.22);
 }
 
-.cardLine:nth-child(1) {
+.navItem:nth-child(1) {
   top: 12%;
-  width: 66%;
+  background: rgba(92, 26, 51, 0.55);
+  width: 62%;
+  right: auto;
 }
+.navItem:nth-child(2) {
+  top: 28%;
+}
+.navItem:nth-child(3) {
+  top: 44%;
+  width: 70%;
+  right: auto;
+}
+.navItem:nth-child(4) {
+  top: 60%;
+  width: 52%;
+  right: auto;
+}
+
+.card {
+  position: absolute;
+  left: 33%;
+  right: 3.5%;
+  top: 30%;
+  bottom: 6%;
+  border-radius: 2px;
+  background: #fffcfa;
+  border: 1px solid rgba(26, 20, 24, 0.4);
+  opacity: 0;
+  overflow: hidden;
+}
+
+.cardHero {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  top: 8%;
+  height: 28%;
+  border-radius: 2px;
+  background:
+    linear-gradient(
+      125deg,
+      rgba(232, 150, 175, 0.55) 0%,
+      rgba(160, 190, 230, 0.35) 48%,
+      rgba(240, 200, 150, 0.4) 100%
+    );
+}
+
+.cardLine {
+  position: absolute;
+  left: 7%;
+  height: 5.5%;
+  border-radius: 1px;
+  background: rgba(26, 20, 24, 0.2);
+}
+
 .cardLine:nth-child(2) {
-  top: 26%;
-  width: 50%;
+  top: 42%;
+  width: 58%;
 }
 .cardLine:nth-child(3) {
-  top: 40%;
-  width: 58%;
+  top: 51%;
+  width: 44%;
+}
+.cardLine:nth-child(4) {
+  top: 60%;
+  width: 50%;
+}
+
+.metrics {
+  position: absolute;
+  left: 7%;
+  right: 36%;
+  bottom: 12%;
+  display: flex;
+  gap: 4%;
+  height: 14%;
+}
+
+.metrics span {
+  flex: 1;
+  border-radius: 1px;
+  background: rgba(26, 20, 24, 0.1);
+  border: 1px solid rgba(26, 20, 24, 0.12);
 }
 
 .btn {
   position: absolute;
-  right: 8%;
+  right: 7%;
   bottom: 10%;
-  width: 36%;
-  height: 22%;
+  width: 28%;
+  height: 16%;
   min-height: 10px;
   border-radius: 2px;
   background: var(--accent, #5c1a33);
@@ -215,45 +280,67 @@
 
 @media (min-width: 768px) {
   .stage {
-    padding: 0.55rem 0.7rem 1.25rem;
+    padding: 0.7rem 0.85rem 1.4rem;
   }
 
   .caption {
-    left: 0.7rem;
-    bottom: 0.2rem;
-    font-size: 0.6rem;
+    left: 0.85rem;
+    bottom: 0.25rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.24em;
   }
 
   .artboard {
     border-radius: 4px;
+    border-width: 2.5px;
+  }
+
+  .chrome {
+    top: 3.5%;
+    left: 3%;
+    gap: 5px;
+  }
+
+  .chrome span {
+    width: 8px;
+    height: 8px;
   }
 
   .header {
     left: 3%;
     right: 3%;
-    top: 8%;
-    height: 17%;
+    top: 11%;
+    height: 13%;
   }
 
   .panel {
     left: 3%;
-    top: 30%;
-    bottom: 6%;
-    width: 29%;
+    top: 28%;
+    bottom: 5%;
+    width: 28%;
   }
 
   .card {
-    left: 33.5%;
+    left: 33%;
     right: 3%;
-    top: 30%;
-    bottom: 6%;
+    top: 28%;
+    bottom: 5%;
+  }
+
+  .cardHero {
+    height: 30%;
   }
 
   .btn {
-    right: 7%;
+    right: 6%;
     bottom: 9%;
-    width: 34%;
-    height: 20%;
+    width: 26%;
+    height: 15%;
+  }
+
+  .metrics {
+    bottom: 11%;
+    height: 13%;
   }
 }
 
@@ -265,5 +352,17 @@
   .cursor {
     width: 16px;
     height: 20px;
+  }
+
+  .chrome {
+    display: none;
+  }
+
+  .cardHero {
+    height: 24%;
+  }
+
+  .metrics {
+    display: none;
   }
 }

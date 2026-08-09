@@ -21,8 +21,12 @@ function LookSection() {
 
   return (
     <section className={styles.lookSection} id="look" aria-label="Look closer">
+      <div className={styles.atmosphere} aria-hidden="true" />
       <div className={styles.lookStage}>
         <div className={styles.lookTopBlock}>
+          <span className={styles.indexMark} aria-hidden="true">
+            01
+          </span>
           <h2 id="look-title" className={styles.ghostText}>
             {t.LOOK_COPY.look}
           </h2>
@@ -46,12 +50,16 @@ function LookSection() {
           className={styles.mediaLong}
           aria-hidden="true"
         >
+          <span className={styles.frameTick} aria-hidden="true" />
           <LookDesignStage />
         </div>
 
-        <h2 id="look-find" className={`${styles.ghostText} ${styles.findBlock}`}>
-          {t.LOOK_COPY.find}
-        </h2>
+        <div className={styles.findBlock}>
+          <h2 id="look-find" className={styles.ghostText}>
+            {t.LOOK_COPY.find}
+          </h2>
+          <span className={styles.findRule} aria-hidden="true" />
+        </div>
 
         <div className={styles.lookClose}>
           <h3 id="look-true" className={`${styles.headline} ${styles.trueBlock}`}>

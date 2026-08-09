@@ -297,12 +297,28 @@ export default function LookDesignStage() {
         <span className={`${styles.handle} ${styles.handleBR}`} data-handle />
         <span className={styles.dimX} data-dim-x />
         <span className={styles.dimY} data-dim-y />
+        <div className={styles.chrome} aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
         <div className={styles.header} data-header />
-        <div className={styles.panel} data-panel />
+        <div className={styles.panel} data-panel>
+          <span className={styles.navItem} />
+          <span className={styles.navItem} />
+          <span className={styles.navItem} />
+          <span className={styles.navItem} />
+        </div>
         <div className={styles.card} data-card>
+          <span className={styles.cardHero} />
           <span className={styles.cardLine} />
           <span className={styles.cardLine} />
           <span className={styles.cardLine} />
+          <div className={styles.metrics} aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
           <span className={styles.btn} data-btn />
         </div>
       </div>
