@@ -58,7 +58,6 @@ function LookSection() {
           <h2 id="look-find" className={styles.ghostText}>
             {t.LOOK_COPY.find}
           </h2>
-          <span className={styles.findRule} aria-hidden="true" />
         </div>
 
         <div className={styles.lookClose}>
