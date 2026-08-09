@@ -96,13 +96,26 @@ export default function PricingSection() {
             ? PRICING_SCROLL.scrubDesktop
             : PRICING_SCROLL.scrub;
 
+        /* Flora stays visible at rest — scrub only deepens / drifts it. */
+        const floraBase = desktopMq.matches
+          ? { left: 0.2, right: 0.15, bloom: 0.12 }
+          : { left: 0.14, right: 0, bloom: 0 };
+
         gsap.set(track, { x: 0, force3D: true });
         if (progress) gsap.set(progress, { scaleX: 0 });
-        gsap.set([floraL, floraR, floraB].filter(Boolean), {
-          opacity: 0,
-          x: 0,
-          force3D: true,
-        });
+        if (floraL) {
+          gsap.set(floraL, { opacity: floraBase.left, x: 0, force3D: true });
+        }
+        if (floraR) {
+          gsap.set(floraR, { opacity: floraBase.right, x: 0, force3D: true });
+        }
+        if (floraB) {
+          gsap.set(floraB, {
+            opacity: floraBase.bloom,
+            scale: 1,
+            force3D: true,
+          });
+        }
 
         const syncChrome = (active: boolean) => {
           setPricingChromeHidden(Boolean(active));
@@ -133,28 +146,24 @@ export default function PricingSection() {
                 gsap.set(progress, { scaleX: cardProgress });
               }
 
-              /* Botanical reveal beats — gsap.set only, no per-frame tweens. */
               if (floraL) {
-                const enter = Math.min(1, pScroll / 0.12);
                 gsap.set(floraL, {
-                  opacity: 0.42 * enter,
-                  x: (1 - enter) * -28,
+                  opacity: floraBase.left + 0.12 * pScroll,
+                  x: pScroll * -18,
                   force3D: true,
                 });
               }
               if (floraR) {
-                const grow = Math.max(0, Math.min(1, (pScroll - 0.12) / 0.72));
                 gsap.set(floraR, {
-                  opacity: 0.34 * grow,
-                  x: (1 - grow) * 24,
+                  opacity: floraBase.right + 0.12 * pScroll,
+                  x: pScroll * 16,
                   force3D: true,
                 });
               }
               if (floraB) {
-                const bloom = Math.max(0, Math.min(1, (pScroll - 0.08) / 0.35));
                 gsap.set(floraB, {
-                  opacity: 0.22 * bloom,
-                  scale: 0.85 + bloom * 0.15,
+                  opacity: floraBase.bloom + 0.08 * pScroll,
+                  scale: 1 + pScroll * 0.06,
                   force3D: true,
                 });
               }

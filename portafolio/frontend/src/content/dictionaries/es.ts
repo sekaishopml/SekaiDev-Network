@@ -212,9 +212,9 @@ export const es = {
 
   PRICING: {
     sectionLabel: "Precios",
-    headline: "Precios claros. Cotización por escrito antes de arrancar.",
+    headline: "Precios claros. Cotización por escrito.",
     subline:
-      "Montos de entrada en USD para Ecuador y LatAm. Compara al deslizar — el precio final siempre va por escrito.",
+      "Montos de entrada en USD para Ecuador y LatAm. Compara al deslizar — el final va por escrito.",
     marketNote:
       "Por encima de una web plantilla. Por debajo de tarifas de agencia en EE. UU.",
     offerBanner:
