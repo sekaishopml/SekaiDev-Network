@@ -777,8 +777,12 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
             }}
             aria-hidden="true"
           />
-          <div className="absolute left-5 right-5 sm:left-6 sm:right-6 md:left-12 md:right-12 top-[max(5.5rem,env(safe-area-inset-top,0px)+4rem)] md:top-[8.5rem] pointer-events-auto max-w-xl">
-            <div className="md:bg-transparent md:p-0 md:backdrop-blur-none rounded-none bg-background/95 px-4 py-4 sm:px-5 sm:py-5 shadow-[0_0_0_1px_rgba(0,0,0,0.04)]">
+          {/*
+            Left copy column reserves bottom space so the scroll cue
+            never paints over the path cards on desktop.
+          */}
+          <div className="absolute left-5 right-5 sm:left-6 sm:right-6 md:left-12 md:right-auto top-[max(5.5rem,env(safe-area-inset-top,0px)+4rem)] md:top-[7.5rem] bottom-[max(4.5rem,env(safe-area-inset-bottom)+3.25rem)] md:bottom-24 pointer-events-auto md:w-[min(38rem,46vw)]">
+            <div className="h-full md:h-auto md:max-h-full flex flex-col justify-start md:justify-center md:bg-transparent md:p-0 md:backdrop-blur-none rounded-none bg-background/95 px-4 py-4 sm:px-5 sm:py-5 shadow-[0_0_0_1px_rgba(0,0,0,0.04)] md:shadow-none overflow-y-auto md:overflow-visible overscroll-contain">
               <p
                 data-hero-reveal
                 className="text-[10px] md:text-xs tracking-[0.22em] uppercase text-foreground/60 opacity-0"
@@ -788,7 +792,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
 
               <p
                 data-hero-reveal
-                className="mt-2.5 md:mt-5 font-display text-[2.2rem] leading-[0.9] sm:text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter md:leading-[0.88] text-foreground opacity-0"
+                className="mt-2.5 md:mt-4 font-display text-[2.2rem] leading-[0.9] sm:text-5xl md:text-6xl lg:text-[4.75rem] font-bold tracking-tighter md:leading-[0.9] text-foreground opacity-0"
                 aria-hidden="true"
               >
                 {t.STUDIO.brand}
@@ -796,37 +800,37 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
 
               <h1
                 data-hero-reveal
-                className="mt-3 md:mt-6 font-display text-xl sm:text-3xl md:text-4xl font-medium tracking-tight text-foreground max-w-[18ch] opacity-0"
+                className="mt-3 md:mt-4 font-display text-xl sm:text-3xl md:text-[2rem] lg:text-[2.35rem] font-medium tracking-tight text-foreground max-w-[20ch] opacity-0"
               >
                 {t.STUDIO.tagline}
               </h1>
 
               <p
                 data-hero-reveal
-                className="mt-2.5 md:mt-4 text-[13px] sm:text-sm md:text-base text-foreground/70 max-w-md leading-relaxed opacity-0"
+                className="mt-2.5 md:mt-3 text-[13px] sm:text-sm md:text-[0.95rem] text-foreground/70 max-w-md leading-relaxed opacity-0"
               >
                 {t.STUDIO.subline}
               </p>
 
               <div
                 data-hero-reveal
-                className="mt-4 md:mt-8 flex flex-col items-stretch sm:items-start gap-2.5 md:gap-3 opacity-0 max-w-md"
+                className="mt-4 md:mt-6 flex flex-col items-stretch gap-2.5 md:gap-3 opacity-0 w-full"
               >
                 <p className="text-[10px] tracking-[0.18em] uppercase text-foreground/50">
                   {t.UI.choosePath}
                 </p>
-                <div className="flex flex-col sm:flex-row gap-2.5 md:gap-3 w-full">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 md:gap-3 w-full">
                   {t.FUNNEL_PATHS.map((path) => (
                     <button
                       key={path.id}
                       type="button"
                       onClick={() => jumpTo(path.href, path.intent)}
-                      className="flex-1 text-left min-h-[44px] px-4 py-3 md:px-5 md:py-3.5 border border-foreground/20 bg-background hover:border-accent hover:bg-accent hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                      className="text-left min-h-[44px] h-full px-4 py-3 md:px-4 md:py-3.5 border border-foreground/20 bg-background hover:border-accent hover:bg-accent hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                     >
-                      <span className="block text-xs tracking-widest font-medium uppercase">
+                      <span className="block text-[11px] md:text-xs tracking-widest font-medium uppercase leading-snug">
                         {path.label}
                       </span>
-                      <span className="mt-1 block text-[11px] leading-snug opacity-70 normal-case tracking-normal font-sans">
+                      <span className="mt-1.5 block text-[11px] leading-snug opacity-70 normal-case tracking-normal font-sans">
                         {path.hint}
                       </span>
                     </button>
@@ -838,7 +842,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
                     e.preventDefault();
                     jumpTo(t.STUDIO.heroCtaPrimary.href);
                   }}
-                  className="inline-flex min-h-[44px] items-center justify-center px-5 py-3 bg-accent text-white text-xs tracking-widest uppercase font-medium hover:bg-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  className="inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center px-5 py-3 bg-accent text-white text-xs tracking-widest uppercase font-medium hover:bg-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 >
                   {t.STUDIO.heroCtaPrimary.label} →
                 </a>
@@ -846,11 +850,15 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
             </div>
           </div>
 
+          {/* Desktop: cue sits under the bonsai (right). Mobile: below copy. */}
           <div
             data-hero-reveal
-            className="absolute bottom-[max(1.25rem,env(safe-area-inset-bottom))] md:bottom-8 left-5 right-5 sm:left-6 sm:right-6 md:left-12 md:right-12 flex justify-between items-end gap-4 opacity-0"
+            className="absolute bottom-[max(1rem,env(safe-area-inset-bottom))] md:bottom-8 left-5 right-5 sm:left-6 sm:right-6 md:left-auto md:right-12 flex justify-between md:justify-end items-end gap-4 opacity-0 pointer-events-none"
           >
-            <p className="pointer-events-none rounded-sm bg-background/90 px-2 py-1 text-[10px] md:text-xs tracking-widest uppercase text-foreground/70 md:bg-transparent md:px-0 md:py-0 md:text-foreground/55">
+            <p className="md:hidden pointer-events-none rounded-sm bg-background/90 px-2 py-1 text-[10px] tracking-widest uppercase text-foreground/70">
+              {t.UI.scrollExplore}
+            </p>
+            <p className="hidden md:block pointer-events-none text-xs tracking-widest uppercase text-foreground/50 text-right">
               {t.UI.scrollExplore}
             </p>
             {showSkip && (
