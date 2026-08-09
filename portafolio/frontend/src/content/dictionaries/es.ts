@@ -214,7 +214,7 @@ export const es = {
     sectionLabel: "Precios",
     headline: "Precios claros. Primero la cotización por escrito.",
     subline:
-      "Montos iniciales en dólares para Ecuador y LatAm. El número final te lo confirmamos por escrito antes de construir.",
+      "Montos iniciales en dólares para Ecuador y LatAm. Desliza o haz scroll para comparar. El número final va por escrito.",
     marketNote:
       "Por encima de una web plantilla. Por debajo de tarifas de agencia en EE. UU.",
     offerBanner:

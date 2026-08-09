@@ -671,177 +671,232 @@
   }
 }
 
-/*
- * Desktop (and reduced-motion): static selling grid.
- * Launch Standard leads and stays fully visible — no fake carousel.
- */
-.staticGrid .pin {
+/* Desktop rail: compact pinned panel, equal cards, ~2.2 visible */
+@media (min-width: 900px) {
+  .rail .pin {
+    min-height: 100vh;
+    height: 100vh;
+    max-height: 100vh;
+    justify-content: flex-start;
+    padding:
+      calc(4.75rem + env(safe-area-inset-top, 0px))
+      0
+      calc(1.1rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .rail .head {
+    max-width: 36rem;
+    padding: 0 clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .rail .eyebrow {
+    font-size: 0.625rem;
+  }
+
+  .rail .title {
+    margin-top: 0.3rem;
+    font-size: clamp(1.85rem, 3.2vw, 2.55rem);
+    max-width: 16ch;
+    line-height: 0.95;
+  }
+
+  .rail .subline {
+    margin-top: 0.4rem;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    max-width: 34rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .rail .offerBanner {
+    margin-top: 0.45rem;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.7rem;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .rail .marketNote {
+    display: none;
+  }
+
+  .rail .railMeta {
+    margin-top: 0.55rem;
+    padding: 0 clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .rail .viewport {
+    flex: 0 0 auto;
+    height: min(27.5rem, 52vh);
+    margin-top: 0.7rem;
+    align-items: stretch;
+  }
+
+  .rail .track {
+    height: 100%;
+    align-items: stretch;
+    gap: 0.95rem;
+    padding: 0 0 0 clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .rail .card,
+  .rail .cardFeatured {
+    width: 20.5rem;
+    height: 100%;
+    max-height: none;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 1.15rem 1.15rem 1.1rem;
+  }
+
+  .rail .cardFeatured {
+    width: 22.25rem;
+  }
+
+  .rail .name {
+    margin-top: 0.55rem;
+    font-size: 1.55rem;
+  }
+
+  .rail .cardFeatured .name {
+    font-size: 1.7rem;
+  }
+
+  .rail .tagline {
+    margin-top: 0.3rem;
+    font-size: 0.82rem;
+  }
+
+  .rail .priceBlock {
+    margin-top: 0.7rem;
+    padding: 0.55rem 0;
+  }
+
+  .rail .price {
+    font-size: 1.45rem;
+  }
+
+  .rail .cardFeatured .price {
+    font-size: 1.6rem;
+  }
+
+  .rail .offerNote {
+    margin-top: 0.5rem;
+    font-size: 0.72rem;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .rail .bestFor {
+    margin-top: 0.4rem;
+    font-size: 0.72rem;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .rail .includes {
+    margin-top: 0.65rem;
+    gap: 0.28rem;
+  }
+
+  .rail .includes li {
+    font-size: 0.7rem;
+    line-height: 1.35;
+  }
+
+  .rail .cta {
+    margin-top: auto;
+    min-height: 42px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.625rem;
+  }
+
+  .rail .foot {
+    margin-top: auto;
+    padding: 0.7rem clamp(1.5rem, 4vw, 3rem) 0;
+  }
+
+  .rail .disclaimer {
+    display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .rail .viewport {
+    height: min(28.5rem, 54vh);
+  }
+
+  .rail .card {
+    width: 21.25rem;
+  }
+
+  .rail .cardFeatured {
+    width: 23.25rem;
+  }
+}
+
+/* Reduced motion: wrap as a simple grid, no pin */
+.reduced .pin {
   min-height: 0;
   height: auto;
   max-height: none;
-  justify-content: flex-start;
-  padding:
-    calc(5.5rem + env(safe-area-inset-top, 0px))
-    0
-    calc(3.5rem + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(3.25rem + env(safe-area-inset-bottom, 0px));
 }
 
-.staticGrid .head {
-  max-width: 46rem;
+.reduced .viewport {
+  overflow: visible;
+  display: block;
+  height: auto;
+  flex: none;
 }
 
-.staticGrid .title {
-  margin-top: 0.45rem;
-  font-size: clamp(2.35rem, 4vw, 3.35rem);
+.reduced .track {
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 74rem;
+  height: auto;
+  will-change: auto;
+  gap: 1.1rem;
+  padding-inline: clamp(1.25rem, 4vw, 3.25rem);
 }
 
-.staticGrid .subline {
-  margin-top: 0.55rem;
-  font-size: 0.95rem;
-  max-width: 38rem;
+.reduced .card,
+.reduced .cardFeatured {
+  width: min(100%, 24rem);
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  overflow: visible;
 }
 
-.staticGrid .offerBanner {
-  margin-top: 0.75rem;
-  max-width: 40rem;
-}
-
-.staticGrid .railMeta {
+.reduced .railMeta {
   display: none;
 }
 
-.staticGrid .viewport {
-  overflow: visible;
-  display: block;
-  flex: none;
-  margin-top: 1.75rem;
-  min-height: 0;
-}
-
-.staticGrid .track {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  width: 100%;
-  max-width: 72rem;
-  height: auto;
-  max-height: none;
-  padding: 0 clamp(1.5rem, 4vw, 3.25rem);
-  will-change: auto;
-  align-items: stretch;
-}
-
-.staticGrid .card,
-.staticGrid .cardFeatured {
-  width: auto;
-  height: auto;
-  min-height: 0;
-  max-height: none;
-  overflow: visible;
-  padding: 1.4rem 1.35rem 1.3rem;
-}
-
-.staticGrid .cardFeatured {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-  grid-template-rows: auto auto auto 1fr auto;
-  column-gap: 2rem;
-  row-gap: 0;
-  padding: 1.65rem 1.75rem 1.5rem;
-  border-color: rgba(232, 150, 175, 0.55);
-}
-
-.staticGrid .cardFeatured .cardTop {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.staticGrid .cardFeatured .name {
-  grid-column: 1;
-  grid-row: 2;
-  margin-top: 0.65rem;
-  font-size: clamp(2.1rem, 3.2vw, 2.65rem);
-}
-
-.staticGrid .cardFeatured .tagline {
-  grid-column: 1;
-  grid-row: 3;
-}
-
-.staticGrid .cardFeatured .priceBlock {
-  grid-column: 1;
-  grid-row: 4;
-  align-self: start;
-  margin-top: 1.1rem;
-}
-
-.staticGrid .cardFeatured .offerNote {
-  grid-column: 2;
-  grid-row: 1 / 3;
-  margin-top: 0;
-  align-self: end;
-  max-width: none;
-  font-size: 0.92rem;
-}
-
-.staticGrid .cardFeatured .bestFor {
-  grid-column: 2;
-  grid-row: 3;
-  margin-top: 0.55rem;
-  max-width: none;
-}
-
-.staticGrid .cardFeatured .includes {
-  grid-column: 2;
-  grid-row: 4;
-  margin-top: 0.85rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.45rem 1rem;
-}
-
-.staticGrid .cardFeatured .cta {
-  grid-column: 1 / -1;
-  grid-row: 5;
-  margin-top: 1.25rem;
-  max-width: 22rem;
-}
-
-.staticGrid .cta {
-  margin-top: auto;
-}
-
-.staticGrid .foot {
-  margin-top: 1.5rem;
-}
-
-.staticGrid .marketNote,
-.staticGrid .disclaimer,
-.staticGrid .subline,
-.staticGrid .offerBanner,
-.staticGrid .offerNote {
-  display: block;
-  -webkit-line-clamp: unset;
-}
-
-.staticGrid .bestFor {
+.reduced .marketNote,
+.reduced .disclaimer,
+.reduced .subline,
+.reduced .offerBanner,
+.reduced .offerNote,
+.reduced .bestFor {
   display: block;
   -webkit-line-clamp: unset;
   overflow: visible;
 }
 
-.staticGrid .progressFill {
+.reduced .progressFill {
   will-change: auto;
-}
-
-@media (min-width: 1100px) {
-  .staticGrid .track {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.1rem;
-  }
-
-  .staticGrid .cardFeatured {
-    grid-column: 1 / -1;
-  }
 }
