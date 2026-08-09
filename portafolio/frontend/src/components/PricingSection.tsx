@@ -42,16 +42,33 @@ export default function PricingSection() {
       mm.add(`(prefers-reduced-motion: no-preference)`, () => {
         root.classList.remove(styles.reduced);
 
+        const desktopMq = window.matchMedia(PRICING_SCROLL.desktopQuery);
+        const mobileNavHide = window.matchMedia("(max-width: 899px)");
+
         const getTravel = () => {
-          // Includes side padding used to optically center cards on phones.
-          const overflow = track.scrollWidth - pin.clientWidth;
-          return Math.max(overflow, PRICING_SCROLL.minTravelPx);
+          // Measure against the rail viewport when present — pin width alone
+          // over-counts travel on desktop and leaves empty scrub at the end.
+          const rail = pin.querySelector<HTMLElement>(`.${styles.viewport}`);
+          const viewW = rail?.clientWidth || pin.clientWidth;
+          const overflow = Math.max(0, track.scrollWidth - viewW);
+          const floor = desktopMq.matches
+            ? PRICING_SCROLL.minTravelPxDesktop
+            : PRICING_SCROLL.minTravelPx;
+          // Only pad when the track barely overflows; otherwise scrub 1:1.
+          return overflow < 48 ? Math.max(overflow, floor) : overflow;
         };
+
+        const getEndPad = () =>
+          Math.round(
+            window.innerHeight *
+              (desktopMq.matches
+                ? PRICING_SCROLL.endPadScreensDesktop
+                : PRICING_SCROLL.endPadScreens)
+          );
 
         gsap.set(track, { x: 0, force3D: true });
         if (progress) gsap.set(progress, { scaleX: 0 });
 
-        const mobileNavHide = window.matchMedia("(max-width: 899px)");
         const syncChrome = (active: boolean) => {
           setPricingChromeHidden(Boolean(active && mobileNavHide.matches));
         };
@@ -62,16 +79,12 @@ export default function PricingSection() {
           scrollTrigger: {
             trigger: pin,
             start: "top top",
-            end: () => {
-              const travel = getTravel();
-              const pad = Math.round(
-                window.innerHeight * PRICING_SCROLL.endPadScreens
-              );
-              return `+=${travel + pad}`;
-            },
+            end: () => `+=${getTravel() + getEndPad()}`,
             pin: true,
             pinSpacing: true,
-            scrub: PRICING_SCROLL.scrub,
+            scrub: desktopMq.matches
+              ? PRICING_SCROLL.scrubDesktop
+              : PRICING_SCROLL.scrub,
             // anticipatePin fights Lenis on enter and briefly drops isActive,
             // which used to snap the nav away via the chrome reverse path.
             anticipatePin: 0,
@@ -80,7 +93,17 @@ export default function PricingSection() {
             // settle and used to snap the nav via a reverse fromTo.
             onToggle: (self) => syncChrome(self.isActive),
             onUpdate: (self) => {
-              if (progress) gsap.set(progress, { scaleX: self.progress });
+              if (progress) {
+                // Progress reflects card travel only — ignore the end hold pad.
+                const travel = getTravel();
+                const pad = getEndPad();
+                const total = travel + pad;
+                const cardProgress =
+                  total > 0
+                    ? Math.min(1, (self.progress * total) / Math.max(travel, 1))
+                    : self.progress;
+                gsap.set(progress, { scaleX: cardProgress });
+              }
             },
           },
         });
@@ -89,7 +112,9 @@ export default function PricingSection() {
         syncChrome(Boolean(tween.scrollTrigger?.isActive));
 
         const onNavMq = () =>
-          syncChrome(Boolean(tween.scrollTrigger?.isActive && mobileNavHide.matches));
+          syncChrome(
+            Boolean(tween.scrollTrigger?.isActive && mobileNavHide.matches)
+          );
         mobileNavHide.addEventListener("change", onNavMq);
 
         return () => {
