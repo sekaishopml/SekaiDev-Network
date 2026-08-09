@@ -31,28 +31,28 @@
 }
 
 .floraLeft {
-  left: clamp(-0.5rem, 0.5vw, 0.75rem);
-  top: 14%;
-  height: min(72%, 36rem);
-  width: min(7.5rem, 10vw);
-  opacity: 0.16;
+  left: clamp(-0.25rem, 0.8vw, 1rem);
+  top: 12%;
+  height: min(78%, 40rem);
+  width: min(10rem, 13vw);
+  opacity: 0.34;
 }
 
 .floraRight {
-  right: clamp(-0.25rem, 0.8vw, 0.75rem);
-  top: 18%;
-  height: min(68%, 34rem);
-  width: min(6.5rem, 9vw);
-  opacity: 0.12;
+  right: clamp(-0.1rem, 0.8vw, 1rem);
+  top: 16%;
+  height: min(74%, 38rem);
+  width: min(9rem, 12vw);
+  opacity: 0.28;
 }
 
 .floraBloom {
-  right: clamp(4rem, 12vw, 10rem);
-  bottom: 12%;
-  width: min(3.5rem, 5vw);
+  right: clamp(5rem, 14vw, 12rem);
+  bottom: 10%;
+  width: min(4.5rem, 6vw);
   height: auto;
   color: #c47a92;
-  opacity: 0.1;
+  opacity: 0.2;
 }
 
 .atmosphere::after {
@@ -786,15 +786,15 @@
   }
 
   .rail .floraLeft {
-    opacity: 0.2;
+    opacity: 0.38;
   }
 
   .rail .floraRight {
-    opacity: 0.15;
+    opacity: 0.3;
   }
 
   .rail .floraBloom {
-    opacity: 0.12;
+    opacity: 0.22;
   }
 
   .rail .head {
@@ -892,17 +892,17 @@
   }
 
   .rail .name {
-    margin-top: 0.5rem;
-    font-size: 1.65rem;
+    margin-top: 0.55rem;
+    font-size: 1.8rem;
   }
 
   .rail .cardFeatured .name {
-    font-size: 1.85rem;
+    font-size: 2rem;
   }
 
   .rail .tagline {
-    margin-top: 0.3rem;
-    font-size: 0.875rem;
+    margin-top: 0.35rem;
+    font-size: 0.92rem;
     line-height: 1.35;
   }
 
@@ -966,8 +966,8 @@
   }
 
   .rail .includes li {
-    font-size: 0.75rem;
-    line-height: 1.35;
+    font-size: 0.8rem;
+    line-height: 1.4;
   }
 
   .rail .cta {

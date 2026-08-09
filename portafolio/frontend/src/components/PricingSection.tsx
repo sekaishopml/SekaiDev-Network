@@ -26,7 +26,10 @@ export default function PricingSection() {
 
   // Recommended first so PC and phone open on Launch Standard.
   const tiers = useMemo(
-    () => [...p.tiers].sort((a, b) => Number(b.featured) - Number(a.featured)),
+    () =>
+      [...p.tiers].sort(
+        (a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured))
+      ),
     [p.tiers]
   );
 
@@ -98,8 +101,8 @@ export default function PricingSection() {
 
         /* Flora stays visible at rest — scrub only deepens / drifts it. */
         const floraBase = desktopMq.matches
-          ? { left: 0.2, right: 0.15, bloom: 0.12 }
-          : { left: 0.14, right: 0, bloom: 0 };
+          ? { left: 0.38, right: 0.3, bloom: 0.22 }
+          : { left: 0.22, right: 0, bloom: 0 };
 
         gsap.set(track, { x: 0, force3D: true });
         if (progress) gsap.set(progress, { scaleX: 0 });
