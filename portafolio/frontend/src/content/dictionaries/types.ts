@@ -89,6 +89,14 @@ export type StudioDictionary = {
       pickupPlace: string;
       dropoffPlace: string;
       eta: string;
+      tabApp: string;
+      tabCrm: string;
+      tabMap: string;
+      crmTitle: string;
+      crmTrip: string;
+      crmDriver: string;
+      crmQueue: string;
+      gps: string;
     };
   };
   PROOF: {

@@ -181,7 +181,7 @@ export const en = {
       buildNotes: "Build notes",
     },
     stageUi: {
-      aria: "Example trip card from the CyTaxi build",
+      aria: "CyTaxi panel: app, ops CRM, map, and live GPS",
       product: "CyTaxi",
       live: "Live",
       status: "En route",
@@ -190,6 +190,14 @@ export const en = {
       pickupPlace: "Downtown",
       dropoffPlace: "Airport",
       eta: "ETA 6 min",
+      tabApp: "App",
+      tabCrm: "CRM",
+      tabMap: "Map",
+      crmTitle: "Operations",
+      crmTrip: "Trip #1842",
+      crmDriver: "Driver assigned",
+      crmQueue: "Queue · 3 live",
+      gps: "GPS",
     },
   },
 

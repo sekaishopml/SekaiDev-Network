@@ -182,7 +182,7 @@ export const es = {
       buildNotes: "Notas del build",
     },
     stageUi: {
-      aria: "Tarjeta de viaje de ejemplo del build CyTaxi",
+      aria: "Panel CyTaxi: app, CRM de operaciones, mapa y GPS en vivo",
       product: "CyTaxi",
       live: "En vivo",
       status: "En camino",
@@ -191,6 +191,14 @@ export const es = {
       pickupPlace: "Centro",
       dropoffPlace: "Aeropuerto",
       eta: "Listo en ~6 min",
+      tabApp: "App",
+      tabCrm: "CRM",
+      tabMap: "Mapa",
+      crmTitle: "Operaciones",
+      crmTrip: "Viaje #1842",
+      crmDriver: "Conductor asignado",
+      crmQueue: "Cola · 3 activos",
+      gps: "GPS",
     },
   },
 
