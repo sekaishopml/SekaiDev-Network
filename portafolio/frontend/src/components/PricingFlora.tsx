@@ -89,48 +89,48 @@ export default function PricingFlora({
         <path
           d="M78 40 C96 130 48 190 72 280 C94 360 52 420 70 510 C82 560 54 600 60 630"
           stroke="currentColor"
-          strokeWidth="1.25"
+          strokeWidth="2"
           strokeLinecap="round"
         />
         <path
           d="M72 280 C42 295 28 330 36 360"
           stroke="currentColor"
-          strokeWidth="1.05"
+          strokeWidth="1.6"
           strokeLinecap="round"
-          opacity="0.85"
+          opacity="0.9"
         />
         <path
           d="M70 510 C98 525 108 560 94 590"
           stroke="currentColor"
-          strokeWidth="1.05"
+          strokeWidth="1.6"
           strokeLinecap="round"
-          opacity="0.8"
+          opacity="0.88"
         />
         <ellipse
           cx="34"
           cy="352"
-          rx="13"
-          ry="6.5"
+          rx="15"
+          ry="7.5"
           transform="rotate(30 34 352)"
           fill="currentColor"
-          opacity="0.32"
+          opacity="0.48"
         />
         <ellipse
           cx="96"
           cy="582"
-          rx="11"
-          ry="5.5"
+          rx="13"
+          ry="6.5"
           transform="rotate(-22 96 582)"
           fill="currentColor"
-          opacity="0.3"
+          opacity="0.45"
         />
-        <g transform="translate(74 210)" opacity="0.65">
-          <circle cx="0" cy="0" r="2.8" fill="currentColor" />
-          <ellipse cx="0" cy="-7" rx="3" ry="6" fill="currentColor" opacity="0.55" />
-          <ellipse cx="6" cy="-2" rx="3" ry="6" transform="rotate(72)" fill="currentColor" opacity="0.55" />
-          <ellipse cx="4" cy="5" rx="3" ry="6" transform="rotate(144)" fill="currentColor" opacity="0.55" />
-          <ellipse cx="-4" cy="5" rx="3" ry="6" transform="rotate(216)" fill="currentColor" opacity="0.55" />
-          <ellipse cx="-6" cy="-2" rx="3" ry="6" transform="rotate(288)" fill="currentColor" opacity="0.55" />
+        <g transform="translate(74 210)" opacity="0.88">
+          <circle cx="0" cy="0" r="3.4" fill="currentColor" />
+          <ellipse cx="0" cy="-8" rx="3.6" ry="7" fill="currentColor" opacity="0.7" />
+          <ellipse cx="7" cy="-2" rx="3.6" ry="7" transform="rotate(72)" fill="currentColor" opacity="0.7" />
+          <ellipse cx="4" cy="6" rx="3.6" ry="7" transform="rotate(144)" fill="currentColor" opacity="0.7" />
+          <ellipse cx="-4" cy="6" rx="3.6" ry="7" transform="rotate(216)" fill="currentColor" opacity="0.7" />
+          <ellipse cx="-7" cy="-2" rx="3.6" ry="7" transform="rotate(288)" fill="currentColor" opacity="0.7" />
         </g>
       </svg>
 

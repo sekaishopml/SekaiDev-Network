@@ -57,67 +57,58 @@ export default function PricingSection() {
         root.classList.add(styles.rail);
 
         const desktopMq = window.matchMedia(PRICING_SCROLL.desktopQuery);
-        const floraL = root.querySelector<HTMLElement>(`.${styles.floraLeft}`);
-        const floraR = root.querySelector<HTMLElement>(`.${styles.floraRight}`);
-        const floraB = root.querySelector<HTMLElement>(`.${styles.floraBloom}`);
+        const isDesktop = () => desktopMq.matches;
 
-        const getTravel = () => {
+        /* Cache scroll metrics — never read layout inside onUpdate. */
+        let cachedTravel = 0;
+        let cachedPinDistance = 0;
+
+        const measure = () => {
           const rail = pin.querySelector<HTMLElement>(`.${styles.viewport}`);
           const viewW = rail?.clientWidth || pin.clientWidth;
           const overflow = Math.max(0, track.scrollWidth - viewW);
-          const floor = desktopMq.matches
+          const floor = isDesktop()
             ? PRICING_SCROLL.minTravelPxDesktop
             : PRICING_SCROLL.minTravelPx;
-          const mult = desktopMq.matches
+          const mult = isDesktop()
             ? PRICING_SCROLL.travelMultiplierDesktop
             : PRICING_SCROLL.travelMultiplierMobile;
-          if (overflow < 32) return Math.max(overflow, floor);
-          return Math.max(overflow * mult, floor);
-        };
+          cachedTravel =
+            overflow < 32
+              ? Math.max(overflow, floor)
+              : Math.max(overflow * mult, floor);
 
-        const getEndPad = () =>
-          Math.round(
+          const pad = Math.round(
             window.innerHeight *
-              (desktopMq.matches
+              (isDesktop()
                 ? PRICING_SCROLL.endPadScreensDesktop
                 : PRICING_SCROLL.endPadScreens)
           );
 
-        const getPinDistance = () => {
-          const travel = getTravel();
-          const pad = getEndPad();
-          if (!desktopMq.matches) return travel + pad;
+          if (!isDesktop()) {
+            cachedPinDistance = cachedTravel + pad;
+            return;
+          }
+
           const vh = window.innerHeight;
-          const stretched = travel + pad;
+          const stretched = cachedTravel + pad;
           const min = vh * PRICING_SCROLL.targetScreensDesktopMin;
           const max = vh * PRICING_SCROLL.targetScreensDesktopMax;
-          return Math.round(Math.min(max, Math.max(stretched, min)));
+          cachedPinDistance = Math.round(
+            Math.min(max, Math.max(stretched, min))
+          );
         };
 
-        const getScrub = () =>
-          desktopMq.matches
-            ? PRICING_SCROLL.scrubDesktop
-            : PRICING_SCROLL.scrub;
+        measure();
 
-        /* Flora stays visible at rest — scrub only deepens / drifts it. */
-        const floraBase = desktopMq.matches
-          ? { left: 0.38, right: 0.3, bloom: 0.22 }
-          : { left: 0.22, right: 0, bloom: 0 };
-
-        gsap.set(track, { x: 0, force3D: true });
-        if (progress) gsap.set(progress, { scaleX: 0 });
-        if (floraL) {
-          gsap.set(floraL, { opacity: floraBase.left, x: 0, force3D: true });
-        }
-        if (floraR) {
-          gsap.set(floraR, { opacity: floraBase.right, x: 0, force3D: true });
-        }
-        if (floraB) {
-          gsap.set(floraB, {
-            opacity: floraBase.bloom,
-            scale: 1,
-            force3D: true,
-          });
+        gsap.set(track, {
+          x: 0,
+          force3D: true,
+          lazy: false,
+        });
+        if (progress) {
+          progress.style.transform = "scaleX(0)";
+          progress.style.transformOrigin = "left center";
         }
 
         const syncChrome = (active: boolean) => {
@@ -125,51 +116,32 @@ export default function PricingSection() {
         };
 
         const tween = gsap.to(track, {
-          x: () => -getTravel(),
+          x: () => -cachedTravel,
           ease: "none",
           scrollTrigger: {
             trigger: pin,
             start: "top top",
-            end: () => `+=${getPinDistance()}`,
+            end: () => `+=${cachedPinDistance}`,
             pin: true,
             pinSpacing: true,
-            scrub: getScrub(),
-            anticipatePin: 0,
+            scrub: isDesktop()
+              ? PRICING_SCROLL.scrubDesktop
+              : PRICING_SCROLL.scrub,
+            anticipatePin: 1,
+            fastScrollEnd: true,
             invalidateOnRefresh: true,
+            onRefresh: measure,
             onToggle: (self) => syncChrome(self.isActive),
             onUpdate: (self) => {
-              const pScroll = self.progress;
-              const travel = getTravel();
-              const total = getPinDistance();
-              if (progress) {
-                const cardProgress =
-                  total > 0
-                    ? Math.min(1, (pScroll * total) / Math.max(travel, 1))
-                    : pScroll;
-                gsap.set(progress, { scaleX: cardProgress });
-              }
-
-              if (floraL) {
-                gsap.set(floraL, {
-                  opacity: floraBase.left + 0.12 * pScroll,
-                  x: pScroll * -18,
-                  force3D: true,
-                });
-              }
-              if (floraR) {
-                gsap.set(floraR, {
-                  opacity: floraBase.right + 0.12 * pScroll,
-                  x: pScroll * 16,
-                  force3D: true,
-                });
-              }
-              if (floraB) {
-                gsap.set(floraB, {
-                  opacity: floraBase.bloom + 0.08 * pScroll,
-                  scale: 1 + pScroll * 0.06,
-                  force3D: true,
-                });
-              }
+              if (!progress) return;
+              const travel = cachedTravel;
+              const total = cachedPinDistance;
+              const cardProgress =
+                total > 0
+                  ? Math.min(1, (self.progress * total) / Math.max(travel, 1))
+                  : self.progress;
+              /* Direct style write — cheaper than gsap.set every frame. */
+              progress.style.transform = `scaleX(${cardProgress})`;
             },
           },
         });
@@ -181,22 +153,28 @@ export default function PricingSection() {
           tween.scrollTrigger?.kill();
           tween.kill();
           gsap.set(track, { clearProps: "transform" });
-          gsap.set([floraL, floraR, floraB].filter(Boolean), {
-            clearProps: "transform,opacity",
-          });
           root.classList.remove(styles.rail);
         };
       });
 
+      let resizeTimer: ReturnType<typeof setTimeout> | null = null;
       const refresh = () => {
-        if (root.isConnected) ScrollTrigger.refresh();
+        if (!root.isConnected) return;
+        ScrollTrigger.refresh();
       };
-      document.fonts?.ready.then(refresh);
-      gsap.delayedCall(0.1, refresh);
-      gsap.delayedCall(0.45, refresh);
+      const onResize = () => {
+        if (resizeTimer) clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(refresh, 120);
+      };
 
-      window.addEventListener("resize", refresh);
-      return () => window.removeEventListener("resize", refresh);
+      document.fonts?.ready.then(refresh);
+      gsap.delayedCall(0.15, refresh);
+
+      window.addEventListener("resize", onResize);
+      return () => {
+        if (resizeTimer) clearTimeout(resizeTimer);
+        window.removeEventListener("resize", onResize);
+      };
     },
     {
       scope: rootRef,
