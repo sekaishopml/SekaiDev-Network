@@ -121,14 +121,16 @@ export default function PricingSection() {
         };
 
         /**
-         * Pick the card under the rail focus using the track's live x.
-         * Do NOT use remapped cardProgress — that ignores end-pad and mobile
-         * scrub lag, so the highlight runs ahead of the visible card.
+         * Highlight the card under an optical focus that travels with the track x.
+         * Anchor focus at the first card's center (not the viewport midpoint):
+         * on desktop a mid-viewport focus lights Brand Web at x=0 because cards
+         * are left-padded; Express must lead at the start of the rail.
+         * On mobile cardCenters[0] ≈ viewW/2, so this matches the centered rail.
          */
         const syncActiveFromTrack = () => {
           if (cardCenters.length === 0) return;
           const x = Number(gsap.getProperty(track, "x")) || 0;
-          const focusX = cachedViewW / 2 - x;
+          const focusX = (cardCenters[0] ?? cachedViewW / 2) - x;
           let best = 0;
           let bestDist = Infinity;
           for (let i = 0; i < cardCenters.length; i++) {
