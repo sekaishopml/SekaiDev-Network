@@ -661,7 +661,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
                     e.preventDefault();
                     jumpTo(t.STUDIO.heroCtaPrimary.href);
                   }}
-                  className="inline-flex min-h-[44px] w-full sm:w-auto items-center justify-center px-5 py-3 bg-accent text-white text-xs tracking-widest uppercase font-medium hover:bg-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  className="hidden md:inline-flex min-h-[44px] w-auto items-center justify-center px-5 py-3 bg-accent text-white text-xs tracking-widest uppercase font-medium hover:bg-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 >
                   {t.STUDIO.heroCtaPrimary.label} →
                 </a>
