@@ -268,10 +268,9 @@ export default function PricingSection() {
         />
 
         <header className={`${styles.head} ${styles.headCompact}`}>
-          <span className={styles.eyebrow}>04 — {p.sectionLabel}</span>
-          <h2 id="pricing-heading" className={styles.title}>
+          <p id="pricing-heading" className={styles.title}>
             {p.railHeadline}
-          </h2>
+          </p>
         </header>
 
         <div className={styles.railMeta} aria-hidden="true">

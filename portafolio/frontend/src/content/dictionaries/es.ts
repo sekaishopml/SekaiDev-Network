@@ -228,13 +228,13 @@ export const es = {
     ctaTrust: "Respuesta <24h · plan por escrito · sin compromiso",
     railHeadline: "Compara los 4 paquetes",
     productIntro: {
-      eyebrow: "Precios",
-      headlineBefore: "Paquetes web con",
-      headlineAccent: "precio claro",
+      eyebrow: "Inversión",
+      headlineBefore: "Aprovecha tu marca al",
+      headlineAccent: "máximo",
       headlineAfter: "",
       subline:
-        "USD para Ecuador y LatAm. Rápidos, accesibles y listos para salir al aire.",
-      cta: "Ver paquetes",
+        "Paquetes claros en USD para Ecuador y LatAm — rápidos, accesibles y listos para salir al aire.",
+      cta: "Ver planes",
       scrollCue: "Desliza para comparar",
     },
     tiers: [

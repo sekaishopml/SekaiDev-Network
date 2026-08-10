@@ -227,13 +227,13 @@ export const en = {
     ctaTrust: "Reply <24h · written plan · no commitment",
     railHeadline: "Compare all 4 packages",
     productIntro: {
-      eyebrow: "Pricing",
-      headlineBefore: "Web packages with",
-      headlineAccent: "clear pricing",
+      eyebrow: "Investment",
+      headlineBefore: "Make the most of your",
+      headlineAccent: "brand",
       headlineAfter: "",
       subline:
-        "USD for Ecuador and LatAm. Fast, accessible, and ready to go live.",
-      cta: "See packages",
+        "Clear packages in USD for Ecuador & LatAm — fast, accessible, and ready to go live.",
+      cta: "See plans",
       scrollCue: "Scroll to compare",
     },
     tiers: [
