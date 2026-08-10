@@ -116,6 +116,8 @@ export type StudioDictionary = {
     /** Micro-trust under the featured CTA. */
     ctaTrust: string;
     /** Gemini-style product intro above the plans rail. */
+    /** Compact headline on the pinned rail stage. */
+    railHeadline: string;
     productIntro: {
       eyebrow: string;
       headlineBefore: string;

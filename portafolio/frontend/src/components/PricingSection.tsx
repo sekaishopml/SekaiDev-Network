@@ -242,7 +242,7 @@ export default function PricingSection() {
     },
     {
       scope: rootRef,
-      dependencies: [p.headline, tiers.length, t.CTAS.pricingFoot],
+      dependencies: [p.railHeadline, tiers.length, t.CTAS.pricingFoot],
     }
   );
 
@@ -270,9 +270,8 @@ export default function PricingSection() {
         <header className={`${styles.head} ${styles.headCompact}`}>
           <span className={styles.eyebrow}>04 — {p.sectionLabel}</span>
           <h2 id="pricing-heading" className={styles.title}>
-            {p.headline}
+            {p.railHeadline}
           </h2>
-          <p className={styles.subline}>{p.subline}</p>
         </header>
 
         <div className={styles.railMeta} aria-hidden="true">
