@@ -42,6 +42,7 @@ import { useT } from "@/components/LocaleProvider";
 import { jumpTo } from "@/lib/navigation";
 import { useHeroIntro } from "@/hooks/useHeroIntro";
 import HeroTvGrain from "@/components/HeroTvGrain";
+import { getPerfProfile } from "@/lib/perf";
 
 interface HeroSectionProps {
   loaded?: boolean;
@@ -412,6 +413,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
 
       killExit();
       setMode("exiting");
+      const liteExit = getPerfProfile().tier === "low";
       exitTween = gsap.timeline({
         defaults: { ease: "power2.out" },
         onComplete: finishOff,
@@ -423,7 +425,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
           {
             opacity: 0,
             y: -28,
-            filter: "blur(6px)",
+            ...(liteExit ? {} : { filter: "blur(6px)" }),
             duration: 0.72,
           },
           0
@@ -435,7 +437,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
           {
             opacity: 0,
             y: -18,
-            filter: "blur(4px)",
+            ...(liteExit ? {} : { filter: "blur(4px)" }),
             duration: 0.65,
           },
           0.04

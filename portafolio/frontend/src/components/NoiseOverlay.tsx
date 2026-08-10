@@ -10,6 +10,12 @@ export default function NoiseOverlay() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    const perf = getPerfProfile();
+    if (perf.tier === "low") {
+      canvas.style.display = "none";
+      return;
+    }
+
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 

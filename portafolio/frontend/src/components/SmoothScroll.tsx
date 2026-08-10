@@ -11,6 +11,7 @@ import {
   isPageReload,
   snapWindowToTop,
 } from "@/lib/reloadHero";
+import { getPerfProfile } from "@/lib/perf";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -151,8 +152,9 @@ export default function SmoothScroll({
   const reduced = useReducedMotion();
 
   const options = useMemo(() => {
-    if (reduced) {
-      // Native-feeling scroll for a11y — Lenis stays for API parity only
+    const lite = getPerfProfile().tier === "low";
+    if (reduced || lite) {
+      // Native-feeling scroll — less main-thread catch-up on weak CPUs
       return {
         autoRaf: false,
         lerp: 1,
@@ -185,7 +187,8 @@ export default function SmoothScroll({
         };
   }, [coarse, reduced]);
 
-  const jumpDuration = reduced ? 0 : coarse ? 0.75 : 0.85;
+  const jumpDuration =
+    reduced || getPerfProfile().tier === "low" ? 0 : coarse ? 0.75 : 0.85;
 
   return (
     <ReactLenis root options={options}>

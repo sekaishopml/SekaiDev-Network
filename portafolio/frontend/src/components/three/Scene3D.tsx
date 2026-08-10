@@ -219,7 +219,11 @@ const Bonsai = memo(function Bonsai({
       posDamp
     );
 
-    group.rotation.y += delta * BONSAI_CONFIG.animation.rotationSpeed;
+    const spin =
+      getPerfProfile().tier === "low"
+        ? 0
+        : BONSAI_CONFIG.animation.rotationSpeed;
+    if (spin) group.rotation.y += delta * spin;
   });
 
   const startX =
