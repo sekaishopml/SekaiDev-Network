@@ -229,14 +229,14 @@ export const es = {
     ctaTrust: "Respuesta <24h · plan por escrito · sin compromiso",
     railHeadline: "Compara los 4 paquetes",
     productIntro: {
-      eyebrow: "Inversión",
+      eyebrow: "SekaiDev",
       headlineBefore: "Aprovecha tu marca al",
       headlineAccent: "máximo",
       headlineAfter: "",
       subline:
-        "Paquetes claros en USD para Ecuador y LatAm — rápidos, accesibles y listos para salir al aire.",
-      cta: "Ver planes",
-      scrollCue: "Desliza para comparar",
+        "¿Aún no tienes un plan? Elige una opción abajo para salir al aire con precio claro en USD.",
+      cta: "Comparar planes",
+      scrollCue: "Desliza",
     },
     tiers: [
       {

@@ -228,14 +228,14 @@ export const en = {
     ctaTrust: "Reply <24h · written plan · no commitment",
     railHeadline: "Compare all 4 packages",
     productIntro: {
-      eyebrow: "Investment",
+      eyebrow: "SekaiDev",
       headlineBefore: "Make the most of your",
       headlineAccent: "brand",
       headlineAfter: "",
       subline:
-        "Clear packages in USD for Ecuador & LatAm — fast, accessible, and ready to go live.",
-      cta: "See plans",
-      scrollCue: "Scroll to compare",
+        "Not on a plan yet? Choose an option below to go live with clear USD pricing.",
+      cta: "Compare plans",
+      scrollCue: "Scroll",
     },
     tiers: [
       {

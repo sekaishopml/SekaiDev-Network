@@ -58,37 +58,38 @@ export const BONSAI_CONFIG = {
   },
 
   /**
-   * Pricing product mark — eye-level standing pose (not hero top-down).
-   * Tuned for a ~152–184px CSS stage. Own Canvas; do not mount into hero View.Port.
+   * Pricing product mark — eye-level standing pose on white /precios hero.
+   * Tuned for ~184–216px CSS stage. Own Canvas; do not mount into hero View.Port.
    */
   product: {
     camera: {
-      position: [0, 1.15, 4.6] as [number, number, number],
-      target: [0, 0.2, 0] as [number, number, number],
+      position: [0, 1.35, 5.1] as [number, number, number],
+      target: [0, 0.35, 0] as [number, number, number],
       /** Normal Y-up — hero uses [0, 0, -1] for overhead. */
       up: [0, 1, 0] as [number, number, number],
-      fov: 34,
+      fov: 30,
       near: 0.1,
       far: 40,
     },
     bonsai: {
-      /** Drop so pot sits near bottom of the round mark. */
-      position: [0, -1.05, 0] as [number, number, number],
-      /** No lean (rx/rz = 0). Slight yaw so blossoms read. */
-      rotation: [0, Math.PI * 0.15, 0] as [number, number, number],
-      scale: 2.05,
+      /** Optical center in the mark frame. */
+      position: [0, -0.85, 0] as [number, number, number],
+      /** No lean. Slight yaw so blossoms read. */
+      rotation: [0, Math.PI * 0.12, 0] as [number, number, number],
+      scale: 2.55,
     },
     animation: {
-      rotationSpeed: 0.06,
+      rotationSpeed: 0.045,
     },
     lights: {
-      ambient: { intensity: 0.85 },
+      /** Brighter for white page — avoid muddy silhouette. */
+      ambient: { intensity: 1.05 },
       directional: [
-        { position: [4, 6, 4] as [number, number, number], intensity: 1.35 },
-        { position: [-3, 2, -2] as [number, number, number], intensity: 0.45 },
+        { position: [3.5, 7, 5] as [number, number, number], intensity: 1.55 },
+        { position: [-4, 3, -2] as [number, number, number], intensity: 0.55 },
       ],
       point: [
-        { position: [0, 3, 2] as [number, number, number], intensity: 0.55 },
+        { position: [0, 2.8, 3] as [number, number, number], intensity: 0.7 },
       ],
     },
   },

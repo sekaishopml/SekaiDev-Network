@@ -1,251 +1,15 @@
 "use client";
 
-import { useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@/hooks/useGsapSafe";
 import { useLocale, useT } from "@/components/LocaleProvider";
 import { setIntent } from "@/lib/navigation";
-import {
-  resetPricingChrome,
-  setPricingChromeHidden,
-} from "@/lib/motion/pricingChrome";
-import { PRICING_SCROLL } from "@/lib/motion/pricingScroll";
-import { scheduleScrollTriggerRefresh } from "@/lib/scrollTriggerBatch";
-import { usePauseOffscreen } from "@/hooks/usePauseOffscreen";
-import PricingFlora from "./PricingFlora";
 import PricingProductIntro from "./PricingProductIntro";
-import styles from "./PricingSection.module.css";
-
-gsap.registerPlugin(ScrollTrigger);
+import styles from "./PricingProductView.module.css";
 
 export default function PricingProductView() {
-  const rootRef = useRef<HTMLElement>(null);
-  const pinRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const progressRef = useRef<HTMLSpanElement>(null);
   const t = useT();
   const { locale } = useLocale();
   const p = t.PRICING;
-
-  usePauseOffscreen(rootRef);
-
-  // Dictionary order — Brand Web (featured) is the second card.
   const tiers = p.tiers;
-
-  useGSAP(
-    () => {
-      const root = rootRef.current;
-      const pin = pinRef.current;
-      const track = trackRef.current;
-      const progress = progressRef.current;
-      if (!root || !pin || !track) return;
-
-      const mm = gsap.matchMedia();
-
-      mm.add(PRICING_SCROLL.reducedMotionQuery, () => {
-        gsap.set(track, { clearProps: "transform" });
-        if (progress) gsap.set(progress, { scaleX: 1 });
-        root.classList.add(styles.reduced);
-        root.classList.remove(styles.rail);
-        resetPricingChrome();
-        track
-          .querySelectorAll<HTMLElement>(`.${styles.card}`)
-          .forEach((card) => {
-            card.dataset.active = "true";
-          });
-        return () => root.classList.remove(styles.reduced);
-      });
-
-      mm.add(`(prefers-reduced-motion: no-preference)`, () => {
-        root.classList.remove(styles.reduced);
-        root.classList.add(styles.rail);
-
-        const desktopMq = window.matchMedia(PRICING_SCROLL.desktopQuery);
-        const isDesktop = () => desktopMq.matches;
-        const cards = Array.from(
-          track.querySelectorAll<HTMLElement>(`.${styles.card}`)
-        );
-
-        /* Cache scroll metrics — never read layout inside onUpdate. */
-        let cachedTravel = 0;
-        let cachedPinDistance = 0;
-        let cachedViewW = 0;
-        let cardCenters: number[] = [];
-        let activeIndex = -1;
-
-        const measure = () => {
-          const rail = pin.querySelector<HTMLElement>(`.${styles.viewport}`);
-          const viewW = rail?.clientWidth || pin.clientWidth;
-          cachedViewW = viewW;
-          const overflow = Math.max(0, track.scrollWidth - viewW);
-          const floor = isDesktop()
-            ? PRICING_SCROLL.minTravelPxDesktop
-            : PRICING_SCROLL.minTravelPx;
-          const mult = isDesktop()
-            ? PRICING_SCROLL.travelMultiplierDesktop
-            : PRICING_SCROLL.travelMultiplierMobile;
-          /* Travel = content overflow (floor only when tiny). Extra multiplier
-             made the track overrun the cards so highlight felt out of sync. */
-          cachedTravel =
-            overflow < 32 ? Math.max(overflow, floor) : overflow * mult;
-
-          cardCenters = cards.map(
-            (card) => card.offsetLeft + card.offsetWidth / 2
-          );
-
-          const pad = Math.round(
-            window.innerHeight *
-              (isDesktop()
-                ? PRICING_SCROLL.endPadScreensDesktop
-                : PRICING_SCROLL.endPadScreens)
-          );
-
-          if (!isDesktop()) {
-            cachedPinDistance = cachedTravel + pad;
-            return;
-          }
-
-          const vh = window.innerHeight;
-          const stretched = cachedTravel + pad;
-          const min = vh * PRICING_SCROLL.targetScreensDesktopMin;
-          const max = vh * PRICING_SCROLL.targetScreensDesktopMax;
-          cachedPinDistance = Math.round(
-            Math.min(max, Math.max(stretched, min))
-          );
-        };
-
-        const setActiveCard = (index: number) => {
-          if (index === activeIndex || index < 0 || index >= cards.length) {
-            return;
-          }
-          activeIndex = index;
-          cards.forEach((card, i) => {
-            if (i === index) card.dataset.active = "true";
-            else delete card.dataset.active;
-          });
-        };
-
-        /**
-         * Light the card nearest the viewport center using live track x.
-         * Same optical rule on desktop and mobile — matches what you see.
-         * At rest (|x|≈0) force Express so a left-padded measure can't
-         * accidentally pick Brand Web before the first scroll tick.
-         */
-        const syncActiveFromTrack = () => {
-          if (cardCenters.length === 0) return;
-          const x = Number(gsap.getProperty(track, "x")) || 0;
-
-          if (Math.abs(x) < 12) {
-            setActiveCard(0);
-            return;
-          }
-
-          const focusX = cachedViewW / 2 - x;
-          let best = 0;
-          let bestDist = Infinity;
-          for (let i = 0; i < cardCenters.length; i++) {
-            const d = Math.abs(cardCenters[i] - focusX);
-            if (d < bestDist) {
-              bestDist = d;
-              best = i;
-            }
-          }
-          setActiveCard(best);
-        };
-
-        measure();
-        syncActiveFromTrack();
-
-        gsap.set(track, {
-          x: 0,
-          force3D: true,
-          lazy: false,
-        });
-        if (progress) {
-          progress.style.transform = "scaleX(0)";
-          progress.style.transformOrigin = "left center";
-        }
-
-        const syncChrome = (active: boolean) => {
-          setPricingChromeHidden(Boolean(active));
-        };
-
-        const tween = gsap.to(track, {
-          x: () => -cachedTravel,
-          ease: "none",
-          /* Follow the live transform (incl. mobile scrub catch-up), not ST progress. */
-          onUpdate: () => {
-            syncActiveFromTrack();
-          },
-          scrollTrigger: {
-            trigger: pin,
-            start: "top top",
-            end: () => `+=${cachedPinDistance}`,
-            pin: true,
-            pinSpacing: true,
-            scrub: isDesktop()
-              ? PRICING_SCROLL.scrubDesktop
-              : PRICING_SCROLL.scrub,
-            anticipatePin: 1,
-            fastScrollEnd: true,
-            invalidateOnRefresh: true,
-            onRefresh: () => {
-              measure();
-              syncActiveFromTrack();
-            },
-            onToggle: (self) => syncChrome(self.isActive),
-            onUpdate: (self) => {
-              if (!progress) return;
-              const travel = cachedTravel;
-              const total = cachedPinDistance;
-              const cardProgress =
-                total > 0
-                  ? Math.min(1, (self.progress * total) / Math.max(travel, 1))
-                  : self.progress;
-              /* Direct style write — cheaper than gsap.set every frame. */
-              progress.style.transform = `scaleX(${cardProgress})`;
-            },
-          },
-        });
-
-        syncChrome(Boolean(tween.scrollTrigger?.isActive));
-        syncActiveFromTrack();
-
-        return () => {
-          resetPricingChrome();
-          tween.scrollTrigger?.kill();
-          tween.kill();
-          gsap.set(track, { clearProps: "transform" });
-          root.classList.remove(styles.rail);
-          cards.forEach((card) => delete card.dataset.active);
-        };
-      });
-
-      let resizeTimer: ReturnType<typeof setTimeout> | null = null;
-      const refresh = () => {
-        if (!root.isConnected) return;
-        scheduleScrollTriggerRefresh(120);
-      };
-      const onResize = () => {
-        if (resizeTimer) clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(refresh, 120);
-      };
-
-      document.fonts?.ready.then(refresh);
-      gsap.delayedCall(0.15, refresh);
-
-      window.addEventListener("resize", onResize);
-      return () => {
-        if (resizeTimer) clearTimeout(resizeTimer);
-        window.removeEventListener("resize", onResize);
-      };
-    },
-    {
-      scope: rootRef,
-      dependencies: [p.railHeadline, tiers.length, t.CTAS.pricingFoot],
-    }
-  );
 
   const jump = (intent: string) => {
     const hash = t.CTAS.primary.href.startsWith("#")
@@ -256,114 +20,90 @@ export default function PricingProductView() {
   };
 
   return (
-    <section
-      ref={rootRef}
-      id="pricing"
-      className={styles.section}
-      aria-labelledby="pricing-product-heading"
-    >
+    <div className={styles.page}>
       <PricingProductIntro />
 
-      <div ref={pinRef} id="pricing-plans" className={styles.pin}>
-        <div className={styles.atmosphere} aria-hidden="true" />
-        <PricingFlora
-          leftClassName={styles.floraLeft}
-          rightClassName={styles.floraRight}
-          bloomClassName={styles.floraBloom}
-        />
-
-        <header className={`${styles.head} ${styles.headCompact}`}>
-          <p id="pricing-heading" className={styles.title}>
+      <section
+        id="pricing-plans"
+        className={styles.plans}
+        aria-labelledby="pricing-plans-heading"
+      >
+        <header className={styles.plansHead}>
+          <h2 id="pricing-plans-heading" className={styles.plansTitle}>
             {p.railHeadline}
-          </p>
+          </h2>
+          <p className={styles.plansSub}>{p.marketNote}</p>
         </header>
 
-        <div className={styles.railMeta} aria-hidden="true">
-          <span className={styles.hint}>{p.scrollHint}</span>
-          <div className={styles.progressTrack}>
-            <span ref={progressRef} className={styles.progressFill} />
-          </div>
-          <span className={styles.tierCount}>1–{tiers.length}</span>
-        </div>
-
-        <div className={styles.viewport}>
-          <div ref={trackRef} className={styles.track}>
-            {tiers.map((tier) => {
-              const featured = Boolean(tier.featured);
-              return (
-                <article
-                  key={tier.id}
-                  className={`${styles.card} ${featured ? styles.cardFeatured : ""}`}
-                  data-tier={tier.id}
-                  data-featured={featured || undefined}
-                >
-                  <div className={styles.cardTop}>
-                    <p className={styles.timeline}>{tier.timeline}</p>
+        <div className={styles.grid}>
+          {tiers.map((tier) => {
+            const featured = Boolean(tier.featured);
+            return (
+              <article
+                key={tier.id}
+                className={`${styles.card} ${featured ? styles.cardFeatured : ""}`}
+                data-featured={featured || undefined}
+              >
+                <div className={styles.cardHead}>
+                  <div className={styles.cardTitles}>
+                    <h3 className={styles.name}>{tier.title}</h3>
                     {featured ? (
                       <span className={styles.badge}>{p.recommended}</span>
                     ) : null}
                   </div>
-
-                  <h3 className={styles.name}>{tier.title}</h3>
                   <p className={styles.tagline}>{tier.tagline}</p>
+                </div>
 
-                  <p className={styles.outcome}>{tier.outcome}</p>
-
-                  <div className={styles.priceBlock}>
-                    <div className={styles.priceMeta}>
-                      <span className={styles.rateLabel}>{p.clientRate}</span>
-                    </div>
-                    <div className={styles.priceRow}>
-                      {tier.priceWas ? (
-                        <span className={styles.priceWas}>{tier.priceWas}</span>
-                      ) : null}
-                      <span className={styles.price}>{tier.priceFrom}</span>
-                      {tier.priceUnit ? (
-                        <span className={styles.priceUnit}>{tier.priceUnit}</span>
-                      ) : null}
-                    </div>
+                <div className={styles.priceBlock}>
+                  {tier.priceWas ? (
+                    <span className={styles.priceWas}>{tier.priceWas}</span>
+                  ) : null}
+                  <div className={styles.priceRow}>
+                    <span className={styles.price}>{tier.priceFrom}</span>
+                    {tier.priceUnit ? (
+                      <span className={styles.priceUnit}>
+                        {tier.priceUnit}
+                      </span>
+                    ) : null}
                   </div>
+                  <p className={styles.timeline}>{tier.timeline}</p>
+                </div>
 
-                  {tier.offerNote ? (
-                    <p className={styles.offerNote}>{tier.offerNote}</p>
-                  ) : null}
+                <p className={styles.outcome}>{tier.outcome}</p>
 
-                  <p className={styles.bestFor}>{tier.bestFor}</p>
+                <button
+                  type="button"
+                  className={`${styles.cta} ${featured ? styles.ctaFeatured : ""}`}
+                  onClick={() => jump(tier.intent)}
+                >
+                  {tier.cta}
+                </button>
 
-                  <ul className={styles.includes}>
-                    {tier.includes.map((line) => (
-                      <li key={line}>{line}</li>
-                    ))}
-                  </ul>
+                <ul className={styles.includes}>
+                  {tier.includes.map((line) => (
+                    <li key={line}>{line}</li>
+                  ))}
+                </ul>
 
-                  <button
-                    type="button"
-                    className={`${styles.cta} ${featured ? styles.ctaFeatured : ""}`}
-                    onClick={() => jump(tier.intent)}
-                  >
-                    {tier.cta}
-                    <span aria-hidden>→</span>
-                  </button>
-                  {featured ? (
-                    <p className={styles.ctaTrust}>{p.ctaTrust}</p>
-                  ) : null}
-                </article>
-              );
-            })}
-          </div>
+                {tier.offerNote ? (
+                  <p className={styles.offerNote}>{tier.offerNote}</p>
+                ) : null}
+              </article>
+            );
+          })}
         </div>
 
+        <p className={styles.disclaimer}>{p.disclaimer}</p>
         <div className={styles.foot}>
-          <p className={styles.disclaimer}>{p.disclaimer}</p>
           <button
             type="button"
             className={styles.footCta}
             onClick={() => jump("launch")}
           >
-            {t.CTAS.pricingFoot} →
+            {t.CTAS.pricingFoot}
           </button>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }

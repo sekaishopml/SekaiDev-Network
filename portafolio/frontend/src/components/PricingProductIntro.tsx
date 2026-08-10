@@ -78,8 +78,8 @@ export default function PricingProductIntro({
         );
 
       const exitVars: gsap.TweenVars = {
-        y: tier === "low" ? -28 : tier === "mid" ? -48 : -64,
-        autoAlpha: 0,
+        y: tier === "low" ? -16 : -36,
+        autoAlpha: 0.15,
         ease: "power2.inOut",
         scrollTrigger: {
           trigger: root,
@@ -89,10 +89,7 @@ export default function PricingProductIntro({
         },
       };
       if (tier === "high") {
-        exitVars.scale = 0.94;
-        exitVars.filter = "blur(6px)";
-      } else if (tier === "mid") {
-        exitVars.scale = 0.97;
+        exitVars.scale = 0.98;
       }
 
       gsap.to(stage, exitVars);

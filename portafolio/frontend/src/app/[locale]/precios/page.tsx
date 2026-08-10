@@ -65,7 +65,7 @@ export default async function PreciosPage({
       <Navigation />
       <StickyCta />
       <SmoothScroll>
-        <main className="relative bg-[#0c0c0e]">
+        <main className="relative bg-white">
           <PricingProductView />
           <div className="bg-background">
             <Footer />
