@@ -42,11 +42,19 @@ export default function PricingProductView() {
         <div className={styles.grid}>
           {tiers.map((tier) => {
             const featured = Boolean(tier.featured);
+            const partner = tier.id === "partner";
             return (
               <article
                 key={tier.id}
-                className={`${styles.card} ${featured ? styles.cardFeatured : ""}`}
+                className={[
+                  styles.card,
+                  featured ? styles.cardFeatured : "",
+                  partner ? styles.cardPartner : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
                 data-featured={featured || undefined}
+                data-partner={partner || undefined}
               >
                 <div className={styles.cardLead}>
                   <div className={styles.cardTop}>
@@ -79,7 +87,13 @@ export default function PricingProductView() {
 
                 <button
                   type="button"
-                  className={`${styles.cta} ${featured ? styles.ctaFeatured : ""}`}
+                  className={[
+                    styles.cta,
+                    featured ? styles.ctaFeatured : "",
+                    partner ? styles.ctaPartner : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
                   onClick={() => jump(tier.intent)}
                 >
                   {tier.cta}
