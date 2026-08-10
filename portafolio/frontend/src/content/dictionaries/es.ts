@@ -215,7 +215,7 @@ export const es = {
       "Precio de lista vs tu precio en cada paquete. Brand Web es el más elegido para conseguir clientes.",
     scrollHint: "Desliza — 4 paquetes",
     disclaimer:
-      "Estos son precios de entrada. Alcance, fechas y precio final van por escrito. Todos los paquetes incluyen soporte post-lanzamiento (14 días; Build Sprint 15 días). Apps y plataformas completas se cotizan aparte.",
+      "Estos son precios de entrada. Alcance, fechas y precio final van por escrito. Todos los paquetes incluyen soporte post-lanzamiento (14 días; Build Sprint 30 días). Apps y plataformas completas se cotizan aparte.",
     recommended: "Recomendable",
     clientRate: "Tu precio",
     tiers: [
@@ -281,7 +281,7 @@ export const es = {
           "DNS, dominio, HTTPS y protección anti-DDoS",
           "Setup de ads / píxeles y redes (Meta, Google)",
           "Diseño escalable hacia app o plataforma",
-          "15 días de soporte post-lanzamiento",
+          "30 días de soporte post-lanzamiento",
         ],
         cta: "Pedir Build Sprint",
         intent: "sprint",
@@ -320,7 +320,7 @@ export const es = {
     {
       question: "¿Cuánto cuesta trabajar con ustedes?",
       answer:
-        "Web Express desde $349 USD (lista $449). Brand Web desde $699 (lista $899) — nuestro paquete recomendado. Build Sprint desde $999 (lista $1,250). Product Partner desde $499/mes con mínimo 3 meses. Apps y plataformas completas se cotizan aparte.",
+        "Web Express desde $349 USD (lista $449). Brand Web desde $699 (lista $899) — nuestro paquete recomendado. Build Sprint desde $999 (lista $1,250) con 30 días de soporte. Express y Brand incluyen 14 días post-lanzamiento. Product Partner desde $499/mes (soporte continuo, mínimo 3 meses). Apps y plataformas se cotizan aparte.",
     },
     {
       question: "¿Qué paquete me conviene?",
