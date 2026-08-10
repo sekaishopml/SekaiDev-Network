@@ -6,10 +6,10 @@ import { WHATSAPP } from "@/content/config";
 import { getIntent, jumpTo } from "@/lib/navigation";
 
 /**
- * Desktop side CTA + mobile bottom bar. Appears after Offer;
- * hidden on hero/intro and while contact submit is in view.
- * Always routes to contact — never loops back to pricing.
- * WhatsApp only when NEXT_PUBLIC_WHATSAPP is configured.
+ * Desktop side CTA + mobile bottom bar.
+ * Shows once the cinematic intro is done and follows the rest of the scroll.
+ * Hidden only while the hero intro owns the screen, and when the contact
+ * form itself is in view. Always routes to contact.
  */
 export default function StickyCta() {
   const [visible, setVisible] = useState(false);
@@ -18,83 +18,59 @@ export default function StickyCta() {
   const t = useT();
 
   useEffect(() => {
+    const syncFromIntro = () => {
+      const phase = document.documentElement.dataset.intro;
+      if (phase === "done") {
+        setVisible(true);
+        setHideForHero(false);
+        return;
+      }
+      if (phase === "hero" || phase === "animating") {
+        setHideForHero(true);
+      }
+    };
+
+    syncFromIntro();
+
+    const mo = new MutationObserver(syncFromIntro);
+    mo.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-intro"],
+    });
+
+    // Jump / skip paths that land past Look before data-intro flips
     const offer = document.getElementById("offer");
-    if (!offer) {
-      const onScroll = () => {
-        const y = window.scrollY || document.documentElement.scrollTop;
-        setVisible(y > window.innerHeight * 1.2);
-      };
-      onScroll();
-      window.addEventListener("scroll", onScroll, { passive: true });
-      return () => window.removeEventListener("scroll", onScroll);
+    let offerIo: IntersectionObserver | undefined;
+    if (offer) {
+      offerIo = new IntersectionObserver(
+        ([entry]) => {
+          const pastOffer =
+            entry.isIntersecting || entry.boundingClientRect.top < 0;
+          if (pastOffer) {
+            setVisible(true);
+            setHideForHero(false);
+          }
+        },
+        { threshold: 0.05 }
+      );
+      offerIo.observe(offer);
     }
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        const pastOffer =
-          entry.isIntersecting || entry.boundingClientRect.top < 0;
-        setVisible(pastOffer);
-        // Once Offer is in play, never keep the sticky locked behind hero chrome.
-        if (pastOffer) setHideForHero(false);
-      },
-      { threshold: 0.05 }
-    );
-    io.observe(offer);
-    return () => io.disconnect();
+
+    return () => {
+      mo.disconnect();
+      offerIo?.disconnect();
+    };
   }, []);
 
   useEffect(() => {
     const contact = document.getElementById("contact");
     if (!contact) return;
-    // Hide only when the form itself is usable — not a dead zone above it
     const io = new IntersectionObserver(
       ([entry]) => setHideForContact(entry.isIntersecting),
       { threshold: 0.35, rootMargin: "0px 0px -20% 0px" }
     );
     io.observe(contact);
     return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const home = document.getElementById("home");
-    const syncIntro = () => {
-      const phase = document.documentElement.dataset.intro;
-      if (phase === "done") {
-        setHideForHero(false);
-        return;
-      }
-      if (phase === "hero" || phase === "animating") {
-        const offer = document.getElementById("offer");
-        const offerReached =
-          !!offer && offer.getBoundingClientRect().top < window.innerHeight * 0.9;
-        setHideForHero(!offerReached);
-      }
-    };
-    syncIntro();
-
-    const mo = new MutationObserver(syncIntro);
-    mo.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-intro"],
-    });
-
-    let homeIo: IntersectionObserver | undefined;
-    if (home) {
-      homeIo = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.intersectionRatio > 0.45) setHideForHero(true);
-          else if (document.documentElement.dataset.intro === "done") {
-            setHideForHero(false);
-          }
-        },
-        { threshold: [0, 0.45, 0.7, 1] }
-      );
-      homeIo.observe(home);
-    }
-
-    return () => {
-      mo.disconnect();
-      homeIo?.disconnect();
-    };
   }, []);
 
   const show = visible && !hideForContact && !hideForHero;
