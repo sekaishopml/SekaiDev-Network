@@ -120,10 +120,15 @@ export default function PricingSection() {
           });
         };
 
-        /** Pick the card whose center is closest to the rail focus — no layout reads. */
-        const syncActiveFromProgress = (cardProgress: number) => {
+        /**
+         * Pick the card under the rail focus using the track's live x.
+         * Do NOT use remapped cardProgress — that ignores end-pad and mobile
+         * scrub lag, so the highlight runs ahead of the visible card.
+         */
+        const syncActiveFromTrack = () => {
           if (cardCenters.length === 0) return;
-          const focusX = cachedViewW / 2 + cardProgress * cachedTravel;
+          const x = Number(gsap.getProperty(track, "x")) || 0;
+          const focusX = cachedViewW / 2 - x;
           let best = 0;
           let bestDist = Infinity;
           for (let i = 0; i < cardCenters.length; i++) {
@@ -137,7 +142,7 @@ export default function PricingSection() {
         };
 
         measure();
-        syncActiveFromProgress(0);
+        syncActiveFromTrack();
 
         gsap.set(track, {
           x: 0,
@@ -156,6 +161,10 @@ export default function PricingSection() {
         const tween = gsap.to(track, {
           x: () => -cachedTravel,
           ease: "none",
+          /* Follow the live transform (incl. mobile scrub catch-up), not ST progress. */
+          onUpdate: () => {
+            syncActiveFromTrack();
+          },
           scrollTrigger: {
             trigger: pin,
             start: "top top",
@@ -168,35 +177,27 @@ export default function PricingSection() {
             anticipatePin: 1,
             fastScrollEnd: true,
             invalidateOnRefresh: true,
-            onRefresh: (self) => {
+            onRefresh: () => {
               measure();
-              const travel = cachedTravel;
-              const total = cachedPinDistance;
-              const cardProgress =
-                total > 0
-                  ? Math.min(1, (self.progress * total) / Math.max(travel, 1))
-                  : self.progress;
-              syncActiveFromProgress(cardProgress);
+              syncActiveFromTrack();
             },
             onToggle: (self) => syncChrome(self.isActive),
             onUpdate: (self) => {
+              if (!progress) return;
               const travel = cachedTravel;
               const total = cachedPinDistance;
               const cardProgress =
                 total > 0
                   ? Math.min(1, (self.progress * total) / Math.max(travel, 1))
                   : self.progress;
-              if (progress) {
-                /* Direct style write — cheaper than gsap.set every frame. */
-                progress.style.transform = `scaleX(${cardProgress})`;
-              }
-              syncActiveFromProgress(cardProgress);
+              /* Direct style write — cheaper than gsap.set every frame. */
+              progress.style.transform = `scaleX(${cardProgress})`;
             },
           },
         });
 
         syncChrome(Boolean(tween.scrollTrigger?.isActive));
-        syncActiveFromProgress(0);
+        syncActiveFromTrack();
 
         return () => {
           resetPricingChrome();
