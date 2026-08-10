@@ -1,4 +1,4 @@
-import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   INTRO_SEEN_KEY,
   clearIntroSeen,
@@ -7,14 +7,26 @@ import {
 } from "./reloadHero";
 
 describe("reloadHero", () => {
+  let store: Map<string, string>;
+
   beforeEach(() => {
-    sessionStorage.clear();
-    window.history.replaceState(null, "", "/es");
+    store = new Map<string, string>();
+    vi.stubGlobal("sessionStorage", {
+      getItem: vi.fn((key: string) => store.get(key) ?? null),
+      setItem: vi.fn((key: string, value: string) => {
+        store.set(key, value);
+      }),
+      removeItem: vi.fn((key: string) => {
+        store.delete(key);
+      }),
+      clear: vi.fn(() => {
+        store.clear();
+      }),
+    });
   });
 
   afterEach(() => {
     vi.unstubAllGlobals();
-    sessionStorage.clear();
   });
 
   it("clears intro-seen flag", () => {
@@ -24,10 +36,13 @@ describe("reloadHero", () => {
   });
 
   it("strips location hash without leaving the path", () => {
-    window.history.replaceState(null, "", "/es#pricing");
+    const replaceState = vi.fn();
+    vi.stubGlobal("window", {
+      location: { hash: "#pricing", pathname: "/es", search: "" },
+      history: { replaceState },
+    });
     clearLocationHash();
-    expect(window.location.pathname).toBe("/es");
-    expect(window.location.hash).toBe("");
+    expect(replaceState).toHaveBeenCalledWith(null, "", "/es");
   });
 
   it("detects reload from PerformanceNavigationTiming", () => {
