@@ -86,6 +86,13 @@ html[data-overlay="on"] #bonsai-canvas {
   z-index: 12;
 }
 
+/* Soft exit while fading — keep compositing so the premium tween can finish */
+html[data-overlay="exiting"] #intro-overlay-root,
+html[data-overlay="exiting"] #bonsai-canvas {
+  pointer-events: none !important;
+  z-index: 10;
+}
+
 html[data-overlay="off"] #intro-overlay-root,
 html[data-overlay="off"] #bonsai-canvas {
   z-index: 0 !important;
@@ -94,7 +101,8 @@ html[data-overlay="off"] #bonsai-canvas {
   opacity: 0 !important;
 }
 
-html[data-overlay="off"] #hero-labels {
+html[data-overlay="off"] #hero-labels,
+html[data-overlay="exiting"] #hero-labels {
   visibility: hidden !important;
   pointer-events: none !important;
 }

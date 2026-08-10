@@ -348,16 +348,98 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
     };
   }, []);
 
-  // Pin overlay to LOOK targets while on-screen; kill ghost layers past LOOK.
+  // Pin overlay to LOOK targets while on-screen; premium exit into Offer on desktop.
   useEffect(() => {
-    let overlayOn = true;
+    type OverlayMode = "on" | "exiting" | "off";
+    let mode: OverlayMode = "on";
     let syncing = false;
+    let exitTween: gsap.core.Timeline | null = null;
+    let trackRaf = 0;
 
-    const setOverlay = (on: boolean) => {
-      if (overlayOn === on) return;
-      overlayOn = on;
-      document.documentElement.dataset.overlay = on ? "on" : "off";
-      setOverlayVisible(on);
+    const root = document.documentElement;
+    const overlayEl = () => document.getElementById("intro-overlay-root");
+    const canvasEl = () => document.getElementById("bonsai-canvas");
+
+    const preferPremiumExit = () =>
+      window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)")
+        .matches;
+
+    const killExit = () => {
+      exitTween?.kill();
+      exitTween = null;
+      const overlay = overlayEl();
+      const canvas = canvasEl();
+      if (overlay) gsap.set(overlay, { clearProps: "opacity,transform,filter" });
+      if (canvas) gsap.set(canvas, { clearProps: "opacity,transform,filter" });
+    };
+
+    const setMode = (next: OverlayMode) => {
+      if (mode === next) return;
+      mode = next;
+      root.dataset.overlay = next;
+      setOverlayVisible(next === "on" || next === "exiting");
+    };
+
+    const finishOff = () => {
+      killExit();
+      setMode("off");
+    };
+
+    const showOverlay = () => {
+      killExit();
+      const overlay = overlayEl();
+      const canvas = canvasEl();
+      if (overlay) gsap.set(overlay, { opacity: 1, y: 0, filter: "none" });
+      if (canvas) gsap.set(canvas, { opacity: 1, y: 0, filter: "none" });
+      setMode("on");
+    };
+
+    const hideOverlay = () => {
+      if (mode === "off" || mode === "exiting") return;
+
+      if (!preferPremiumExit()) {
+        finishOff();
+        return;
+      }
+
+      const overlay = overlayEl();
+      const canvas = canvasEl();
+      if (!overlay && !canvas) {
+        finishOff();
+        return;
+      }
+
+      killExit();
+      setMode("exiting");
+      exitTween = gsap.timeline({
+        defaults: { ease: "power2.out" },
+        onComplete: finishOff,
+      });
+
+      if (overlay) {
+        exitTween.to(
+          overlay,
+          {
+            opacity: 0,
+            y: -28,
+            filter: "blur(6px)",
+            duration: 0.72,
+          },
+          0
+        );
+      }
+      if (canvas) {
+        exitTween.to(
+          canvas,
+          {
+            opacity: 0,
+            y: -18,
+            filter: "blur(4px)",
+            duration: 0.65,
+          },
+          0.04
+        );
+      }
     };
 
     const bonsaiEl = document.getElementById("bonsai-target");
@@ -366,32 +448,54 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
     let bonsaiVisible = true;
     let longVisible = false;
 
-    const syncLookOverlay = (snapProgress: boolean) => {
+    const trackTargets = () => {
+      if (phaseRef.current !== "look" || mode !== "on") return;
+      if (!(bonsaiVisible || longVisible)) return;
+      refreshLookTargetCache();
+      applyProgress(1);
+    };
+
+    const scheduleTrack = () => {
+      if (trackRaf) return;
+      trackRaf = requestAnimationFrame(() => {
+        trackRaf = 0;
+        trackTargets();
+      });
+    };
+
+    const syncLookOverlay = (fromVisibility: boolean) => {
       if (syncing) return;
       syncing = true;
       try {
         const phase = phaseRef.current;
         if (phase !== "look") {
-          setOverlay(true);
+          showOverlay();
           return;
         }
 
         if (!bonsaiEl) {
-          setOverlay(false);
+          hideOverlay();
           return;
         }
 
         const visible = bonsaiVisible || longVisible;
-        // Snap only from IO visibility changes — never from data-intro mutations
-        // (applyProgress writes data-intro and would infinite-loop the observer).
-        if (visible && snapProgress) applyProgress(1);
-        setOverlay(visible);
+        if (visible) {
+          if (fromVisibility || mode !== "on") {
+            showOverlay();
+            refreshLookTargetCache();
+            applyProgress(1);
+          }
+          return;
+        }
+
+        hideOverlay();
       } finally {
         syncing = false;
       }
     };
 
-    document.documentElement.dataset.overlay = "on";
+    root.dataset.overlay = "on";
+    setOverlayVisible(true);
 
     const visibilityObserver =
       bonsaiEl &&
@@ -403,7 +507,8 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
           }
           syncLookOverlay(true);
         },
-        { root: null, rootMargin: "80px 0px 80px 0px", threshold: 0 }
+        // Start exit a touch earlier so the fade finishes as Offer arrives
+        { root: null, rootMargin: "0px 0px -12% 0px", threshold: [0, 0.08, 0.2] }
       );
 
     if (visibilityObserver && bonsaiEl) {
@@ -412,17 +517,23 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
     }
 
     const phaseObserver = new MutationObserver(() => syncLookOverlay(false));
-    phaseObserver.observe(document.documentElement, {
+    phaseObserver.observe(root, {
       attributes: true,
       attributeFilter: ["data-intro"],
     });
+
+    // Keep fixed overlay glued to LOOK targets while scrolling (cache alone freezes it).
+    window.addEventListener("scroll", scheduleTrack, { passive: true });
 
     syncLookOverlay(true);
 
     return () => {
       visibilityObserver?.disconnect();
       phaseObserver.disconnect();
-      delete document.documentElement.dataset.overlay;
+      window.removeEventListener("scroll", scheduleTrack);
+      if (trackRaf) cancelAnimationFrame(trackRaf);
+      killExit();
+      delete root.dataset.overlay;
     };
   }, [applyProgress, phaseRef]);
 
@@ -435,7 +546,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
         <BonsaiCanvas visible={overlayVisible} zIndex={12} />
         <div
           id="intro-overlay-root"
-          className="fixed inset-0 z-[4] pointer-events-none transition-opacity duration-300"
+          className="fixed inset-0 z-[4] pointer-events-none will-change-[opacity,transform]"
           aria-hidden={!overlayVisible}
           style={{
             opacity: overlayVisible ? 1 : 0,
