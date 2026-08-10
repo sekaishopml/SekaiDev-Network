@@ -29,8 +29,8 @@ const HeroSection = dynamic(() => import("@/components/HeroSection"), {
 });
 
 /**
- * Funnel: what we build → how we work → one example → price → talk → FAQ.
- * CyTaxi stays as a single case study, not the whole studio story.
+ * Funnel: what we build → how we work → proof → price → who we are →
+ * objections → talk. Contact closes after FAQ.
  */
 export default function Home() {
   const { loaded, setBonsaiLoaded, progress } = useBonsaiLoad();
@@ -51,9 +51,9 @@ export default function Home() {
           <MethodSection />
           <FeaturedCase />
           <PricingSection />
-          <Contact />
           <About />
           <FaqSection />
+          <Contact />
           <div className="bg-background">
             <Footer />
           </div>

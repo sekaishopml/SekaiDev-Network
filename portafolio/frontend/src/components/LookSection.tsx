@@ -20,13 +20,14 @@ function LookSection() {
   };
 
   return (
-    <section className={styles.lookSection} id="look" aria-label="Look closer">
+    <section
+      className={styles.lookSection}
+      id="look"
+      aria-labelledby="look-title"
+    >
       <div className={styles.atmosphere} aria-hidden="true" />
       <div className={styles.lookStage}>
         <div className={styles.lookTopBlock}>
-          <span className={styles.indexMark} aria-hidden="true">
-            01
-          </span>
           <h2 id="look-title" className={styles.ghostText}>
             {t.LOOK_COPY.look}
           </h2>

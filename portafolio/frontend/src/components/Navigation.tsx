@@ -143,7 +143,7 @@ export default function Navigation() {
           {/* True optical center — independent of logo / right rail widths */}
           <nav
             className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-5 xl:gap-7 text-[10px] xl:text-[11px] tracking-[0.14em] xl:tracking-[0.18em] font-medium whitespace-nowrap"
-            aria-label="Primary"
+            aria-label={t.UI.primaryNav}
           >
             {desktopLinks.map((l, i) => (
               <Link
@@ -252,7 +252,7 @@ export default function Navigation() {
           if (e.target === dialogRef.current) closeMenu();
         }}
         id={menuId}
-        aria-label="Mobile navigation"
+        aria-label={t.UI.mobileNav}
         className="mobile-nav fixed inset-0 z-[60] m-0 h-[100dvh] max-h-none w-full max-w-none overflow-hidden border-0 bg-transparent p-0 md:hidden open:flex"
       >
         <div

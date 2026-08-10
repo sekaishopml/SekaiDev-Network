@@ -177,6 +177,16 @@ export type StudioDictionary = {
     submit: { idle: string; sending: string };
     successTitle: string;
     successBody: string;
+    successReferenceLabel: string;
+    successFollowup: string;
+    mailtoSubject: string;
+    mailtoLabels: {
+      company: string;
+      industry: string;
+      type: string;
+      timeline: string;
+      budget: string;
+    };
     privacyNote: string;
     whatsappPrefill: string;
   };
@@ -202,6 +212,8 @@ export type StudioDictionary = {
     faqSubline: string;
     openMenu: string;
     closeMenu: string;
+    primaryNav: string;
+    mobileNav: string;
     contactErrors: {
       rateLimited: string;
       generic: string;

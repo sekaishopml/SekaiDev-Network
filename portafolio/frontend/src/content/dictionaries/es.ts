@@ -103,8 +103,8 @@ export const es = {
     },
     { label: "Cómo trabajamos", href: "#process", mobileOnly: false },
     { label: "Precios", href: "#pricing", mobileOnly: false },
-    { label: "Contacto", href: "#contact", mobileOnly: false },
     { label: "Preguntas", href: "#faq", mobileOnly: false },
+    { label: "Contacto", href: "#contact", mobileOnly: false },
   ],
 
   NAV_TRUST:
@@ -152,7 +152,7 @@ export const es = {
   FEATURED_CASE: {
     label: "Proyecto de ejemplo",
     title: "CyTaxi",
-    titleLine2: "Platform",
+    titleLine2: "Plataforma",
     role: "Producto, sistemas y pantalla de operaciones",
     challenge:
       "Necesitaban una app de movilidad lista para trabajar: pedidos, pagos y seguimiento que el equipo de operaciones pudiera usar todos los días.",
@@ -196,7 +196,7 @@ export const es = {
       dropoff: "Destino",
       pickupPlace: "Centro",
       dropoffPlace: "Aeropuerto",
-      eta: "ETA 6 min",
+      eta: "Listo en ~6 min",
     },
   },
 
@@ -440,7 +440,7 @@ export const es = {
       id: "04",
       slug: "dashboards",
       title: "Paneles y herramientas internas",
-      kind: "Tools",
+      kind: "Herramientas",
       challenge: "Pantallas que el equipo usa todos los días.",
       result: "Tablas, números y flujos — claros, rápidos, sin adornos.",
       tags: "React · Charts · Postgres",
@@ -503,6 +503,17 @@ export const es = {
     successTitle: "Recibimos tu mensaje",
     successBody:
       "Te respondemos en menos de 24 horas con los siguientes pasos, o te decimos con claridad si no encajamos.",
+    successReferenceLabel: "Referencia",
+    successFollowup:
+      "Guarda esta referencia si nos escribes de nuevo. Normalmente respondemos en menos de 24 horas.",
+    mailtoSubject: "Consulta de proyecto de {name}",
+    mailtoLabels: {
+      company: "Empresa",
+      industry: "Industria",
+      type: "Tipo",
+      timeline: "Plazo",
+      budget: "Presupuesto",
+    },
     privacyNote:
       "Sin listas de correo. Tu mensaje llega al equipo que construye.",
     whatsappPrefill:
@@ -555,6 +566,8 @@ export const es = {
       "Encaje, plata, dueño del código y plazos — respondido antes de que gastes tiempo en una llamada.",
     openMenu: "Abrir menú",
     closeMenu: "Cerrar menú",
+    primaryNav: "Principal",
+    mobileNav: "Navegación móvil",
     contactErrors: {
       rateLimited:
         "Demasiados intentos. Espera un momento e inténtalo de nuevo.",

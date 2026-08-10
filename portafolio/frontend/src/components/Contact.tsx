@@ -137,18 +137,19 @@ export default function Contact({ footer }: ContactProps) {
       clearIntent();
       trackInquiry(body.reference);
     } catch (err) {
+      const ml = t.CONTACT_COPY.mailtoLabels;
       const subject = encodeURIComponent(
-        `Project inquiry from ${payload.name}`
+        t.CONTACT_COPY.mailtoSubject.replace("{name}", payload.name)
       );
       const body = encodeURIComponent(
         [
           payload.message,
           "",
-          `Company: ${payload.company || "—"}`,
-          `Industry: ${payload.industry || "—"}`,
-          `Type: ${payload.projectType || "—"}`,
-          `Timeline: ${payload.timeline || "—"}`,
-          `Budget: ${payload.budget || "—"}`,
+          `${ml.company}: ${payload.company || "—"}`,
+          `${ml.industry}: ${payload.industry || "—"}`,
+          `${ml.type}: ${payload.projectType || "—"}`,
+          `${ml.timeline}: ${payload.timeline || "—"}`,
+          `${ml.budget}: ${payload.budget || "—"}`,
           "",
           `— ${payload.name} <${payload.email}>`,
         ].join("\n")
@@ -264,13 +265,12 @@ export default function Contact({ footer }: ContactProps) {
             </p>
             {reference && (
               <p className="mt-6 text-xs tracking-widest text-foreground/70">
-                Reference{" "}
+                {t.CONTACT_COPY.successReferenceLabel}{" "}
                 <span className="text-foreground font-medium">{reference}</span>
               </p>
             )}
             <p className="mt-4 text-sm text-foreground/60 leading-relaxed">
-              Keep this reference if you follow up. We typically reply within
-              24 hours.
+              {t.CONTACT_COPY.successFollowup}
             </p>
             <div className="mt-6 flex flex-col gap-3">
               <a

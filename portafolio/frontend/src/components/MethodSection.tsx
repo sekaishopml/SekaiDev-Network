@@ -121,7 +121,7 @@ export default function MethodSection() {
       <div className={styles.inner}>
         <aside className={styles.rail}>
           <span className={styles.watermark} aria-hidden="true">
-            03
+            02
           </span>
           <span className={styles.eyebrow} data-method-head>
             {t.UI.proofLabel}

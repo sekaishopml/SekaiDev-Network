@@ -29,17 +29,6 @@ export default function FaqSection() {
             {t.UI.faqHeadline}
           </h2>
           <p className={styles.subline}>{t.UI.faqSubline}</p>
-
-          <div className={styles.headCta}>
-            <p className={styles.still}>{t.UI.stillFit}</p>
-            <button
-              type="button"
-              onClick={jumpContact}
-              className={styles.cta}
-            >
-              {t.CTAS.primary.labelUpper}
-            </button>
-          </div>
         </header>
 
         <div className={styles.list}>

@@ -676,7 +676,7 @@ export default function FeaturedCase() {
       <div ref={pinRef} className={styles.pinWrap}>
         <div className={styles.cine}>
           <span className={styles.watermark} aria-hidden="true">
-            02
+            03
           </span>
 
           <div className={styles.cineGrid}>

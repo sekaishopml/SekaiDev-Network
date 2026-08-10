@@ -100,8 +100,8 @@ export const en = {
     },
     { label: "How we work", href: "#process", mobileOnly: false },
     { label: "Pricing", href: "#pricing", mobileOnly: false },
-    { label: "Contact", href: "#contact", mobileOnly: false },
     { label: "FAQ", href: "#faq", mobileOnly: false },
+    { label: "Contact", href: "#contact", mobileOnly: false },
   ],
 
   NAV_TRUST:
@@ -490,6 +490,17 @@ export const en = {
     successTitle: "Got your message",
     successBody:
       "We reply within 24 hours with next steps, or tell you clearly if we are not a fit.",
+    successReferenceLabel: "Reference",
+    successFollowup:
+      "Keep this reference if you follow up. We typically reply within 24 hours.",
+    mailtoSubject: "Project inquiry from {name}",
+    mailtoLabels: {
+      company: "Company",
+      industry: "Industry",
+      type: "Type",
+      timeline: "Timeline",
+      budget: "Budget",
+    },
     privacyNote: "No mailing lists. Your note goes to the team that builds.",
     whatsappPrefill: "Hi SekaiDev, I want to talk about a project.",
   },
@@ -540,6 +551,8 @@ export const en = {
       "Fit, money, who owns the code, and timelines — answered before you spend time on a call.",
     openMenu: "Open menu",
     closeMenu: "Close menu",
+    primaryNav: "Primary",
+    mobileNav: "Mobile navigation",
     contactErrors: {
       rateLimited: "Too many attempts. Please wait a moment and try again.",
       generic: "Something went wrong. Please try again.",
