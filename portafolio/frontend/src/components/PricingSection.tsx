@@ -43,6 +43,11 @@ export default function PricingSection() {
         root.classList.add(styles.reduced);
         root.classList.remove(styles.rail);
         resetPricingChrome();
+        track
+          .querySelectorAll<HTMLElement>(`.${styles.card}`)
+          .forEach((card) => {
+            card.dataset.active = "true";
+          });
         return () => root.classList.remove(styles.reduced);
       });
 
@@ -52,14 +57,21 @@ export default function PricingSection() {
 
         const desktopMq = window.matchMedia(PRICING_SCROLL.desktopQuery);
         const isDesktop = () => desktopMq.matches;
+        const cards = Array.from(
+          track.querySelectorAll<HTMLElement>(`.${styles.card}`)
+        );
 
         /* Cache scroll metrics — never read layout inside onUpdate. */
         let cachedTravel = 0;
         let cachedPinDistance = 0;
+        let cachedViewW = 0;
+        let cardCenters: number[] = [];
+        let activeIndex = -1;
 
         const measure = () => {
           const rail = pin.querySelector<HTMLElement>(`.${styles.viewport}`);
           const viewW = rail?.clientWidth || pin.clientWidth;
+          cachedViewW = viewW;
           const overflow = Math.max(0, track.scrollWidth - viewW);
           const floor = isDesktop()
             ? PRICING_SCROLL.minTravelPxDesktop
@@ -71,6 +83,10 @@ export default function PricingSection() {
             overflow < 32
               ? Math.max(overflow, floor)
               : Math.max(overflow * mult, floor);
+
+          cardCenters = cards.map(
+            (card) => card.offsetLeft + card.offsetWidth / 2
+          );
 
           const pad = Math.round(
             window.innerHeight *
@@ -93,7 +109,35 @@ export default function PricingSection() {
           );
         };
 
+        const setActiveCard = (index: number) => {
+          if (index === activeIndex || index < 0 || index >= cards.length) {
+            return;
+          }
+          activeIndex = index;
+          cards.forEach((card, i) => {
+            if (i === index) card.dataset.active = "true";
+            else delete card.dataset.active;
+          });
+        };
+
+        /** Pick the card whose center is closest to the rail focus — no layout reads. */
+        const syncActiveFromProgress = (cardProgress: number) => {
+          if (cardCenters.length === 0) return;
+          const focusX = cachedViewW / 2 + cardProgress * cachedTravel;
+          let best = 0;
+          let bestDist = Infinity;
+          for (let i = 0; i < cardCenters.length; i++) {
+            const d = Math.abs(cardCenters[i] - focusX);
+            if (d < bestDist) {
+              bestDist = d;
+              best = i;
+            }
+          }
+          setActiveCard(best);
+        };
+
         measure();
+        syncActiveFromProgress(0);
 
         gsap.set(track, {
           x: 0,
@@ -124,23 +168,35 @@ export default function PricingSection() {
             anticipatePin: 1,
             fastScrollEnd: true,
             invalidateOnRefresh: true,
-            onRefresh: measure,
-            onToggle: (self) => syncChrome(self.isActive),
-            onUpdate: (self) => {
-              if (!progress) return;
+            onRefresh: (self) => {
+              measure();
               const travel = cachedTravel;
               const total = cachedPinDistance;
               const cardProgress =
                 total > 0
                   ? Math.min(1, (self.progress * total) / Math.max(travel, 1))
                   : self.progress;
-              /* Direct style write — cheaper than gsap.set every frame. */
-              progress.style.transform = `scaleX(${cardProgress})`;
+              syncActiveFromProgress(cardProgress);
+            },
+            onToggle: (self) => syncChrome(self.isActive),
+            onUpdate: (self) => {
+              const travel = cachedTravel;
+              const total = cachedPinDistance;
+              const cardProgress =
+                total > 0
+                  ? Math.min(1, (self.progress * total) / Math.max(travel, 1))
+                  : self.progress;
+              if (progress) {
+                /* Direct style write — cheaper than gsap.set every frame. */
+                progress.style.transform = `scaleX(${cardProgress})`;
+              }
+              syncActiveFromProgress(cardProgress);
             },
           },
         });
 
         syncChrome(Boolean(tween.scrollTrigger?.isActive));
+        syncActiveFromProgress(0);
 
         return () => {
           resetPricingChrome();
@@ -148,6 +204,7 @@ export default function PricingSection() {
           tween.kill();
           gsap.set(track, { clearProps: "transform" });
           root.classList.remove(styles.rail);
+          cards.forEach((card) => delete card.dataset.active);
         };
       });
 
@@ -235,6 +292,8 @@ export default function PricingSection() {
                   <h3 className={styles.name}>{tier.title}</h3>
                   <p className={styles.tagline}>{tier.tagline}</p>
 
+                  <p className={styles.outcome}>{tier.outcome}</p>
+
                   <div className={styles.priceBlock}>
                     <div className={styles.priceMeta}>
                       <span className={styles.rateLabel}>{p.clientRate}</span>
@@ -270,6 +329,9 @@ export default function PricingSection() {
                     {tier.cta}
                     <span aria-hidden>→</span>
                   </button>
+                  {featured ? (
+                    <p className={styles.ctaTrust}>{p.ctaTrust}</p>
+                  ) : null}
                 </article>
               );
             })}

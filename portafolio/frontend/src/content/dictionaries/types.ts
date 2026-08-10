@@ -105,6 +105,8 @@ export type StudioDictionary = {
     disclaimer: string;
     recommended: string;
     clientRate: string;
+    /** Micro-trust under the featured CTA. */
+    ctaTrust: string;
     tiers: readonly {
       id: string;
       title: string;
@@ -115,6 +117,8 @@ export type StudioDictionary = {
       priceFrom: string;
       priceUnit?: string;
       saveLabel?: string;
+      /** Short outcome line above the price — desire before features. */
+      outcome: string;
       offerNote?: string;
       bestFor: string;
       includes: readonly string[];

@@ -217,6 +217,7 @@ export const en = {
       "These are starting prices. Scope, dates, and final price come in writing. Every package includes post-launch support (14 days; Build Sprint 30 days). Full apps and platforms are quoted separately.",
     recommended: "Recommended",
     clientRate: "Your price",
+    ctaTrust: "Reply <24h · written plan · no commitment",
     tiers: [
       {
         id: "express",
@@ -226,6 +227,7 @@ export const en = {
         priceWas: "$449",
         priceFrom: "$349",
         priceUnit: "USD",
+        outcome: "Live and taking messages in 7–14 days.",
         bestFor:
           "One clear page with WhatsApp or a CTA, basic SEO, and go-live — quick and simple.",
         includes: [
@@ -247,6 +249,7 @@ export const en = {
         priceWas: "$899",
         priceFrom: "$699",
         priceUnit: "USD",
+        outcome: "A site ready to win clients in 2–4 weeks.",
         offerNote:
           "The usual pick: a clear, fast site ready to win clients.",
         bestFor:
@@ -271,6 +274,7 @@ export const en = {
         priceWas: "$1,250",
         priceFrom: "$999",
         priceUnit: "USD",
+        outcome: "A concrete system live — CRM, bookings, or API — in weeks.",
         bestFor:
           "When you need a concrete system: CRM, bookings, forms with a database, or an API — with a clear path to scale into a full app.",
         includes: [
@@ -293,6 +297,7 @@ export const en = {
         priceWas: "$649",
         priceFrom: "$499",
         priceUnit: "USD / mo",
+        outcome: "Improvements and support every month — without hiring in-house.",
         bestFor:
           "When your site or system is already live and you want to keep improving it, protect it, and grow toward an app or new features — without hiring in-house.",
         includes: [

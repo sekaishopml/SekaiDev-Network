@@ -218,6 +218,7 @@ export const es = {
       "Estos son precios de entrada. Alcance, fechas y precio final van por escrito. Todos los paquetes incluyen soporte post-lanzamiento (14 días; Build Sprint 30 días). Apps y plataformas completas se cotizan aparte.",
     recommended: "Recomendable",
     clientRate: "Tu precio",
+    ctaTrust: "Respuesta <24h · plan por escrito · sin compromiso",
     tiers: [
       {
         id: "express",
@@ -227,6 +228,7 @@ export const es = {
         priceWas: "$449",
         priceFrom: "$349",
         priceUnit: "USD",
+        outcome: "Online y recibiendo mensajes en 7–14 días.",
         bestFor:
           "Una página clara con WhatsApp o CTA, SEO básico y salida al aire — rápido y sin complicarte.",
         includes: [
@@ -248,6 +250,7 @@ export const es = {
         priceWas: "$899",
         priceFrom: "$699",
         priceUnit: "USD",
+        outcome: "Web lista para conseguir clientes en 2–4 semanas.",
         offerNote:
           "El más elegido: web clara, rápida y lista para conseguir clientes.",
         bestFor:
@@ -272,6 +275,7 @@ export const es = {
         priceWas: "$1,250",
         priceFrom: "$999",
         priceUnit: "USD",
+        outcome: "Un sistema concreto vivo — CRM, reservas o API — en semanas.",
         bestFor:
           "Cuando necesitas un sistema concreto: CRM, reservas, formularios con base de datos o una API — con camino claro para escalar a app completa.",
         includes: [
@@ -294,6 +298,7 @@ export const es = {
         priceWas: "$649",
         priceFrom: "$499",
         priceUnit: "USD / mes",
+        outcome: "Mejoras y soporte cada mes — sin contratar un equipo interno.",
         bestFor:
           "Cuando ya tienes web o sistema en el aire y quieres mejorarlo, protegerlo y crecer hacia app o nuevas funciones sin contratar un equipo interno.",
         includes: [
