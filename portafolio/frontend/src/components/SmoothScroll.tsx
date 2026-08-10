@@ -6,6 +6,11 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { introOwnsPageScroll } from "@/lib/heroTransforms";
 import { parseJumpHref, setIntent } from "@/lib/navigation";
+import {
+  clearLocationHash,
+  isPageReload,
+  snapWindowToTop,
+} from "@/lib/reloadHero";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,6 +46,15 @@ function LenisBridge({ jumpDuration }: { jumpDuration: number }) {
   const lenis = useLenis();
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      history.scrollRestoration = "manual";
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  useEffect(() => {
     if (!lenis) return;
 
     // Single RAF loop shared with GSAP — avoids double rAF / frame drift
@@ -69,6 +83,31 @@ function LenisBridge({ jumpDuration }: { jumpDuration: number }) {
     return () => {
       gsap.ticker.remove(raf);
       lenis.off("scroll", onScroll);
+    };
+  }, [lenis]);
+
+  useEffect(() => {
+    if (!lenis || !isPageReload()) return;
+
+    clearLocationHash();
+    const snap = () => {
+      snapWindowToTop();
+      lenis.scrollTo(0, { immediate: true });
+      ScrollTrigger.update();
+    };
+
+    snap();
+    const raf = requestAnimationFrame(snap);
+    const t1 = window.setTimeout(snap, 50);
+    const t2 = window.setTimeout(() => {
+      snap();
+      ScrollTrigger.refresh();
+    }, 200);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
     };
   }, [lenis]);
 

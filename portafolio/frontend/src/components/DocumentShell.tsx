@@ -2,6 +2,7 @@ import { Inter, Oswald } from "next/font/google";
 import LoadingScreen from "@/components/loading/LoadingScreen";
 import NoiseOverlay from "@/components/NoiseOverlay";
 import CustomCursor from "@/components/CustomCursor";
+import { RELOAD_HERO_BOOT_SCRIPT } from "@/lib/reloadHero";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,6 +36,9 @@ export function DocumentShell({
       <body className="antialiased font-sans">
         {withChrome ? (
           <>
+            <script
+              dangerouslySetInnerHTML={{ __html: RELOAD_HERO_BOOT_SCRIPT }}
+            />
             <LoadingScreen />
             <NoiseOverlay />
             <CustomCursor />

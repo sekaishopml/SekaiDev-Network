@@ -9,10 +9,9 @@ import {
   TRANSITION_DURATION_IN,
   TRANSITION_DURATION_OUT,
 } from "@/lib/heroTransforms";
+import { INTRO_SEEN_KEY } from "@/lib/reloadHero";
 
 export type HeroIntroPhase = "hero" | "forward" | "look" | "reverse";
-
-const INTRO_SEEN_KEY = "sekaidev:intro-seen";
 
 export function markIntroSeen() {
   try {
