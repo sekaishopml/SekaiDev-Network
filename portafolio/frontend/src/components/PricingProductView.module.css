@@ -9,43 +9,18 @@
   max-width: 100rem;
   margin: 0 auto;
   padding:
-    clamp(5.5rem, 14vw, 9.5rem)
+    clamp(3.5rem, 8vw, 5.75rem)
     clamp(1.25rem, 3.5vw, 3.5rem)
     clamp(3.5rem, 7vw, 5.5rem);
-  /* Deep gray→white melt so the hero seam dissolves into the plans. */
+  /* Short gray→white ease — soft seam, not a long wash. */
   background:
     linear-gradient(
       180deg,
-      #f7f7f7 0%,
-      #f0f0f0 8%,
-      #e6e6e6 18%,
-      color-mix(in srgb, var(--background, #d6d6d6) 55%, #ffffff) 32%,
-      color-mix(in srgb, var(--background, #d6d6d6) 28%, #ffffff) 48%,
-      #fafafa 64%,
-      #ffffff 78%,
+      #e8e8e8 0%,
+      #f2f2f2 12%,
+      #f8f8f8 28%,
+      #ffffff 48%,
       #ffffff 100%
-    );
-}
-
-.plans::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: clamp(10rem, 28vh, 18rem);
-  pointer-events: none;
-  z-index: 0;
-  background:
-    radial-gradient(
-      120% 80% at 50% -10%,
-      color-mix(in srgb, var(--background, #d6d6d6) 70%, transparent) 0%,
-      transparent 72%
-    ),
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--background, #d6d6d6) 45%, transparent) 0%,
-      transparent 100%
     );
 }
 

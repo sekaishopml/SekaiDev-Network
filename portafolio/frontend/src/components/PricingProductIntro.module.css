@@ -9,13 +9,13 @@
   padding:
     calc(var(--nav-clear, 5rem) - 3.85rem)
     clamp(1.25rem, 4vw, 3rem)
-    clamp(5.5rem, 14vh, 9rem);
+    clamp(3.25rem, 8vh, 5rem);
   color: var(--foreground, #111111);
   background: var(--background, #d6d6d6);
   overflow: clip;
 }
 
-/* Deep fade out of the hero gray into the plans white — no hard seam. */
+/* Soft fade so the hero/plans seam doesn’t read as a hard cut. */
 .intro::after {
   content: "";
   position: absolute;
@@ -23,15 +23,13 @@
   right: 0;
   bottom: 0;
   z-index: 0;
-  height: clamp(7rem, 22vh, 14rem);
+  height: clamp(3.5rem, 10vh, 6rem);
   pointer-events: none;
   background: linear-gradient(
     180deg,
     rgba(214, 214, 214, 0) 0%,
-    rgba(214, 214, 214, 0.35) 28%,
-    rgba(232, 232, 232, 0.75) 58%,
-    rgba(245, 245, 245, 0.92) 82%,
-    #f7f7f7 100%
+    rgba(214, 214, 214, 0.55) 70%,
+    #e8e8e8 100%
   );
 }
 
