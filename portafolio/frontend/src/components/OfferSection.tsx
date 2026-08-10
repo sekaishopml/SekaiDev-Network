@@ -79,34 +79,37 @@ export default function OfferSection() {
         });
         gsap.set(panel, { yPercent: 10, opacity: 0.55 });
 
-        const st = {
-          trigger: row,
-          start: OFFER_SCROLL.start,
-          end: OFFER_SCROLL.end,
-          scrub: OFFER_SCROLL.scrub,
-          onUpdate: (self: ScrollTrigger) => {
-            row.classList.toggle(styles.isOpen, self.progress > 0.4);
-          },
-        };
-
-        gsap.to(stage, {
-          clipPath: "inset(0% 0% 0% 0%)",
-          opacity: 1,
-          ease: "none",
-          scrollTrigger: st,
-        });
-
-        gsap.to(panel, {
-          yPercent: 0,
-          opacity: 1,
-          ease: "none",
+        const rowTl = gsap.timeline({
           scrollTrigger: {
             trigger: row,
             start: OFFER_SCROLL.start,
             end: OFFER_SCROLL.end,
             scrub: OFFER_SCROLL.scrub,
+            onUpdate: (self: ScrollTrigger) => {
+              row.classList.toggle(styles.isOpen, self.progress > 0.4);
+            },
           },
         });
+
+        rowTl.to(
+          stage,
+          {
+            clipPath: "inset(0% 0% 0% 0%)",
+            opacity: 1,
+            ease: "none",
+          },
+          0
+        );
+
+        rowTl.to(
+          panel,
+          {
+            yPercent: 0,
+            opacity: 1,
+            ease: "none",
+          },
+          0
+        );
       });
 
       const refresh = () => {
