@@ -48,31 +48,33 @@ export default function PricingProductView() {
                 className={`${styles.card} ${featured ? styles.cardFeatured : ""}`}
                 data-featured={featured || undefined}
               >
-                <div className={styles.cardTop}>
-                  <div className={styles.cardTitles}>
-                    <h3 className={styles.name}>{tier.title}</h3>
-                    {featured ? (
-                      <span className={styles.badge}>{p.recommended}</span>
-                    ) : null}
+                <div className={styles.cardLead}>
+                  <div className={styles.cardTop}>
+                    <div className={styles.cardTitles}>
+                      <h3 className={styles.name}>{tier.title}</h3>
+                      {featured ? (
+                        <span className={styles.badge}>{p.recommended}</span>
+                      ) : null}
+                    </div>
+                    <p className={styles.tagline}>{tier.tagline}</p>
+                    <p className={styles.timeline}>{tier.timeline}</p>
                   </div>
-                  <p className={styles.tagline}>{tier.tagline}</p>
-                  <p className={styles.timeline}>{tier.timeline}</p>
-                </div>
 
-                <div className={styles.priceBlock}>
-                  <span className={styles.rateLabel}>{p.clientRate}</span>
-                  {tier.priceWas ? (
-                    <span className={styles.priceWas}>{tier.priceWas}</span>
-                  ) : null}
-                  <div className={styles.priceRow}>
-                    <span className={styles.price}>{tier.priceFrom}</span>
-                    {tier.priceUnit ? (
-                      <span className={styles.priceUnit}>
-                        {tier.priceUnit}
-                      </span>
+                  <div className={styles.priceBlock}>
+                    <span className={styles.rateLabel}>{p.clientRate}</span>
+                    {tier.priceWas ? (
+                      <span className={styles.priceWas}>{tier.priceWas}</span>
                     ) : null}
+                    <div className={styles.priceRow}>
+                      <span className={styles.price}>{tier.priceFrom}</span>
+                      {tier.priceUnit ? (
+                        <span className={styles.priceUnit}>
+                          {tier.priceUnit}
+                        </span>
+                      ) : null}
+                    </div>
+                    <p className={styles.outcome}>{tier.outcome}</p>
                   </div>
-                  <p className={styles.outcome}>{tier.outcome}</p>
                 </div>
 
                 <button
@@ -83,38 +85,45 @@ export default function PricingProductView() {
                   {tier.cta}
                 </button>
 
-                <div className={styles.ideal}>
-                  <p className={styles.sectionLabel}>{page.idealForLabel}</p>
-                  <p className={styles.bestFor}>{tier.bestFor}</p>
+                <div className={styles.cardRest}>
+                  <div className={styles.ideal}>
+                    <p className={styles.sectionLabel}>{page.idealForLabel}</p>
+                    <p className={styles.bestFor}>{tier.bestFor}</p>
+                  </div>
+
+                  <div className={styles.includesBlock}>
+                    <p className={styles.sectionLabel}>{page.includesLabel}</p>
+                    <ul className={styles.features}>
+                      {tier.features.map((feature) => (
+                        <li key={feature.title} className={styles.feature}>
+                          <span
+                            className={styles.featureIcon}
+                            aria-hidden="true"
+                          >
+                            <PricingFeatureGlyph
+                              name={feature.icon}
+                              className={styles.featureSvg}
+                            />
+                          </span>
+                          <div className={styles.featureCopy}>
+                            <p className={styles.featureTitle}>
+                              {feature.title}
+                            </p>
+                            <p className={styles.featureDetail}>
+                              {feature.detail}
+                            </p>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {tier.offerNote ? (
+                    <p className={styles.offerNote}>{tier.offerNote}</p>
+                  ) : null}
+
+                  <p className={styles.cardTrust}>{p.ctaTrust}</p>
                 </div>
-
-                <div className={styles.includesBlock}>
-                  <p className={styles.sectionLabel}>{page.includesLabel}</p>
-                  <ul className={styles.features}>
-                    {tier.features.map((feature) => (
-                      <li key={feature.title} className={styles.feature}>
-                        <span className={styles.featureIcon} aria-hidden="true">
-                          <PricingFeatureGlyph
-                            name={feature.icon}
-                            className={styles.featureSvg}
-                          />
-                        </span>
-                        <div className={styles.featureCopy}>
-                          <p className={styles.featureTitle}>{feature.title}</p>
-                          <p className={styles.featureDetail}>
-                            {feature.detail}
-                          </p>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {tier.offerNote ? (
-                  <p className={styles.offerNote}>{tier.offerNote}</p>
-                ) : null}
-
-                <p className={styles.cardTrust}>{p.ctaTrust}</p>
               </article>
             );
           })}
