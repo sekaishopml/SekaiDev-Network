@@ -20,10 +20,18 @@ export function useGSAP(
   const scope = opts?.scope;
 
   useLayoutEffect(() => {
+    let cleanup: void | (() => void);
     const ctx = gsap.context(() => {
-      fn();
+      cleanup = fn();
     }, scope?.current ?? undefined);
-    return () => ctx.revert();
+    return () => {
+      try {
+        cleanup?.();
+      } catch {
+        /* ignore */
+      }
+      ctx.revert();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 }

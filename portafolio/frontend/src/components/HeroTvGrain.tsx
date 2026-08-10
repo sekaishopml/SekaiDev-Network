@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { getPerfProfile } from "@/lib/perf";
 
 /**
  * CRT-style TV grain — animated, hero-only.
  * Pauses on reduced motion, hidden tab, or when intro leaves "hero".
+ * Frame rate / DPR follow runtime perf tier (mobile / old PCs).
  */
 export default function HeroTvGrain() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -13,13 +15,17 @@ export default function HeroTvGrain() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d", { alpha: true });
+    const ctx = canvas.getContext("2d", {
+      alpha: true,
+      desynchronized: true,
+    });
     if (!ctx) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const patternSize = 160;
+    const perf = getPerfProfile();
+    const patternSize = perf.grainPatternSize;
     const patternAlpha = 22;
-    const frameSkip = 2; /* ~30fps feel — TV flicker without full 60 redraw */
+    const frameSkip = perf.grainFrameSkip;
 
     const patternCanvas = document.createElement("canvas");
     patternCanvas.width = patternSize;
@@ -36,9 +42,12 @@ export default function HeroTvGrain() {
     let running = false;
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(window.innerWidth * dpr);
-      canvas.height = Math.floor(window.innerHeight * dpr);
+      const dpr = Math.min(window.devicePixelRatio || 1, perf.maxDpr);
+      const w = Math.floor(window.innerWidth * dpr);
+      const h = Math.floor(window.innerHeight * dpr);
+      if (canvas.width === w && canvas.height === h) return;
+      canvas.width = w;
+      canvas.height = h;
     };
 
     const paintStatic = () => {
@@ -101,9 +110,13 @@ export default function HeroTvGrain() {
 
     const onVisibility = () => sync();
     const onReduce = () => sync();
+    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
     const onResize = () => {
-      resize();
-      if (running || reduced.matches) paintStatic();
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        resize();
+        if (running || reduced.matches) paintStatic();
+      }, 120);
     };
 
     document.addEventListener("visibilitychange", onVisibility);
@@ -113,6 +126,7 @@ export default function HeroTvGrain() {
     return () => {
       running = false;
       cancelAnimationFrame(raf);
+      if (resizeTimer) clearTimeout(resizeTimer);
       phaseObserver.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
       reduced.removeEventListener("change", onReduce);

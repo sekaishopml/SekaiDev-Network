@@ -433,6 +433,15 @@ html[data-pricing-chrome="1"] [data-sticky-cta-desktop] {
   pointer-events: none;
 }
 
+/* Low-end: soften permanent overlays only (motion choreography unchanged) */
+html[data-perf="low"] .hero-tv-grain[data-active="true"] {
+  opacity: 0.4;
+}
+
+html[data-perf="low"] .noise-overlay {
+  opacity: 0.65;
+}
+
 /* Moving CRT grain — only while the cinematic hero owns the screen */
 .hero-tv-grain {
   position: fixed;

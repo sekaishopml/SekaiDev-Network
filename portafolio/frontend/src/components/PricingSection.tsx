@@ -11,6 +11,7 @@ import {
   setPricingChromeHidden,
 } from "@/lib/motion/pricingChrome";
 import { PRICING_SCROLL } from "@/lib/motion/pricingScroll";
+import { usePauseOffscreen } from "@/hooks/usePauseOffscreen";
 import PricingFlora from "./PricingFlora";
 import styles from "./PricingSection.module.css";
 
@@ -23,6 +24,8 @@ export default function PricingSection() {
   const progressRef = useRef<HTMLSpanElement>(null);
   const t = useT();
   const p = t.PRICING;
+
+  usePauseOffscreen(rootRef);
 
   // Dictionary order — Brand Web (featured) is the second card.
   const tiers = p.tiers;

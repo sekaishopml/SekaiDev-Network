@@ -644,7 +644,28 @@ export function useFeaturedCaseTimeline(
       document.fonts?.ready.then(() => {
         if (root.isConnected) ScrollTrigger.refresh();
       });
-      gsap.delayedCall(0.05, () => ScrollTrigger.refresh());
+      const refreshCall = gsap.delayedCall(0.05, () => {
+        if (root.isConnected) ScrollTrigger.refresh();
+      });
+
+      let carIo: IntersectionObserver | null = null;
+      if (car && typeof IntersectionObserver !== "undefined") {
+        carIo = new IntersectionObserver(
+          ([entry]) => {
+            gsap.getTweensOf(car).forEach((tw) => {
+              if (entry.isIntersecting) tw.resume();
+              else tw.pause();
+            });
+          },
+          { root: null, rootMargin: "80px", threshold: 0 }
+        );
+        carIo.observe(root);
+      }
+
+      return () => {
+        refreshCall.kill();
+        carIo?.disconnect();
+      };
     },
     {
       scope: rootRef,

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { getPerfProfile } from "@/lib/perf";
 
 export default function NoiseOverlay() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -9,11 +10,12 @@ export default function NoiseOverlay() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
-    const patternSize = 200;
-    const patternAlpha = 14;
+    const perf = getPerfProfile();
+    const patternSize = perf.tier === "low" ? 128 : 200;
+    const patternAlpha = perf.tier === "low" ? 12 : 14;
 
     const patternCanvas = document.createElement("canvas");
     patternCanvas.width = patternSize;
@@ -26,9 +28,13 @@ export default function NoiseOverlay() {
     const pixelCount = patternSize * patternSize * 4;
 
     const draw = () => {
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
+      const dpr = Math.min(window.devicePixelRatio || 1, perf.maxDpr);
+      const w = Math.floor(window.innerWidth * dpr);
+      const h = Math.floor(window.innerHeight * dpr);
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+      }
 
       for (let i = 0; i < pixelCount; i += 4) {
         const v = 255 * Math.random();
@@ -46,8 +52,16 @@ export default function NoiseOverlay() {
     };
 
     draw();
-    window.addEventListener("resize", draw);
-    return () => window.removeEventListener("resize", draw);
+    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
+    const onResize = () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(draw, 140);
+    };
+    window.addEventListener("resize", onResize);
+    return () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
   return <canvas ref={canvasRef} className="noise-overlay z-40" aria-hidden="true" />;

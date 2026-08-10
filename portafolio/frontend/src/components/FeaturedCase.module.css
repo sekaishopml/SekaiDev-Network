@@ -690,6 +690,22 @@
   }
 }
 
+/* Pause decorative loops while the section is off-screen */
+:global([data-anim-paused]) .crmProgressFill,
+:global([data-anim-paused]) .gpsHalo,
+:global([data-anim-paused]) .gpsHaloCore,
+:global([data-anim-paused]) .mapGpsPulse {
+  animation-play-state: paused !important;
+}
+
+:global(html[data-perf="low"]) .orb {
+  filter: none !important;
+}
+
+:global(html[data-perf="low"]) .mapGpsChip {
+  backdrop-filter: none !important;
+}
+
 /* The progress rail only belongs to the desktop pinned experience. */
 .progressRail {
   display: none;

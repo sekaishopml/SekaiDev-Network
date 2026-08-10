@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useT } from "@/components/LocaleProvider";
 import { jumpTo } from "@/lib/navigation";
 import { useFeaturedCaseTimeline } from "@/hooks/useFeaturedCaseTimeline";
+import { usePauseOffscreen } from "@/hooks/usePauseOffscreen";
 import FeaturedCaseStage from "@/components/FeaturedCaseStage";
 import styles from "./FeaturedCase.module.css";
 
@@ -13,6 +14,8 @@ export default function FeaturedCase() {
   const t = useT();
   const c = t.FEATURED_CASE;
   const ui = c.stageUi;
+
+  usePauseOffscreen(rootRef);
 
   const storyBeats = [
     {

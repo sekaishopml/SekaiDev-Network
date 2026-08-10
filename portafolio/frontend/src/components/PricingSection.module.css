@@ -1276,3 +1276,10 @@
     box-shadow: 0 0 14px rgba(233, 169, 191, 0.4);
   }
 }
+
+:global([data-anim-paused]) .badge,
+:global([data-anim-paused]) .floraLeft,
+:global([data-anim-paused]) .floraRight,
+:global([data-anim-paused]) .floraBloom {
+  animation-play-state: paused !important;
+}

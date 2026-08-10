@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { getPerfProfile } from "@/lib/perf";
 
 const INTERACTIVE =
   "a, button, [role='button'], input, textarea, select, label, summary, [data-cursor='hover']";
@@ -22,7 +23,11 @@ export default function CustomCursor() {
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    const sync = () => setEnabled(fine.matches && !motion.matches);
+    const sync = () => {
+      const { tier } = getPerfProfile();
+      /* Skip custom cursor rAF on low-end desktops — native cursor is fine. */
+      setEnabled(fine.matches && !motion.matches && tier !== "low");
+    };
     sync();
     fine.addEventListener("change", sync);
     motion.addEventListener("change", sync);

@@ -7,6 +7,7 @@ import * as THREE from "three";
 import { ASSETS } from "@/lib/constants";
 import { BONSAI_CONFIG } from "@/lib/bonsai.config";
 import { HERO_ENTRANCE } from "@/lib/motion/heroEntrance";
+import { getPerfProfile } from "@/lib/perf";
 import { useViewport } from "@/hooks/useViewport";
 import CameraController from "./CameraController";
 
@@ -375,6 +376,8 @@ export const BonsaiCanvas = memo(function BonsaiCanvas({
   visible = true,
   zIndex = 1,
 }: BonsaiCanvasProps) {
+  const perf = getPerfProfile();
+
   return (
     <Canvas
       id="bonsai-canvas"
@@ -384,11 +387,11 @@ export const BonsaiCanvas = memo(function BonsaiCanvas({
         near: BONSAI_CONFIG.camera.near,
         far: BONSAI_CONFIG.camera.far,
       }}
-      dpr={[1, 1.5]}
+      dpr={[1, perf.maxDpr]}
       gl={{
-        antialias: true,
+        antialias: perf.antialias,
         alpha: true,
-        powerPreference: "high-performance",
+        powerPreference: perf.lowPowerGpu ? "low-power" : "high-performance",
         stencil: false,
       }}
       className="pointer-events-none"
