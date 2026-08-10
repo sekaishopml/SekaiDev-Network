@@ -213,8 +213,9 @@ export const en = {
 
   PRICING: {
     sectionLabel: "Pricing",
-    headline: "Pick your pace",
-    subline: "Compare scope, timelines, and what each entry includes.",
+    headline: "Clear prices. Written quote first.",
+    subline:
+      "Clear web packages in USD for Ecuador and LatAm — fast, accessible, and ready to go live. Apps and platforms are custom quote.",
     marketNote:
       "Above cheap templates. Rates built for local SMBs — not US agency list prices.",
     offerBanner:

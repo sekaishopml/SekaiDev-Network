@@ -214,8 +214,9 @@ export const es = {
 
   PRICING: {
     sectionLabel: "Precios",
-    headline: "Elige el ritmo",
-    subline: "Compara alcance, plazos y qué incluye cada entrada.",
+    headline: "Precios claros. Cotización por escrito.",
+    subline:
+      "Paquetes web claros en USD para Ecuador y LatAm — rápidos, accesibles y listos para salir al aire. Apps y plataformas van por cotización.",
     marketNote:
       "Por encima de plantillas baratas. Tarifas pensadas para PYMEs locales — sin precios de agencia en EE. UU.",
     offerBanner:

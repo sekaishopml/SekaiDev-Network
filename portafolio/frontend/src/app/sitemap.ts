@@ -9,7 +9,7 @@ import { LOCALES } from "@/content/i18n";
 const CONTENT_LAST_MODIFIED = new Date("2026-08-10");
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return LOCALES.map((locale) => ({
+  const home = LOCALES.map((locale) => ({
     url: `${SITE.siteUrl}/${locale}`,
     lastModified: CONTENT_LAST_MODIFIED,
     changeFrequency: "monthly" as const,
@@ -20,4 +20,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ),
     },
   }));
+
+  const precios = LOCALES.map((locale) => ({
+    url: `${SITE.siteUrl}/${locale}/precios`,
+    lastModified: CONTENT_LAST_MODIFIED,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+    alternates: {
+      languages: Object.fromEntries(
+        LOCALES.map((l) => [l, `${SITE.siteUrl}/${l}/precios`])
+      ),
+    },
+  }));
+
+  return [...home, ...precios];
 }

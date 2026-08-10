@@ -4,8 +4,8 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@/hooks/useGsapSafe";
-import { useT } from "@/components/LocaleProvider";
-import { jumpTo } from "@/lib/navigation";
+import { useLocale, useT } from "@/components/LocaleProvider";
+import { setIntent } from "@/lib/navigation";
 import {
   resetPricingChrome,
   setPricingChromeHidden,
@@ -14,16 +14,18 @@ import { PRICING_SCROLL } from "@/lib/motion/pricingScroll";
 import { scheduleScrollTriggerRefresh } from "@/lib/scrollTriggerBatch";
 import { usePauseOffscreen } from "@/hooks/usePauseOffscreen";
 import PricingFlora from "./PricingFlora";
+import PricingProductIntro from "./PricingProductIntro";
 import styles from "./PricingSection.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function PricingSection() {
+export default function PricingProductView() {
   const rootRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLSpanElement>(null);
   const t = useT();
+  const { locale } = useLocale();
   const p = t.PRICING;
 
   usePauseOffscreen(rootRef);
@@ -241,12 +243,16 @@ export default function PricingSection() {
     },
     {
       scope: rootRef,
-      dependencies: [p.headline, tiers.length, t.CTAS.pricingFoot],
+      dependencies: [p.railHeadline, tiers.length, t.CTAS.pricingFoot],
     }
   );
 
   const jump = (intent: string) => {
-    jumpTo(t.CTAS.primary.href, intent);
+    const hash = t.CTAS.primary.href.startsWith("#")
+      ? t.CTAS.primary.href
+      : "#contact";
+    setIntent(intent);
+    window.location.assign(`/${locale}${hash}`);
   };
 
   return (
@@ -254,25 +260,22 @@ export default function PricingSection() {
       ref={rootRef}
       id="pricing"
       className={styles.section}
-      aria-labelledby="pricing-heading"
+      aria-labelledby="pricing-product-heading"
     >
-      <div className={styles.atmosphere} aria-hidden="true" />
+      <PricingProductIntro />
 
-      <div ref={pinRef} className={styles.pin}>
+      <div ref={pinRef} id="pricing-plans" className={styles.pin}>
+        <div className={styles.atmosphere} aria-hidden="true" />
         <PricingFlora
           leftClassName={styles.floraLeft}
           rightClassName={styles.floraRight}
           bloomClassName={styles.floraBloom}
         />
 
-        <header className={styles.head}>
-          <span className={styles.eyebrow}>04 — {p.sectionLabel}</span>
-          <h2 id="pricing-heading" className={styles.title}>
-            {p.headline}
-          </h2>
-          <p className={styles.subline}>{p.subline}</p>
-          <p className={styles.offerBanner}>{p.offerBanner}</p>
-          <p className={styles.marketNote}>{p.marketNote}</p>
+        <header className={`${styles.head} ${styles.headCompact}`}>
+          <p id="pricing-heading" className={styles.title}>
+            {p.railHeadline}
+          </p>
         </header>
 
         <div className={styles.railMeta} aria-hidden="true">
