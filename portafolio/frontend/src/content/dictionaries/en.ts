@@ -318,7 +318,7 @@ export const en = {
     {
       question: "Which engagement should I pick?",
       answer:
-        "Web Express: a fast 1-page landing. Brand Web (recommended): a 5–7 page brand site ready to win clients. Build Sprint: site + DNS, security, anti-DDoS, and one useful piece (panel, catalog, bookings, or leads). Product Partner: ongoing support and improvements. Apps and platforms: custom quote.",
+        "Web Express: a fast 1-page landing. Brand Web (recommended): a 5–7 page brand site ready to win clients. Build Sprint: one concrete system (CRM, bookings, forms, or API) with DNS, security, and anti-DDoS. Product Partner: ongoing support and improvements. Apps and platforms: custom quote.",
     },
     {
       question: "How do payments and contracts work?",
