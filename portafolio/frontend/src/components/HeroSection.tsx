@@ -41,6 +41,7 @@ import {
 import { useT } from "@/components/LocaleProvider";
 import { jumpTo } from "@/lib/navigation";
 import { useHeroIntro } from "@/hooks/useHeroIntro";
+import HeroTvGrain from "@/components/HeroTvGrain";
 
 interface HeroSectionProps {
   loaded?: boolean;
@@ -581,6 +582,8 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
             </View>
           </div>
         </div>
+
+        <HeroTvGrain />
 
         <div
           ref={labelsRef}

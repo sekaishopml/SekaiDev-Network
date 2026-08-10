@@ -433,6 +433,30 @@ html[data-pricing-chrome="1"] [data-sticky-cta-desktop] {
   pointer-events: none;
 }
 
+/* Moving CRT grain — only while the cinematic hero owns the screen */
+.hero-tv-grain {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 18;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: soft-light;
+  transition: opacity 0.45s ease;
+}
+
+html[data-intro="hero"] .hero-tv-grain[data-active="true"] {
+  opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-intro="hero"] .hero-tv-grain {
+    opacity: 0.28;
+    mix-blend-mode: soft-light;
+  }
+}
+
 .noise {
   position: fixed;
   inset: 0;
