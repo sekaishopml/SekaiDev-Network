@@ -215,7 +215,7 @@ export const es = {
       "Precio de lista vs tu precio en cada paquete. Brand Web es el más elegido para conseguir clientes.",
     scrollHint: "Desliza — 4 paquetes",
     disclaimer:
-      "Estos son precios de entrada para webs y landings. Apps, plataformas y productos completos se cotizan aparte. Alcance, fechas y precio final van por escrito. DNS, seguridad y extras dependen del plan.",
+      "Estos son precios de entrada. Alcance, fechas y precio final van por escrito. Todos los paquetes incluyen soporte post-lanzamiento (14 días; Build Sprint 15 días). Apps y plataformas completas se cotizan aparte.",
     recommended: "Recomendable",
     clientRate: "Tu precio",
     tiers: [
@@ -230,11 +230,12 @@ export const es = {
         bestFor:
           "Una página clara con WhatsApp o CTA, SEO básico y salida al aire — rápido y sin complicarte.",
         includes: [
-          "Landing de 1 página a medida",
+          "Landing de 1 página a medida y responsive",
           "Botón WhatsApp o CTA principal",
           "Dominio/DNS básico + HTTPS",
-          "SEO básico y meta tags",
-          "Salida al aire y entrega",
+          "SEO básico, velocidad y meta tags",
+          "Hosting / salida al aire",
+          "14 días de soporte post-lanzamiento",
         ],
         cta: "Quiero Web Express",
         intent: "express",
@@ -250,12 +251,13 @@ export const es = {
         offerNote:
           "El más elegido: web clara, rápida y lista para conseguir clientes.",
         bestFor:
-          "Web de marca de 5–7 páginas con formularios, motion ligero y SEO base — el paso natural después de una landing.",
+          "Web de marca de 5–7 páginas con formularios, motion ligero y SEO base — lista para crecer a un sistema o app después.",
         includes: [
-          "5–7 páginas en Next.js",
-          "Formularios de contacto",
+          "5–7 páginas en Next.js (rápida y SEO-friendly)",
+          "Formularios de contacto + captación de leads",
           "DNS, HTTPS y refuerzo de seguridad básico",
-          "SEO base y analítica",
+          "SEO base, analítica y píxeles",
+          "Arquitectura lista para escalar a app o panel",
           "14 días de soporte post-lanzamiento",
         ],
         cta: "Quiero Brand Web",
@@ -271,13 +273,15 @@ export const es = {
         priceFrom: "$999",
         priceUnit: "USD",
         bestFor:
-          "Cuando necesitas un sistema concreto y usable: CRM simple, reservas, formularios con base de datos, o una API que conecte tu negocio — no solo una página bonita.",
+          "Cuando necesitas un sistema concreto: CRM, reservas, formularios con base de datos o una API — con camino claro para escalar a app completa.",
         includes: [
-          "Un sistema a medida: CRM, reservas, formularios o API",
-          "Configuración DNS, dominio y correo si aplica",
-          "Seguridad base, HTTPS y protección anti-DDoS",
-          "Base de datos cuando el sistema lo necesite",
-          "Setup de anuncios / píxeles y redes (Meta, Google) si lo pides",
+          "Sistema a medida: CRM, reservas, formularios o API",
+          "Login / roles básicos cuando el sistema lo pida",
+          "Base de datos, respaldos y endpoints listos",
+          "DNS, dominio, HTTPS y protección anti-DDoS",
+          "Setup de ads / píxeles y redes (Meta, Google)",
+          "Diseño escalable hacia app o plataforma",
+          "15 días de soporte post-lanzamiento",
         ],
         cta: "Pedir Build Sprint",
         intent: "sprint",
@@ -291,13 +295,15 @@ export const es = {
         priceFrom: "$499",
         priceUnit: "USD / mes",
         bestFor:
-          "Cuando la web o herramienta ya está en el aire y quieres alguien fijo que la cuide, la mejore y responda sin armar un equipo interno.",
+          "Cuando ya tienes web o sistema en el aire y quieres mejorarlo, protegerlo y crecer hacia app o nuevas funciones sin contratar un equipo interno.",
         includes: [
           "Horas mensuales de desarrollo, diseño y soporte",
           "Monitoreo, seguridad, DNS y actualizaciones",
-          "Mejoras de ads, analítica y presencia en redes",
+          "Mejoras de ads, analítica y redes",
           "Base de datos, respaldos y rendimiento",
-          "Plan compartido + reunión corta semanal · mínimo 3 meses",
+          "Roadmap para escalar a app / nuevas features",
+          "Plan compartido + check-in semanal · mínimo 3 meses",
+          "Soporte continuo (más allá de 14 días)",
         ],
         cta: "Hablar de una alianza",
         intent: "partner",

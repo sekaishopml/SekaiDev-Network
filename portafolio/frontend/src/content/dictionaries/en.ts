@@ -214,7 +214,7 @@ export const en = {
       "List price vs your price on every package. Brand Web is the usual pick to win clients.",
     scrollHint: "Scroll — 4 packages",
     disclaimer:
-      "These are starting prices for sites and landings. Apps, platforms, and full products are quoted separately. Scope, dates, and final price come in writing. DNS, security, and extras depend on the plan.",
+      "These are starting prices. Scope, dates, and final price come in writing. Every package includes post-launch support (14 days; Build Sprint 15 days). Full apps and platforms are quoted separately.",
     recommended: "Recommended",
     clientRate: "Your price",
     tiers: [
@@ -229,11 +229,12 @@ export const en = {
         bestFor:
           "One clear page with WhatsApp or a CTA, basic SEO, and go-live — quick and simple.",
         includes: [
-          "Custom 1-page landing",
+          "Custom responsive 1-page landing",
           "WhatsApp button or primary CTA",
           "Basic DNS + HTTPS",
-          "Basic SEO and meta tags",
-          "Go-live and handoff",
+          "Basic SEO, speed, and meta tags",
+          "Hosting / go-live",
+          "14 days post-launch support",
         ],
         cta: "Get Web Express",
         intent: "express",
@@ -249,12 +250,13 @@ export const en = {
         offerNote:
           "The usual pick: a clear, fast site ready to win clients.",
         bestFor:
-          "A 5–7 page brand site with forms, light motion, and base SEO — the natural step up from a landing.",
+          "A 5–7 page brand site with forms, light motion, and base SEO — ready to grow into a system or app later.",
         includes: [
-          "5–7 pages in Next.js",
-          "Contact forms",
+          "5–7 pages in Next.js (fast and SEO-friendly)",
+          "Contact forms + lead capture",
           "DNS, HTTPS, and basic security hardening",
-          "Base SEO and analytics",
+          "Base SEO, analytics, and pixels",
+          "Architecture ready to scale into an app or admin",
           "14 days post-launch support",
         ],
         cta: "Get Brand Web",
@@ -270,13 +272,15 @@ export const en = {
         priceFrom: "$999",
         priceUnit: "USD",
         bestFor:
-          "When you need a concrete, usable system: a simple CRM, bookings, forms with a database, or an API that connects your business — not just a pretty page.",
+          "When you need a concrete system: CRM, bookings, forms with a database, or an API — with a clear path to scale into a full app.",
         includes: [
-          "One custom system: CRM, bookings, forms, or API",
-          "DNS, domain, and email setup when needed",
-          "Base security, HTTPS, and anti-DDoS protection",
-          "Database when the system needs it",
-          "Ads / pixels and social setup (Meta, Google) if you ask",
+          "Custom system: CRM, bookings, forms, or API",
+          "Login / basic roles when the system needs them",
+          "Database, backups, and ready endpoints",
+          "DNS, domain, HTTPS, and anti-DDoS protection",
+          "Ads / pixels and social setup (Meta, Google)",
+          "Scalable design toward an app or platform",
+          "15 days post-launch support",
         ],
         cta: "Request Build Sprint",
         intent: "sprint",
@@ -290,13 +294,15 @@ export const en = {
         priceFrom: "$499",
         priceUnit: "USD / mo",
         bestFor:
-          "When the site or tool is already live and you want a steady partner to keep it safe, improve it, and respond — without hiring an in-house team.",
+          "When your site or system is already live and you want to keep improving it, protect it, and grow toward an app or new features — without hiring in-house.",
         includes: [
           "Monthly engineering, design, and support hours",
           "Monitoring, security, DNS, and updates",
-          "Ads, analytics, and social presence improvements",
+          "Ads, analytics, and social improvements",
           "Database care, backups, and performance",
-          "Shared plan + short weekly check-in · 3-month minimum",
+          "Roadmap to scale into an app / new features",
+          "Shared plan + weekly check-in · 3-month minimum",
+          "Ongoing support (beyond 14 days)",
         ],
         cta: "Talk about a partnership",
         intent: "partner",
