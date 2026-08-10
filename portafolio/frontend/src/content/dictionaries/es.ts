@@ -265,19 +265,19 @@ export const es = {
       {
         id: "sprint",
         title: "Build Sprint",
-        tagline: "Tu web + la infraestructura para que funcione de verdad.",
+        tagline: "CRM, reservas, formularios o API — listo en semanas.",
         timeline: "2–4 semanas",
         priceWas: "$1,250",
         priceFrom: "$999",
         priceUnit: "USD",
         bestFor:
-          "Cuando ya no basta una web estática: necesitas dominio bien configurado, protección, datos y una pieza útil (panel, catálogo, reservas o leads) lista en pocas semanas.",
+          "Cuando necesitas un sistema concreto y usable: CRM simple, reservas, formularios con base de datos, o una API que conecte tu negocio — no solo una página bonita.",
         includes: [
-          "Web corta o landing a medida + una pieza funcional",
+          "Un sistema a medida: CRM, reservas, formularios o API",
           "Configuración DNS, dominio y correo si aplica",
           "Seguridad base, HTTPS y protección anti-DDoS",
-          "Base de datos o almacenamiento cuando el plan lo pida",
-          "Setup de anuncios / píxeles y redes (Meta, Google) si lo necesitas",
+          "Base de datos cuando el sistema lo necesite",
+          "Setup de anuncios / píxeles y redes (Meta, Google) si lo pides",
         ],
         cta: "Pedir Build Sprint",
         intent: "sprint",
@@ -319,7 +319,7 @@ export const es = {
     {
       question: "¿Qué paquete me conviene?",
       answer:
-        "Web Express: landing rápida de 1 página. Brand Web (recomendable): web de marca de 5–7 páginas lista para conseguir clientes. Build Sprint: web + DNS, seguridad, anti-DDoS y una pieza útil (panel, catálogo, reservas o leads). Product Partner: soporte y mejoras mes a mes. Apps y plataformas: cotización a medida.",
+        "Web Express: landing rápida de 1 página. Brand Web (recomendable): web de marca de 5–7 páginas lista para conseguir clientes. Build Sprint: un sistema concreto (CRM, reservas, formularios o API) con DNS, seguridad y anti-DDoS. Product Partner: soporte y mejoras mes a mes. Apps y plataformas: cotización a medida.",
     },
     {
       question: "¿Cómo funcionan pagos y contrato?",
