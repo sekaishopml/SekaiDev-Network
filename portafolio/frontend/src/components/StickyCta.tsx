@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useT } from "@/components/LocaleProvider";
 import { WHATSAPP } from "@/content/config";
-import { jumpTo } from "@/lib/navigation";
+import { getIntent, jumpTo } from "@/lib/navigation";
 
 /**
  * Desktop side CTA + mobile bottom bar. Appears after Offer;
@@ -101,7 +101,10 @@ export default function StickyCta() {
   const label = t.CTAS.primary.labelUpper;
   const href = t.CTAS.primary.href;
 
-  const jump = () => jumpTo(href);
+  const jump = () => {
+    const intent = getIntent();
+    jumpTo(href, intent || undefined);
+  };
 
   return (
     <>

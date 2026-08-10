@@ -1,24 +1,47 @@
 import { NextRequest, NextResponse } from "next/server";
+import { contactSchema } from "@/lib/contactSchema";
 
 /**
  * Proxies to Go backend when BACKEND_URL is set.
  * Production must set BACKEND_URL — never fake success after a backend failure.
  * Demo fallback only when BACKEND_URL is unset (local UI work without Go).
  */
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 
-type Body = {
-  name?: string;
-  email?: string;
-  company?: string;
-  industry?: string;
-  projectType?: string;
-  timeline?: string;
-  budget?: string;
-  message?: string;
-  website?: string;
-  locale?: string;
+type RateLimitBucket = {
+  count: number;
+  resetAt: number;
 };
+
+const contactRateLimits = new Map<string, RateLimitBucket>();
+
+function clientIp(req: NextRequest) {
+  const cfIp = req.headers.get("cf-connecting-ip")?.trim();
+  if (cfIp) return cfIp;
+
+  const forwardedFor = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  return forwardedFor || "unknown";
+}
+
+function checkRateLimit(ip: string) {
+  const now = Date.now();
+  const bucket = contactRateLimits.get(ip);
+
+  if (!bucket || bucket.resetAt <= now) {
+    contactRateLimits.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return null;
+  }
+
+  if (bucket.count >= RATE_LIMIT_MAX) {
+    return {
+      retryAfterSeconds: Math.max(1, Math.ceil((bucket.resetAt - now) / 1000)),
+    };
+  }
+
+  bucket.count += 1;
+  return null;
+}
 
 function demoReference() {
   const n = Date.now().toString(16).slice(-4).toUpperCase();
@@ -27,14 +50,36 @@ function demoReference() {
 }
 
 export async function POST(req: NextRequest) {
-  let body: Body;
+  const ip = clientIp(req);
+  const limited = checkRateLimit(ip);
+  if (limited) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "Too many contact requests. Please try again in a few minutes.",
+        retryAfterSeconds: limited.retryAfterSeconds,
+      },
+      {
+        status: 429,
+        headers: { "Retry-After": String(limited.retryAfterSeconds) },
+      }
+    );
+  }
+
+  let body: unknown;
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ ok: false, error: "Invalid JSON" }, { status: 400 });
   }
 
-  if (String(body.website || "").trim()) {
+  const website =
+    body && typeof body === "object" && "website" in body
+      ? (body as { website?: unknown }).website
+      : "";
+
+  if (String(website || "").trim()) {
+    // Honeypot: return fake success so bots do not learn which field failed.
     return NextResponse.json({
       ok: true,
       reference: demoReference(),
@@ -43,36 +88,22 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const name = String(body.name || "").trim();
-  const email = String(body.email || "").trim();
-  const message = String(body.message || "").trim();
-  const company = String(body.company || "").trim();
-  const industry = String(body.industry || "").trim();
-  const projectType = String(body.projectType || "").trim();
-  const timeline = String(body.timeline || "").trim();
-  const budget = String(body.budget || "").trim();
-  const locale = String(body.locale || "").trim().slice(0, 8);
-
-  if (name.length < 2 || name.length > 120) {
-    return NextResponse.json({ ok: false, error: "Invalid name" }, { status: 400 });
-  }
-  if (!EMAIL_RE.test(email) || email.length > 200) {
-    return NextResponse.json({ ok: false, error: "Invalid email" }, { status: 400 });
-  }
-  if (message.length < 10 || message.length > 4000) {
-    return NextResponse.json({ ok: false, error: "Invalid message" }, { status: 400 });
-  }
-  if (
-    company.length > 160 ||
-    industry.length > 80 ||
-    projectType.length > 80 ||
-    timeline.length > 80 ||
-    budget.length > 80
-  ) {
-    return NextResponse.json({ ok: false, error: "Invalid fields" }, { status: 400 });
+  const parsed = contactSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: parsed.error.issues[0]?.message || "Invalid contact form",
+      },
+      { status: 400 }
+    );
   }
 
   const payload = {
+    ...parsed.data,
+    website: "",
+  };
+  const {
     name,
     email,
     company,
@@ -80,10 +111,10 @@ export async function POST(req: NextRequest) {
     projectType,
     timeline,
     budget,
-    message,
-    website: "",
     locale,
-  };
+    intent,
+    message,
+  } = payload;
 
   const backend = process.env.BACKEND_URL?.trim();
   if (backend) {
@@ -92,10 +123,7 @@ export async function POST(req: NextRequest) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-Forwarded-For":
-            req.headers.get("x-forwarded-for") ||
-            req.headers.get("x-real-ip") ||
-            "127.0.0.1",
+          "X-Forwarded-For": ip,
         },
         body: JSON.stringify(payload),
         signal: AbortSignal.timeout(12_000),
@@ -149,6 +177,7 @@ export async function POST(req: NextRequest) {
     timeline,
     budget,
     locale,
+    intent,
     reference,
     message: message.slice(0, 200),
     at: new Date().toISOString(),

@@ -99,6 +99,7 @@ export default function Contact({ footer }: ContactProps) {
 
     const form = e.currentTarget;
     const data = new FormData(form);
+    const currentIntent = (getIntent() || intent).trim();
     const payload = {
       name: String(data.get("name") || "").trim(),
       email: String(data.get("email") || "").trim(),
@@ -109,7 +110,8 @@ export default function Contact({ footer }: ContactProps) {
       budget: String(data.get("budget") || "").trim(),
       message: String(data.get("message") || "").trim(),
       website: String(data.get("website") || "").trim(),
-      locale,
+      locale: locale || "",
+      intent: currentIntent,
     };
 
     try {

@@ -836,7 +836,7 @@ export default function FeaturedCase() {
           <button
             type="button"
             className={styles.cta}
-            onClick={() => jumpTo(t.CTAS.primary.href)}
+            onClick={() => jumpTo(t.CTAS.primary.href, "launch")}
           >
             {t.CTAS.featuredCase}
             <span aria-hidden>→</span>
