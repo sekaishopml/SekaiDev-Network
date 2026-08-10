@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@/hooks/useGsapSafe";
 import { useT } from "@/components/LocaleProvider";
 import WorkArt from "@/components/WorkArt";
-import { getIntent, jumpTo } from "@/lib/navigation";
 import { OFFER_SCROLL } from "@/lib/motion/offerScroll";
 import { REVEAL } from "@/lib/motion/revealPresets";
 import styles from "./OfferSection.module.css";
@@ -15,19 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function OfferSection() {
   const rootRef = useRef<HTMLElement>(null);
-  const [intent, setIntent] = useState("");
   const t = useT();
-
-  useEffect(() => {
-    const syncIntent = () => setIntent(getIntent());
-    syncIntent();
-    window.addEventListener("sekaidev:jump", syncIntent);
-    window.addEventListener("focus", syncIntent);
-    return () => {
-      window.removeEventListener("sekaidev:jump", syncIntent);
-      window.removeEventListener("focus", syncIntent);
-    };
-  }, []);
 
   useGSAP(
     () => {
@@ -157,29 +144,8 @@ export default function OfferSection() {
               </span>
             </h2>
           </div>
-          <div className={styles.offerAside}>
-            <p className={styles.offerSubline} data-offer-head>
-              {t.UI.offerSubline}
-            </p>
-            {/* CTA outside GSAP head reveal so it never stays at opacity 0 */}
-            <div className={styles.offerCta}>
-              <button
-                type="button"
-                onClick={() => jumpTo(t.CTAS.primary.href)}
-                className={styles.offerBtnPrimary}
-              >
-                {t.CTAS.primary.labelUpper}
-              </button>
-              {intent === "services" && (
-                <button
-                  type="button"
-                  onClick={() => jumpTo(t.CTAS.pricing.href, "services")}
-                  className={styles.offerBtnGhost}
-                >
-                  {t.CTAS.pricing.labelUpper}
-                </button>
-              )}
-            </div>
+          <div className={styles.offerAside} data-offer-head>
+            <p className={styles.offerSubline}>{t.UI.offerSubline}</p>
           </div>
         </header>
 

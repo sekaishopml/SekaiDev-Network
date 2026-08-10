@@ -87,16 +87,12 @@
 
 .offerAside {
   max-width: 22rem;
-  display: grid;
-  gap: 1rem;
-  justify-items: start;
 }
 
 @media (min-width: 900px) {
   .offerAside {
     padding-bottom: 0.25rem;
     justify-self: end;
-    justify-items: end;
     text-align: right;
   }
 }
@@ -271,55 +267,6 @@
   font-size: clamp(0.85rem, 1.35vw, 0.95rem);
   line-height: 1.55;
   color: rgba(22, 20, 22, 0.58);
-}
-
-.offerCta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-}
-
-.offerBtnPrimary,
-.offerBtnGhost {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: var(--type-cta-min-h);
-  padding: 0.75rem 1.85rem;
-  font-size: var(--type-cta);
-  letter-spacing: var(--type-cta-tracking);
-  font-weight: 500;
-  text-transform: uppercase;
-  border: 1px solid transparent;
-  transition: background-color 0.22s ease, color 0.22s ease, border-color 0.22s ease;
-}
-
-.offerBtnPrimary {
-  background: var(--offer-rose);
-  color: #fff;
-  border-color: var(--offer-rose);
-}
-
-.offerBtnPrimary:hover {
-  background: var(--offer-ink);
-  border-color: var(--offer-ink);
-}
-
-.offerBtnPrimary:focus-visible,
-.offerBtnGhost:focus-visible {
-  outline: 2px solid var(--offer-rose);
-  outline-offset: 2px;
-}
-
-.offerBtnGhost {
-  background: transparent;
-  color: var(--offer-ink);
-  border-color: rgba(22, 20, 22, 0.22);
-}
-
-.offerBtnGhost:hover {
-  border-color: var(--offer-rose);
-  color: var(--offer-rose);
 }
 
 @media (prefers-reduced-motion: reduce) {

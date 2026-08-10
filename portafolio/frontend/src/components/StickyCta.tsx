@@ -58,10 +58,15 @@ export default function StickyCta() {
     const home = document.getElementById("home");
     const syncIntro = () => {
       const phase = document.documentElement.dataset.intro;
-      if (phase === "hero" || phase === "animating") {
-        setHideForHero(true);
-      } else if (phase === "done") {
+      if (phase === "done") {
         setHideForHero(false);
+        return;
+      }
+      if (phase === "hero" || phase === "animating") {
+        const offer = document.getElementById("offer");
+        const offerReached =
+          !!offer && offer.getBoundingClientRect().top < window.innerHeight * 0.9;
+        setHideForHero(!offerReached);
       }
     };
     syncIntro();
