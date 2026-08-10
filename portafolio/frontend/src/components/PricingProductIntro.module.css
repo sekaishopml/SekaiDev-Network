@@ -9,8 +9,8 @@
     calc(6.5rem + env(safe-area-inset-top, 0px))
     clamp(1.25rem, 4vw, 3rem)
     clamp(2.5rem, 6vh, 4rem);
-  color: #1a1a1a;
-  background: #ffffff;
+  color: var(--foreground, #111111);
+  background: var(--background, #d6d6d6);
   overflow: clip;
 }
 
@@ -49,10 +49,10 @@
 
 .eyebrow {
   margin: 0;
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
+  font-size: var(--type-eyebrow, 0.6875rem);
+  letter-spacing: var(--type-eyebrow-tracking, 0.22em);
   text-transform: uppercase;
-  color: rgba(26, 26, 26, 0.45);
+  color: rgba(17, 17, 17, 0.48);
   font-weight: 500;
 }
 
@@ -64,7 +64,7 @@
   line-height: 1.02;
   letter-spacing: -0.03em;
   text-transform: none;
-  color: #111111;
+  color: var(--foreground, #111111);
   max-width: 18ch;
 }
 
@@ -77,10 +77,10 @@
 
 .subline {
   margin: 1.1rem 0 0;
-  font-size: clamp(1rem, 2.2vw, 1.125rem);
-  line-height: 1.5;
-  color: rgba(26, 26, 26, 0.62);
-  max-width: 36ch;
+  font-size: clamp(1.02rem, 2.2vw, 1.15rem);
+  line-height: 1.55;
+  color: rgba(17, 17, 17, 0.62);
+  max-width: 38ch;
   font-weight: 400;
 }
 
@@ -97,7 +97,7 @@
   padding: 0.9rem 1.85rem;
   border: 0;
   border-radius: 999px;
-  background: #1a1a1a;
+  background: var(--foreground, #111111);
   color: #ffffff;
   font-size: 0.875rem;
   font-weight: 600;
@@ -113,17 +113,17 @@
 }
 
 .cta:focus-visible {
-  outline: 2px solid rgba(196, 122, 146, 0.75);
+  outline: 2px solid rgba(92, 26, 51, 0.55);
   outline-offset: 3px;
 }
 
 .trust {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   letter-spacing: 0.02em;
   text-transform: none;
-  color: rgba(26, 26, 26, 0.48);
-  max-width: 28ch;
+  color: rgba(17, 17, 17, 0.5);
+  max-width: 30ch;
   line-height: 1.45;
 }
 
@@ -132,12 +132,12 @@
   font-size: 0.7rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(26, 26, 26, 0.35);
+  color: rgba(17, 17, 17, 0.38);
 }
 
 .scrollCue::after {
   content: " ↓";
-  color: #c47a92;
+  color: var(--accent, #5c1a33);
 }
 
 @media (max-width: 899px) {

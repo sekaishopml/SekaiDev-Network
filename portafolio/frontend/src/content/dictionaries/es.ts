@@ -218,7 +218,7 @@ export const es = {
     subline:
       "Paquetes web claros en USD para Ecuador y LatAm — rápidos, accesibles y listos para salir al aire. Apps y plataformas van por cotización.",
     marketNote:
-      "Por encima de plantillas baratas. Tarifas pensadas para PYMEs locales — sin precios de agencia en EE. UU.",
+      "Paquetes cerrados en USD para Ecuador y LatAm — alcance por escrito antes de construir.",
     offerBanner:
       "Precio de lista vs tu precio en cada paquete. Brand Web es el más elegido para conseguir clientes.",
     scrollHint: "Desliza — 4 paquetes",

@@ -217,7 +217,7 @@ export const en = {
     subline:
       "Clear web packages in USD for Ecuador and LatAm — fast, accessible, and ready to go live. Apps and platforms are custom quote.",
     marketNote:
-      "Above cheap templates. Rates built for local SMBs — not US agency list prices.",
+      "Fixed packages in USD for Ecuador & LatAm — scope locked in writing before we build.",
     offerBanner:
       "List price vs your price on every package. Brand Web is the usual pick to win clients.",
     scrollHint: "Scroll — 4 packages",
