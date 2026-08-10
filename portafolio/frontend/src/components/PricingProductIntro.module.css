@@ -7,12 +7,32 @@
   justify-content: center;
   /* Whole stage tucked under the navbar — bonsai + copy rise together. */
   padding:
-    calc(var(--nav-clear, 5rem) - 3.35rem)
+    calc(var(--nav-clear, 5rem) - 3.85rem)
     clamp(1.25rem, 4vw, 3rem)
-    clamp(2.5rem, 6vh, 4rem);
+    clamp(5.5rem, 14vh, 9rem);
   color: var(--foreground, #111111);
   background: var(--background, #d6d6d6);
   overflow: clip;
+}
+
+/* Deep fade out of the hero gray into the plans white — no hard seam. */
+.intro::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  height: clamp(7rem, 22vh, 14rem);
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(214, 214, 214, 0) 0%,
+    rgba(214, 214, 214, 0.35) 28%,
+    rgba(232, 232, 232, 0.75) 58%,
+    rgba(245, 245, 245, 0.92) 82%,
+    #f7f7f7 100%
+  );
 }
 
 .atmosphere {
@@ -35,7 +55,7 @@
   width: min(16.5rem, 58vw);
   height: min(16.5rem, 58vw);
   /* Pull mark up so transparent GL headroom sits under the navbar. */
-  margin: -4.25rem auto 0.35rem;
+  margin: -4.75rem auto 0.35rem;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
@@ -45,14 +65,14 @@
 
 @media (min-width: 900px) {
   .intro {
-    padding-top: calc(var(--nav-clear, 6rem) - 4.25rem);
+    padding-top: calc(var(--nav-clear, 6rem) - 4.85rem);
   }
 
   .mark {
     width: min(24rem, 34vw);
     height: min(24rem, 34vw);
     /* Slight tuck under the pot — copy a bit lower than flush, not far. */
-    margin: -6rem auto -1.35rem;
+    margin: -6.65rem auto -1.35rem;
   }
 
   .headline {
