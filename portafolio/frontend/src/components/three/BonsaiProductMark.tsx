@@ -10,13 +10,31 @@ import { getPerfProfile } from "@/lib/perf";
 
 const CFG = BONSAI_CONFIG.product;
 
-/** True when hero WebGL owns the GPU (intro or LOOK overlay). */
+/**
+ * True only while the home hero WebGL canvas is actually mounted and owning
+ * the intro/overlay. Leftover data-intro from a prior /es visit must NOT
+ * block the /precios mark (that left the canvas blank after navbar round-trips).
+ */
 function heroWebglBusy(): boolean {
-  if (typeof document === "undefined") return true;
+  if (typeof document === "undefined") return false;
+  if (!document.getElementById("bonsai-canvas")) return false;
   const { intro, overlay } = document.documentElement.dataset;
   if (intro === "hero" || intro === "animating") return true;
   if (overlay === "on" || overlay === "exiting") return true;
   return false;
+}
+
+/** Drop stale home intro flags so /precios never inherits a stuck GPU gate. */
+function clearStaleHeroIntroFlags() {
+  if (typeof document === "undefined") return;
+  if (document.getElementById("bonsai-canvas")) return;
+  const root = document.documentElement;
+  if (root.dataset.intro === "hero" || root.dataset.intro === "animating") {
+    root.dataset.intro = "done";
+  }
+  if (root.dataset.overlay === "on" || root.dataset.overlay === "exiting") {
+    root.dataset.overlay = "off";
+  }
 }
 
 function ProductCamera() {
@@ -32,7 +50,7 @@ function ProductCamera() {
   return null;
 }
 
-function StandingBonsai({ active }: { active: boolean }) {
+function StandingBonsai({ spinning }: { spinning: boolean }) {
   const { scene } = useGLTF(ASSETS.model, ASSETS.dracoPath);
   const cloned = useMemo(() => scene.clone(true), [scene]);
   const group = useRef<THREE.Group>(null);
@@ -40,7 +58,8 @@ function StandingBonsai({ active }: { active: boolean }) {
     getPerfProfile().tier === "low" ? 0 : CFG.animation.rotationSpeed;
 
   useFrame((_, delta) => {
-    if (!group.current || !active || !spin) return;
+    if (!group.current || !spinning || !spin) return;
+    // Continuous unbounded yaw — never reset / never clip to a finite loop.
     group.current.rotation.y += delta * spin;
   });
 
@@ -57,53 +76,69 @@ function StandingBonsai({ active }: { active: boolean }) {
   );
 }
 
+/** Kick the R3F loop once when we switch back to always. */
+function ResumeFrames({ active }: { active: boolean }) {
+  const { invalidate } = useThree();
+  useEffect(() => {
+    if (active) invalidate();
+  }, [active, invalidate]);
+  return null;
+}
+
 type Props = {
   className?: string;
 };
 
 /**
  * Small product-mark canvas for Pricing intro.
- * Own Canvas (not hero View.Port) — demand loop when offscreen.
+ * Own Canvas (not hero View.Port). Continuous frameloop while on-screen.
  * Standing Y-up pose — contrast with hero top-down BONSAI_CONFIG.
  */
 function BonsaiProductMark({ className }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [gpuFree, setGpuFree] = useState(true);
   const perf = getPerfProfile();
+  const active = visible && gpuFree;
 
   useEffect(() => {
+    clearStaleHeroIntroFlags();
+    setGpuFree(!heroWebglBusy());
+
     const el = rootRef.current;
     if (!el || typeof IntersectionObserver === "undefined") {
-      setActive(!heroWebglBusy());
+      setVisible(true);
       return;
     }
 
-    let intersecting = false;
-
-    const sync = () => {
-      setActive(intersecting && !heroWebglBusy());
-    };
-
     const io = new IntersectionObserver(
       ([entry]) => {
-        intersecting =
-          entry.isIntersecting && entry.intersectionRatio > 0.12;
-        sync();
+        setVisible(entry.isIntersecting && entry.intersectionRatio > 0.05);
       },
-      { root: null, threshold: [0, 0.12, 0.35], rootMargin: "40px" }
+      { root: null, threshold: [0, 0.05, 0.2, 0.5], rootMargin: "80px" }
     );
     io.observe(el);
 
-    const mo = new MutationObserver(sync);
+    const syncGpu = () => {
+      clearStaleHeroIntroFlags();
+      setGpuFree(!heroWebglBusy());
+    };
+
+    const mo = new MutationObserver(syncGpu);
     mo.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["data-intro", "data-overlay"],
     });
 
-    sync();
+    // Re-check after route paint — home canvas may still be tearing down.
+    const t = window.setTimeout(syncGpu, 0);
+    const t2 = window.setTimeout(syncGpu, 120);
+
     return () => {
       io.disconnect();
       mo.disconnect();
+      clearTimeout(t);
+      clearTimeout(t2);
     };
   }, []);
 
@@ -126,8 +161,12 @@ function BonsaiProductMark({ className }: Props) {
           powerPreference: perf.lowPowerGpu ? "low-power" : "high-performance",
           stencil: false,
         }}
+        onCreated={({ gl }) => {
+          gl.setClearColor(0x000000, 0);
+        }}
         style={{ width: "100%", height: "100%", display: "block" }}
       >
+        <ResumeFrames active={active} />
         <ProductCamera />
         <ambientLight intensity={lights.ambient.intensity} />
         {lights.directional.map((light, i) => (
@@ -145,7 +184,7 @@ function BonsaiProductMark({ className }: Props) {
           />
         ))}
         <Suspense fallback={null}>
-          <StandingBonsai active={active} />
+          <StandingBonsai spinning={active} />
         </Suspense>
       </Canvas>
     </div>

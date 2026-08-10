@@ -80,7 +80,8 @@ export const BONSAI_CONFIG = {
       scale: 3.25,
     },
     animation: {
-      rotationSpeed: 0.045,
+      /** Continuous idle yaw (rad/s) — unbounded, not a clipped loop. */
+      rotationSpeed: 0.07,
     },
     lights: {
       /** Brighter for white page — avoid muddy silhouette. */

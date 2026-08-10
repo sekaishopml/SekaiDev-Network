@@ -46,13 +46,9 @@ export default function PricingProductIntro({
       /* Keep enter motion subtle so the mark stays near the navbar. */
       if (mark) gsap.set(mark, { scale: 0.96, y: 10 });
 
-      const enter = gsap.timeline({
-        scrollTrigger: {
-          trigger: root,
-          start: "top 75%",
-          once: true,
-        },
-      });
+      // Play on mount — do not gate on ScrollTrigger. Remounting /precios after
+      // the home hero left the mark stuck at autoAlpha:0 when ST did not re-fire.
+      const enter = gsap.timeline();
       enter
         .to(mark, {
           autoAlpha: 1,
