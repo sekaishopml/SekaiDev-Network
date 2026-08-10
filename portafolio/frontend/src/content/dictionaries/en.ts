@@ -213,9 +213,8 @@ export const en = {
 
   PRICING: {
     sectionLabel: "Pricing",
-    headline: "Clear prices. Written quote first.",
-    subline:
-      "Clear web packages in USD for Ecuador and LatAm — fast, accessible, and ready to go live. Apps and platforms are custom quote.",
+    headline: "Pick your pace",
+    subline: "Compare scope, timelines, and what each entry includes.",
     marketNote:
       "Above cheap templates. Rates built for local SMBs — not US agency list prices.",
     offerBanner:
@@ -226,6 +225,16 @@ export const en = {
     recommended: "Recommended",
     clientRate: "Your price",
     ctaTrust: "Reply <24h · written plan · no commitment",
+    productIntro: {
+      eyebrow: "Investment",
+      headlineBefore: "Make the most of your",
+      headlineAccent: "brand",
+      headlineAfter: "",
+      subline:
+        "Clear packages in USD for Ecuador & LatAm — fast, accessible, and ready to go live.",
+      cta: "See plans",
+      scrollCue: "Scroll to compare",
+    },
     tiers: [
       {
         id: "express",

@@ -115,6 +115,16 @@ export type StudioDictionary = {
     clientRate: string;
     /** Micro-trust under the featured CTA. */
     ctaTrust: string;
+    /** Gemini-style product intro above the plans rail. */
+    productIntro: {
+      eyebrow: string;
+      headlineBefore: string;
+      headlineAccent: string;
+      headlineAfter: string;
+      subline: string;
+      cta: string;
+      scrollCue: string;
+    };
     tiers: readonly {
       id: string;
       title: string;

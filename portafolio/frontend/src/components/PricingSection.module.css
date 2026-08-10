@@ -78,6 +78,7 @@
     calc(3.25rem + env(safe-area-inset-top, 0px))
     0
     calc(1.25rem + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -48px 64px -40px rgba(12, 12, 14, 0.85);
 }
 
 .head {
@@ -87,6 +88,21 @@
   padding: 0 clamp(1.25rem, 4vw, 3.25rem);
   max-width: 42rem;
   overflow: hidden;
+}
+
+.headCompact {
+  max-width: 36rem;
+}
+
+.headCompact .title {
+  margin-top: 0.35rem;
+  -webkit-line-clamp: 1;
+}
+
+.headCompact .subline,
+.headCompact .offerBanner,
+.headCompact .marketNote {
+  display: none;
 }
 
 .eyebrow {

@@ -1,0 +1,198 @@
+.intro {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:
+    calc(5.5rem + env(safe-area-inset-top, 0px))
+    clamp(1.25rem, 4vw, 3rem)
+    calc(3rem + env(safe-area-inset-bottom, 0px));
+  color: #f0ebe6;
+  overflow: clip;
+  margin-bottom: -1px;
+}
+
+.atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 45% at 50% 28%, rgba(92, 26, 51, 0.38), transparent 62%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(58, 30, 42, 0.4), transparent 70%),
+    linear-gradient(180deg, #141014 0%, #0e0c0e 55%, #0c0c0e 100%);
+}
+
+.atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px;
+}
+
+.stage {
+  position: relative;
+  z-index: 1;
+  width: min(36rem, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  will-change: transform, opacity, filter;
+}
+
+.mark {
+  width: min(11.5rem, 42vw);
+  height: min(11.5rem, 42vw);
+  margin-bottom: 1.35rem;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(233, 169, 191, 0.16), transparent 62%),
+    rgba(12, 12, 14, 0.35);
+  box-shadow: inset 0 0 0 1px rgba(240, 235, 230, 0.08);
+  overflow: hidden;
+  transform-origin: center center;
+}
+
+.markCanvas {
+  width: 100%;
+  height: 100%;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: var(--type-eyebrow, 0.65rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(240, 235, 230, 0.48);
+}
+
+.headline {
+  margin: 0.85rem 0 0;
+  font-family: var(--font-oswald), sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.15rem, 6.5vw, 3.35rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: #f0ebe6;
+  max-width: 14ch;
+}
+
+.headlineAccent {
+  background: linear-gradient(100deg, #ffc9d9 0%, #e9a9bf 48%, #c47a92 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.subline {
+  margin: 1rem 0 0;
+  font-size: clamp(0.95rem, 2.4vw, 1.05rem);
+  line-height: 1.45;
+  color: rgba(240, 235, 230, 0.68);
+  max-width: 34ch;
+}
+
+.ctaRow {
+  margin-top: 1.65rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.cta {
+  min-height: 48px;
+  padding: 0.85rem 1.75rem;
+  border: 0;
+  border-radius: 999px;
+  background: #e9a9bf;
+  color: #1a1014;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.cta:hover {
+  background: #ffc9d9;
+  transform: translateY(-1px);
+}
+
+.cta:focus-visible {
+  outline: 2px solid rgba(232, 150, 175, 0.85);
+  outline-offset: 3px;
+}
+
+.trust {
+  margin: 0;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 201, 217, 0.62);
+  max-width: 28ch;
+  line-height: 1.45;
+}
+
+.scrollCue {
+  margin: 2.25rem 0 0;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(240, 235, 230, 0.4);
+}
+
+.scrollCue::after {
+  content: " ↓";
+  color: rgba(232, 150, 175, 0.7);
+}
+
+@media (max-width: 899px) {
+  .intro {
+    padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
+  }
+
+  .mark {
+    width: min(9.5rem, 48vw);
+    height: min(9.5rem, 48vw);
+    margin-bottom: 1.1rem;
+  }
+
+  .headline {
+    max-width: 12ch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage {
+    will-change: auto;
+    filter: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .mark,
+  .eyebrow,
+  .headline,
+  .subline,
+  .ctaRow,
+  .scrollCue {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+:global(html[data-perf="low"]) .atmosphere::after {
+  display: none;
+}
+
+:global(html[data-perf="low"]) .stage {
+  will-change: auto;
+}

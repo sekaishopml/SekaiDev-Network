@@ -214,9 +214,8 @@ export const es = {
 
   PRICING: {
     sectionLabel: "Precios",
-    headline: "Precios claros. Cotización por escrito.",
-    subline:
-      "Paquetes web claros en USD para Ecuador y LatAm — rápidos, accesibles y listos para salir al aire. Apps y plataformas van por cotización.",
+    headline: "Elige el ritmo",
+    subline: "Compara alcance, plazos y qué incluye cada entrada.",
     marketNote:
       "Por encima de plantillas baratas. Tarifas pensadas para PYMEs locales — sin precios de agencia en EE. UU.",
     offerBanner:
@@ -227,6 +226,16 @@ export const es = {
     recommended: "Recomendable",
     clientRate: "Tu precio",
     ctaTrust: "Respuesta <24h · plan por escrito · sin compromiso",
+    productIntro: {
+      eyebrow: "Inversión",
+      headlineBefore: "Aprovecha tu marca al",
+      headlineAccent: "máximo",
+      headlineAfter: "",
+      subline:
+        "Paquetes claros en USD para Ecuador y LatAm — rápidos, accesibles y listos para salir al aire.",
+      cta: "Ver planes",
+      scrollCue: "Desliza para comparar",
+    },
     tiers: [
       {
         id: "express",

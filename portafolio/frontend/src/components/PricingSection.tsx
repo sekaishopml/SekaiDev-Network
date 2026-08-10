@@ -14,6 +14,7 @@ import { PRICING_SCROLL } from "@/lib/motion/pricingScroll";
 import { scheduleScrollTriggerRefresh } from "@/lib/scrollTriggerBatch";
 import { usePauseOffscreen } from "@/hooks/usePauseOffscreen";
 import PricingFlora from "./PricingFlora";
+import PricingProductIntro from "./PricingProductIntro";
 import styles from "./PricingSection.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -254,25 +255,24 @@ export default function PricingSection() {
       ref={rootRef}
       id="pricing"
       className={styles.section}
-      aria-labelledby="pricing-heading"
+      aria-labelledby="pricing-product-heading"
     >
-      <div className={styles.atmosphere} aria-hidden="true" />
+      <PricingProductIntro />
 
-      <div ref={pinRef} className={styles.pin}>
+      <div ref={pinRef} id="pricing-plans" className={styles.pin}>
+        <div className={styles.atmosphere} aria-hidden="true" />
         <PricingFlora
           leftClassName={styles.floraLeft}
           rightClassName={styles.floraRight}
           bloomClassName={styles.floraBloom}
         />
 
-        <header className={styles.head}>
+        <header className={`${styles.head} ${styles.headCompact}`}>
           <span className={styles.eyebrow}>04 — {p.sectionLabel}</span>
           <h2 id="pricing-heading" className={styles.title}>
             {p.headline}
           </h2>
           <p className={styles.subline}>{p.subline}</p>
-          <p className={styles.offerBanner}>{p.offerBanner}</p>
-          <p className={styles.marketNote}>{p.marketNote}</p>
         </header>
 
         <div className={styles.railMeta} aria-hidden="true">
