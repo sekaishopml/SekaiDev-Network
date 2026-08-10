@@ -6,6 +6,7 @@ import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@/hooks/useGsapSafe";
 import { FEATURED_CINE } from "@/lib/motion/featuredCase";
+import { scheduleScrollTriggerRefresh } from "@/lib/scrollTriggerBatch";
 import styles from "@/components/FeaturedCase.module.css";
 
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
@@ -642,10 +643,10 @@ export function useFeaturedCaseTimeline(
       );
 
       document.fonts?.ready.then(() => {
-        if (root.isConnected) ScrollTrigger.refresh();
+        if (root.isConnected) scheduleScrollTriggerRefresh(100);
       });
       const refreshCall = gsap.delayedCall(0.05, () => {
-        if (root.isConnected) ScrollTrigger.refresh();
+        if (root.isConnected) scheduleScrollTriggerRefresh(100);
       });
 
       let carIo: IntersectionObserver | null = null;

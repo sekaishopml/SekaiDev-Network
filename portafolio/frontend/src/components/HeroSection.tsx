@@ -458,10 +458,18 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
       applyProgress(1);
     };
 
+    let trackTick = 0;
     const scheduleTrack = () => {
       if (trackRaf) return;
       trackRaf = requestAnimationFrame(() => {
         trackRaf = 0;
+        trackTick += 1;
+        /* Mid/low: refresh layout every other frame — cuts forced reflow cost. */
+        const lite = getPerfProfile().tier !== "high";
+        if (lite && trackTick % 2 === 0) {
+          applyProgress(1);
+          return;
+        }
         trackTargets();
       });
     };

@@ -11,6 +11,7 @@ import {
   setPricingChromeHidden,
 } from "@/lib/motion/pricingChrome";
 import { PRICING_SCROLL } from "@/lib/motion/pricingScroll";
+import { scheduleScrollTriggerRefresh } from "@/lib/scrollTriggerBatch";
 import { usePauseOffscreen } from "@/hooks/usePauseOffscreen";
 import PricingFlora from "./PricingFlora";
 import styles from "./PricingSection.module.css";
@@ -222,7 +223,7 @@ export default function PricingSection() {
       let resizeTimer: ReturnType<typeof setTimeout> | null = null;
       const refresh = () => {
         if (!root.isConnected) return;
-        ScrollTrigger.refresh();
+        scheduleScrollTriggerRefresh(120);
       };
       const onResize = () => {
         if (resizeTimer) clearTimeout(resizeTimer);

@@ -9,6 +9,7 @@ import WorkArt from "@/components/WorkArt";
 import { OFFER_SCROLL } from "@/lib/motion/offerScroll";
 import { REVEAL } from "@/lib/motion/revealPresets";
 import { jumpTo } from "@/lib/navigation";
+import { scheduleScrollTriggerRefresh } from "@/lib/scrollTriggerBatch";
 import styles from "./OfferSection.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -113,7 +114,7 @@ export default function OfferSection() {
       });
 
       const refresh = () => {
-        if (root.isConnected) ScrollTrigger.refresh();
+        if (root.isConnected) scheduleScrollTriggerRefresh(120);
       };
       document.fonts?.ready.then(refresh);
 

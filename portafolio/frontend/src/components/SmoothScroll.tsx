@@ -12,6 +12,7 @@ import {
   snapWindowToTop,
 } from "@/lib/reloadHero";
 import { getPerfProfile } from "@/lib/perf";
+import { scheduleScrollTriggerRefresh } from "@/lib/scrollTriggerBatch";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -79,7 +80,11 @@ function LenisBridge({ jumpDuration }: { jumpDuration: number }) {
 
     gsap.ticker.add(raf);
     lenis.on("scroll", onScroll);
-    gsap.ticker.lagSmoothing(0);
+    /* Coarse / low-end: allow GSAP to drop catch-up under load (less jank). */
+    const lite =
+      getPerfProfile().tier !== "high" ||
+      window.matchMedia("(pointer: coarse)").matches;
+    gsap.ticker.lagSmoothing(lite ? 500 : 0);
 
     return () => {
       gsap.ticker.remove(raf);
@@ -102,7 +107,7 @@ function LenisBridge({ jumpDuration }: { jumpDuration: number }) {
     const t1 = window.setTimeout(snap, 50);
     const t2 = window.setTimeout(() => {
       snap();
-      ScrollTrigger.refresh();
+      scheduleScrollTriggerRefresh(80);
     }, 200);
 
     return () => {
