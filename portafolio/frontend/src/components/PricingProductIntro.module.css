@@ -3,10 +3,10 @@
   isolation: isolate;
   min-height: min(92svh, 52rem);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding:
-    calc(6.5rem + env(safe-area-inset-top, 0px))
+    calc(var(--nav-clear, 5rem) + 0.35rem)
     clamp(1.25rem, 4vw, 3rem)
     clamp(2.5rem, 6vh, 4rem);
   color: var(--foreground, #111111);
@@ -143,13 +143,13 @@
 @media (max-width: 899px) {
   .intro {
     min-height: min(88svh, 44rem);
-    padding-top: calc(5.25rem + env(safe-area-inset-top, 0px));
+    padding-top: calc(var(--nav-clear, 4.5rem) + 0.2rem);
   }
 
   .mark {
     width: min(11.5rem, 52vw);
     height: min(11.5rem, 52vw);
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
   }
 
   .headline {
