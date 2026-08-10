@@ -46,7 +46,10 @@ describe("contactSchema", () => {
   });
 
   it("accepts missing intent and locale as optional input fields", () => {
-    const { intent: _intent, locale: _locale, ...payload } = validPayload;
+    const payload: Partial<typeof validPayload> = { ...validPayload };
+    delete payload.intent;
+    delete payload.locale;
+
     const parsed = contactSchema.parse(payload);
 
     expect(parsed.intent).toBe("");

@@ -6,7 +6,7 @@ const root = fileURLToPath(new URL("..", import.meta.url));
 
 const server = await createServer({
   root,
-  configFile: fileURLToPath(new URL("../vitest.config.ts", import.meta.url)),
+  configFile: fileURLToPath(new URL("../vitest.config.mts", import.meta.url)),
   logLevel: "error",
   server: { middlewareMode: true },
   appType: "custom",
