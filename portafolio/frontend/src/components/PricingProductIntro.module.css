@@ -51,21 +51,21 @@
   .mark {
     width: min(24rem, 34vw);
     height: min(24rem, 34vw);
-    /* Negative bottom eats empty GL space under the pot so copy rides up. */
-    margin: -6rem auto -3.35rem;
+    /* Keep bonsai high; give copy breathing room below the pot. */
+    margin: -6rem auto 0.35rem;
   }
 
   .headline {
-    margin-top: 0.35rem;
+    margin-top: 1.75rem;
   }
 
   .subline {
-    margin-top: 0.65rem;
+    margin-top: 0.85rem;
   }
 
   .ctaRow {
-    margin-top: 1.1rem;
-    gap: 0.45rem;
+    margin-top: 1.35rem;
+    gap: 0.5rem;
   }
 
   .scrollCue {
@@ -80,7 +80,7 @@
 }
 
 .headline {
-  margin: 0.55rem 0 0;
+  margin: 1.15rem 0 0;
   font-family: var(--font-oswald), sans-serif;
   font-weight: 700;
   font-size: clamp(2.5rem, 6.5vw, 4rem);
@@ -172,11 +172,12 @@
   .mark {
     width: min(15.5rem, 62vw);
     height: min(15.5rem, 62vw);
-    margin: -3.5rem auto -1.35rem;
+    margin: -3.5rem auto 0.85rem;
   }
 
   .headline {
     max-width: 14ch;
+    margin-top: 1.35rem;
   }
 }
 
