@@ -1,23 +1,18 @@
 "use client";
 
-import { memo, type MouseEvent } from "react";
+import { memo } from "react";
 import styles from "./LookSection.module.css";
 import LookDesignStage from "@/components/LookDesignStage";
 import { useT } from "@/components/LocaleProvider";
-import { jumpTo } from "@/lib/navigation";
 
 /**
  * LOOK composition — craft opener → hire payoff.
  * Typography motion via --look-* CSS vars from HeroSection intro progress.
  * #bonsai-target / #media-long remain measurable geometry targets.
+ * Primary CTA lives in Offer (01) — Look keeps the “ES EL TRABAJO” signal only.
  */
 function LookSection() {
   const t = useT();
-
-  const jumpContact = (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    jumpTo(t.CTAS.primary.href);
-  };
 
   return (
     <section
@@ -67,14 +62,6 @@ function LookSection() {
             <span className={styles.shipLine}>{t.LOOK_COPY.ship}</span>
             <span className={styles.closeSub}>{t.LOOK_COPY.subline}</span>
           </h3>
-
-          <a
-            href={t.CTAS.primary.href}
-            onClick={jumpContact}
-            className={styles.lookCta}
-          >
-            {t.CTAS.primary.labelUpper}
-          </a>
         </div>
       </div>
     </section>
