@@ -266,6 +266,54 @@ export const en = {
           "Handoff with access + short guide",
           "14 days post-launch support",
         ],
+
+        features: [
+          {
+            icon: "layout",
+            title: "Custom landing",
+            detail: "One responsive page built around your offer — clear on phone and desktop.",
+          },
+          {
+            icon: "message",
+            title: "WhatsApp or primary CTA",
+            detail: "The contact path is obvious: one tap and they reach you.",
+          },
+          {
+            icon: "copy",
+            title: "Offer hierarchy",
+            detail: "Headline, benefit, and proof ordered so it reads fast.",
+          },
+          {
+            icon: "globe",
+            title: "Domain, DNS & HTTPS",
+            detail: "Go-live with certificate and basic DNS in place.",
+          },
+          {
+            icon: "search",
+            title: "SEO & speed basics",
+            detail: "Meta tags, fast load, and clean structure for search.",
+          },
+          {
+            icon: "rocket",
+            title: "Hosting / go-live",
+            detail: "We publish and leave the site ready for traffic.",
+          },
+          {
+            icon: "form",
+            title: "Contact ready",
+            detail: "Form or message path configured from day one.",
+          },
+          {
+            icon: "key",
+            title: "Access & handoff",
+            detail: "You get access plus a short guide to what shipped.",
+          },
+          {
+            icon: "support",
+            title: "14 days post-launch",
+            detail: "Small fixes and real support after go-live.",
+          },
+        ],
         cta: "Get Web Express",
         intent: "express",
       },
@@ -293,6 +341,54 @@ export const en = {
           "Repo, docs, and access handoff",
           "14 days post-launch support",
         ],
+
+        features: [
+          {
+            icon: "pages",
+            title: "5–7 pages in Next.js",
+            detail: "Fast, SEO-friendly site ready to grow without a rebuild.",
+          },
+          {
+            icon: "form",
+            title: "Leads & forms",
+            detail: "Contact and capture built to win clients — not just “be online”.",
+          },
+          {
+            icon: "palette",
+            title: "Brand direction",
+            detail: "Type, color, and layout aligned to how you want to be seen.",
+          },
+          {
+            icon: "motion",
+            title: "Light motion",
+            detail: "Movement on the hero and key moments — presence without weight.",
+          },
+          {
+            icon: "shield",
+            title: "DNS, HTTPS & base security",
+            detail: "Domain, certificate, and basic hardening to operate calmly.",
+          },
+          {
+            icon: "chart",
+            title: "SEO, analytics & pixels",
+            detail: "Measurement ready: search, analytics, Meta/Google when needed.",
+          },
+          {
+            icon: "layers",
+            title: "Ready to scale",
+            detail: "Architecture prepared for an admin, app, or system later.",
+          },
+          {
+            icon: "code",
+            title: "Repo, docs & access",
+            detail: "Code and documentation are yours — no held repos.",
+          },
+          {
+            icon: "support",
+            title: "14 days post-launch",
+            detail: "Close support to polish and stabilize after go-live.",
+          },
+        ],
         cta: "Get Brand Web",
         intent: "brand",
         featured: true,
@@ -319,6 +415,54 @@ export const en = {
           "Smoke tests + technical handoff",
           "30 days post-launch support",
         ],
+
+        features: [
+          {
+            icon: "crm",
+            title: "Concrete system",
+            detail: "CRM, bookings, DB-backed forms, or an API — one deliverable that works.",
+          },
+          {
+            icon: "lock",
+            title: "Login & roles",
+            detail: "Access and basic permissions when the flow needs them.",
+          },
+          {
+            icon: "database",
+            title: "Data & backups",
+            detail: "Database, endpoints, and backups built for real use.",
+          },
+          {
+            icon: "panel",
+            title: "Admin or internal flows",
+            detail: "What your team uses day to day, as scoped in writing.",
+          },
+          {
+            icon: "shield",
+            title: "DNS, HTTPS & anti-DDoS",
+            detail: "Protected go-live: domain, certificate, and a basic defense layer.",
+          },
+          {
+            icon: "ads",
+            title: "Ads & pixels",
+            detail: "Meta/Google and social setup to measure and scale acquisition.",
+          },
+          {
+            icon: "layers",
+            title: "Path to app/platform",
+            detail: "Design that won’t trap you if you grow into a full product.",
+          },
+          {
+            icon: "test",
+            title: "Tests & technical handoff",
+            detail: "Smoke tests plus what you need to operate.",
+          },
+          {
+            icon: "support",
+            title: "30 days post-launch",
+            detail: "Longer support window for systems that already move real data.",
+          },
+        ],
         cta: "Request Build Sprint",
         intent: "sprint",
       },
@@ -343,6 +487,54 @@ export const en = {
           "Shared plan + weekly check-in · 3-month minimum",
           "Direct support channel (not a generic ticket queue)",
           "Ongoing support (beyond 14 days)",
+        ],
+
+        features: [
+          {
+            icon: "hours",
+            title: "Monthly senior hours",
+            detail: "Engineering, design, and support with judgment — not endless tickets.",
+          },
+          {
+            icon: "pulse",
+            title: "Monitoring & security",
+            detail: "DNS, updates, and watchfulness so it doesn’t quietly break.",
+          },
+          {
+            icon: "ads",
+            title: "Ads, analytics & social",
+            detail: "Ongoing improvements in measurement and acquisition.",
+          },
+          {
+            icon: "database",
+            title: "Data & performance",
+            detail: "Backups, database health, and speed under real load.",
+          },
+          {
+            icon: "bug",
+            title: "Weekly bugs & improvements",
+            detail: "We prioritize what hurts today and what moves the business.",
+          },
+          {
+            icon: "roadmap",
+            title: "Roadmap to app/features",
+            detail: "Shared plan to grow without reinventing the stack each month.",
+          },
+          {
+            icon: "calendar",
+            title: "Weekly check-in",
+            detail: "Clear cadence · 3-month minimum commitment.",
+          },
+          {
+            icon: "chat",
+            title: "Direct channel",
+            detail: "You talk to the team — not a generic ticket queue.",
+          },
+          {
+            icon: "support",
+            title: "Ongoing support",
+            detail: "Beyond 14 days: someone watches the product month to month.",
+          },
         ],
         cta: "Talk about a partnership",
         intent: "partner",

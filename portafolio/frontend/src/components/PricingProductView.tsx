@@ -2,6 +2,7 @@
 
 import { useLocale, useT } from "@/components/LocaleProvider";
 import { setIntent } from "@/lib/navigation";
+import { PricingFeatureGlyph } from "./PricingFeatureIcons";
 import PricingProductIntro from "./PricingProductIntro";
 import styles from "./PricingProductView.module.css";
 
@@ -89,9 +90,22 @@ export default function PricingProductView() {
 
                 <div className={styles.includesBlock}>
                   <p className={styles.sectionLabel}>{page.includesLabel}</p>
-                  <ul className={styles.includes}>
-                    {tier.includes.map((line) => (
-                      <li key={line}>{line}</li>
+                  <ul className={styles.features}>
+                    {tier.features.map((feature) => (
+                      <li key={feature.title} className={styles.feature}>
+                        <span className={styles.featureIcon} aria-hidden="true">
+                          <PricingFeatureGlyph
+                            name={feature.icon}
+                            className={styles.featureSvg}
+                          />
+                        </span>
+                        <div className={styles.featureCopy}>
+                          <p className={styles.featureTitle}>{feature.title}</p>
+                          <p className={styles.featureDetail}>
+                            {feature.detail}
+                          </p>
+                        </div>
+                      </li>
                     ))}
                   </ul>
                 </div>

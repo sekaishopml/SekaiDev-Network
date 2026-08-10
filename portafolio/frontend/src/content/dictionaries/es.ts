@@ -267,6 +267,54 @@ export const es = {
           "Entrega con accesos y breve handoff",
           "14 días de soporte post-lanzamiento",
         ],
+
+        features: [
+          {
+            icon: "layout",
+            title: "Landing a medida",
+            detail: "Una página responsive hecha para tu oferta — clara en móvil y escritorio.",
+          },
+          {
+            icon: "message",
+            title: "WhatsApp o CTA principal",
+            detail: "El camino a contacto queda obvio: un toque y te escriben.",
+          },
+          {
+            icon: "copy",
+            title: "Jerarquía de oferta",
+            detail: "Titular, beneficio y prueba social ordenados para que se entienda rápido.",
+          },
+          {
+            icon: "globe",
+            title: "Dominio, DNS y HTTPS",
+            detail: "Salida al aire con certificado y DNS básico listos.",
+          },
+          {
+            icon: "search",
+            title: "SEO y velocidad base",
+            detail: "Meta tags, carga rápida y estructura limpia para buscadores.",
+          },
+          {
+            icon: "rocket",
+            title: "Hosting / go-live",
+            detail: "Publicamos y te dejamos la web recibiendo visitas.",
+          },
+          {
+            icon: "form",
+            title: "Contacto listo",
+            detail: "Formulario o canal de mensaje configurado desde el día uno.",
+          },
+          {
+            icon: "key",
+            title: "Accesos y handoff",
+            detail: "Te entregamos accesos y una guía corta de lo que quedó.",
+          },
+          {
+            icon: "support",
+            title: "14 días post-lanzamiento",
+            detail: "Ajustes chicos y soporte real después de salir al aire.",
+          },
+        ],
         cta: "Quiero Web Express",
         intent: "express",
       },
@@ -294,6 +342,54 @@ export const es = {
           "Entrega de repo, docs y accesos",
           "14 días de soporte post-lanzamiento",
         ],
+
+        features: [
+          {
+            icon: "pages",
+            title: "5–7 páginas en Next.js",
+            detail: "Sitio rápido, SEO-friendly y listo para crecer sin rehacer todo.",
+          },
+          {
+            icon: "form",
+            title: "Leads y formularios",
+            detail: "Contacto y captación pensados para conseguir clientes, no solo “estar online”.",
+          },
+          {
+            icon: "palette",
+            title: "Dirección de marca",
+            detail: "Tipografía, color y layout alineados a cómo quieres que te perciban.",
+          },
+          {
+            icon: "motion",
+            title: "Motion ligero",
+            detail: "Movimiento en hero y momentos clave — presencia sin pesar la carga.",
+          },
+          {
+            icon: "shield",
+            title: "DNS, HTTPS y seguridad base",
+            detail: "Dominio, certificado y refuerzos básicos para operar con tranquilidad.",
+          },
+          {
+            icon: "chart",
+            title: "SEO, analítica y píxeles",
+            detail: "Medición lista: buscamos, medimos y conectamos Meta/Google cuando toque.",
+          },
+          {
+            icon: "layers",
+            title: "Lista para escalar",
+            detail: "Arquitectura preparada para panel, app o sistema después.",
+          },
+          {
+            icon: "code",
+            title: "Repo, docs y accesos",
+            detail: "Código y documentación tuyos — sin repos retenidos.",
+          },
+          {
+            icon: "support",
+            title: "14 días post-lanzamiento",
+            detail: "Soporte cercano para pulir y estabilizar después del go-live.",
+          },
+        ],
         cta: "Quiero Brand Web",
         intent: "brand",
         featured: true,
@@ -320,6 +416,54 @@ export const es = {
           "Pruebas de humo + handoff técnico",
           "30 días de soporte post-lanzamiento",
         ],
+
+        features: [
+          {
+            icon: "crm",
+            title: "Sistema concreto",
+            detail: "CRM, reservas, formularios con base o API — un entregable que trabaja.",
+          },
+          {
+            icon: "lock",
+            title: "Login y roles",
+            detail: "Accesos y permisos básicos cuando el flujo lo necesita.",
+          },
+          {
+            icon: "database",
+            title: "Datos y respaldos",
+            detail: "Base de datos, endpoints y backups pensados para uso real.",
+          },
+          {
+            icon: "panel",
+            title: "Panel o flujos internos",
+            detail: "Lo que tu equipo usa día a día, según el alcance cerrado.",
+          },
+          {
+            icon: "shield",
+            title: "DNS, HTTPS y anti-DDoS",
+            detail: "Salida protegida: dominio, certificado y capa básica de defensa.",
+          },
+          {
+            icon: "ads",
+            title: "Ads y píxeles",
+            detail: "Setup de Meta/Google y redes para medir y escalar adquisición.",
+          },
+          {
+            icon: "layers",
+            title: "Camino a app/plataforma",
+            detail: "Diseño que no se queda corto si mañana creces a producto completo.",
+          },
+          {
+            icon: "test",
+            title: "Pruebas y handoff técnico",
+            detail: "Smoke tests + entrega con lo necesario para operar.",
+          },
+          {
+            icon: "support",
+            title: "30 días post-lanzamiento",
+            detail: "Más margen de soporte para sistemas que ya mueven datos reales.",
+          },
+        ],
         cta: "Pedir Build Sprint",
         intent: "sprint",
       },
@@ -344,6 +488,54 @@ export const es = {
           "Plan compartido + check-in semanal · mínimo 3 meses",
           "Canal directo de soporte (no ticket genérico)",
           "Soporte continuo (más allá de 14 días)",
+        ],
+
+        features: [
+          {
+            icon: "hours",
+            title: "Horas mensuales senior",
+            detail: "Desarrollo, diseño y soporte con criterio — no tickets infinitos.",
+          },
+          {
+            icon: "pulse",
+            title: "Monitoreo y seguridad",
+            detail: "DNS, actualizaciones y vigilancia para que no se apague solo.",
+          },
+          {
+            icon: "ads",
+            title: "Ads, analítica y redes",
+            detail: "Mejoras continuas en medición y adquisición.",
+          },
+          {
+            icon: "database",
+            title: "Datos y rendimiento",
+            detail: "Respaldos, salud de base y velocidad bajo uso real.",
+          },
+          {
+            icon: "bug",
+            title: "Bugs y mejoras semanales",
+            detail: "Priorizamos lo que duele hoy y lo que mueve el negocio.",
+          },
+          {
+            icon: "roadmap",
+            title: "Roadmap a app/features",
+            detail: "Plan compartido para crecer sin reinventar el stack cada mes.",
+          },
+          {
+            icon: "calendar",
+            title: "Check-in semanal",
+            detail: "Ritmo claro · compromiso mínimo de 3 meses.",
+          },
+          {
+            icon: "chat",
+            title: "Canal directo",
+            detail: "Hablas con el equipo — no con una bandeja genérica.",
+          },
+          {
+            icon: "support",
+            title: "Soporte continuo",
+            detail: "Más allá de 14 días: alguien cuida el producto mes a mes.",
+          },
         ],
         cta: "Hablar de una alianza",
         intent: "partner",

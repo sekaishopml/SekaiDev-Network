@@ -1,5 +1,35 @@
 /** Localized studio dictionary — identical keys for en/es */
 
+export type PricingFeatureIcon =
+  | "layout"
+  | "message"
+  | "copy"
+  | "globe"
+  | "search"
+  | "rocket"
+  | "form"
+  | "key"
+  | "support"
+  | "pages"
+  | "palette"
+  | "motion"
+  | "shield"
+  | "chart"
+  | "layers"
+  | "code"
+  | "crm"
+  | "lock"
+  | "database"
+  | "panel"
+  | "ads"
+  | "test"
+  | "hours"
+  | "pulse"
+  | "roadmap"
+  | "chat"
+  | "calendar"
+  | "bug";
+
 export type StudioDictionary = {
   meta: {
     title: string;
@@ -150,6 +180,12 @@ export type StudioDictionary = {
       offerNote?: string;
       bestFor: string;
       includes: readonly string[];
+      /** Rich feature rows for /precios (Gemini-style icon + title + detail). */
+      features: readonly {
+        icon: PricingFeatureIcon;
+        title: string;
+        detail: string;
+      }[];
       cta: string;
       intent: string;
       featured?: boolean;
