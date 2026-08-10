@@ -232,7 +232,7 @@
   flex-direction: column;
   padding: 1.65rem 1.5rem 1.6rem;
   border: 1px solid rgba(240, 235, 230, 0.16);
-  background: rgba(18, 18, 22, 0.94);
+  background: #121216;
   color: #f0ebe6;
   overflow-x: hidden;
   overflow-y: auto;
@@ -241,9 +241,10 @@
   scroll-snap-align: center;
   transform-origin: center center;
   transition:
-    opacity 0.45s cubic-bezier(0.33, 1, 0.68, 1),
+    color 0.45s cubic-bezier(0.33, 1, 0.68, 1),
     transform 0.45s cubic-bezier(0.33, 1, 0.68, 1),
-    border-color 0.45s ease;
+    border-color 0.45s ease,
+    box-shadow 0.45s ease;
 }
 
 .cardFeatured {
@@ -252,9 +253,9 @@
   background:
     linear-gradient(
       165deg,
-      rgba(58, 30, 42, 0.72) 0%,
-      rgba(18, 14, 16, 0.98) 48%,
-      rgba(12, 12, 14, 0.99) 100%
+      #3a1e2a 0%,
+      #120e10 48%,
+      #0c0c0e 100%
     );
   box-shadow:
     inset 0 0 0 1px rgba(255, 205, 221, 0.1),
@@ -262,16 +263,38 @@
     0 16px 40px rgba(0, 0, 0, 0.4);
 }
 
-/* Rail focus: the centered card leads; others soften. */
+/* Dim inactive cards without letting flora bleed through glyphs. */
 .rail .card {
-  opacity: 0.5;
+  opacity: 1;
   transform: scale(0.96);
+  color: rgba(240, 235, 230, 0.58);
+  border-color: rgba(240, 235, 230, 0.1);
+}
+
+.rail .card .outcome,
+.rail .card .price,
+.rail .card .includes li,
+.rail .card .tagline,
+.rail .card .bestFor,
+.rail .card .cta {
+  opacity: 0.72;
 }
 
 .rail .card[data-active="true"] {
   opacity: 1;
   transform: scale(1);
   z-index: 2;
+  color: #f0ebe6;
+  border-color: rgba(240, 235, 230, 0.16);
+}
+
+.rail .card[data-active="true"] .outcome,
+.rail .card[data-active="true"] .price,
+.rail .card[data-active="true"] .includes li,
+.rail .card[data-active="true"] .tagline,
+.rail .card[data-active="true"] .bestFor,
+.rail .card[data-active="true"] .cta {
+  opacity: 1;
 }
 
 .rail .cardFeatured[data-active="true"] {
@@ -855,18 +878,27 @@
   }
 
   .rail .floraLeft {
+    left: clamp(-2.25rem, -1.2vw, -0.35rem);
+    top: 18%;
+    width: min(7.5rem, 9.5vw);
+    height: min(70%, 34rem);
     opacity: 0.16;
   }
 
   .rail .floraRight {
+    /* Tuck past Partner so stems never sit under includes/CTA */
+    right: clamp(-3.5rem, -2.8vw, -1.5rem);
+    top: 22%;
+    width: min(6.5rem, 8vw);
+    height: min(64%, 32rem);
     opacity: 0.1;
-    /* Keep vines on the far edge — never through Partner copy */
-    right: clamp(-2.5rem, -1.5vw, -0.5rem);
-    width: min(7rem, 8.5vw);
   }
 
   .rail .floraBloom {
-    opacity: 0.08;
+    right: clamp(0.5rem, 6vw, 5rem);
+    bottom: 14%;
+    width: min(3rem, 4vw);
+    opacity: 0.07;
   }
 
   .rail .head {
@@ -1166,6 +1198,16 @@
   overflow: visible;
   opacity: 1;
   transform: none;
+  color: #f0ebe6;
+}
+
+.reduced .card .outcome,
+.reduced .card .price,
+.reduced .card .includes li,
+.reduced .card .tagline,
+.reduced .card .bestFor,
+.reduced .card .cta {
+  opacity: 1;
 }
 
 .reduced .railMeta {
