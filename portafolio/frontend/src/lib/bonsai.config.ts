@@ -63,8 +63,9 @@ export const BONSAI_CONFIG = {
    */
   product: {
     camera: {
-      position: [0, 1.35, 5.1] as [number, number, number],
-      target: [0, 0.35, 0] as [number, number, number],
+      position: [0, 1.55, 5.1] as [number, number, number],
+      /** Aim slightly high so canopy fills the top of the mark. */
+      target: [0, 0.55, 0] as [number, number, number],
       /** Normal Y-up — hero uses [0, 0, -1] for overhead. */
       up: [0, 1, 0] as [number, number, number],
       fov: 30,
@@ -72,8 +73,8 @@ export const BONSAI_CONFIG = {
       far: 40,
     },
     bonsai: {
-      /** Optical center in the mark frame. */
-      position: [0, -0.85, 0] as [number, number, number],
+      /** Raised in frame — less empty GL space above the canopy. */
+      position: [0, -0.28, 0] as [number, number, number],
       /** No lean. Slight yaw so blossoms read. */
       rotation: [0, Math.PI * 0.12, 0] as [number, number, number],
       scale: 2.55,

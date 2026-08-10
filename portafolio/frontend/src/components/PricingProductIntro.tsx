@@ -43,7 +43,8 @@ export default function PricingProductIntro({
         autoAlpha: 0,
         y: 18,
       });
-      if (mark) gsap.set(mark, { scale: 0.92, y: 28 });
+      /* Keep enter motion subtle so the mark stays near the navbar. */
+      if (mark) gsap.set(mark, { scale: 0.96, y: 10 });
 
       const enter = gsap.timeline({
         scrollTrigger: {
