@@ -157,8 +157,11 @@ export default function OfferSection() {
               </span>
             </h2>
           </div>
-          <div className={styles.offerAside} data-offer-head>
-            <p className={styles.offerSubline}>{t.UI.offerSubline}</p>
+          <div className={styles.offerAside}>
+            <p className={styles.offerSubline} data-offer-head>
+              {t.UI.offerSubline}
+            </p>
+            {/* CTA outside GSAP head reveal so it never stays at opacity 0 */}
             <div className={styles.offerCta}>
               <button
                 type="button"
