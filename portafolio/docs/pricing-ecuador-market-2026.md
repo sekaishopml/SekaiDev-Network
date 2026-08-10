@@ -1,5 +1,7 @@
 # Informe: pricing Ecuador + cómo competir (SekaiDev)
 
+> **Actualización (2026-08-10):** Las tarjetas públicas del sitio son ahora **Web Express / Brand Web / Build Sprint / Product Partner**, todas con precio cliente ≤ $1,000 en paquetes one-off. El pricing anterior de **Launch Standard** (~$18k) queda solo como **cotización a medida** para apps y plataformas — no aparece en las tarjetas SMB.
+
 Fecha: 2026-08-08  
 Objetivo: anclar precios a la competencia real en Ecuador (≥10 referencias), reposicionar la sección Precios y definir cómo entrar / ganar en el mercado local sin baratear el estudio.
 

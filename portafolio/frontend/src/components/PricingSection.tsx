@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@/hooks/useGsapSafe";
@@ -24,14 +24,8 @@ export default function PricingSection() {
   const t = useT();
   const p = t.PRICING;
 
-  // Recommended first so PC and phone open on Launch Standard.
-  const tiers = useMemo(
-    () =>
-      [...p.tiers].sort(
-        (a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured))
-      ),
-    [p.tiers]
-  );
+  // Dictionary order — Brand Web (featured) is the second card.
+  const tiers = p.tiers;
 
   useGSAP(
     () => {
