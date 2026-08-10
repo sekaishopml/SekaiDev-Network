@@ -127,6 +127,14 @@ export type StudioDictionary = {
       cta: string;
       scrollCue: string;
     };
+    /** Labels for the wide /precios product page. */
+    productPage: {
+      includesLabel: string;
+      idealForLabel: string;
+      faqTitle: string;
+      faqLead: string;
+      everythingIn?: string;
+    };
     tiers: readonly {
       id: string;
       title: string;

@@ -9,7 +9,9 @@ export default function PricingProductView() {
   const t = useT();
   const { locale } = useLocale();
   const p = t.PRICING;
+  const page = p.productPage;
   const tiers = p.tiers;
+  const faqs = t.FAQ_ITEMS.slice(1, 7);
 
   const jump = (intent: string) => {
     const hash = t.CTAS.primary.href.startsWith("#")
@@ -29,6 +31,7 @@ export default function PricingProductView() {
         aria-labelledby="pricing-plans-heading"
       >
         <header className={styles.plansHead}>
+          <p className={styles.plansEyebrow}>{p.offerBanner}</p>
           <h2 id="pricing-plans-heading" className={styles.plansTitle}>
             {p.railHeadline}
           </h2>
@@ -44,7 +47,7 @@ export default function PricingProductView() {
                 className={`${styles.card} ${featured ? styles.cardFeatured : ""}`}
                 data-featured={featured || undefined}
               >
-                <div className={styles.cardHead}>
+                <div className={styles.cardTop}>
                   <div className={styles.cardTitles}>
                     <h3 className={styles.name}>{tier.title}</h3>
                     {featured ? (
@@ -52,9 +55,11 @@ export default function PricingProductView() {
                     ) : null}
                   </div>
                   <p className={styles.tagline}>{tier.tagline}</p>
+                  <p className={styles.timeline}>{tier.timeline}</p>
                 </div>
 
                 <div className={styles.priceBlock}>
+                  <span className={styles.rateLabel}>{p.clientRate}</span>
                   {tier.priceWas ? (
                     <span className={styles.priceWas}>{tier.priceWas}</span>
                   ) : null}
@@ -66,10 +71,8 @@ export default function PricingProductView() {
                       </span>
                     ) : null}
                   </div>
-                  <p className={styles.timeline}>{tier.timeline}</p>
+                  <p className={styles.outcome}>{tier.outcome}</p>
                 </div>
-
-                <p className={styles.outcome}>{tier.outcome}</p>
 
                 <button
                   type="button"
@@ -79,15 +82,25 @@ export default function PricingProductView() {
                   {tier.cta}
                 </button>
 
-                <ul className={styles.includes}>
-                  {tier.includes.map((line) => (
-                    <li key={line}>{line}</li>
-                  ))}
-                </ul>
+                <div className={styles.ideal}>
+                  <p className={styles.sectionLabel}>{page.idealForLabel}</p>
+                  <p className={styles.bestFor}>{tier.bestFor}</p>
+                </div>
+
+                <div className={styles.includesBlock}>
+                  <p className={styles.sectionLabel}>{page.includesLabel}</p>
+                  <ul className={styles.includes}>
+                    {tier.includes.map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ul>
+                </div>
 
                 {tier.offerNote ? (
                   <p className={styles.offerNote}>{tier.offerNote}</p>
                 ) : null}
+
+                <p className={styles.cardTrust}>{p.ctaTrust}</p>
               </article>
             );
           })}
@@ -102,6 +115,23 @@ export default function PricingProductView() {
           >
             {t.CTAS.pricingFoot}
           </button>
+        </div>
+      </section>
+
+      <section className={styles.faq} aria-labelledby="pricing-faq-heading">
+        <header className={styles.faqHead}>
+          <h2 id="pricing-faq-heading" className={styles.faqTitle}>
+            {page.faqTitle}
+          </h2>
+          <p className={styles.faqLead}>{page.faqLead}</p>
+        </header>
+        <div className={styles.faqList}>
+          {faqs.map((item) => (
+            <details key={item.question} className={styles.faqItem}>
+              <summary className={styles.faqQuestion}>{item.question}</summary>
+              <p className={styles.faqAnswer}>{item.answer}</p>
+            </details>
+          ))}
         </div>
       </section>
     </div>
