@@ -269,6 +269,21 @@
   color: rgba(22, 20, 22, 0.58);
 }
 
+.offerContactLink {
+  display: inline-block;
+  margin-top: 0.65rem;
+  font-size: clamp(0.8rem, 1.2vw, 0.88rem);
+  letter-spacing: 0.06em;
+  color: rgba(22, 20, 22, 0.72);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.offerContactLink:hover,
+.offerContactLink:focus-visible {
+  color: var(--accent, #5c1a33);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .offerRow,
   .offerIndex,

@@ -32,6 +32,9 @@ export default function Navigation() {
   const desktopLinks = t.NAV_LINKS.filter((l) => !l.mobileOnly);
   const mobileLinks = t.NAV_LINKS;
 
+  const navIndexLabel = (index?: number) =>
+    index != null ? String(index).padStart(2, "0") : null;
+
   const localeHref = (target: Locale) => {
     const localizedPath = /^\/(en|es)(?=\/|$)/.test(pathname)
       ? pathname.replace(/^\/(en|es)(?=\/|$)/, `/${target}`)
@@ -145,7 +148,7 @@ export default function Navigation() {
             className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-5 xl:gap-7 text-[10px] xl:text-[11px] tracking-[0.14em] xl:tracking-[0.18em] font-medium whitespace-nowrap"
             aria-label={t.UI.primaryNav}
           >
-            {desktopLinks.map((l, i) => (
+            {desktopLinks.map((l) => (
               <Link
                 key={l.label}
                 href={l.href}
@@ -153,7 +156,7 @@ export default function Navigation() {
                 className="group inline-flex items-baseline gap-1.5 hover:text-accent transition-colors shrink-0"
               >
                 <span className="text-muted tabular-nums">
-                  {String(i + 1).padStart(2, "0")}
+                  {navIndexLabel(l.index)}
                 </span>
                 <span className="relative">
                   {l.label.toUpperCase()}
@@ -311,8 +314,12 @@ export default function Navigation() {
                       : "0ms",
                   }}
                 >
-                  <span className="mr-3 text-sm font-medium tracking-widest text-muted tabular-nums align-middle">
-                    {String(i + 1).padStart(2, "0")}
+                  <span
+                    className={`text-sm font-medium tracking-widest text-muted tabular-nums align-middle ${
+                      l.index != null ? "mr-3" : ""
+                    }`}
+                  >
+                    {navIndexLabel(l.index) ?? ""}
                   </span>
                   {l.label}
                 </Link>

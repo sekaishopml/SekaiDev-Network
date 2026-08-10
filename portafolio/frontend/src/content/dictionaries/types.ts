@@ -10,9 +10,9 @@ export type StudioDictionary = {
   langSwitch: { label: string; en: string; es: string };
   CTAS: {
     primary: { label: string; labelUpper: string; href: string };
-    secondary: { label: string; href: string };
     pricing: { label: string; labelUpper: string; href: string };
     featuredCase: string;
+    offerFoot: string;
     pricingFoot: string;
     whatsapp: { label: string; labelUpper: string };
   };
@@ -25,7 +25,6 @@ export type StudioDictionary = {
     tagline: string;
     subline: string;
     heroCtaPrimary: { label: string; href: string };
-    heroCtaSecondary: { label: string; href: string };
     available: string;
   };
   TRUST_STRIP: readonly string[];
@@ -40,6 +39,8 @@ export type StudioDictionary = {
     label: string;
     href: string;
     mobileOnly: boolean;
+    /** Section index shown in nav (01–06); omit for unnumbered mobile funnel links. */
+    index?: number;
     intent?: string;
   }[];
   NAV_TRUST: string;
@@ -147,7 +148,6 @@ export type StudioDictionary = {
     challenge: string;
     result: string;
     tags: string;
-    href: string;
   }[];
   ABOUT: {
     label: string;
@@ -200,13 +200,13 @@ export type StudioDictionary = {
     stillFit: string;
     footerRights: string;
     footerStack: string;
+    footerAbout: string;
+    footerFeatured: string;
     offerLabel: string;
     offerHeadline: string;
     offerHeadlineAccent: string;
     offerSubline: string;
     offerPromise: string;
-    proofLabel: string;
-    proofHeadline: string;
     faqLabel: string;
     faqHeadline: string;
     faqSubline: string;

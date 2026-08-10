@@ -75,6 +75,13 @@ export default function LookDesignStage() {
 
     let tl: gsap.core.Timeline | null = null;
     let observer: MutationObserver | null = null;
+    let visibilityObserver: IntersectionObserver | null = null;
+
+    const syncTimelinePlayback = (visible: boolean) => {
+      if (!tl) return;
+      if (visible) tl.play();
+      else tl.pause();
+    };
 
     const build = () => {
       if (tl) return;
@@ -264,6 +271,15 @@ export default function LookDesignStage() {
       if (dimX) tl.set(dimX, { scaleX: 0 });
       if (dimY) tl.set(dimY, { scaleY: 0 });
       tl.set(cursor, { x: 10, y: 12 });
+
+      const watchTarget =
+        document.getElementById("media-long") ?? root;
+      visibilityObserver = new IntersectionObserver(
+        ([entry]) => syncTimelinePlayback(entry.isIntersecting),
+        { root: null, rootMargin: "48px 0px", threshold: 0 }
+      );
+      visibilityObserver.observe(watchTarget);
+      syncTimelinePlayback(true);
     };
 
     if (document.documentElement.dataset.intro === "done") {
@@ -284,6 +300,7 @@ export default function LookDesignStage() {
 
     return () => {
       observer?.disconnect();
+      visibilityObserver?.disconnect();
       tl?.kill();
     };
   }, []);

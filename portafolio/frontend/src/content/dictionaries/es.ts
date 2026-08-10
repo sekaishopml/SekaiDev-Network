@@ -30,16 +30,13 @@ export const es = {
       labelUpper: "HABLEMOS DE TU PROYECTO",
       href: "#contact",
     },
-    secondary: {
-      label: "Ver qué hacemos",
-      href: "#works",
-    },
     pricing: {
       label: "Ver precios",
       labelUpper: "VER PRECIOS",
       href: "#pricing",
     },
     featuredCase: "Quiero algo parecido",
+    offerFoot: "Hablemos",
     pricingFoot: "Pedir una cotización",
     whatsapp: {
       label: "WhatsApp",
@@ -57,10 +54,6 @@ export const es = {
     subline:
       "Apps, webs y sistemas a medida. Somos un equipo pequeño en Ecuador; también trabajamos con clientes en LatAm y EE. UU.",
     heroCtaPrimary: { label: "Hablemos de tu proyecto", href: "#contact" },
-    heroCtaSecondary: {
-      label: "Ver qué hacemos",
-      href: "#works",
-    },
     available: "Disponibles para proyectos nuevos",
   },
 
@@ -88,7 +81,7 @@ export const es = {
   ],
 
   NAV_LINKS: [
-    { label: "Qué hacemos", href: "#offer", mobileOnly: false },
+    { label: "Qué hacemos", href: "#offer", mobileOnly: false, index: 1 },
     {
       label: "Para startups",
       href: "#offer",
@@ -101,10 +94,11 @@ export const es = {
       mobileOnly: true,
       intent: "services",
     },
-    { label: "Cómo trabajamos", href: "#process", mobileOnly: false },
-    { label: "Precios", href: "#pricing", mobileOnly: false },
-    { label: "Preguntas", href: "#faq", mobileOnly: false },
-    { label: "Contacto", href: "#contact", mobileOnly: false },
+    { label: "Cómo trabajamos", href: "#process", mobileOnly: false, index: 2 },
+    { label: "Caso", href: "#featured", mobileOnly: false, index: 3 },
+    { label: "Precios", href: "#pricing", mobileOnly: false, index: 4 },
+    { label: "Preguntas", href: "#faq", mobileOnly: false, index: 5 },
+    { label: "Contacto", href: "#contact", mobileOnly: false, index: 6 },
   ],
 
   NAV_TRUST:
@@ -414,7 +408,6 @@ export const es = {
       challenge: "Clientes, pedidos y el día a día del equipo en un solo lugar.",
       result: "Datos, roles y flujos que tu gente sí puede usar.",
       tags: "Go · Next.js · Postgres",
-      href: "#contact",
     },
     {
       id: "02",
@@ -424,7 +417,6 @@ export const es = {
       challenge: "Una web seria que invite a escribir o comprar.",
       result: "Estructura clara, movimiento justo y botones que se entienden.",
       tags: "Next.js · Tailwind · GSAP",
-      href: "#contact",
     },
     {
       id: "03",
@@ -434,7 +426,6 @@ export const es = {
       challenge: "El motor detrás de la app: estable y listo para crecer.",
       result: "Login, datos y APIs que acompañan al producto.",
       tags: "Go · FastAPI · PostgreSQL",
-      href: "#contact",
     },
     {
       id: "04",
@@ -444,7 +435,6 @@ export const es = {
       challenge: "Pantallas que el equipo usa todos los días.",
       result: "Tablas, números y flujos — claros, rápidos, sin adornos.",
       tags: "React · Charts · Postgres",
-      href: "#contact",
     },
   ],
 
@@ -551,6 +541,8 @@ export const es = {
     stillFit: "¿Seguimos hablando?",
     footerRights: "TODOS LOS DERECHOS RESERVADOS.",
     footerStack: "NEXT.JS · THREE.JS · GO · POSTGRES",
+    footerAbout: "Nosotros",
+    footerFeatured: "Caso",
     offerLabel: "01 — OFERTA",
     offerHeadline: "Lo que",
     offerHeadlineAccent: "construimos.",
@@ -558,8 +550,6 @@ export const es = {
       "Apps, webs de marca, sistemas y herramientas internas — de punta a punta, con el mismo equipo pequeño.",
     offerPromise:
       "Hablas con quien construye. Plan por escrito antes de empezar. Sinceros si no encajamos.",
-    proofLabel: "02 — MÉTODO",
-    proofHeadline: "Primero el plan por escrito.",
     faqLabel: "05 — PREGUNTAS",
     faqHeadline: "Preguntas frecuentes.",
     faqSubline:

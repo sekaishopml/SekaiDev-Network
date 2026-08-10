@@ -1,4 +1,7 @@
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Fallback end-state geometry (Casa Angelina reference layout), used only
@@ -60,12 +63,17 @@ export function getFallbackLayout(
   };
 }
 
-/**
- * Live measurement — always the source of truth once LookSection is in the
- * DOM. Because LookSection overlaps the hero from y=0 (negative margin), the
- * targets already sit at their final on-screen position even before any
- * real scrolling happens, so this is safe to call every frame.
- */
+let cachedLookTargets: IntroLayoutRects | null = null;
+let lookTargetCacheValid = false;
+let lookTargetRefreshHooked = false;
+
+/** Hero / cinematic intro owns scroll — Lenis jump handlers should defer. */
+export function introOwnsPageScroll(): boolean {
+  const phase = document.documentElement.dataset.intro;
+  return phase === "hero" || phase === "animating";
+}
+
+/** Raw DOM measurement — prefer getCachedLookTargets during intro tween. */
 export function measureLookTargets(): IntroLayoutRects | null {
   const bonsaiEl = document.getElementById("bonsai-target");
   const longEl = document.getElementById("media-long");
@@ -79,6 +87,30 @@ export function measureLookTargets(): IntroLayoutRects | null {
     bonsai: { left: b.left, top: b.top, width: b.width, height: b.height },
     longPanel: { left: l.left, top: l.top, width: l.width, height: l.height },
   };
+}
+
+export function invalidateLookTargetCache() {
+  lookTargetCacheValid = false;
+  cachedLookTargets = null;
+}
+
+export function refreshLookTargetCache(): IntroLayoutRects | null {
+  cachedLookTargets = measureLookTargets();
+  lookTargetCacheValid = cachedLookTargets !== null;
+  return cachedLookTargets;
+}
+
+/** Cached rects for intro tween — remeasure via refresh / invalidate hooks. */
+export function getCachedLookTargets(): IntroLayoutRects | null {
+  if (!lookTargetCacheValid) return refreshLookTargetCache();
+  return cachedLookTargets;
+}
+
+/** Wire cache invalidation to layout shifts (resize handled in HeroSection). */
+export function ensureLookTargetRefreshHooks() {
+  if (lookTargetRefreshHooked || typeof window === "undefined") return;
+  lookTargetRefreshHooked = true;
+  ScrollTrigger.addEventListener("refresh", invalidateLookTargetCache);
 }
 
 export function getStartRect(viewportW: number, viewportH: number): HeroRect {

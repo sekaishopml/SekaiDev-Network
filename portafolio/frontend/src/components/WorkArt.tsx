@@ -1,4 +1,6 @@
-import type { ReactElement } from "react";
+"use client";
+
+import { useEffect, useRef, type ReactElement } from "react";
 import styles from "./WorkArt.module.css";
 
 type WorkSlug = "crm" | "websites" | "api" | "dashboards";
@@ -198,9 +200,39 @@ export default function WorkArt({
   label = "CAPABILITY",
   compact = false,
 }: WorkArtProps) {
+  const rootRef = useRef<HTMLDivElement>(null);
   const Scene = SCENES[slug];
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (reduced) return;
+
+    const svg = root.querySelector("svg");
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const paused = !entry.isIntersecting;
+        root.dataset.paused = paused ? "true" : "false";
+        if (svg) {
+          if (paused) svg.pauseAnimations();
+          else svg.unpauseAnimations();
+        }
+      },
+      { root: null, rootMargin: "48px 0px", threshold: 0 }
+    );
+
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
+      ref={rootRef}
       className={`${styles.art} ${styles[`art--${slug}`]} ${compact ? styles.artCompact : ""}`}
       aria-hidden
     >

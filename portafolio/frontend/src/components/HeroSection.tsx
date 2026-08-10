@@ -21,10 +21,12 @@ import {
 import RainbowArc from "./RainbowArc";
 import {
   applyRect,
+  ensureLookTargetRefreshHooks,
+  getCachedLookTargets,
   getFallbackLayout,
   getStartRect,
   lerpRect,
-  measureLookTargets,
+  refreshLookTargetCache,
   introSegment,
   resetLookTypography,
   setIntroPhaseFromProgress,
@@ -269,7 +271,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
     const isMobile = w < 768;
 
     const start = getStartRect(w, h);
-    const measured = measureLookTargets();
+    const measured = getCachedLookTargets();
     const end = measured ?? getFallbackLayout(w, h, isMobile);
 
     // At the end state, snap to live measured targets (no lerp residual).
@@ -339,7 +341,11 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
 
   // Re-apply current progress on resize so rects stay correct
   useEffect(() => {
-    const onResize = () => applyProgress(progressObj.current.value);
+    ensureLookTargetRefreshHooks();
+    const onResize = () => {
+      refreshLookTargetCache();
+      applyProgress(progressObj.current.value);
+    };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, [applyProgress]);
@@ -389,12 +395,14 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
 
       if (reducedMotion || seenIntro) {
         // Returning visit / reduced motion — skip cinematic lock
+        refreshLookTargetCache();
         progressObj.current.value = 1;
         applyProgress(1);
         phaseRef.current = "look";
         unlock();
         setShowSkip(false);
       } else {
+        refreshLookTargetCache();
         lock();
       }
     }
@@ -415,6 +423,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
       if (!entranceDoneRef.current) return;
       phaseRef.current = "forward";
       killTween();
+      refreshLookTargetCache();
 
       if (reducedMotion) {
         progressObj.current.value = 1;
@@ -434,6 +443,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
           phaseRef.current = "look";
           markIntroSeen();
           setShowSkip(false);
+          refreshLookTargetCache();
           // Unlock so the user can scroll the page — and swipe back up to reverse
           unlock();
           try {
@@ -543,6 +553,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
       entranceDoneRef.current = true;
       killTween();
       progressObj.current.value = 1;
+      refreshLookTargetCache();
       applyProgress(1);
       phaseRef.current = "look";
       markIntroSeen();
@@ -611,6 +622,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
       if (phaseRef.current !== "hero") return;
       killTween();
       phaseRef.current = "forward";
+      refreshLookTargetCache();
       tweenRef.current = gsap.to(progressObj.current, {
         value: 1,
         duration: TRANSITION_DURATION_IN,
@@ -620,6 +632,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
           progressObj.current.value = 1;
           phaseRef.current = "look";
           markIntroSeen();
+          refreshLookTargetCache();
           unlock();
           requestAnimationFrame(() => {
             applyProgress(1);
@@ -669,54 +682,68 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
 
   // Pin overlay to LOOK targets while on-screen; kill ghost layers past LOOK.
   useEffect(() => {
-    if (!lenis) return;
-
     const setOverlay = (on: boolean) => {
       document.documentElement.dataset.overlay = on ? "on" : "off";
       setOverlayVisible(on);
     };
 
+    const bonsaiEl = document.getElementById("bonsai-target");
+    const longEl = document.getElementById("media-long");
+
+    let bonsaiVisible = true;
+    let longVisible = false;
+
     const syncLookOverlay = () => {
       const phase = phaseRef.current;
       if (phase !== "look") {
-        // Hero / cinematic — overlay owns the stage
         setOverlay(true);
         return;
       }
 
-      const target = document.getElementById("bonsai-target");
-      const longTarget = document.getElementById("media-long");
-      if (!target) {
+      if (!bonsaiEl) {
         setOverlay(false);
         return;
       }
 
-      const r = target.getBoundingClientRect();
-      const longR = longTarget?.getBoundingClientRect();
-      const pad = 80;
-      const bonsaiVisible = r.bottom > -pad && r.top < window.innerHeight + pad;
-      const longVisible = longR
-        ? longR.bottom > -pad && longR.top < window.innerHeight + pad
-        : false;
       const visible = bonsaiVisible || longVisible;
-
-      if (visible) {
-        applyProgress(1);
-      }
+      if (visible) applyProgress(1);
       setOverlay(visible);
     };
 
-    // Default on until first sync
     document.documentElement.dataset.overlay = "on";
+
+    const visibilityObserver =
+      bonsaiEl &&
+      new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.target === bonsaiEl) bonsaiVisible = entry.isIntersecting;
+            if (longEl && entry.target === longEl) longVisible = entry.isIntersecting;
+          }
+          syncLookOverlay();
+        },
+        { root: null, rootMargin: "80px 0px 80px 0px", threshold: 0 }
+      );
+
+    if (visibilityObserver && bonsaiEl) {
+      visibilityObserver.observe(bonsaiEl);
+      if (longEl) visibilityObserver.observe(longEl);
+    }
+
+    const phaseObserver = new MutationObserver(syncLookOverlay);
+    phaseObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-intro"],
+    });
+
     syncLookOverlay();
-    lenis.on("scroll", syncLookOverlay);
-    window.addEventListener("resize", syncLookOverlay);
+
     return () => {
-      lenis.off("scroll", syncLookOverlay);
-      window.removeEventListener("resize", syncLookOverlay);
+      visibilityObserver?.disconnect();
+      phaseObserver.disconnect();
       delete document.documentElement.dataset.overlay;
     };
-  }, [lenis, applyProgress]);
+  }, [applyProgress]);
 
   // Portal bonsai + hero copy to document.body so Lenis transforms never
   // trap "fixed" layers — labels used to stay under the fullscreen canvas.

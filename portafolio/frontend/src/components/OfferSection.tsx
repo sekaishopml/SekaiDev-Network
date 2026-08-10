@@ -8,6 +8,7 @@ import { useT } from "@/components/LocaleProvider";
 import WorkArt from "@/components/WorkArt";
 import { OFFER_SCROLL } from "@/lib/motion/offerScroll";
 import { REVEAL } from "@/lib/motion/revealPresets";
+import { jumpTo } from "@/lib/navigation";
 import styles from "./OfferSection.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -182,6 +183,16 @@ export default function OfferSection() {
 
         <div className={styles.offerFoot} data-offer-foot>
           <p className={styles.offerPromise}>{t.UI.offerPromise}</p>
+          <a
+            href={t.CTAS.primary.href}
+            onClick={(e) => {
+              e.preventDefault();
+              jumpTo(t.CTAS.primary.href);
+            }}
+            className={styles.offerContactLink}
+          >
+            {t.CTAS.offerFoot} →
+          </a>
         </div>
       </div>
     </section>

@@ -448,3 +448,22 @@
     transform: none;
   }
 }
+
+/* Pause CSS loops when off-screen — SMIL handled via svg.pauseAnimations() */
+.art[data-paused="true"] .crmLine,
+.art[data-paused="true"] .crmNodeAccent,
+.art[data-paused="true"] .crmCard,
+.art[data-paused="true"] .webBar,
+.art[data-paused="true"] .webBlock,
+.art[data-paused="true"] .webCursor,
+.art[data-paused="true"] .apiLine,
+.art[data-paused="true"] .apiBrace,
+.art[data-paused="true"] .dashTile,
+.art[data-paused="true"] .dashKpi,
+.art[data-paused="true"] .dashKpiAccent,
+.art[data-paused="true"] .dashRow,
+.art[data-paused="true"] .dashRowAccent,
+.art[data-paused="true"] .dashBar,
+.art[data-paused="true"] .dashBarAccent {
+  animation-play-state: paused;
+}

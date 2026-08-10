@@ -4,6 +4,7 @@ import { ReactLenis, useLenis } from "lenis/react";
 import { useEffect, useMemo, useSyncExternalStore } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { introOwnsPageScroll } from "@/lib/heroTransforms";
 import { parseJumpHref, setIntent } from "@/lib/navigation";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -14,10 +15,24 @@ function subscribeCoarsePointer(onChange: () => void) {
   return () => mq.removeEventListener("change", onChange);
 }
 
+function subscribeReducedMotion(onChange: () => void) {
+  const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
 function useCoarsePointer() {
   return useSyncExternalStore(
     subscribeCoarsePointer,
     () => window.matchMedia("(pointer: coarse)").matches,
+    () => false
+  );
+}
+
+function useReducedMotion() {
+  return useSyncExternalStore(
+    subscribeReducedMotion,
+    () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
     () => false
   );
 }
@@ -61,6 +76,9 @@ function LenisBridge({ jumpDuration }: { jumpDuration: number }) {
     if (!lenis) return;
 
     const onJump = (event: Event) => {
+      // Hero owns scroll during intro — avoid double scrollTo with HeroSection
+      if (introOwnsPageScroll()) return;
+
       const rawHref = (event as CustomEvent<string>).detail;
       if (!rawHref) return;
       const { hash, intent } = parseJumpHref(rawHref);
@@ -91,34 +109,44 @@ export default function SmoothScroll({
   children: React.ReactNode;
 }) {
   const coarse = useCoarsePointer();
+  const reduced = useReducedMotion();
 
-  const options = useMemo(
-    () =>
-      coarse
-        ? {
-            // Finger-locked while dragging (syncTouch → lerp 1 on move);
-            // after lift, silkier coast — premium, not floaty.
-            autoRaf: false,
-            lerp: 0.12,
-            smoothWheel: true,
-            wheelMultiplier: 1,
-            touchMultiplier: 1,
-            syncTouch: true,
-            syncTouchLerp: 0.09,
-            touchInertiaExponent: 1.48,
-          }
-        : {
-            autoRaf: false,
-            lerp: 0.1,
-            smoothWheel: true,
-            wheelMultiplier: 1,
-            touchMultiplier: 1,
-            syncTouch: false,
-          },
-    [coarse]
-  );
+  const options = useMemo(() => {
+    if (reduced) {
+      // Native-feeling scroll for a11y — Lenis stays for API parity only
+      return {
+        autoRaf: false,
+        lerp: 1,
+        smoothWheel: false,
+        wheelMultiplier: 1,
+        touchMultiplier: 1,
+        syncTouch: false,
+      };
+    }
+    return coarse
+      ? {
+          // Finger-locked while dragging (syncTouch → lerp 1 on move);
+          // after lift, silkier coast — premium, not floaty.
+          autoRaf: false,
+          lerp: 0.12,
+          smoothWheel: true,
+          wheelMultiplier: 1,
+          touchMultiplier: 1,
+          syncTouch: true,
+          syncTouchLerp: 0.09,
+          touchInertiaExponent: 1.48,
+        }
+      : {
+          autoRaf: false,
+          lerp: 0.1,
+          smoothWheel: true,
+          wheelMultiplier: 1,
+          touchMultiplier: 1,
+          syncTouch: false,
+        };
+  }, [coarse, reduced]);
 
-  const jumpDuration = coarse ? 0.75 : 0.85;
+  const jumpDuration = reduced ? 0 : coarse ? 0.75 : 0.85;
 
   return (
     <ReactLenis root options={options}>

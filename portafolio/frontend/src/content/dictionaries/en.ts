@@ -27,16 +27,13 @@ export const en = {
       labelUpper: "LET'S TALK ABOUT YOUR PROJECT",
       href: "#contact",
     },
-    secondary: {
-      label: "See what we do",
-      href: "#works",
-    },
     pricing: {
       label: "See pricing",
       labelUpper: "SEE PRICING",
       href: "#pricing",
     },
     featuredCase: "I want something like this",
+    offerFoot: "Let's talk",
     pricingFoot: "Request a quote",
     whatsapp: {
       label: "WhatsApp",
@@ -57,7 +54,6 @@ export const en = {
       label: "Let's talk about your project",
       href: "#contact",
     },
-    heroCtaSecondary: { label: "See what we do", href: "#works" },
     available: "Open for new projects",
   },
 
@@ -85,7 +81,7 @@ export const en = {
   ],
 
   NAV_LINKS: [
-    { label: "What we do", href: "#offer", mobileOnly: false },
+    { label: "What we do", href: "#offer", mobileOnly: false, index: 1 },
     {
       label: "For startups",
       href: "#offer",
@@ -98,10 +94,11 @@ export const en = {
       mobileOnly: true,
       intent: "services",
     },
-    { label: "How we work", href: "#process", mobileOnly: false },
-    { label: "Pricing", href: "#pricing", mobileOnly: false },
-    { label: "FAQ", href: "#faq", mobileOnly: false },
-    { label: "Contact", href: "#contact", mobileOnly: false },
+    { label: "How we work", href: "#process", mobileOnly: false, index: 2 },
+    { label: "Case", href: "#featured", mobileOnly: false, index: 3 },
+    { label: "Pricing", href: "#pricing", mobileOnly: false, index: 4 },
+    { label: "FAQ", href: "#faq", mobileOnly: false, index: 5 },
+    { label: "Contact", href: "#contact", mobileOnly: false, index: 6 },
   ],
 
   NAV_TRUST:
@@ -410,7 +407,6 @@ export const en = {
       challenge: "Pipelines, contacts, and day-to-day ops in one place.",
       result: "A data model, roles, and workflows your team can actually run.",
       tags: "Go · Next.js · Postgres",
-      href: "#contact",
     },
     {
       id: "02",
@@ -420,7 +416,6 @@ export const en = {
       challenge: "A site that looks serious and gets people to act.",
       result: "Clear structure, light motion, and CTAs that make sense.",
       tags: "Next.js · Tailwind · GSAP",
-      href: "#contact",
     },
     {
       id: "03",
@@ -430,7 +425,6 @@ export const en = {
       challenge: "Services you can trust and extend later.",
       result: "Auth, data models, and APIs that grow with the product.",
       tags: "Go · FastAPI · PostgreSQL",
-      href: "#contact",
     },
     {
       id: "04",
@@ -440,7 +434,6 @@ export const en = {
       challenge: "Admin screens and ops views teams use every day.",
       result: "Tables, KPIs, and workflows — clear, fast, no fluff.",
       tags: "React · Charts · Postgres",
-      href: "#contact",
     },
   ],
 
@@ -536,6 +529,8 @@ export const en = {
     stillFit: "Still talking?",
     footerRights: "ALL RIGHTS RESERVED.",
     footerStack: "NEXT.JS · THREE.JS · GO · POSTGRES",
+    footerAbout: "About",
+    footerFeatured: "Case",
     offerLabel: "01 — OFFER",
     offerHeadline: "What we",
     offerHeadlineAccent: "build.",
@@ -543,8 +538,6 @@ export const en = {
       "Apps, brand sites, systems, and internal tools — end to end with the same small team.",
     offerPromise:
       "You talk to who builds. Written plan before we start. Honest if we are not a fit.",
-    proofLabel: "02 — METHOD",
-    proofHeadline: "Written plan first.",
     faqLabel: "05 — FAQ",
     faqHeadline: "Common questions.",
     faqSubline:
