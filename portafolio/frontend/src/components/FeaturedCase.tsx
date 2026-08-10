@@ -108,6 +108,9 @@ export default function FeaturedCase() {
 
       <div className={styles.after}>
         <p className={styles.afterHead}>{c.labels.buildNotes}</p>
+        {!c.href ? (
+          <p className={styles.afterClarity}>{c.outcomeNote}</p>
+        ) : null}
         <div className={styles.detailGrid}>
           <div className={styles.detailBlock}>
             <p className={styles.detailLabel}>{c.labels.delivered}</p>

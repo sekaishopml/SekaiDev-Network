@@ -1,3 +1,11 @@
+/*
+ * CSS policy (frontend):
+ * - globals.css  → design tokens / primitives (:root, resets, shared type rhythm)
+ * - CSS modules  → complex section compositions (Look, Method, Featured, Pricing…)
+ * - Tailwind     → layout, spacing utilities, and one-off chrome (nav, forms, demos)
+ * Prefer tokens here over duplicating values in modules or class strings.
+ */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

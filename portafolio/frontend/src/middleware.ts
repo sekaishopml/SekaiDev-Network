@@ -18,11 +18,35 @@ export function middleware(request: NextRequest) {
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next") ||
     pathname.startsWith("/favicon") ||
-    pathname.startsWith("/lead-flow") ||
     pathname.startsWith("/monitoring") ||
     pathname.includes(".")
   ) {
     return NextResponse.next();
+  }
+
+  if (pathname.startsWith("/lead-flow")) {
+    const langParam = request.nextUrl.searchParams.get("lang");
+    const cookie = request.cookies.get("NEXT_LOCALE")?.value;
+    const locale: Locale =
+      langParam && (LOCALES as readonly string[]).includes(langParam)
+        ? (langParam as Locale)
+        : cookie && (LOCALES as readonly string[]).includes(cookie)
+          ? (cookie as Locale)
+          : DEFAULT_LOCALE;
+
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set("x-lead-flow-locale", locale);
+
+    const res = NextResponse.next({
+      request: { headers: requestHeaders },
+    });
+    if (langParam && (LOCALES as readonly string[]).includes(langParam)) {
+      res.cookies.set("NEXT_LOCALE", langParam, {
+        path: "/",
+        maxAge: 60 * 60 * 24 * 365,
+      });
+    }
+    return res;
   }
 
   const hasLocale = LOCALES.some(

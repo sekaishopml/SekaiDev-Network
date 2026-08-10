@@ -1,9 +1,7 @@
 import Link from "next/link";
-import { SITE } from "@/content/config";
-import { en } from "@/content/dictionaries/en";
-
-const LEAD_FLOW_DEMO = en.LEAD_FLOW_DEMO;
-const STUDIO = { ...en.STUDIO, email: SITE.email, siteUrl: SITE.siteUrl };
+import type { Metadata } from "next";
+import { SITE, isLocale, type Locale } from "@/content/config";
+import { getDictionary } from "@/content/i18n";
 
 const statusStyle: Record<string, string> = {
   received: "border-foreground/30 text-foreground/70",
@@ -12,40 +10,65 @@ const statusStyle: Record<string, string> = {
   qualified: "border-accent bg-accent/10 text-accent",
 };
 
-export const metadata = {
-  title: "Lead flow demo",
-  description: "Example ops view of the SekaiDev inquiry pipeline.",
-  robots: { index: false, follow: false },
-};
+function localeFromSearch(
+  searchParams: Record<string, string | string[] | undefined>
+): Locale {
+  const raw = searchParams.lang;
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  return value && isLocale(value) ? value : "en";
+}
 
-export default function LeadFlowPage() {
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const locale = localeFromSearch(params);
+  const chrome = getDictionary(locale).LEAD_FLOW_DEMO.chrome;
+  return {
+    title: chrome.metaTitle,
+    description: chrome.metaDescription,
+    robots: { index: false, follow: false },
+  };
+}
+
+export default async function LeadFlowPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const params = await searchParams;
+  const locale = localeFromSearch(params);
+  const dict = getDictionary(locale);
+  const demo = dict.LEAD_FLOW_DEMO;
+  const chrome = demo.chrome;
+  const homeHref = `/${locale}`;
+
   return (
     <main className="min-h-screen bg-background text-foreground px-6 md:px-12 py-16 md:py-24">
       <div className="max-w-5xl mx-auto">
         <Link
-          href="/"
+          href={homeHref}
           className="text-[10px] tracking-widest uppercase text-muted hover:text-accent transition-colors"
         >
-          ← Back to site
+          {chrome.back}
         </Link>
 
         <header className="mt-8 max-w-2xl">
           <p className="text-[10px] tracking-[0.22em] uppercase text-muted">
-            Backend maquette · Demo data
+            {chrome.eyebrow}
           </p>
           <h1 className="font-display text-3xl md:text-5xl font-bold mt-4 leading-tight">
-            {LEAD_FLOW_DEMO.title}
+            {demo.title}
           </h1>
           <p className="mt-4 text-sm md:text-base text-foreground/70 leading-relaxed">
-            {LEAD_FLOW_DEMO.subtitle} Real submissions hit{" "}
-            <code className="text-xs">POST /api/contact</code> (Go → Postgres →
-            alert) and return a reference like{" "}
-            <code className="text-xs">SKD-YYYYMMDD-XXXX</code>.
+            {demo.subtitle} {chrome.apiBlurb}
           </p>
         </header>
 
         <section className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {LEAD_FLOW_DEMO.stages.map((s, i) => (
+          {demo.stages.map((s, i) => (
             <div
               key={s.id}
               className="border border-foreground/15 p-5 flex flex-col gap-2"
@@ -62,24 +85,22 @@ export default function LeadFlowPage() {
         </section>
 
         <section className="mt-16">
-          <h2 className="font-display text-2xl font-bold">Sample inbox</h2>
-          <p className="mt-2 text-sm text-foreground/60">
-            How the studio sees qualified briefs after submit.
-          </p>
+          <h2 className="font-display text-2xl font-bold">{chrome.inboxTitle}</h2>
+          <p className="mt-2 text-sm text-foreground/60">{chrome.inboxSub}</p>
 
           <div className="mt-8 overflow-x-auto border border-foreground/15">
             <table className="w-full text-left text-sm min-w-[720px]">
               <thead className="bg-foreground/[0.03] text-[10px] tracking-widest uppercase text-muted">
                 <tr>
-                  <th className="px-4 py-3 font-medium">Reference</th>
-                  <th className="px-4 py-3 font-medium">Lead</th>
-                  <th className="px-4 py-3 font-medium">Scope</th>
-                  <th className="px-4 py-3 font-medium">Priority</th>
-                  <th className="px-4 py-3 font-medium">Status</th>
+                  <th className="px-4 py-3 font-medium">{chrome.colReference}</th>
+                  <th className="px-4 py-3 font-medium">{chrome.colLead}</th>
+                  <th className="px-4 py-3 font-medium">{chrome.colScope}</th>
+                  <th className="px-4 py-3 font-medium">{chrome.colPriority}</th>
+                  <th className="px-4 py-3 font-medium">{chrome.colStatus}</th>
                 </tr>
               </thead>
               <tbody>
-                {LEAD_FLOW_DEMO.sampleLeads.map((lead) => (
+                {demo.sampleLeads.map((lead) => (
                   <tr
                     key={lead.reference}
                     className="border-t border-foreground/10 align-top"
@@ -87,26 +108,22 @@ export default function LeadFlowPage() {
                     <td className="px-4 py-4 font-mono text-xs">
                       {lead.reference}
                       <p className="mt-1 text-[10px] text-muted tracking-normal">
-                        {new Date(lead.createdAt).toLocaleString()}
+                        {new Date(lead.createdAt).toLocaleString(
+                          locale === "es" ? "es-EC" : "en-US"
+                        )}
                       </p>
                     </td>
                     <td className="px-4 py-4">
                       <p className="font-medium">{lead.name}</p>
-                      <p className="text-xs text-foreground/60">
-                        {lead.email}
-                      </p>
-                      <p className="text-xs text-foreground/50">
-                        {lead.company}
-                      </p>
+                      <p className="text-xs text-foreground/60">{lead.email}</p>
+                      <p className="text-xs text-foreground/50">{lead.company}</p>
                     </td>
                     <td className="px-4 py-4 max-w-xs">
                       <p className="text-xs">{lead.projectType}</p>
                       <p className="text-xs text-foreground/55 mt-1">
                         {lead.timeline}
                       </p>
-                      <p className="text-xs text-foreground/55">
-                        {lead.budget}
-                      </p>
+                      <p className="text-xs text-foreground/55">{lead.budget}</p>
                       <p className="text-xs text-foreground/45 mt-2 leading-relaxed">
                         {lead.messagePreview}
                       </p>
@@ -133,7 +150,7 @@ export default function LeadFlowPage() {
         </section>
 
         <section className="mt-16 max-w-xl border-t border-foreground/15 pt-10">
-          <h2 className="font-display text-xl font-bold">API contract</h2>
+          <h2 className="font-display text-xl font-bold">{chrome.apiTitle}</h2>
           <pre className="mt-4 text-[11px] leading-relaxed bg-foreground/[0.04] p-4 overflow-x-auto text-foreground/80">
 {`POST /api/contact
 → { ok, reference, status: "received", message }
@@ -143,12 +160,12 @@ Pipeline:
   → confirmation UI with reference`}
           </pre>
           <p className="mt-6 text-xs text-muted">
-            Contact:{" "}
+            {chrome.contactLabel}{" "}
             <a
-              href={`mailto:${STUDIO.email}`}
+              href={`mailto:${SITE.email}`}
               className="hover:text-accent transition-colors"
             >
-              {STUDIO.email}
+              {SITE.email}
             </a>
           </p>
         </section>

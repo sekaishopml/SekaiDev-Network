@@ -237,5 +237,21 @@ export type StudioDictionary = {
       createdAt: string;
       messagePreview: string;
     }[];
+    chrome: {
+      back: string;
+      eyebrow: string;
+      apiBlurb: string;
+      inboxTitle: string;
+      inboxSub: string;
+      colReference: string;
+      colLead: string;
+      colScope: string;
+      colPriority: string;
+      colStatus: string;
+      apiTitle: string;
+      contactLabel: string;
+      metaTitle: string;
+      metaDescription: string;
+    };
   };
 };
