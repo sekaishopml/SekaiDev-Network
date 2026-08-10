@@ -19,8 +19,8 @@ export const PRICING_SCROLL = {
   /** Desktop floor when overflow is tiny. */
   minTravelPxDesktop: 560,
   /** Mild stretch so 4 tiers still feel like a pass — not a long slog. */
-  travelMultiplierDesktop: 1.12,
-  travelMultiplierMobile: 1.08,
+  travelMultiplierDesktop: 1,
+  travelMultiplierMobile: 1,
   /** Clamp total pin distance in viewport screens (desktop). */
   targetScreensDesktopMin: 1.05,
   targetScreensDesktopMax: 1.35,

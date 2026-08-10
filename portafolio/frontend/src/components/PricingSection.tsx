@@ -64,12 +64,14 @@ export default function PricingSection() {
         /* Cache scroll metrics — never read layout inside onUpdate. */
         let cachedTravel = 0;
         let cachedPinDistance = 0;
+        let cachedViewW = 0;
         let cardCenters: number[] = [];
         let activeIndex = -1;
 
         const measure = () => {
           const rail = pin.querySelector<HTMLElement>(`.${styles.viewport}`);
           const viewW = rail?.clientWidth || pin.clientWidth;
+          cachedViewW = viewW;
           const overflow = Math.max(0, track.scrollWidth - viewW);
           const floor = isDesktop()
             ? PRICING_SCROLL.minTravelPxDesktop
@@ -77,10 +79,10 @@ export default function PricingSection() {
           const mult = isDesktop()
             ? PRICING_SCROLL.travelMultiplierDesktop
             : PRICING_SCROLL.travelMultiplierMobile;
+          /* Travel = content overflow (floor only when tiny). Extra multiplier
+             made the track overrun the cards so highlight felt out of sync. */
           cachedTravel =
-            overflow < 32
-              ? Math.max(overflow, floor)
-              : Math.max(overflow * mult, floor);
+            overflow < 32 ? Math.max(overflow, floor) : overflow * mult;
 
           cardCenters = cards.map(
             (card) => card.offsetLeft + card.offsetWidth / 2
@@ -119,23 +121,21 @@ export default function PricingSection() {
         };
 
         /**
-         * Highlight via live track x + cached centers (no getBoundingClientRect).
-         * Anchor focus at the first card's center — not viewport midpoint.
-         * Desktop cards are left-padded, so a mid-viewport focus lights Brand Web
-         * (2nd) at x=0; Express must own the rail start. On mobile cardCenters[0]
-         * ≈ viewW/2, so this matches the centered rail / prior midpoint sync.
+         * Light the card nearest the viewport center using live track x.
+         * Same optical rule on desktop and mobile — matches what you see.
+         * At rest (|x|≈0) force Express so a left-padded measure can't
+         * accidentally pick Brand Web before the first scroll tick.
          */
         const syncActiveFromTrack = () => {
           if (cardCenters.length === 0) return;
           const x = Number(gsap.getProperty(track, "x")) || 0;
 
-          /* Near rest / no travel: force Web Express (index 0). */
-          if (cachedTravel <= 0 || -x < 1) {
+          if (Math.abs(x) < 12) {
             setActiveCard(0);
             return;
           }
 
-          const focusX = cardCenters[0] - x;
+          const focusX = cachedViewW / 2 - x;
           let best = 0;
           let bestDist = Infinity;
           for (let i = 0; i < cardCenters.length; i++) {

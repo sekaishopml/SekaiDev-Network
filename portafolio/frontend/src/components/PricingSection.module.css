@@ -959,13 +959,22 @@
   }
 
   .rail .track {
+    --pricing-lead-w: 21rem;
     align-self: stretch;
     height: auto;
     min-height: 100%;
     max-height: none;
     align-items: stretch;
     gap: 0.95rem;
-    padding: 0 0 0 clamp(1.5rem, 4vw, 3rem);
+    /* Center Express at rest and Partner at end — same optical rule as mobile */
+    padding-left: max(
+      clamp(1.5rem, 4vw, 3rem),
+      calc((100vw - var(--pricing-lead-w)) / 2)
+    );
+    padding-right: max(
+      clamp(1.5rem, 4vw, 3rem),
+      calc((100vw - var(--pricing-lead-w)) / 2)
+    );
   }
 
   .rail .card,
@@ -1116,6 +1125,10 @@
 }
 
 @media (min-width: 1200px) {
+  .rail .track {
+    --pricing-lead-w: 21.5rem;
+  }
+
   .rail .card {
     width: 21.5rem;
   }
