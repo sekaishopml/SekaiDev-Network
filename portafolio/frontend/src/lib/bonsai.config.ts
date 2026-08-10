@@ -72,11 +72,11 @@ export const BONSAI_CONFIG = {
       far: 40,
     },
     bonsai: {
-      /** Drop so pot sits near bottom of the round mark. */
-      position: [0, -1.05, 0] as [number, number, number],
+      /** Drop so pot sits near bottom of the product stage. */
+      position: [0, -0.75, 0] as [number, number, number],
       /** No lean (rx/rz = 0). Slight yaw so blossoms read. */
       rotation: [0, Math.PI * 0.15, 0] as [number, number, number],
-      scale: 2.05,
+      scale: 3.85,
     },
     animation: {
       rotationSpeed: 0.06,

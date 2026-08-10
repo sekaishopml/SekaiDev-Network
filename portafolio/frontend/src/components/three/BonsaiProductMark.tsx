@@ -10,6 +10,15 @@ import { getPerfProfile } from "@/lib/perf";
 
 const CFG = BONSAI_CONFIG.product;
 
+/** True when hero WebGL owns the GPU (intro or LOOK overlay). */
+function heroWebglBusy(): boolean {
+  if (typeof document === "undefined") return true;
+  const { intro, overlay } = document.documentElement.dataset;
+  if (intro === "hero" || intro === "animating") return true;
+  if (overlay === "on" || overlay === "exiting") return true;
+  return false;
+}
+
 function ProductCamera() {
   const { camera } = useThree();
 

@@ -1,32 +1,26 @@
 "use client";
 
 import { useRef } from "react";
-import dynamic from "next/dynamic";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@/hooks/useGsapSafe";
 import { useT } from "@/components/LocaleProvider";
 import { jumpTo } from "@/lib/navigation";
-import { PRICING_INTRO } from "@/lib/motion/pricingIntro";
+import { getPerfProfile } from "@/lib/perf";
+import BonsaiProductMark from "@/components/three/BonsaiProductMark";
 import styles from "./PricingProductIntro.module.css";
-
-const BonsaiProductMark = dynamic(
-  () => import("@/components/three/BonsaiProductMark"),
-  { ssr: false, loading: () => null }
-);
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface PricingProductIntroProps {
-  railRef: React.RefObject<HTMLElement | null>;
-}
+type Props = {
+  plansHref?: string;
+};
 
 export default function PricingProductIntro({
-  railRef,
-}: PricingProductIntroProps) {
+  plansHref = "#pricing-plans",
+}: Props) {
   const rootRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
   const t = useT();
   const p = t.PRICING;
   const intro = p.productIntro;
@@ -35,56 +29,79 @@ export default function PricingProductIntro({
     () => {
       const root = rootRef.current;
       const stage = stageRef.current;
-      const content = contentRef.current;
-      if (!root || !stage || !content) return;
+      if (!root || !stage) return;
 
-      const mm = gsap.matchMedia();
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduced) return;
 
-      mm.add(PRICING_INTRO.reducedMotionQuery, () => {
-        gsap.set([stage, content], { clearProps: "all" });
-        return () => {};
+      const tier = getPerfProfile().tier;
+      const mark = stage.querySelector<HTMLElement>(`.${styles.mark}`);
+      const copy = stage.querySelectorAll<HTMLElement>(`[data-intro-copy]`);
+      const cue = stage.querySelector<HTMLElement>(`.${styles.scrollCue}`);
+
+      gsap.set([mark, ...copy, cue].filter(Boolean), {
+        autoAlpha: 0,
+        y: 18,
       });
+      if (mark) gsap.set(mark, { scale: 0.92, y: 28 });
 
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const tween = gsap.fromTo(
-          [stage, content],
-          { y: 0, opacity: 1 },
+      const enter = gsap.timeline({
+        scrollTrigger: {
+          trigger: root,
+          start: "top 75%",
+          once: true,
+        },
+      });
+      enter
+        .to(mark, {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.85,
+          ease: "power2.out",
+        })
+        .to(
+          copy,
           {
-            y: () => PRICING_INTRO.bonsaiY,
-            opacity: 0,
-            ease: PRICING_INTRO.ease,
-            scrollTrigger: {
-              trigger: root,
-              start: "top top",
-              end: () =>
-                `+=${root.offsetHeight * PRICING_INTRO.exitScrollFraction}`,
-              scrub: 0.35,
-            },
-          }
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.55,
+            stagger: 0.08,
+            ease: "power2.out",
+          },
+          "-=0.45"
+        )
+        .to(
+          cue,
+          { autoAlpha: 1, y: 0, duration: 0.4, ease: "power2.out" },
+          "-=0.2"
         );
 
-        return () => {
-          tween.scrollTrigger?.kill();
-          tween.kill();
-          gsap.set([stage, content], { clearProps: "all" });
-        };
-      });
+      const exitVars: gsap.TweenVars = {
+        y: tier === "low" ? -28 : tier === "mid" ? -48 : -64,
+        autoAlpha: 0,
+        ease: "power2.inOut",
+        scrollTrigger: {
+          trigger: root,
+          start: "center top",
+          end: "bottom top",
+          scrub: tier === "high" ? true : tier === "mid" ? 0.45 : 0.6,
+        },
+      };
+      if (tier === "high") {
+        exitVars.scale = 0.94;
+        exitVars.filter = "blur(6px)";
+      } else if (tier === "mid") {
+        exitVars.scale = 0.97;
+      }
+
+      gsap.to(stage, exitVars);
     },
-    { scope: rootRef, dependencies: [intro.headline] }
-  );
-
-  const scrollToRail = () => {
-    const rail = railRef.current;
-    if (rail) {
-      rail.scrollIntoView({ behavior: "smooth", block: "start" });
-      return;
+    {
+      scope: rootRef,
+      dependencies: [intro.headlineBefore, intro.headlineAccent, intro.cta],
     }
-    jumpTo("#pricing-plans", "services");
-  };
-
-  const jump = (intent: string) => {
-    jumpTo(t.CTAS.primary.href, intent);
-  };
+  );
 
   return (
     <header
@@ -92,41 +109,42 @@ export default function PricingProductIntro({
       className={styles.intro}
       aria-labelledby="pricing-product-heading"
     >
-      <div className={styles.introAtmosphere} aria-hidden="true" />
-
-      <div ref={stageRef} className={styles.bonsaiStage}>
-        <div className={styles.bonsaiGlow} aria-hidden="true" />
-        <BonsaiProductMark className={styles.bonsaiCanvas} />
-      </div>
-
-      <div ref={contentRef} className={styles.content}>
-        <p className={styles.eyebrow}>04 — {p.sectionLabel}</p>
-        <p className={styles.brand} aria-hidden="true">
-          {t.STUDIO.brand}
-        </p>
-        <h2 id="pricing-product-heading" className={styles.headline}>
-          {intro.headline}
-        </h2>
-        <p className={styles.subline}>{intro.subline}</p>
-
-        <div className={styles.ctaGroup}>
-          <button
-            type="button"
-            className={styles.ctaPrimary}
-            onClick={scrollToRail}
-          >
-            {intro.ctaPrimary}
-          </button>
-          <button
-            type="button"
-            className={styles.ctaSecondary}
-            onClick={() => jump("launch")}
-          >
-            {intro.ctaSecondary}
-          </button>
+      <div className={styles.atmosphere} aria-hidden="true" />
+      <div ref={stageRef} className={styles.stage}>
+        <div className={styles.mark}>
+          <BonsaiProductMark className={styles.markCanvas} />
         </div>
 
-        <p className={styles.scrollCue}>{intro.scrollCue}</p>
+        <p className={styles.eyebrow} data-intro-copy>
+          {intro.eyebrow}
+        </p>
+        <h2
+          id="pricing-product-heading"
+          className={styles.headline}
+          data-intro-copy
+        >
+          {intro.headlineBefore}{" "}
+          <span className={styles.headlineAccent}>{intro.headlineAccent}</span>
+          {intro.headlineAfter ? ` ${intro.headlineAfter}` : null}
+        </h2>
+        <p className={styles.subline} data-intro-copy>
+          {intro.subline}
+        </p>
+
+        <div className={styles.ctaRow} data-intro-copy>
+          <button
+            type="button"
+            className={styles.cta}
+            onClick={() => jumpTo(plansHref)}
+          >
+            {intro.cta}
+          </button>
+          <p className={styles.trust}>{p.ctaTrust}</p>
+        </div>
+
+        <p className={styles.scrollCue} aria-hidden="true">
+          {intro.scrollCue}
+        </p>
       </div>
     </header>
   );
