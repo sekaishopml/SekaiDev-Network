@@ -70,9 +70,54 @@ export function useFeaturedCaseTimeline(
         return length;
       };
 
+      /** Park the marker on the path — no CSS transform-box fighting GSAP. */
+      const placeCarOnPath = (at = 0.06) => {
+        if (!car || !path) return;
+        gsap.killTweensOf(car);
+        gsap.set(car, {
+          clearProps: "transform",
+          autoAlpha: 0,
+          scale: 1,
+          transformOrigin: "50% 50%",
+          motionPath: {
+            path,
+            align: path,
+            alignOrigin: [0.5, 0.5],
+            autoRotate: true,
+            start: at,
+            end: at,
+          },
+        });
+      };
+
+      /** Smooth continuous ride on the line — not scrub-tied (avoids lag / drift). */
+      const startCarLoop = () => {
+        if (!car || !path) return;
+        gsap.killTweensOf(car);
+        gsap.set(car, {
+          autoAlpha: 1,
+          scale: 1,
+          transformOrigin: "50% 50%",
+        });
+        gsap.to(car, {
+          duration: 6.2,
+          ease: "power1.inOut",
+          repeat: -1,
+          yoyo: true,
+          motionPath: {
+            path,
+            align: path,
+            alignOrigin: [0.5, 0.5],
+            autoRotate: true,
+            start: 0.04,
+            end: 0.9,
+          },
+        });
+      };
+
       const prepTripVisual = () => {
         gsap.set(nodes, { autoAlpha: 0, scale: 0.55 });
-        if (car) gsap.set(car, { autoAlpha: 0, scale: 0.7 });
+        placeCarOnPath(0.06);
         if (hudBits.length) gsap.set(hudBits, { autoAlpha: 0, y: 6 });
         if (liveDot) gsap.set(liveDot, { scale: 0.6, opacity: 0.35 });
         return drawPathFromZero();
@@ -113,26 +158,11 @@ export function useFeaturedCaseTimeline(
             car,
             {
               autoAlpha: 1,
-              scale: 1,
-              duration: 0.22,
+              duration: 0.28,
               ease: "power2.out",
+              onComplete: startCarLoop,
             },
-            opts.duration * 0.2
-          ).to(
-            car,
-            {
-              duration: opts.duration * 0.85,
-              ease: "power1.inOut",
-              motionPath: {
-                path,
-                align: path,
-                alignOrigin: [0.5, 0.5],
-                autoRotate: 90,
-                start: 0.08,
-                end: 0.72,
-              },
-            },
-            opts.duration * 0.22
+            opts.duration * 0.28
           );
         }
         if (hudBits.length) {
@@ -279,11 +309,12 @@ export function useFeaturedCaseTimeline(
               gsap.set(car, {
                 autoAlpha: 1,
                 scale: 1,
+                transformOrigin: "50% 50%",
                 motionPath: {
                   path,
                   align: path,
                   alignOrigin: [0.5, 0.5],
-                  autoRotate: 90,
+                  autoRotate: true,
                   start: 0.48,
                   end: 0.48,
                 },
@@ -505,19 +536,13 @@ export function useFeaturedCaseTimeline(
             );
           }
           if (car && path) {
-            tl.to(car, { autoAlpha: 1, scale: 1, duration: 0.1 }, 0.28).to(
+            tl.to(
               car,
               {
-                duration: 0.28,
-                ease: "none",
-                motionPath: {
-                  path,
-                  align: path,
-                  alignOrigin: [0.5, 0.5],
-                  autoRotate: 90,
-                  start: 0.08,
-                  end: 0.72,
-                },
+                autoAlpha: 1,
+                duration: 0.12,
+                ease: "power2.out",
+                onComplete: startCarLoop,
               },
               0.3
             );

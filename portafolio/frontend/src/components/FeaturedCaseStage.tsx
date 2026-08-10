@@ -84,8 +84,13 @@ export default function FeaturedCaseStage({ ui }: FeaturedCaseStageProps) {
               {ui.gps}
             </span>
 
-            <svg className={styles.routeSvg} viewBox="0 0 420 160" fill="none">
-              <g className={styles.mapGrid} opacity="0.5">
+            <svg
+              className={styles.routeSvg}
+              viewBox="0 0 420 160"
+              fill="none"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              <g className={styles.mapGrid} opacity="0.45">
                 <path d="M0 40H420M0 80H420M0 120H420" />
                 <path d="M70 0V160M140 0V160M210 0V160M280 0V160M350 0V160" />
               </g>
@@ -97,39 +102,29 @@ export default function FeaturedCaseStage({ ui }: FeaturedCaseStageProps) {
               <path className={styles.routePath} d={ROUTE_D} />
 
               <g className={styles.routeStop} transform="translate(36 118)">
-                <circle r="14" className={styles.stopHalo} />
-                <circle r="5.5" className={styles.stopCore} />
-                <text y="-16" textAnchor="middle" className={styles.stopLetter}>
+                <circle r="12" className={styles.stopHalo} />
+                <circle r="4.5" className={styles.stopCore} />
+                <text y="-14" textAnchor="middle" className={styles.stopLetter}>
                   A
                 </text>
               </g>
               <g className={styles.routeStop} transform="translate(384 90)">
-                <circle r="14" className={styles.stopHalo} />
-                <circle r="5.5" className={styles.stopCoreB} />
-                <text y="-16" textAnchor="middle" className={styles.stopLetter}>
+                <circle r="12" className={styles.stopHalo} />
+                <circle r="4.5" className={styles.stopCoreB} />
+                <text y="-14" textAnchor="middle" className={styles.stopLetter}>
                   B
                 </text>
               </g>
 
+              {/* Nose points +x so MotionPath autoRotate tracks the tangent. */}
               <g className={styles.routeCar}>
-                <circle r="16" className={styles.gpsRing} />
-                <circle r="10" className={styles.gpsRing} style={{ animationDelay: "0.55s" }} />
-                <rect
-                  x="-9"
-                  y="-5"
-                  width="18"
-                  height="10"
-                  rx="3"
+                <circle className={styles.gpsHalo} r="11" />
+                <circle className={styles.gpsHaloCore} r="6" />
+                <path
                   className={styles.carBody}
+                  d="M-8.5 0 L5.5 -5.2 L9.5 0 L5.5 5.2 Z"
                 />
-                <rect
-                  x="-5"
-                  y="-3.2"
-                  width="7"
-                  height="6.4"
-                  rx="1.2"
-                  className={styles.carCab}
-                />
+                <circle className={styles.carCab} cx="1.5" cy="0" r="2.1" />
               </g>
             </svg>
           </div>

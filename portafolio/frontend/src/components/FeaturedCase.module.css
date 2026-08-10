@@ -536,22 +536,18 @@
 
 .routePath {
   fill: none;
-  stroke: rgba(255, 205, 221, 0.92);
-  stroke-width: 2.2;
+  stroke: rgba(255, 205, 221, 0.95);
+  stroke-width: 2.4;
   stroke-linecap: round;
-  will-change: stroke-dashoffset;
+  stroke-linejoin: round;
 }
 
 .routePathGhost {
   fill: none;
-  stroke: rgba(255, 205, 221, 0.14);
-  stroke-width: 2.2;
+  stroke: rgba(255, 205, 221, 0.16);
+  stroke-width: 2.4;
   stroke-linecap: round;
-}
-
-.routeStop {
-  transform-box: fill-box;
-  transform-origin: center;
+  stroke-linejoin: round;
 }
 
 .stopHalo {
@@ -577,22 +573,23 @@
   letter-spacing: 0.08em;
 }
 
-.routeCar {
-  transform-box: fill-box;
-  transform-origin: center;
+.gpsHalo {
+  fill: rgba(52, 211, 153, 0.12);
+  stroke: rgba(52, 211, 153, 0.35);
+  stroke-width: 1;
+  animation: gpsHaloBreathe 2.4s ease-in-out infinite;
 }
 
-.gpsRing {
-  fill: none;
-  stroke: rgba(52, 211, 153, 0.55);
-  stroke-width: 1.2;
-  transform-origin: center;
-  transform-box: fill-box;
-  animation: gpsRingPulse 2.2s ease-out infinite;
+.gpsHaloCore {
+  fill: rgba(52, 211, 153, 0.16);
+  stroke: none;
+  animation: gpsHaloBreathe 2.4s ease-in-out infinite 0.4s;
 }
 
 .carBody {
   fill: #e9a9bf;
+  stroke: #1a1216;
+  stroke-width: 0.6;
 }
 
 .carCab {
@@ -662,18 +659,13 @@
   will-change: opacity, transform;
 }
 
-@keyframes gpsRingPulse {
-  0% {
-    opacity: 0.7;
-    transform: scale(0.55);
-  }
-  70% {
-    opacity: 0;
-    transform: scale(1.35);
-  }
+@keyframes gpsHaloBreathe {
+  0%,
   100% {
-    opacity: 0;
-    transform: scale(1.45);
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
   }
 }
 
@@ -953,8 +945,7 @@
     min-height: 8rem;
   }
 
-  .routeStop,
-  .routeCar {
+  .routeStop {
     will-change: transform, opacity;
   }
 
@@ -983,7 +974,8 @@
   .liveDot,
   .veil,
   .hudBit,
-  .gpsRing,
+  .gpsHalo,
+  .gpsHaloCore,
   .mapGpsPulse,
   .crmProgressFill {
     will-change: auto !important;
