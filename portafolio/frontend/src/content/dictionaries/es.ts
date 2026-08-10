@@ -54,7 +54,7 @@ export const es = {
     subline:
       "Apps, webs y sistemas a medida. Somos un equipo pequeño en Ecuador; también trabajamos con clientes en LatAm y EE. UU.",
     heroCtaPrimary: { label: "Hablemos de tu proyecto", href: "#contact" },
-    available: "Disponibles para proyectos nuevos",
+    available: "Disponible",
   },
 
   TRUST_STRIP: [

@@ -209,7 +209,11 @@ export default function Navigation() {
                 ))}
               </div>
             )}
-            <span className="text-[10px] lg:text-xs tracking-widest text-muted whitespace-nowrap">
+            <span className="inline-flex items-center gap-1.5 text-[10px] lg:text-xs tracking-widest text-muted whitespace-nowrap">
+              <span
+                className="size-1.5 shrink-0 rounded-full bg-emerald-500"
+                aria-hidden
+              />
               {t.STUDIO.available}
             </span>
             <a
