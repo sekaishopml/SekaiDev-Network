@@ -5,10 +5,9 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  /* Mark canvas has headroom above the canopy — tuck under nav so the
-     visible bonsai sits flush just below the header. */
+  /* Whole stage tucked under the navbar — bonsai + copy rise together. */
   padding:
-    calc(var(--nav-clear, 5rem) - 2rem)
+    calc(var(--nav-clear, 5rem) - 3.35rem)
     clamp(1.25rem, 4vw, 3rem)
     clamp(2.5rem, 6vh, 4rem);
   color: var(--foreground, #111111);
@@ -36,7 +35,7 @@
   width: min(13.5rem, 46vw);
   height: min(13.5rem, 46vw);
   /* Pull mark up so transparent GL headroom sits under the navbar. */
-  margin: -3.25rem auto 0.65rem;
+  margin: -3.85rem auto 0.65rem;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
@@ -45,11 +44,15 @@
 }
 
 @media (min-width: 900px) {
+  .intro {
+    padding-top: calc(var(--nav-clear, 6rem) - 4.25rem);
+  }
+
   .mark {
     width: min(19.5rem, 28vw);
     height: min(19.5rem, 28vw);
     /* Negative bottom eats empty GL space under the pot so copy rides up. */
-    margin: -4.1rem auto -2.75rem;
+    margin: -5.1rem auto -2.75rem;
   }
 
   .eyebrow {
@@ -176,13 +179,13 @@
 @media (max-width: 899px) {
   .intro {
     min-height: min(88svh, 44rem);
-    padding-top: calc(var(--nav-clear, 4.5rem) - 1.35rem);
+    padding-top: calc(var(--nav-clear, 4.5rem) - 2rem);
   }
 
   .mark {
     width: min(11.5rem, 52vw);
     height: min(11.5rem, 52vw);
-    margin: -2.35rem auto 0.65rem;
+    margin: -2.85rem auto 0.45rem;
   }
 
   .headline {
