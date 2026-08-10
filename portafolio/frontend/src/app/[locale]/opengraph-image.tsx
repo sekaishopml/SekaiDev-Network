@@ -1,10 +1,20 @@
 import { ImageResponse } from "next/og";
+import { isLocale, type Locale } from "@/content/config";
+import { getDictionary } from "@/content/i18n";
 
 export const alt = "SekaiDev — software studio";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default async function Image() {
+export default async function Image({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: raw } = await params;
+  const locale: Locale = isLocale(raw) ? raw : "en";
+  const t = getDictionary(locale);
+
   return new ImageResponse(
     (
       <div
@@ -42,23 +52,24 @@ export default async function Image() {
         <div
           style={{
             marginTop: 28,
-            fontSize: 36,
+            fontSize: 34,
             color: "#333333",
-            maxWidth: 720,
+            maxWidth: 820,
+            lineHeight: 1.25,
           }}
         >
-          Product experiences that feel inevitable.
+          {t.STUDIO.tagline}
         </div>
         <div
           style={{
             marginTop: 48,
-            fontSize: 22,
+            fontSize: 20,
             letterSpacing: "0.12em",
             textTransform: "uppercase",
             color: "#5c1a33",
           }}
         >
-          Product engineering · Brand experiences
+          {t.meta.ogTitle}
         </div>
       </div>
     ),

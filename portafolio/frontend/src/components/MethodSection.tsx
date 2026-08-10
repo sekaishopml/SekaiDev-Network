@@ -124,7 +124,7 @@ export default function MethodSection() {
             02
           </span>
           <span className={styles.eyebrow} data-method-head>
-            {t.UI.proofLabel}
+            {s.label}
           </span>
           <h2 id="method-heading" className={styles.title} data-method-head>
             {s.headline}

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { DocumentShell } from "@/components/DocumentShell";
 import { LocaleProvider } from "@/components/LocaleProvider";
 import { isLocale, SITE, type Locale } from "@/content/config";
 import { getDictionary, LOCALES } from "@/content/i18n";
+import { faqPageJsonLd, organizationJsonLd } from "@/lib/jsonLd";
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));
@@ -35,20 +37,12 @@ export async function generateMetadata({
       siteName: SITE.brand,
       title: t.meta.ogTitle,
       description: t.meta.description,
-      images: [
-        {
-          url: "/og.png",
-          width: 1200,
-          height: 630,
-          alt: "SekaiDev — software studio",
-        },
-      ],
+      // File-based `[locale]/opengraph-image.tsx` supplies the image.
     },
     twitter: {
       card: "summary_large_image",
       title: t.meta.ogTitle,
       description: t.meta.description,
-      images: ["/og.png"],
     },
     alternates: {
       canonical,
@@ -71,6 +65,22 @@ export default async function LocaleLayout({
   const { locale: raw } = await params;
   if (!isLocale(raw)) notFound();
   const locale = raw as Locale;
+  const t = getDictionary(locale);
 
-  return <LocaleProvider locale={locale}>{children}</LocaleProvider>;
+  const orgLd = organizationJsonLd(locale);
+  const faqLd = faqPageJsonLd(t);
+
+  return (
+    <DocumentShell lang={locale} withChrome>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
+      <LocaleProvider locale={locale}>{children}</LocaleProvider>
+    </DocumentShell>
+  );
 }
