@@ -137,7 +137,11 @@ export function applyRect(el: HTMLElement, rect: HeroRect, radius = "0px") {
 
 export function setIntroPhaseFromProgress(p: number) {
   const phase = p <= 0.02 ? "hero" : p >= 0.97 ? "done" : "animating";
-  document.documentElement.dataset.intro = phase;
+  // Only write when changed — assigning the same value still fires MutationObservers
+  // and can dead-loop with Hero overlay sync (applyProgress ↔ data-intro).
+  if (document.documentElement.dataset.intro !== phase) {
+    document.documentElement.dataset.intro = phase;
+  }
 }
 
 function smoothstep(t: number): number {

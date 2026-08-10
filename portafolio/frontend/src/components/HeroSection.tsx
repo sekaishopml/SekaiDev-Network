@@ -217,7 +217,10 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
 
     // Typography — inline so it always runs in the same tick as overlay transforms
     setIntroPhaseFromProgress(p);
-    document.documentElement.dataset.introProgress = String(Math.round(p * 1000));
+    const introProgress = String(Math.round(p * 1000));
+    if (document.documentElement.dataset.introProgress !== introProgress) {
+      document.documentElement.dataset.introProgress = introProgress;
+    }
 
     const lookReveal = introSegment(p, 0.26, 0.54);
     const beyondReveal = introSegment(p, 0.34, 0.6);
@@ -347,7 +350,12 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
 
   // Pin overlay to LOOK targets while on-screen; kill ghost layers past LOOK.
   useEffect(() => {
+    let overlayOn = true;
+    let syncing = false;
+
     const setOverlay = (on: boolean) => {
+      if (overlayOn === on) return;
+      overlayOn = on;
       document.documentElement.dataset.overlay = on ? "on" : "off";
       setOverlayVisible(on);
     };
@@ -358,21 +366,29 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
     let bonsaiVisible = true;
     let longVisible = false;
 
-    const syncLookOverlay = () => {
-      const phase = phaseRef.current;
-      if (phase !== "look") {
-        setOverlay(true);
-        return;
-      }
+    const syncLookOverlay = (snapProgress: boolean) => {
+      if (syncing) return;
+      syncing = true;
+      try {
+        const phase = phaseRef.current;
+        if (phase !== "look") {
+          setOverlay(true);
+          return;
+        }
 
-      if (!bonsaiEl) {
-        setOverlay(false);
-        return;
-      }
+        if (!bonsaiEl) {
+          setOverlay(false);
+          return;
+        }
 
-      const visible = bonsaiVisible || longVisible;
-      if (visible) applyProgress(1);
-      setOverlay(visible);
+        const visible = bonsaiVisible || longVisible;
+        // Snap only from IO visibility changes — never from data-intro mutations
+        // (applyProgress writes data-intro and would infinite-loop the observer).
+        if (visible && snapProgress) applyProgress(1);
+        setOverlay(visible);
+      } finally {
+        syncing = false;
+      }
     };
 
     document.documentElement.dataset.overlay = "on";
@@ -385,7 +401,7 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
             if (entry.target === bonsaiEl) bonsaiVisible = entry.isIntersecting;
             if (longEl && entry.target === longEl) longVisible = entry.isIntersecting;
           }
-          syncLookOverlay();
+          syncLookOverlay(true);
         },
         { root: null, rootMargin: "80px 0px 80px 0px", threshold: 0 }
       );
@@ -395,13 +411,13 @@ function HeroSection({ loaded, onBonsaiLoaded }: HeroSectionProps) {
       if (longEl) visibilityObserver.observe(longEl);
     }
 
-    const phaseObserver = new MutationObserver(syncLookOverlay);
+    const phaseObserver = new MutationObserver(() => syncLookOverlay(false));
     phaseObserver.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["data-intro"],
     });
 
-    syncLookOverlay();
+    syncLookOverlay(true);
 
     return () => {
       visibilityObserver?.disconnect();
