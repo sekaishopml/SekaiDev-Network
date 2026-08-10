@@ -229,7 +229,6 @@ export const es = {
     ctaTrust: "Respuesta <24h · plan por escrito · sin compromiso",
     railHeadline: "Compara los 4 paquetes",
     productIntro: {
-      eyebrow: "SekaiDev",
       headlineBefore: "Aprovecha tu marca al",
       headlineAccent: "máximo",
       headlineAfter: "",

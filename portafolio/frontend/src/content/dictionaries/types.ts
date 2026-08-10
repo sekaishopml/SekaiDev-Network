@@ -149,7 +149,6 @@ export type StudioDictionary = {
     railHeadline: string;
     /** Gemini-style product intro above the plans rail. */
     productIntro: {
-      eyebrow: string;
       headlineBefore: string;
       headlineAccent: string;
       headlineAfter: string;

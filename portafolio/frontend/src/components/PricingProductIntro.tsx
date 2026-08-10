@@ -113,9 +113,6 @@ export default function PricingProductIntro({
           <BonsaiProductMark className={styles.markCanvas} />
         </div>
 
-        <p className={styles.eyebrow} data-intro-copy>
-          {intro.eyebrow}
-        </p>
         <h2
           id="pricing-product-heading"
           className={styles.headline}

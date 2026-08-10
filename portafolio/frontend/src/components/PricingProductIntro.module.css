@@ -32,10 +32,10 @@
 
 .mark {
   position: relative;
-  width: min(13.5rem, 46vw);
-  height: min(13.5rem, 46vw);
+  width: min(16.5rem, 58vw);
+  height: min(16.5rem, 58vw);
   /* Pull mark up so transparent GL headroom sits under the navbar. */
-  margin: -3.85rem auto 0.65rem;
+  margin: -4.25rem auto 0.35rem;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
@@ -49,18 +49,14 @@
   }
 
   .mark {
-    width: min(19.5rem, 28vw);
-    height: min(19.5rem, 28vw);
+    width: min(24rem, 34vw);
+    height: min(24rem, 34vw);
     /* Negative bottom eats empty GL space under the pot so copy rides up. */
-    margin: -5.1rem auto -2.75rem;
-  }
-
-  .eyebrow {
-    margin-top: 0;
+    margin: -6rem auto -3.35rem;
   }
 
   .headline {
-    margin-top: 0.45rem;
+    margin-top: 0.35rem;
   }
 
   .subline {
@@ -83,17 +79,8 @@
   display: block;
 }
 
-.eyebrow {
-  margin: 0;
-  font-size: var(--type-eyebrow, 0.6875rem);
-  letter-spacing: var(--type-eyebrow-tracking, 0.22em);
-  text-transform: uppercase;
-  color: rgba(17, 17, 17, 0.48);
-  font-weight: 500;
-}
-
 .headline {
-  margin: 0.9rem 0 0;
+  margin: 0.55rem 0 0;
   font-family: var(--font-oswald), sans-serif;
   font-weight: 700;
   font-size: clamp(2.5rem, 6.5vw, 4rem);
@@ -179,13 +166,13 @@
 @media (max-width: 899px) {
   .intro {
     min-height: min(88svh, 44rem);
-    padding-top: calc(var(--nav-clear, 4.5rem) - 2rem);
+    padding-top: calc(var(--nav-clear, 4.5rem) - 2.35rem);
   }
 
   .mark {
-    width: min(11.5rem, 52vw);
-    height: min(11.5rem, 52vw);
-    margin: -2.85rem auto 0.45rem;
+    width: min(15.5rem, 62vw);
+    height: min(15.5rem, 62vw);
+    margin: -3.5rem auto -1.35rem;
   }
 
   .headline {
@@ -202,7 +189,6 @@
   }
 
   .mark,
-  .eyebrow,
   .headline,
   .subline,
   .ctaRow,

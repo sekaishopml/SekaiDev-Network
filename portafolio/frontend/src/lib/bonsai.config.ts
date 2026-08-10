@@ -74,10 +74,10 @@ export const BONSAI_CONFIG = {
     },
     bonsai: {
       /** Raised + larger fill in the mark frame. */
-      position: [0, -0.08, 0] as [number, number, number],
+      position: [0, -0.05, 0] as [number, number, number],
       /** No lean. Slight yaw so blossoms read. */
       rotation: [0, Math.PI * 0.12, 0] as [number, number, number],
-      scale: 2.95,
+      scale: 3.25,
     },
     animation: {
       rotationSpeed: 0.045,
