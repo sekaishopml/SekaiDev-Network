@@ -87,12 +87,16 @@
 
 .offerAside {
   max-width: 22rem;
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
 }
 
 @media (min-width: 900px) {
   .offerAside {
     padding-bottom: 0.25rem;
     justify-self: end;
+    justify-items: end;
     text-align: right;
   }
 }
@@ -258,17 +262,7 @@
 
 .offerFoot {
   margin-top: clamp(1.85rem, 4.5vh, 2.75rem);
-  display: grid;
-  gap: 1.1rem;
   padding-top: 0.25rem;
-}
-
-@media (min-width: 768px) {
-  .offerFoot {
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    gap: 2rem;
-  }
 }
 
 .offerPromise {

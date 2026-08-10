@@ -159,6 +159,24 @@ export default function OfferSection() {
           </div>
           <div className={styles.offerAside} data-offer-head>
             <p className={styles.offerSubline}>{t.UI.offerSubline}</p>
+            <div className={styles.offerCta}>
+              <button
+                type="button"
+                onClick={() => jumpTo(t.CTAS.primary.href)}
+                className={styles.offerBtnPrimary}
+              >
+                {t.CTAS.primary.labelUpper}
+              </button>
+              {intent === "services" && (
+                <button
+                  type="button"
+                  onClick={() => jumpTo(t.CTAS.pricing.href, "services")}
+                  className={styles.offerBtnGhost}
+                >
+                  {t.CTAS.pricing.labelUpper}
+                </button>
+              )}
+            </div>
           </div>
         </header>
 
@@ -195,24 +213,6 @@ export default function OfferSection() {
 
         <div className={styles.offerFoot} data-offer-foot>
           <p className={styles.offerPromise}>{t.UI.offerPromise}</p>
-          <div className={styles.offerCta}>
-            <button
-              type="button"
-              onClick={() => jumpTo(t.CTAS.primary.href)}
-              className={styles.offerBtnPrimary}
-            >
-              {t.CTAS.primary.labelUpper}
-            </button>
-            {intent === "services" && (
-              <button
-                type="button"
-                onClick={() => jumpTo(t.CTAS.pricing.href, "services")}
-                className={styles.offerBtnGhost}
-              >
-                {t.CTAS.pricing.labelUpper}
-              </button>
-            )}
-          </div>
         </div>
       </div>
     </section>

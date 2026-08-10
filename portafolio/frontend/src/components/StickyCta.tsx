@@ -30,9 +30,11 @@ export default function StickyCta() {
     }
     const io = new IntersectionObserver(
       ([entry]) => {
-        setVisible(
-          entry.isIntersecting || entry.boundingClientRect.top < 0
-        );
+        const pastOffer =
+          entry.isIntersecting || entry.boundingClientRect.top < 0;
+        setVisible(pastOffer);
+        // Once Offer is in play, never keep the sticky locked behind hero chrome.
+        if (pastOffer) setHideForHero(false);
       },
       { threshold: 0.05 }
     );
@@ -58,6 +60,8 @@ export default function StickyCta() {
       const phase = document.documentElement.dataset.intro;
       if (phase === "hero" || phase === "animating") {
         setHideForHero(true);
+      } else if (phase === "done") {
+        setHideForHero(false);
       }
     };
     syncIntro();
