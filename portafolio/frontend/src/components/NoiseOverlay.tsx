@@ -19,9 +19,8 @@ export default function NoiseOverlay() {
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
-    const perf = getPerfProfile();
-    const patternSize = perf.tier === "low" ? 128 : 200;
-    const patternAlpha = perf.tier === "low" ? 12 : 14;
+    const patternSize = perf.tier === "mid" ? 128 : 200;
+    const patternAlpha = perf.tier === "mid" ? 12 : 14;
 
     const patternCanvas = document.createElement("canvas");
     patternCanvas.width = patternSize;
