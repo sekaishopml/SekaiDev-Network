@@ -64,14 +64,12 @@ export default function PricingSection() {
         /* Cache scroll metrics — never read layout inside onUpdate. */
         let cachedTravel = 0;
         let cachedPinDistance = 0;
-        let cachedViewW = 0;
         let cardCenters: number[] = [];
         let activeIndex = -1;
 
         const measure = () => {
           const rail = pin.querySelector<HTMLElement>(`.${styles.viewport}`);
           const viewW = rail?.clientWidth || pin.clientWidth;
-          cachedViewW = viewW;
           const overflow = Math.max(0, track.scrollWidth - viewW);
           const floor = isDesktop()
             ? PRICING_SCROLL.minTravelPxDesktop
@@ -121,16 +119,23 @@ export default function PricingSection() {
         };
 
         /**
-         * Highlight the card under an optical focus that travels with the track x.
-         * Anchor focus at the first card's center (not the viewport midpoint):
-         * on desktop a mid-viewport focus lights Brand Web at x=0 because cards
-         * are left-padded; Express must lead at the start of the rail.
-         * On mobile cardCenters[0] ≈ viewW/2, so this matches the centered rail.
+         * Highlight via live track x + cached centers (no getBoundingClientRect).
+         * Anchor focus at the first card's center — not viewport midpoint.
+         * Desktop cards are left-padded, so a mid-viewport focus lights Brand Web
+         * (2nd) at x=0; Express must own the rail start. On mobile cardCenters[0]
+         * ≈ viewW/2, so this matches the centered rail / prior midpoint sync.
          */
         const syncActiveFromTrack = () => {
           if (cardCenters.length === 0) return;
           const x = Number(gsap.getProperty(track, "x")) || 0;
-          const focusX = (cardCenters[0] ?? cachedViewW / 2) - x;
+
+          /* Near rest / no travel: force Web Express (index 0). */
+          if (cachedTravel <= 0 || -x < 1) {
+            setActiveCard(0);
+            return;
+          }
+
+          const focusX = cardCenters[0] - x;
           let best = 0;
           let bestDist = Infinity;
           for (let i = 0; i < cardCenters.length; i++) {
