@@ -95,7 +95,8 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
-/* Share row tracks across cards in the same grid row so CTAs line up. */
+/* Share row tracks across cards in the same grid row so CTAs line up
+   with the tallest lead (e.g. Build Sprint’s 3-line outcome). */
 @supports (grid-template-rows: subgrid) {
   @media (min-width: 900px) {
     .card {
@@ -103,6 +104,8 @@
       grid-template-rows: subgrid;
       grid-row: span 3;
       align-content: start;
+      /* Parent .grid gap sizes the shared tracks; keep in-card rhythm. */
+      gap: 1.45rem;
     }
   }
 }
@@ -123,11 +126,110 @@
 }
 
 .cardFeatured {
-  border-color: rgba(196, 122, 146, 0.55);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: transparent;
   box-shadow:
-    0 0 0 1px rgba(196, 122, 146, 0.22),
-    0 12px 36px rgba(139, 58, 85, 0.09);
-  background: linear-gradient(180deg, #fffafb 0%, #ffffff 38%);
+    0 1px 0 rgba(255, 255, 255, 0.55) inset,
+    0 18px 44px rgba(92, 26, 51, 0.12),
+    0 4px 14px rgba(139, 58, 85, 0.08);
+  /* Brand sakura wash across the full card — soft enough for dark type. */
+  background:
+    linear-gradient(
+      158deg,
+      #f3d4df 0%,
+      #e9a9bf 18%,
+      #f0c4d2 36%,
+      #f7e4eb 58%,
+      #fbf1f5 78%,
+      #fff8fa 100%
+    );
+}
+
+.cardFeatured::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(196, 122, 146, 0.55) 42%,
+    rgba(139, 58, 85, 0.45) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.cardFeatured::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  right: -18%;
+  z-index: 0;
+  width: min(18rem, 70%);
+  height: min(18rem, 70%);
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+}
+
+.cardFeatured > * {
+  position: relative;
+  z-index: 1;
+}
+
+.cardFeatured .badge {
+  background: rgba(92, 26, 51, 0.12);
+  color: #5c1a33;
+}
+
+.cardFeatured .sectionLabel {
+  color: rgba(92, 26, 51, 0.55);
+}
+
+.cardFeatured .featureIcon {
+  background: rgba(255, 255, 255, 0.55);
+  color: #8b3a55;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset;
+}
+
+.cardFeatured .rateLabel,
+.cardFeatured .timeline,
+.cardFeatured .priceWas,
+.cardFeatured .priceUnit,
+.cardFeatured .tagline {
+  color: rgba(92, 26, 51, 0.58);
+}
+
+.cardFeatured .priceWas {
+  color: rgba(92, 26, 51, 0.42);
+}
+
+.cardFeatured .ctaFeatured {
+  border: 0;
+  background: linear-gradient(100deg, #5c1a33 0%, #8b3a55 48%, #6e2a42 100%);
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(92, 26, 51, 0.22);
+}
+
+.cardFeatured .ctaFeatured:hover {
+  background: linear-gradient(100deg, #4a1429 0%, #7a334c 48%, #5c1a33 100%);
+  color: #ffffff;
 }
 
 .cardTop {
