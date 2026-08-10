@@ -32,6 +32,12 @@ export default function Navigation() {
   const desktopLinks = t.NAV_LINKS.filter((l) => !l.mobileOnly);
   const mobileLinks = t.NAV_LINKS;
 
+  const resolveHref = (href: string) => {
+    if (href.startsWith("#")) return href;
+    const path = href.startsWith("/") ? href : `/${href}`;
+    return `/${locale}${path}`;
+  };
+
   const navIndexLabel = (index?: number) =>
     index != null ? String(index).padStart(2, "0") : null;
 
@@ -79,9 +85,17 @@ export default function Navigation() {
     href: string,
     intent?: string
   ) => {
-    if (!href.startsWith("#")) return;
+    if (!href.startsWith("#")) {
+      closeMenu();
+      return;
+    }
     e.preventDefault();
     closeMenu();
+    /* From /precios (or other subpages), hash targets live on home. */
+    if (!document.querySelector(href)) {
+      window.location.assign(`/${locale}${href}`);
+      return;
+    }
     jumpTo(href, intent);
   };
 
@@ -151,7 +165,7 @@ export default function Navigation() {
             {desktopLinks.map((l) => (
               <Link
                 key={l.label}
-                href={l.href}
+                href={resolveHref(l.href)}
                 onClick={(e) => handleNavClick(e, l.href)}
                 className="group inline-flex items-baseline gap-1.5 hover:text-accent transition-colors shrink-0"
               >
@@ -299,7 +313,7 @@ export default function Navigation() {
               {mobileLinks.map((l, i) => (
                 <Link
                   key={l.label}
-                  href={l.href}
+                  href={resolveHref(l.href)}
                   onClick={(e) =>
                     handleNavClick(
                       e,
@@ -376,7 +390,7 @@ export default function Navigation() {
                 </a>
               ) : (
                 <a
-                  href={t.CTAS.pricing.href}
+                  href={resolveHref(t.CTAS.pricing.href)}
                   onClick={(e) => handleNavClick(e, t.CTAS.pricing.href)}
                   className="inline-flex min-h-[44px] items-center justify-center px-6 py-3 border border-foreground/25 text-xs tracking-widest hover:border-accent hover:text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 >
