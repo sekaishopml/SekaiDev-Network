@@ -208,14 +208,14 @@ export const es = {
     sectionLabel: "Precios",
     headline: "Precios claros. Cotización por escrito.",
     subline:
-      "Paquetes web accesibles en USD para Ecuador y LatAm — al nivel Workana/Fiverr, con salida al aire rápida. Apps y plataformas van por cotización.",
+      "Paquetes web claros en USD para Ecuador y LatAm — rápidos, accesibles y listos para salir al aire. Apps y plataformas van por cotización.",
     marketNote:
       "Por encima de plantillas baratas. Tarifas pensadas para PYMEs locales — sin precios de agencia en EE. UU.",
     offerBanner:
       "Precio de lista vs tu precio en cada paquete. Brand Web es el más elegido para conseguir clientes.",
     scrollHint: "Desliza — 4 paquetes",
     disclaimer:
-      "Estos son precios de entrada para webs y landings. Apps, plataformas y productos completos se cotizan aparte. Alcance, fechas y precio final van por escrito.",
+      "Estos son precios de entrada para webs y landings. Apps, plataformas y productos completos se cotizan aparte. Alcance, fechas y precio final van por escrito. DNS, seguridad y extras dependen del plan.",
     recommended: "Recomendable",
     clientRate: "Tu precio",
     tiers: [
@@ -232,8 +232,8 @@ export const es = {
         includes: [
           "Landing de 1 página a medida",
           "Botón WhatsApp o CTA principal",
+          "Dominio/DNS básico + HTTPS",
           "SEO básico y meta tags",
-          "Responsive móvil",
           "Salida al aire y entrega",
         ],
         cta: "Quiero Web Express",
@@ -254,7 +254,7 @@ export const es = {
         includes: [
           "5–7 páginas en Next.js",
           "Formularios de contacto",
-          "Motion ligero alineado a tu marca",
+          "DNS, HTTPS y refuerzo de seguridad básico",
           "SEO base y analítica",
           "14 días de soporte post-lanzamiento",
         ],
@@ -265,19 +265,19 @@ export const es = {
       {
         id: "sprint",
         title: "Build Sprint",
-        tagline: "Web corta más una pieza pequeña que conecta.",
+        tagline: "Tu web + la infraestructura para que funcione de verdad.",
         timeline: "2–4 semanas",
         priceWas: "$1,250",
         priceFrom: "$999",
         priceUnit: "USD",
         bestFor:
-          "Landing o web corta más UNA pieza pequeña — formulario a sheet/CRM, catálogo simple o reserva básica. No es una plataforma completa.",
+          "Cuando ya no basta una web estática: necesitas dominio bien configurado, protección, datos y una pieza útil (panel, catálogo, reservas o leads) lista en pocas semanas.",
         includes: [
-          "Landing o web corta a medida",
-          "Una integración pequeña (form→sheet/CRM, catálogo o reserva)",
-          "Plan por escrito antes de construir",
-          "Pruebas y salida al aire",
-          "Entrega con documentación básica",
+          "Web corta o landing a medida + una pieza funcional",
+          "Configuración DNS, dominio y correo si aplica",
+          "Seguridad base, HTTPS y protección anti-DDoS",
+          "Base de datos o almacenamiento cuando el plan lo pida",
+          "Setup de anuncios / píxeles y redes (Meta, Google) si lo necesitas",
         ],
         cta: "Pedir Build Sprint",
         intent: "sprint",
@@ -285,19 +285,19 @@ export const es = {
       {
         id: "partner",
         title: "Product Partner",
-        tagline: "Mejoras continuas mes a mes.",
+        tagline: "Tu equipo de soporte y mejora, mes a mes.",
         timeline: "3+ meses · mensual",
         priceWas: "$649",
         priceFrom: "$499",
         priceUnit: "USD / mes",
         bestFor:
-          "Horas mensuales, plan compartido y mejoras continuas. Mínimo 3 meses — ahí el total pasa de $1,000.",
+          "Cuando la web o herramienta ya está en el aire y quieres alguien fijo que la cuide, la mejore y responda sin armar un equipo interno.",
         includes: [
-          "Horas mensuales de desarrollo y diseño",
-          "Plan compartido + reunión semanal",
-          "Entregas con ritmo estable",
-          "Mejoras continuas en tu sitio o herramienta",
-          "Puedes pausar con 30 días de aviso",
+          "Horas mensuales de desarrollo, diseño y soporte",
+          "Monitoreo, seguridad, DNS y actualizaciones",
+          "Mejoras de ads, analítica y presencia en redes",
+          "Base de datos, respaldos y rendimiento",
+          "Plan compartido + reunión corta semanal · mínimo 3 meses",
         ],
         cta: "Hablar de una alianza",
         intent: "partner",
@@ -319,7 +319,7 @@ export const es = {
     {
       question: "¿Qué paquete me conviene?",
       answer:
-        "Web Express: landing rápida de 1 página. Brand Web (recomendable): web de marca de 5–7 páginas lista para conseguir clientes. Build Sprint: web corta más una pieza pequeña (formulario, catálogo o reserva). Product Partner: mejoras mensuales. Apps y plataformas: cotización a medida.",
+        "Web Express: landing rápida de 1 página. Brand Web (recomendable): web de marca de 5–7 páginas lista para conseguir clientes. Build Sprint: web + DNS, seguridad, anti-DDoS y una pieza útil (panel, catálogo, reservas o leads). Product Partner: soporte y mejoras mes a mes. Apps y plataformas: cotización a medida.",
     },
     {
       question: "¿Cómo funcionan pagos y contrato?",

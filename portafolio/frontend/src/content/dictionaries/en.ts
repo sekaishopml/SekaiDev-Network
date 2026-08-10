@@ -207,14 +207,14 @@ export const en = {
     sectionLabel: "Pricing",
     headline: "Clear prices. Written quote first.",
     subline:
-      "Accessible web packages in USD for Ecuador and LatAm — Workana/Fiverr-friendly, with fast go-live. Apps and platforms are custom quote.",
+      "Clear web packages in USD for Ecuador and LatAm — fast, accessible, and ready to go live. Apps and platforms are custom quote.",
     marketNote:
       "Above cheap templates. Rates built for local SMBs — not US agency list prices.",
     offerBanner:
       "List price vs your price on every package. Brand Web is the usual pick to win clients.",
     scrollHint: "Scroll — 4 packages",
     disclaimer:
-      "These are starting prices for sites and landings. Apps, platforms, and full products are quoted separately. Scope, dates, and final price come in writing.",
+      "These are starting prices for sites and landings. Apps, platforms, and full products are quoted separately. Scope, dates, and final price come in writing. DNS, security, and extras depend on the plan.",
     recommended: "Recommended",
     clientRate: "Your price",
     tiers: [
@@ -231,8 +231,8 @@ export const en = {
         includes: [
           "Custom 1-page landing",
           "WhatsApp button or primary CTA",
+          "Basic DNS + HTTPS",
           "Basic SEO and meta tags",
-          "Mobile responsive",
           "Go-live and handoff",
         ],
         cta: "Get Web Express",
@@ -253,7 +253,7 @@ export const en = {
         includes: [
           "5–7 pages in Next.js",
           "Contact forms",
-          "Light motion aligned to your brand",
+          "DNS, HTTPS, and basic security hardening",
           "Base SEO and analytics",
           "14 days post-launch support",
         ],
@@ -264,19 +264,19 @@ export const en = {
       {
         id: "sprint",
         title: "Build Sprint",
-        tagline: "A short site plus one small connected piece.",
+        tagline: "Your site plus the infrastructure to make it work for real.",
         timeline: "2–4 weeks",
         priceWas: "$1,250",
         priceFrom: "$999",
         priceUnit: "USD",
         bestFor:
-          "A landing or short site plus ONE small piece — form to sheet/CRM, simple catalog, or basic booking. Not a full platform.",
+          "When a static site is not enough: you need DNS done right, protection, data, and one useful piece (panel, catalog, bookings, or leads) live in a few weeks.",
         includes: [
-          "Custom landing or short site",
-          "One small integration (form→sheet/CRM, catalog, or booking)",
-          "Written plan before build",
-          "Testing and go-live",
-          "Handoff with basic docs",
+          "Custom short site or landing + one functional piece",
+          "DNS, domain, and email setup when needed",
+          "Base security, HTTPS, and anti-DDoS protection",
+          "Database or storage when the plan requires it",
+          "Ads / pixels and social setup (Meta, Google) if you need it",
         ],
         cta: "Request Build Sprint",
         intent: "sprint",
@@ -284,19 +284,19 @@ export const en = {
       {
         id: "partner",
         title: "Product Partner",
-        tagline: "Keep improving month to month.",
+        tagline: "Your support and improvement team, month to month.",
         timeline: "3+ months · monthly",
         priceWas: "$649",
         priceFrom: "$499",
         priceUnit: "USD / mo",
         bestFor:
-          "Monthly hours, shared plan, and continuous improvements. 3-month minimum — that's when the total crosses $1,000.",
+          "When the site or tool is already live and you want a steady partner to keep it safe, improve it, and respond — without hiring an in-house team.",
         includes: [
-          "Monthly engineering and design hours",
-          "Shared plan + weekly meeting",
-          "Steady delivery rhythm",
-          "Ongoing improvements to your site or tool",
-          "Pause with 30 days notice",
+          "Monthly engineering, design, and support hours",
+          "Monitoring, security, DNS, and updates",
+          "Ads, analytics, and social presence improvements",
+          "Database care, backups, and performance",
+          "Shared plan + short weekly check-in · 3-month minimum",
         ],
         cta: "Talk about a partnership",
         intent: "partner",
@@ -318,7 +318,7 @@ export const en = {
     {
       question: "Which engagement should I pick?",
       answer:
-        "Web Express: a fast 1-page landing. Brand Web (recommended): a 5–7 page brand site ready to win clients. Build Sprint: a short site plus one small piece (form, catalog, or booking). Product Partner: monthly improvements. Apps and platforms: custom quote.",
+        "Web Express: a fast 1-page landing. Brand Web (recommended): a 5–7 page brand site ready to win clients. Build Sprint: site + DNS, security, anti-DDoS, and one useful piece (panel, catalog, bookings, or leads). Product Partner: ongoing support and improvements. Apps and platforms: custom quote.",
     },
     {
       question: "How do payments and contracts work?",
