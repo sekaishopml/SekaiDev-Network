@@ -8,7 +8,7 @@
   /* Mark canvas has headroom above the canopy — tuck under nav so the
      visible bonsai sits flush just below the header. */
   padding:
-    calc(var(--nav-clear, 5rem) - 1.1rem)
+    calc(var(--nav-clear, 5rem) - 2rem)
     clamp(1.25rem, 4vw, 3rem)
     clamp(2.5rem, 6vh, 4rem);
   color: var(--foreground, #111111);
@@ -36,12 +36,20 @@
   width: min(13.5rem, 46vw);
   height: min(13.5rem, 46vw);
   /* Pull mark up so transparent GL headroom sits under the navbar. */
-  margin: -2.35rem auto 0.85rem;
+  margin: -3.25rem auto 0.65rem;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
   overflow: visible;
   transform-origin: center center;
+}
+
+@media (min-width: 900px) {
+  .mark {
+    width: min(19.5rem, 28vw);
+    height: min(19.5rem, 28vw);
+    margin: -4.1rem auto 0.55rem;
+  }
 }
 
 .markCanvas {
@@ -146,13 +154,13 @@
 @media (max-width: 899px) {
   .intro {
     min-height: min(88svh, 44rem);
-    padding-top: calc(var(--nav-clear, 4.5rem) - 0.85rem);
+    padding-top: calc(var(--nav-clear, 4.5rem) - 1.35rem);
   }
 
   .mark {
     width: min(11.5rem, 52vw);
     height: min(11.5rem, 52vw);
-    margin: -1.85rem auto 0.75rem;
+    margin: -2.35rem auto 0.65rem;
   }
 
   .headline {
